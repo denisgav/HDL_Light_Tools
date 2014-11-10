@@ -37,10 +37,10 @@ namespace VHDL.literal
 
         private Literals()
         {
-        }
+        }        
 
         [Serializable]
-        private class NullLiteral : Literal
+        public class NullLiteral : Literal
         {
 
             public override SubtypeIndication Type
@@ -58,6 +58,11 @@ namespace VHDL.literal
             {
                 //No need to copy becaue NULL is case insensitive.
                 return this;
+            }
+
+            public override void accept(ILiteralVisitor visitor)
+            {
+                visitor.visit(this);
             }
         }
     }

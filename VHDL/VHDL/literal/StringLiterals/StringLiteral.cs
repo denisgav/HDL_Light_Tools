@@ -55,6 +55,11 @@ namespace VHDL.literal
             return new StringLiteral(@string);
         }
 
+        public virtual string String
+        {
+            get { return @string; }
+        }
+
         public override string ToString()
         {
             return '"' + @string + '"';
@@ -123,6 +128,10 @@ namespace VHDL.literal
             return binString;
         }
 
+        public override void accept(ILiteralVisitor visitor)
+        {
+            visitor.visit(this);
+        }
 
     }
 

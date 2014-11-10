@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logger.cs" />
+    <Compile Include="ObjectSearcher.cs" />
     <Compile Include="ParseErrors.cs" />
     <Compile Include="antlr\AbstractMetaClassCreator.cs" />
     <Compile Include="antlr\AbstractVhdlAntlrParser.cs" />
@@ -82,6 +83,10 @@
     <Compile Include="Exceptions\SyntaxExceptionScope.cs" />
     <Compile Include="ParseError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="typeinfer\ExpressionInference.cs" />
+    <Compile Include="typeinfer\LiteralInference.cs" />
+    <Compile Include="typeinfer\TypeHelper.cs" />
+    <Compile Include="typeinfer\TypeInference.cs" />
     <Compile Include="util\CaseInsensitiveFileStream.cs" />
     <Compile Include="util\CaseInsensitiveInputStream.cs" />
     <Compile Include="util\CaseInsensitiveStringStream.cs" />

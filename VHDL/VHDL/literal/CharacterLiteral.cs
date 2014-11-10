@@ -62,6 +62,11 @@ namespace VHDL.literal
         {
             return "'" + character + "'";
         }
+
+        public override void accept(ILiteralVisitor visitor)
+        {
+            visitor.visit(this);
+        }
     }
 
 }

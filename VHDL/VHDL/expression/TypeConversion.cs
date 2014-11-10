@@ -67,7 +67,7 @@ namespace VHDL.expression
             return new TypeConversion(type, expression.copy() as Expression);
         }
 
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitTypeConversion(this);
         }

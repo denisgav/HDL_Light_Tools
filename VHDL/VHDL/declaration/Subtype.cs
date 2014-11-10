@@ -64,5 +64,10 @@ namespace VHDL.declaration
         {
             visitor.visitSubtypeDeclaration(this);
         }
+
+        public void accept(VHDL.type.ISubtypeIndicationVisitor visitor)
+        {
+            visitor.visit(this);
+        }
     }
 }

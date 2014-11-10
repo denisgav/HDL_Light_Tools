@@ -58,6 +58,11 @@ namespace VHDL.type
             set { baseType = value; }
         }
 
+        public void accept(VHDL.type.ISubtypeIndicationVisitor visitor)
+        {
+            visitor.visit(this);
+        }
+
     }
 
 }

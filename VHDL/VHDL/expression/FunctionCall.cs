@@ -65,7 +65,7 @@ namespace VHDL.expression
             get { return function.ReturnType; }
 		}
 
-		internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
 		{
 			visitor.visitFunctionCall(this);
 		}

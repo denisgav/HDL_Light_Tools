@@ -76,7 +76,7 @@ namespace VHDL.expression
             get { return precedence; }
         }
 
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitBinaryExpression(this);
         }

@@ -101,6 +101,11 @@ namespace VHDL.literal
         {
             return @value;
         }
+
+        public override void accept(ILiteralVisitor visitor)
+        {
+            visitor.visit(this);
+        }
     }
 
 }

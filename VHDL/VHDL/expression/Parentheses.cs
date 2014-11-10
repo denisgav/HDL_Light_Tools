@@ -52,7 +52,7 @@ namespace VHDL.expression
             get { return expression.Type; }
         }
 
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitParentheses(this);
         }

@@ -113,7 +113,7 @@ namespace VHDL.expression
             get { throw new Exception("Not supported yet."); }
         }
 
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitAggregate(this);
         }

@@ -50,6 +50,11 @@ namespace VHDL.type
             get { return identifier; }
             set { identifier = value; }
         }
+
+        public void accept(ISubtypeIndicationVisitor visitor)
+        {
+            visitor.visit(this);
+        }
     }
 
 }

@@ -119,6 +119,11 @@ namespace VHDL.literal
                 return unit;
             }
         }
+
+        public override void accept(ILiteralVisitor visitor)
+        {
+            visitor.visit(this);
+        }
     }
 
 }

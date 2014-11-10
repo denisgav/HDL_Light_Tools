@@ -57,7 +57,7 @@ namespace VHDL.expression
             return new QualifiedExpressionAllocator(expression.copy() as QualifiedExpression);
         }
 
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitQualifiedExpressionAllocator(this);
         }

@@ -53,7 +53,7 @@ namespace VHDL.expression
             return new SubtypeIndicationAllocator(type);
         }
 
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitSubtypeIndicationAllocator(this);
         }

@@ -15,14 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
 using System.Collections.Generic;
-using Antlr.Runtime.Tree;
 
 namespace VHDL.parser.antlr
 {
-    using VHDL.declaration;
-    using VHDL.type;
 
     using AssociationElement = VHDL.AssociationElement;
     using DeclarativeRegion = VHDL.IDeclarativeRegion;
@@ -52,20 +48,27 @@ namespace VHDL.parser.antlr
     using SignalAssignmentTarget = VHDL.Object.ISignalAssignmentTarget;
     using VariableAssignmentTarget = VHDL.Object.IVariableAssignmentTarget;
     using VhdlObject = VHDL.Object.VhdlObject;
-    using ParseErrorTypeEnum = VHDL.parser.ParseError.ParseErrorTypeEnum;
+    using Type = VHDL.parser.ParseError.ParseErrorTypeEnum;
     using EnumerationType = VHDL.type.EnumerationType;
     using IndexSubtypeIndication = VHDL.type.IndexSubtypeIndication;
     using RangeSubtypeIndication = VHDL.type.RangeSubtypeIndication;
+    using SubtypeIndication = VHDL.type.ISubtypeIndication;
+    using Antlr.Runtime.Tree;
+    using System;
+    using VHDL.declaration;
+    using VHDLParser;
+    using TypeInference = VHDLParser.typeinfer.TypeInference;
 
-    /// <summary>
-    /// Temporary name used during meta class generation.
-    /// </summary>
+    ///
+    // * Temporary name used during meta class generation.
+    // 
     internal class TemporaryName
     {
 
         private readonly Part.PartList parts = new Part.PartList();
         private readonly MetaClassCreator mcc;
         private readonly ITree tree;
+        private static Name currentAssignTarget;
 
         public TemporaryName(MetaClassCreator mcc, ITree tree, StringLiteral stringLiteral)
         {
@@ -120,31 +123,15 @@ namespace VHDL.parser.antlr
 
         private T resolve<T>(DeclarativeRegion scope) where T : class
         {
-            parts.resetContinuousIterator();
+            var searcher = new ObjectSearcher(scope);
+            return searcher.search(parts, o => o is T) as T;
+        }
 
-            foreach (Part part in parts)
-            {
-                if (part.Type == Part.TypeEnum.SELECTED)
-                {
-                    object obj = scope.Scope.resolve(part.getSuffix());
-
-                    if (obj is T) //check first might also be a declarative region
-                    {
-                        T tmp = (T)obj;
-                        return tmp;
-                    }
-                    else if (obj is DeclarativeRegion)
-                    {
-                        scope = (DeclarativeRegion)obj;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-
-            return null;
+        // TODO: consider function declaration inside other function, etc.
+        private List<T> resolveAll<T>(DeclarativeRegion scope) where T : class
+        {
+            var searcher = new ObjectSearcher(scope);
+            return searcher.searchAll(parts, o => o is T).ConvertAll<T>(new Converter<object, T>(x => x as T));
         }
 
         public virtual Entity toEntity(DeclarativeRegion scope)
@@ -157,7 +144,7 @@ namespace VHDL.parser.antlr
             else
             {
                 string identifier = toIdentifier();
-                mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_ENTITY, identifier);
+                mcc.resolveError(tree, Type.UNKNOWN_ENTITY, identifier);
 
                 if (mcc.Settings.CreateDummyObjects)
                 {
@@ -183,9 +170,9 @@ namespace VHDL.parser.antlr
             else
             {
                 string identifier = toIdentifier();
-                mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_CONFIGURATION, identifier);
+                mcc.resolveError(tree, Type.UNKNOWN_CONFIGURATION, identifier);
 
-                if (mcc.settings.CreateDummyObjects)
+                if (mcc.Settings.CreateDummyObjects)
                 {
                     return new Configuration(identifier, null, null);
                 }
@@ -197,9 +184,9 @@ namespace VHDL.parser.antlr
         }
 
         //TODO: don't use subtype indication
-        public virtual ISubtypeIndication toTypeMark(DeclarativeRegion scope)
+        public virtual SubtypeIndication toTypeMark(DeclarativeRegion scope)
         {
-            ISubtypeIndication type = resolve<ISubtypeIndication>(scope);
+            SubtypeIndication type = resolve<SubtypeIndication>(scope);
             if (parts.finished() && type != null)
             {
                 return type;
@@ -207,7 +194,7 @@ namespace VHDL.parser.antlr
             else
             {
                 string identifier = toIdentifier();
-                mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_TYPE, identifier);
+                mcc.resolveError(tree, Type.UNKNOWN_TYPE, identifier);
 
                 if (mcc.Settings.CreateDummyObjects)
                 {
@@ -230,7 +217,7 @@ namespace VHDL.parser.antlr
             else
             {
                 string identifier = toIdentifier();
-                mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_COMPONENT, identifier);
+                mcc.resolveError(tree, Type.UNKNOWN_COMPONENT, identifier);
 
                 if (mcc.Settings.CreateDummyObjects)
                 {
@@ -253,7 +240,7 @@ namespace VHDL.parser.antlr
             else
             {
                 string identifier = toIdentifier();
-                mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_SIGNAL, identifier);
+                mcc.resolveError(tree, Type.UNKNOWN_SIGNAL, identifier);
 
                 if (mcc.Settings.CreateDummyObjects)
                 {
@@ -355,7 +342,7 @@ namespace VHDL.parser.antlr
             else
             {
                 string identifier = toIdentifier();
-                mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_SIGNAL_ASSIGNMENT_TARGET, identifier);
+                mcc.resolveError(tree, Type.UNKNOWN_SIGNAL_ASSIGNMENT_TARGET, identifier);
 
                 if (mcc.Settings.CreateDummyObjects)
                 {
@@ -383,7 +370,7 @@ namespace VHDL.parser.antlr
             else
             {
                 string identifier = toIdentifier();
-                mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_VARIABLE_ASSIGNMENT_TARGET, identifier);
+                mcc.resolveError(tree, Type.UNKNOWN_VARIABLE_ASSIGNMENT_TARGET, identifier);
 
                 if (mcc.Settings.CreateDummyObjects)
                 {
@@ -391,6 +378,8 @@ namespace VHDL.parser.antlr
                     obj = addTargetParts(dummy, false);
                 }
             }
+
+            currentAssignTarget = obj;
 
             if (obj is VariableAssignmentTarget)
             {
@@ -465,7 +454,7 @@ namespace VHDL.parser.antlr
                 return addPrimaryParts(obj);
             }
 
-            ISubtypeIndication type = resolve<ISubtypeIndication>(scope);
+            SubtypeIndication type = resolve<SubtypeIndication>(scope);
             if (type is NamedEntity)
             {
                 if (parts.remainingParts() == 1)
@@ -502,37 +491,20 @@ namespace VHDL.parser.antlr
                 }
             }
 
-            Function function = resolve<Function>(scope);
-            if (function != null)
+            var overloads = resolveAll<ISubprogram>(scope);
+            if (overloads.Count != 0) // TODO: distinguish undeclared function from other cases
             {
-                FunctionCall call = new FunctionCall(function);
+                var args = getAssociationList();
 
+                Function declaration = (Function)TypeInference.ResolveOverload(overloads, args, currentAssignTarget.Type);
+                FunctionCall call = new FunctionCall(declaration);
+                currentAssignTarget = null; // don't need any more
+
+                call.Parameters.AddRange(args);
                 if (parts.remainingParts() == 0)
-                {
                     return call;
-                }
                 else
-                {
-                    if (function.Parameters.Count != 0)
-                    {
-                        Part part = parts.Iterator().next();
-                        switch (part.Type)
-                        {
-                            case Part.TypeEnum.ASSOCIATION:
-                                call.Parameters.AddRange(part.getAssociationList());
-                                break;
-
-                            case Part.TypeEnum.INDEXED:
-                                foreach (Expression index in part.getIndices())
-                                {
-                                    call.Parameters.Add(new AssociationElement(index));
-                                }
-                                break;
-                        }
-                    }
-
                     return addPrimaryParts(call);
-                }
             }
 
             parts.resetContinuousIterator();
@@ -560,7 +532,7 @@ namespace VHDL.parser.antlr
                 }
             }
 
-            mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_OTHER, toIdentifier());
+            mcc.resolveError(tree, Type.UNKNOWN_OTHER, toIdentifier());
             if (mcc.Settings.CreateDummyObjects)
             {
                 Signal dummy = new Signal(toIdentifier(), null);
@@ -613,7 +585,7 @@ namespace VHDL.parser.antlr
             }
 
             string identifier = toIdentifier();
-            mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_OTHER, identifier);
+            mcc.resolveError(tree, Type.UNKNOWN_OTHER, identifier);
             if (mcc.Settings.CreateDummyObjects)
             {
                 RangeAttributeName name = toRangeAttributeName(identifier);
@@ -641,7 +613,7 @@ namespace VHDL.parser.antlr
                 return toRangeAttributeName(obj.Identifier);
             }
 
-            ISubtypeIndication subtype = resolve<ISubtypeIndication>(scope);
+            SubtypeIndication subtype = resolve<SubtypeIndication>(scope);
             if (subtype is NamedEntity)
             {
                 string identifier = ((NamedEntity)subtype).Identifier;
@@ -661,14 +633,14 @@ namespace VHDL.parser.antlr
                 return range;
             }
 
-            ISubtypeIndication subtype = resolve<ISubtypeIndication>(scope);
+            SubtypeIndication subtype = resolve<SubtypeIndication>(scope);
             if (subtype != null && parts.finished())
             {
                 return new SubtypeDiscreteRange(subtype);
             }
 
             string identifier = toIdentifier();
-            mcc.resolveError(tree, ParseErrorTypeEnum.UNKNOWN_OTHER, identifier);
+            mcc.resolveError(tree, Type.UNKNOWN_OTHER, identifier);
 
             if (mcc.Settings.CreateDummyObjects)
             {
@@ -699,7 +671,7 @@ namespace VHDL.parser.antlr
 
         public virtual DiscreteRange toDiscreteRange(DeclarativeRegion scope, List<DiscreteRange> indices)
         {
-            ISubtypeIndication type = toTypeMark(scope);
+            SubtypeIndication type = toTypeMark(scope);
 
             if (type != null)
             {
@@ -713,7 +685,7 @@ namespace VHDL.parser.antlr
 
         public virtual DiscreteRange toDiscreteRange(DeclarativeRegion scope, RangeProvider range)
         {
-            ISubtypeIndication type = toTypeMark(scope);
+            SubtypeIndication type = toTypeMark(scope);
 
             if (type != null)
             {
@@ -727,7 +699,7 @@ namespace VHDL.parser.antlr
 
         public static Part CreateIndexedOrSlicePart(TemporaryName name, DeclarativeRegion scope)
         {
-            ISubtypeIndication type = name.resolve<ISubtypeIndication>(scope);
+            SubtypeIndication type = name.resolve<SubtypeIndication>(scope);
             if (type != null && name.parts.finished())
             {
                 return Part.CreateSlice(new SubtypeDiscreteRange(type));
@@ -740,6 +712,29 @@ namespace VHDL.parser.antlr
             }
 
             return Part.CreateIndexed(new List<Expression>(new Expression[] { name.toPrimary(scope, false) }));
+        }
+
+        private List<AssociationElement> getAssociationList()
+        {
+            List<AssociationElement> result = new List<AssociationElement>();
+
+            if (parts.remainingParts() != 0)
+            {
+                Part part = parts.Iterator().next();
+                switch (part.Type)
+                {
+                    case Part.TypeEnum.ASSOCIATION:
+                        result = part.getAssociationList();
+                        break;
+
+                    case Part.TypeEnum.INDEXED:
+                        result = new List<AssociationElement>();
+                        foreach (Expression index in part.getIndices())
+                            result.Add(new AssociationElement(index));
+                        break;
+                }
+            }
+            return result;
         }
     }
 }

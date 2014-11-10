@@ -26,9 +26,11 @@ namespace VHDL.expression
     [Serializable]
     public abstract class Literal : Primary
     {
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitLiteral(this);
         }
+
+        public abstract void accept(ILiteralVisitor visitor);
     }
 }

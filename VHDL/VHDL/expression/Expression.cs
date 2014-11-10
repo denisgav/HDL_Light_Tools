@@ -42,6 +42,6 @@ namespace VHDL.expression
         /// Used to implement the visitor pattern.
         /// </summary>
         /// <param name="visitor">the visitor</param>
-        internal abstract void accept(ExpressionVisitor visitor);
+        public abstract void accept(ExpressionVisitor visitor);
     }
 }

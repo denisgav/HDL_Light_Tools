@@ -155,5 +155,8 @@ namespace VHDL.literal
 
             return string.Format(format, num_base_s, num_value_s, num_exp_s);
         }
+
+        public override void accept(ILiteralVisitor visitor)
+        { }
     }
 }

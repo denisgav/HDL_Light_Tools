@@ -78,5 +78,9 @@ namespace VHDL
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         List<T> GetLocalListOfObjects<T>() where T : class;
+
+        List<object> resolveAll(string identifier);
+
+        List<object> resolveAllLocal(string identifier);
     }
 }

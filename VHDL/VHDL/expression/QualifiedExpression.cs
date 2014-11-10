@@ -74,7 +74,7 @@ namespace VHDL.expression
 			return new QualifiedExpression(type, operand.copy() as Expression);
 		}
 
-		internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
 		{
 			visitor.visitQualifiedExpression(this);
 		}

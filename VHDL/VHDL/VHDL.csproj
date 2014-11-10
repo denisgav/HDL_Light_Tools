@@ -148,6 +148,7 @@
     <Compile Include="declaration\VariableDeclaration.cs" />
     <Compile Include="DeclarativeRegion.cs" />
     <Compile Include="DelayMechanism.cs" />
+    <Compile Include="literal\ILiteralVisitor.cs" />
     <Compile Include="range\DiscreteRange.cs" />
     <Compile Include="EntityAspect.cs" />
     <Compile Include="expression\UnaryExpression\Abs.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="type\AccessType.cs" />
     <Compile Include="type\Composite\ArrayType.cs" />
     <Compile Include="type\Composite\ConstrainedArray.cs" />
+    <Compile Include="type\ISubtypeIndicationVisitor.cs" />
     <Compile Include="type\Scalar\EnumerationType.cs" />
     <Compile Include="type\FileType.cs" />
     <Compile Include="type\IncompleteType.cs" />

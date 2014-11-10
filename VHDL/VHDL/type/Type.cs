@@ -55,6 +55,11 @@ namespace VHDL.type
         }
 
 		internal abstract void accept(TypeVisitor visitor);
+
+        public void accept(ISubtypeIndicationVisitor visitor)
+        {
+            visitor.visit(this);
+        }
 	}
 
 }

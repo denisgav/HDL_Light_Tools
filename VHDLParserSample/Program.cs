@@ -47,7 +47,7 @@ namespace ModelingSystemTest
                 //rootScope.getLibraries().Add(VHDL_Library_Manager.GetLibrary("STD"));
 
                 Console.WriteLine("Parsing code");
-                VhdlFile file = VhdlParser.parseFile("simple_simulation.vhd", settings, rootScope, currentLibrary, libraryManager);
+                VhdlFile file = VhdlParser.parseFile("samples/func_test.vhd", settings, rootScope, currentLibrary, libraryManager);
                 Console.WriteLine("Parsing complete");                
             }
             catch (SyntaxExceptionScope ex)

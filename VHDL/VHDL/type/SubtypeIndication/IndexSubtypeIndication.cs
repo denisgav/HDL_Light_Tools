@@ -69,6 +69,11 @@ namespace VHDL.type
 		{
             get { return ranges; }
 		}
+
+        public void accept(VHDL.type.ISubtypeIndicationVisitor visitor)
+        {
+            visitor.visit(this);
+        }
 	}
 
 }

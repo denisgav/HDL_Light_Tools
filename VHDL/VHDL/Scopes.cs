@@ -108,6 +108,17 @@ namespace VHDL
                 return null;
             }
 
+            public abstract List<object> resolveAllLocal(string identifier);
+            public List<object> resolveAll(string identifier)
+            {
+                List<object> res = new List<object>();
+                res.AddRange(resolveAllLocal(identifier));
+                IScope parent = getParentScope();
+                if (parent != null)
+                    res.AddRange(parent.resolveAll(identifier));
+                return res;
+            }
+
             #endregion
 
 
@@ -160,6 +171,8 @@ namespace VHDL
                 return null;
             }
 
+
+
             public override List<object> GetLocalListOfObjects()
             {
                 List<object> res = new List<object>();
@@ -179,6 +192,23 @@ namespace VHDL
                             res.Add(o as T);
                 }
                 return res;
+            }
+
+            public override List<object> resolveAllLocal(string name)
+            {
+                List<object> result = new List<object>();
+                foreach (IResolvable list in lists)
+                {
+                    var objects = list.GetListOfObjects();
+                    foreach (var obj in objects)
+                    {
+                        var named = obj as INamedEntity;
+                        if (named != null)
+                            if (named.Identifier == name)
+                                result.Add(named);
+                    }
+                }
+                return result;
             }
         }
     }

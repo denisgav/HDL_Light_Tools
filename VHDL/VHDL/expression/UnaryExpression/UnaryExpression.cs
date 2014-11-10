@@ -70,7 +70,7 @@ namespace VHDL.expression
             get { return kind; }
         }
 
-        internal override void accept(ExpressionVisitor visitor)
+        public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitUnaryExpression(this);
         }

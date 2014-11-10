@@ -24,6 +24,8 @@ namespace VHDL.type
 	{
         //SubtypeIndication getBaseType();
         //void setBaseType(SubtypeIndication baseType);
+
+        void accept(ISubtypeIndicationVisitor visitor);
 	}
 
 }

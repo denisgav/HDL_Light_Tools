@@ -54,6 +54,11 @@ namespace VHDL.literal
             //EnumerationLiterals are inmutable
             return this;
         }
+
+        public override void accept(ILiteralVisitor visitor)
+        {
+            visitor.visit(this);
+        }
     }
 
 }
