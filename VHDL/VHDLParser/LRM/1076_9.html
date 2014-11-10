@@ -1,0 +1,1205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=9>Section 9</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_8.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_10.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Concurrent statements</H1>
+<P></P>
+<P>The various forms of concurrent statements are described in this section. 
+Concurrent statements are used to define interconnected blocks and processes 
+that jointly describe the overall behavior or structure of a design. Concurrent 
+statements execure asynchronously with respect to each other. </P><PRE>     concurrent_statement ::=
+
+           block_statement
+
+         | process_statement
+
+         | concurrent_procedure_call_statement
+
+         | concurrent_assertion_statement
+
+         | concurrent_signal_assignment_statement
+
+         | component_instantiation_statement
+
+         | generate_statement
+
+</PRE>
+<P>The primary concurrent statements are the block statement, which groups 
+together other concurrent statements, and the process statement, which 
+represents a single independent sequential process. Additional concurrent 
+statements provide convenient syntax for representing simple, commonly occurring 
+forms of processes, as well as for representing structural decomposition and 
+regular descriptions. </P>
+<P>Within a given simulation cycle, an implementation may execute concurrent 
+statements in parallel or in some order. The language does not define the order, 
+if any, in which such statements will be executed. A description that depends 
+upon a particular order of execution of concurrent statements is erroneous. </P>
+<P>All concurrent statements may be labeled. Such labels are implicitly declared 
+at the beginning of the declarative part of the innermost enclosing entity 
+declaration, architecture body, block statement, or generate statement. </P>
+<H2><A name=9.1></A><A 
+href="1076_9.html#9.1">9.1 
+</A>Block statement</H2>
+<P>A block statement defines an internal block representing a portion of a 
+design. Blocks may be hierarchically nested to support design decomposition. 
+</P><PRE>     block_statement ::=
+
+          <I>block</I>_label :
+
+               <B>block</B> [ ( <I>guard</I>_expression ) ] [ <B>is</B> ]
+
+                   block_header
+
+                   block_declarative_part
+
+               <B>begin</B>
+
+                   block_statement_part
+
+               <B>end block</B> [ <I>block</I>_label ] ;
+
+
+
+     block_header ::=
+
+         [ generic_clause
+
+         [ generic_map_aspect ; ] ]
+
+         [ port_clause
+
+         [ port_map_aspect ; ] ]
+
+
+
+     block_declarative_part ::=
+
+         { block_declarative_item }
+
+
+
+     block_statement_part ::=
+
+         { concurrent_statement }
+
+</PRE>
+<P>If a guard expression appears after the reserved word <B>block</B>, then a 
+signal with the simple name GUARD of predefined type BOOLEAN is implicitly 
+declared at the beginning of the declarative part of the block, and the guard 
+expression defines the value of that signal at any given time (see <A 
+href="1076_12.html#12.6.4">12.6.4 
+</A>). The type of the guard expression must be type BOOLEAN. Signal GUARD may 
+be used to control the operation of certain statements within the block (see <A 
+href="1076_9.html#9.5">9.5 
+</A>). </P>
+<P>The implicit signal GUARD must not have a source. </P>
+<P>If a block header appears in a block statement, it explicitly identifies 
+certain values or signals that are to be imported from the enclosing environment 
+into the block and associated with formal generics or ports. The generic<B> 
+</B>and port<B> </B>clauses define the formal generics and formal ports of the 
+block (see <A 
+href="1076_1.html#1.1.1.1">1.1.1.1 
+</A>and <A 
+href="1076_1.html#1.1.1.2">1.1.1.2 
+</A>); the generic map and port map aspects define the association of actuals 
+with those formals (see <A 
+href="1076_5.html#5.2.1.2">5.2.1.2 
+</A>). Such actuals are evaluated in the context of the enclosing declarative 
+region. </P>
+<P>If a label appears at the end of a block statement, it must repeat the block 
+label. </P>
+<H4>NOTES</H4>
+<P>1--The value of signal GUARD is always defined within the scope of a given 
+block, and it does not implicitly extend to design entities bound to components 
+instantiated within the given block. However, the signal GUARD may be explicitly 
+passed as an actual signal in a component instantiation in order to extend its 
+value to lower-level components. </P>
+<P>2--An actual appearing in a port association list of a given block can never 
+denote a formal port of the same block. </P>
+<H2><A name=9.2></A><A 
+href="1076_9.html#9.2">9.2 
+</A>Process statement</H2>
+<P>A process statement defines an independent sequential process representing 
+the behavior of some portion of the design. </P><PRE>     process_statement ::=
+
+         [ <I>process</I>_label : ]
+
+              [ <B>postponed</B> ] <B>process</B> [ ( sensitivity_list ) ] [ <B>is</B> ]
+
+                  process_declarative_part
+
+              <B>begin</B>
+
+                 process_statement_part
+
+              <B>end</B> [ <B>postponed</B> ]<B> process</B> [ <I>process</I>_label ] ;
+
+
+
+     process_declarative_part ::=
+
+         { process_declarative_item }
+
+
+
+     process_declarative_item ::=
+
+            subprogram_declaration
+
+          | subprogram_body
+
+          | type_declaration
+
+          | subtype_declaration
+
+          | constant_declaration
+
+          | variable_declaration
+
+          | file_declaration
+
+          | alias_declaration
+
+          | attribute_declaration
+
+          | attribute_specification
+
+          | use_clause
+
+          | group_type_declaration
+
+          | group_declaration
+
+
+
+     process_statement_part ::=
+
+         { sequential_statement }
+
+</PRE>
+<P>If the reserved word <B>postponed</B> precedes the initial reserved word 
+<B>process</B>, the process statement defines a <I>postponed process</I>; 
+otherwise, the process statement defines a <I>nonpostponed process</I>. </P>
+<P>If a sensitivity list appears following the reserved word <B>process</B>, 
+then the process statement is assumed to contain an implicit wait statement as 
+the last statement of the process statement part; this implicit wait statement 
+is of the form </P><PRE>     <B>wait</B> <B>on</B> sensitivity_list ;
+
+</PRE>
+<P>where the sensitivity list of the wait statement is that following the 
+reserved word <B>process</B>. Such a process statement must not contain an 
+explicit wait statement. Similarly, if such a process statement is a parent of a 
+procedure, then that procedure may not contain a wait statement. </P>
+<P>Only static signal names (see <A 
+href="1076_6.html#6.1">6.1 
+</A>) for which reading is permitted may appear in the sensitivity list of a 
+process statement. </P>
+<P>If the reserved word <B>postponed</B> appears at the end of a process 
+statement, the process must be a postponed process. If a label appears at the 
+end of a process statement, the label must repeat the process label. </P>
+<P>It is an error if a variable declaration in a process declarative part 
+declares a shared variable. </P>
+<P>The execution of a process statement consists of the repetitive execution of 
+its sequence of statements. After the last statement in the sequence of 
+statements of a process statement is executed, execution will immediately 
+continue with the first statement in the sequence of statements. </P>
+<P>A process statement is said to be a <I>passive</I> <I>process</I> if neither 
+the process itself, nor any procedure of which the process is a parent,contains 
+a signal assignment statement. Such a process, or any concurrent statement 
+equivalent to such a process, may appear in the entity statement part of an 
+entity declaration. </P>
+<H4>NOTES</H4>
+<P>1--The above rules imply that a process that has an explicit sensitivity list 
+always has exactly one (implicit) wait statement in it, and that wait statement 
+appears at the end of the sequence of statements in the process statement part. 
+Thus, a process with a sensitivity list always waits at the end of its statement 
+part; any event on a signal named in the sensitivity list will cause such a 
+process to execute from the beginning of its statement part down to the end, 
+where it will wait again. Such a process executes once through at the beginning 
+of simulation, suspending for the first time when it executes the implicit wait 
+statement. </P>
+<P>2--The time at which a process executes after being resumed by a wait 
+statement(see <A 
+href="1076_8.html#8.1">8.1 
+</A>) differs depending on whether the process is postponed or nonpostponed. 
+When a nonpostponed process is resumed, it executes in the current simulation 
+cycle (see <A 
+href="1076_2.html#2.6.4">2.6.4 
+</A>). When a postponed process is resumed, it does not execute until a 
+simulation cycle occurs in which the next simulation cycle is not a delta cycle. 
+In this way, a postponed process accesses the values of signals that are the 
+"final" values at the current simulated time. </P>
+<P>3--The conditions that cause a process to resume execution may no longer hold 
+at the time the process resumes execution if the process is a postponed process. 
+</P>
+<H2><A name=9.3></A><A 
+href="1076_9.html#9.3">9.3 
+</A>Concurrent procedure call statements</H2>
+<P>A concurrent procedure call statement represents a process containing the 
+corresponding sequential procedure call statement. </P><PRE>     concurrent_procedure_call_statement ::=
+
+        [ label : ] [ <B>postponed</B> ] procedure_call ;
+
+</PRE>
+<P>For any concurrent procedure call statement, there is an equivalent process 
+statement. The equivalent process statement is a postponed process if and only 
+if the concurrent procedure call statement includes the reserved word 
+<B>postponed</B>. The equivalent process statement has a label if and only if 
+the concurrent procedure call statement has a label; if the equivalent process 
+statement has a label, it is the same as that of the concurrent procedure call 
+statement. The equivalent process statement also has no sensitivity list, an 
+empty declarative part, and a statement part that consists of a procedure call 
+statement followed by a wait statement. </P>
+<P>The procedure call statement consists of the same procedure name and actual 
+parameter part that appear in the concurrent procedure call statement. </P>
+<P>If there exists a name that denotes a signal in the actual part of any 
+association element in the concurrent procedure call statement, and that actual 
+is associated with a formal parameter of mode <B>in</B> or <B>inout</B>, then 
+the equivalent process statement includes a final wait statement with a 
+sensitivity clause that is constructed by taking the union of the sets 
+constructed by applying the rule of <A 
+href="1076_8.html#8.1">8.1 
+</A>to each actual part associated with a formal parameter. </P>
+<P>Execution of a concurrent procedure call statement is equivalent to execution 
+of the equivalent process statement. </P>
+<P><I>Example:</I> </P><PRE>     CheckTiming (tPLH, tPHL, Clk, D, Q);                    --  A concurrent procedure called statement.
+
+
+
+     <B>process</B>                                                 --  The equivalent process.
+
+     <B>begin</B>
+
+         CheckTiming (tPLH, tPHL, Clk, D, Q);
+
+         <B>wait on </B>Clk, D, Q;
+
+     <B>end process</B>;
+
+</PRE>
+<H4>NOTES</H4>
+<P>1--Concurrent procedure call statements make it possible to declare 
+procedures representing commonly used processes and to create such processes 
+easily by merely calling the procedure as a concurrent statement. The wait 
+statement at the end of the statement part of the equivalent process statement 
+allows a procedure to be called without having it loop interminably, even if the 
+procedure is not necessarily intended for use as a process (i.e., it contains no 
+wait statement). Such a procedure may persist over time (and thus the values of 
+its variables may retain state over time) if its outermost statement is a loop 
+statement and the loop contains a wait statement. Similarly, such a procedure 
+may be guaranteed to execute only once, at the beginning of simulation, if its 
+last statement is a wait statement that has no sensitivity clause, condition 
+clause, or timeout clause. </P>
+<P>2--The value of an implicitly declared signal GUARD has no effect on 
+evaluation of a concurrent procedure call unless it is explicitly referenced in 
+one of the actual parts of the actual parameter part of the concurrent procedure 
+call statement. </P>
+<H2><A name=9.4></A><A 
+href="1076_9.html#9.4">9.4 
+</A>Concurrent assertion statements</H2>
+<P>A concurrent assertion statement represents a passive process statement 
+containing the specified assertion statement. </P><PRE>     concurrent_assertion_statement ::=
+
+        [ label : ] [ <B>postponed</B> ] assertion ;
+
+</PRE>
+<P>For any concurrent assertion statement, there is an equivalent process 
+statement. The equivalent process statement is a postponed process if and only 
+if the concurrent assertion statement includes the reserved word 
+<B>postponed</B>. The equivalent process statement has a label if and only if 
+the concurrent assertion statement has a label; if the equivalent process 
+statement has a label, it is the same as that of the concurrent assertion 
+statement. The equivalent process statement also has no sensitivity list, an 
+empty declarative part, and a statement part that consists of an assertion 
+statement followed by a wait statement. </P>
+<P>The assertion statement consists of the same condition, <B>report</B> clause, 
+and <B>severity</B> clause that appear in the concurrent assertion statement. 
+</P>
+<P>If there exists a name that denotes a signal in the Boolean expression that 
+defines the condition of the assertion, then the equivalent process statement 
+includes a final wait statement with a sensitivity clause that is constructed by 
+applying the rule of <A 
+href="1076_8.html#8.1">8.1 
+</A>to that expression; otherwise, the equivalent process statement contains a 
+final wait statement that has no explicit sensitivity clause, condition clause, 
+or timeout clause. </P>
+<P>Execution of a concurrent assertion statement is equivalent to execution of 
+the equivalent process statement. </P>
+<H4>NOTES</H4>
+<P>1--Since a concurrent assertion statement represents a passive process 
+statement, such a process has no outputs. Therefore, the execution of a 
+concurrent assertion statement will never cause an event to occur. However, if 
+the assertion is false, then the specified error message will be sent to the 
+simulation report. </P>
+<P>2--The value of an implicitly declared signal GUARD has no effect on 
+evaluation of the assertion unless it is explicitly referenced in one of the 
+expressions of that assertion. </P>
+<P>3--A concurrent assertion statement whose condition is defined by a static 
+expression is equivalent to a process statement that ends in a wait statement 
+that has no sensitivity clause; such a process will execute once through at the 
+beginning of simulation and then wait indefinitely. </P>
+<H2><A name=9.5></A><A 
+href="1076_9.html#9.5">9.5 
+</A>Concurrent signal assignment statements</H2>
+<P>A concurrent signal assignment statement represents an equivalent process 
+statement that assigns values to signals. </P><PRE>     concurrent_signal_assignment_statement ::=
+
+          [ label : ] [ <B>postponed</B> ] conditional_signal_assignment
+
+        | [ label : ] [ <B>postponed</B> ] selected_signal_assignment
+
+
+
+     options ::=  [ <B>guarded </B>] [ delay_mechanism ]
+
+</PRE>
+<P>There are two forms of the concurrent signal assignment statement. For each 
+form,the characteristics that distinguish it are discussed in the following 
+paragraphs. </P>
+<P>Each form may include one or both of the two options <B>guarded </B>and a 
+delay mechanism (see <A 
+href="1076_8.html#8.4">8.4 
+</A>for the delay mechanism, <A 
+href="1076_9.html#9.5.1">9.5.1 
+</A>for the conditional signal assignment statement, and <A 
+href="1076_9.html#9.5.2">9.5.2 
+</A>for the selected signal assignment statement).The option <B>guarded 
+</B>specifies that the signal assignment statement is executed when a signal 
+GUARD changes from FALSE to TRUE, or when that signal has been TRUE and an event 
+occurs on one of the signal assignment statement's inputs. (The signal GUARD may 
+be one of the implicitly declared GUARD signals associated with block statements 
+that have guard expressions, or it may be an explicitly declared signal of type 
+Boolean that is visible at the point of the concurrent signal assignment 
+statement.) The delay mechanism option specifies the pulse rejection 
+characteristics of the signal assignment statement. </P>
+<P>If the target of a concurrent signal assignment is a name that denotes a 
+guarded signal (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>), or if it is in the form of an aggregate and the expression in each 
+element association of the aggregate is a static signal name denoting a guarded 
+signal, then the target is said to be a <I>guarded target</I>. If the target of 
+a concurrent signal assignment is a name that denotes a signal that is not a 
+guarded signal, or if it is in the form of an aggregate and the expression in 
+each element association of the aggregate is a static signal name denoting a 
+signal that is not a guarded signal, then the target is said to be an 
+<I>unguarded target</I>. It is an error if the target of a concurrent signal 
+assignment is neither a guarded target nor an unguarded target. </P>
+<P>For any concurrent signal assignment statement, there is an equivalent 
+process statement with the same meaning. The process statement equivalent to a 
+concurrent signal assignment statement whose target is a signal name is 
+constructed as follows: </P>
+<OL type=a>
+  <LI>If a label appears on the concurrent signal assignment statement, then the 
+  same label appears on the process statement. 
+  <LI>The equivalent process statement is a postponed process if and only if the 
+  concurrent signal assignment statement includes the reserved word 
+  <B>postponed</B>. 
+  <LI>If the delay mechanism option appears in the concurrent signal assignment, 
+  then the same delay mechanism appears in every signal assignment statement in 
+  the process statement; otherwise, it appears in no signal assignment statement 
+  in the process statement. 
+  <LI>The statement part of the equivalent process statement consists of a 
+  statement transform (described below). 
+  <P>If the option <B>guarded</B> appears in the concurrent signal assignment 
+  statement, then the concurrent signal assignment is called a <I>guarded</I> 
+  <I>assignment</I>. If the concurrent signal assignment statement is a guarded 
+  assignment, and if the target of the concurrent signal assignment is a guarded 
+  target, then the statement transform is as follows: </P><PRE>          <B>if</B> GUARD <B>then</B>
+
+<I>             signal_transform</I>
+
+<B>          else</B>
+
+<I>             disconnection_statements</I>
+
+          <B>end if</B> ;
+
+</PRE>
+  <P>Otherwise, if the concurrent signal assignment statement is a guarded 
+  assignment, but if the target of the concurrent signal assignment is 
+  <I>not</I>a guarded target, then the statement transform is as follows: </P><PRE>     <B>if</B> GUARD <B>then</B>
+
+<I>         signal_transform</I>
+
+     <B>end if</B> ;
+
+</PRE>
+  <P>Finally, if the concurrent signal assignment statement is <I>not</I> a 
+  guarded assignment, and if the target of the concurrent signal assignment is 
+  <I>not</I> a guarded target, then the statement transform is as follows: </P><PRE><I>     signal_transform</I>
+
+</PRE>
+  <P>It is an error if a concurrent signal assignment is not a guarded 
+  assignment and the target of the concurrent signal assignment is a guarded 
+  target. </P>
+  <P>A <I>signal transform</I> is either a sequential signal assignment 
+  statement, an if statement, a case statement, or a null statement. If the 
+  signal transform is an if statement or a case statement, then it contains 
+  either sequential signal assignment statements or null statements, one for 
+  each of the alternative waveforms. The signal transform determines which of 
+  the alternative waveforms is to be assigned to the output signals. </P>
+  <LI>If the concurrent signal assignment statement is a guarded assignment, or 
+  if any expression (other than a time expression) within the concurrent signal 
+  assignment statement references a signal, then the process statement contains 
+  a final wait statement with an explicit sensitivity clause. The sensitivity 
+  clause is constructed by taking the union of the sets constructed by applying 
+  the rule of <A 
+  href="1076_8.html#8.1">8.1 
+  </A>to each of the aforementioned expressions. Furthermore, if the concurrent 
+  signal assignment statement is a guarded assignment, then the sensitivity 
+  clause also contains the simple name GUARD. (The signals identified by these 
+  names are called the <I>inputs</I> of the signal assignment statement.) 
+  Otherwise, the process statement contains a final wait statement that has no 
+  explicit sensitivity clause, condition clause, or timeout clause. </LI></OL>
+<P>Under certain conditions (see above) the equivalent process statement may 
+contain a sequence of disconnection statements. A <I>disconnection statement</I> 
+is a sequential signal assignment statement that assigns a null transaction to 
+its target. If a sequence of disconnection statements is present in the 
+equivalent process statement, the sequence consists of one sequential signal 
+assignment for each scalar subelement of the target of the concurrent signal 
+assignment statement. For each such sequential signal assignment, the target of 
+the assignment is the corresponding scalar subelement of the target of the 
+concurrent signal assignment, and the waveform of the assignment is a null 
+waveform element whose time expression is given by the applicable disconnection 
+specification (see <A 
+href="1076_5.html#5.3">5.3 
+</A>). </P>
+<P>If the target of a concurrent signal assignment statement is in the form of 
+an aggregate, then the same transformation applies. Such a target may only 
+contain locally static signal names, and a signal may not be identified by more 
+than one signal name. </P>
+<P>It is an error if a null waveform element appears in a waveform of a 
+concurrent signal assignment statement. </P>
+<P>Execution of a concurrent signal assignment statement is equivalent to 
+execution of the equivalent process statement. </P>
+<H4>NOTES</H4>
+<P>1--A concurrent signal assignment statement whose waveforms and target 
+contain only static expressions is equivalent to a process statement whose final 
+wait statement has no explicit sensitivity clause, so it will execute once 
+through at the beginning of simulation and then suspend permanently. </P>
+<P>2--A concurrent signal assignment statement whose waveforms are all the 
+reserved word <B>unaffected</B> has no drivers for the target, since every 
+waveform in the concurrent signal assignment statement is transformed to the 
+statement </P><PRE><B>null</B>;
+
+</PRE>
+<P>in the equivalent process statement. See <A 
+href="1076_9.html#9.5.1">9.5.1 
+</A>. </P>
+<H3><A name=9.5.1></A><A 
+href="1076_9.html#9.5.1">9.5.1 
+</A>Conditional signal assignments</H3>
+<P>The conditional signal assignment represents a process statement in which the 
+signal transform is an if statement. </P><PRE>     conditional_signal_assignment ::=
+
+        target<I> </I> &lt;=  options conditional_waveforms ;
+
+
+
+     conditional_waveforms ::=
+
+          { waveform <B>when</B> condition <B>else</B> }
+
+           waveform [ <B>when</B> condition ]
+
+</PRE>
+<P>The options for a conditional signal assignment statement are discussed in <A 
+href="1076_9.html#9.5">9.5 
+</A>. </P>
+<P>For a given conditional signal assignment, there is an equivalent process 
+statement corresponding to it as defined for any concurrent signal assignment 
+statement. If the conditional signal assignment is of the form </P><PRE>     target &lt;= options     waveform1 <B>when</B> condition1 <B>else</B>
+
+         waveform2 <B>when</B> condition2 <B>else</B>
+
+            ·
+            ·
+            ·
+         waveformN-1 <B>when</B> conditionN-1 <B>else</B>
+
+         waveformN <B>when</B> conditionN;
+
+</PRE>
+<P>then the signal transform in the corresponding process statement is of the 
+form </P><PRE>     <B>if</B> condition1 <B>then</B>
+
+          wave_transform1
+
+     <B>elsif</B> condition2 <B>then</B>
+
+<B>          </B>wave_transform2
+
+             ·
+             ·
+             ·
+     <B>elsif</B> conditionN-1 <B>then</B>
+
+          wave_transformN-1
+
+     <B>elsif</B> conditionN <B>then</B>
+
+          wave_transformN
+
+     <B>end if</B> ;
+
+</PRE>
+<P>If the conditional waveform is only a single waveform, the signal transform 
+in the corresponding process statement is of the form </P><PRE>     wave_transform
+
+</PRE>
+<P>For any waveform, there is a corresponding <I>wave transform</I>. If the 
+waveform is of the form </P><PRE>     waveform_element1, waveform_element2, ..., waveform_elementN
+
+</PRE>
+<P>then the wave transform in the corresponding process statement is of the form 
+</P><PRE>     target &lt;= [ delay_mechanism ] waveform_element1, waveform_element2, ...,
+
+                                          waveform_elementN;
+
+</PRE>
+<P>If the waveform is of the form </P><PRE>     <B>unaffected</B>
+
+</PRE>
+<P>then the wave transform in the corresponding process statement is of the form 
+</P><PRE>     <B>null</B>;
+
+</PRE>
+<P>In this example, the final <B>null</B> causes the driver to be unchanged, 
+rather than disconnected. (This is the null statement--not a null waveform 
+element). </P>
+<P>The characteristics of the waveforms and conditions in the conditional 
+assignment statement must be such that the if statement in the equivalent 
+process statement is a legal statement. </P>
+<P><I>Example:</I> </P><PRE>     S &lt;= <B>unaffected</B> <B>when</B> Input_pin = S'DrivingValue <B>else</B>
+
+        Input_pin <B>after</B> Buffer_Delay;
+
+</PRE>
+<P>NOTE--The wave transform of a waveform of the form <B>unaffected</B> is the 
+null statement, not the null transaction. </P>
+<H2><A name=9.5.2></A><A 
+href="1076_9.html#9.5.2">9.5.2 
+</A>Selected signal assignments</H2>
+<P>The selected signal assignment represents a process statement in which the 
+signal transform is a case statement. </P><PRE>     selected_signal_assignment ::=
+
+         <B>with</B> expression <B>select</B>
+
+              target &lt;= options selected_waveforms;
+
+
+
+     selected_waveforms ::=
+
+         { waveform <B>when</B> choices , }
+
+           waveform <B>when</B> choices
+
+</PRE>
+<P>The options for a selected signal assignment statement are discussed in <A 
+href="1076_9.html#9.5">9.5 
+</A>. </P>
+<P>For a given selected signal assignment, there is an equivalent process 
+statement corresponding to it as defined for any concurrent signal assignment 
+statement. If the selected signal assignment is of the form </P><PRE>     <B>with</B> expression <B>select</B>
+
+         target &lt;= options     waveform1     <B>when</B> choice_list1,
+
+                               waveform2     <B>when</B> choice_list2,
+
+                                   ·
+                                   ·
+                                   ·
+                               waveformN-1   <B>when</B> choice_listN-1,
+
+                               waveformN     <B>when</B> choice_listN ;
+
+</PRE>
+<P>then the signal transform in the corresponding process statement is of the 
+form </P><PRE>     <B>case</B> expression <B>is</B>
+
+          <B>when</B> choice_list1 =&gt;
+
+             wave_transform1
+
+          <B>when</B> choice_list2 =&gt;
+
+             wave_transform2
+
+                ·
+                ·
+                ·
+          <B>when</B> choice_listN-1 =&gt;
+
+             wave_transformN-1
+
+          <B>when</B> choice_listN =&gt;
+
+             wave_transformN
+
+     <B>end case</B>;
+
+</PRE>
+<P>Wave transforms are defined in <A 
+href="1076_9.html#9.5.1">9.5.1 
+</A>. </P>
+<P>The characteristics of the select expression, the waveforms, and the choices 
+in the selected assignment statement must be such that the case statement in the 
+equivalent process statement is a legal statement. </P>
+<H2><A name=9.6></A><A 
+href="1076_9.html#9.6">9.6 
+</A>Component instantiation statements</H2>
+<P>A component instantiation statement defines a subcomponent of the design 
+entity in which it appears, associates signals or values with the ports of that 
+subcomponent, and associates values with generics of that subcomponent. This 
+subcomponent is one instance of a class of components defined by a corresponding 
+component declaration, design entity, or configuration declaration. </P><PRE>     component_instantiation_statement ::=
+
+        <I>instantiation</I>_label :
+
+             instantiated_unit
+
+                  [ generic_map_aspect ]
+
+                  [ port_map_aspect ] ;
+
+
+
+     instantiated_unit ::=
+
+          [ <B>component</B> ] <I>component</I>_name
+
+          | <B>entity</B> <I>entity</I>_name [ ( <I>architecture</I>_identifier ) ]
+
+          | <B>configuration</B> <I>configuration</I>_name
+
+</PRE>
+<P>The component name, if present, must be the name of a component declared in a 
+component declaration. The entity name, if present, must be the name of a 
+previously analyzed entity interface; if an architecture identifier appears in 
+the instantiated unit, then that identifier must be the same as the simple name 
+of an architecture body associated with the entity declaration denoted by the 
+corresponding entity name. The architecture identifier defines a simple name 
+that is used during the elaboration of a design hierarchy to select the 
+appropriate architecture body. The configuration name, if present, must be the 
+name of a previously analyzed configuration declaration. The generic map aspect, 
+if present, optionally associates a single actual with each local generic (or 
+member) in the corresponding component declaration or entity interface. Each 
+local generic member must be associated at most once. Similarly, the port map 
+aspect, if present, optionally associates a single actual with each local port 
+member in the corresponding component declaration or entity interface. Each 
+local port member must be associated at most once. The generic map and port map 
+aspects are described in <A 
+href="1076_5.html#5.2.1.2">5.2.1.2 
+</A>. </P>
+<P>If an instantiated unit containing the reserved word <B>entity</B> does not 
+contain an explicitly specified architecture identifier, then the architecture 
+identifier is implicitly specified according to the rules given in <A 
+href="1076_5.html#5.2.2">5.2.2 
+</A>. The architecture identifier defines a simple name that is used during the 
+elaboration of a design hierarchy to select the appropriate architecture body. 
+</P>
+<P>A component instantiation statement and a corresponding configuration 
+specification, if any, taken together, imply that the block hierarchy within the 
+design entity containing the component instantiation is to be extended with a 
+unique copy of the block defined by another design entity. The generic map and 
+port map aspects in the component instantiation statement and in the binding 
+indication of the configuration specification identify the connections that are 
+to be made in order to accomplish the extension. </P>
+<H4>NOTES</H4>
+<P>1--A configuration specification can be used to bind a particular instance of 
+a component to a design entity and to associate the local generics and local 
+ports of the component with the formal generics and formal ports of that design 
+entity. A configuration specification may apply to a component instantiation 
+statement only if the name in the instantiated unit of the component 
+instantiation statement denotes a component declaration. (See <A 
+href="1076_5.html#5.2">5.2 
+</A>.) </P>
+<P>2--The component instantiation statement may be used to imply a structural 
+organization for a hardware design. By using component declarations, signals,and 
+component instantiation statements, a given (internal or external) block may be 
+described in terms of subcomponents that are interconnected by signals. </P>
+<P>3--Component instantiation provides a way of structuring the logical 
+decomposition of a design. The precise structural or behavioral characteristics 
+of a given subcomponent may be described later, provided that the instantiated 
+unit is a component declaration. Component instantiation also provides a 
+mechanism for reusing existing designs in a design library. A configuration 
+specification can bind a given component instance to an existing design entity, 
+even if the generics and ports of the entity declaration do not precisely match 
+those of the component (provided that the instantiated unit is a component 
+declaration); if the generics or ports of the entity declaration do not match 
+those of the component, the configuration specification must contain a generic 
+map or port map, as appropriate, to map the generics and ports of the entity 
+declaration to those of the component. </P>
+<H3><A name=9.6.1></A><A 
+href="1076_9.html#9.6.1">9.6.1 
+</A>Instantiation of a component</H3>
+<P>A component instantiation statement whose instantiated unit contains a name 
+denoting a component is equivalent to a pair of nested block statements that 
+couple the block hierarchy in the containing design unit to a unique copy of the 
+block hierarchy contained in another design unit (i.e., the subcomponent).The 
+outer block represents the component declaration; the inner block represents the 
+design entity to which the component is bound. Each is defined by a block 
+statement. </P>
+<P>The header of the block statement corresponding to the component declaration 
+consists of the generic and port clauses (if present) that appear in the 
+component declaration, followed by the generic map and port map aspects (if 
+present) that appear in the corresponding component instantiation statement. The 
+meaning of any identifier appearing in the header of this block statement is 
+associated with the corresponding occurrence of the identifier in the generic 
+clause, port clause, generic map aspect, or port map aspect,respectively. The 
+statement part of the block statement corresponding to the component declaration 
+consists of a nested block statement corresponding to the design entity. </P>
+<P>The header of the block statement corresponding to the design entity consists 
+of the generic and port clauses (if present) that appear in the entity 
+declaration that defines the interface to the design entity, followed by the 
+generic map and port map aspects (if present) that appear in the binding 
+indication that binds the component instance to that design entity. The 
+declarative part of the block statement corresponding to the design entity 
+consists of the declarative items from the entity declarative part, followed by 
+the declarative items from the declarative part of the corresponding 
+architecture body. The statement part of the block statement corresponding to 
+the design entity consists of the concurrent statements from the entity 
+statement part, followed by the concurrent statements from the statement part of 
+the corresponding architecture body. The meaning of any identifier appearing 
+anywhere in this block statement is that associated with the corresponding 
+occurrence of the identifier in the entity declaration or architecture body, 
+respectively. </P>
+<P>For example, consider the following component declaration, instantiation, and 
+corresponding configuration specification: </P><PRE>     <B>component</B>
+
+        COMP <B>port</B> (A,B : <B>inout </B>BIT);
+
+     <B>end component</B>;
+
+
+
+     <B>for </B>C: COMP <B>use</B>
+
+          <B>entity</B> X(Y)
+
+          <B>port map</B> (P1 =&gt; A, P2 =&gt; B) ;
+
+                 ·
+                 ·
+                 ·
+     C:  COMP <B>port map</B> (A =&gt; S1, B =&gt; S2);
+
+</PRE>
+<P>Given the following entity declaration and architecture declaration: </P><PRE>     <B>entity</B> X <B>is</B>
+
+          <B>port</B> (P1, P2 : <B>inout </B>BIT);
+
+          <B>constant</B> Delay: Time := 1 ms;
+
+     <B>begin</B>
+
+         CheckTiming (P1, P2, 2*Delay);
+
+     <B>end</B> X ;
+
+
+
+     <B>architecture</B> Y <B>of</B> X <B>is</B>
+
+          <B>signal</B> P3: Bit;
+
+     <B>begin</B>
+
+         P3 &lt;= P1 <B>after</B> Delay;
+
+         P2 &lt;= P3 <B>after</B> Delay;
+
+         B:  <B>block</B>
+
+                 ·
+                 ·
+                 ·
+             <B>begin</B>
+
+                 ·
+                 ·
+                 ·
+             <B>end block</B>;
+
+     <B>end</B> Y;
+
+</PRE>
+<P>then the following block statements implement the coupling between the block 
+hierarchy in which component instantiation statement C appears and the block 
+hierarchy contained in design entity X(Y): </P><PRE>     C: <B>block                                                </B>--  Component block.
+
+             <B>port</B> (A,B : <B>inout </B>BIT);                         --  Local ports.
+
+             <B>port map</B> (A =&gt; S1, B =&gt; S2);                    --  Actual/local binding.
+
+         <B>begin</B>
+
+             X:  <B>block                                 </B>      --  Design entity block.
+
+                    <B>port</B> (P1, P2 : <B>inout </B>BIT);               --  Formal ports.
+
+                    <B>port map</B> (P1 =&gt; A, P2 =&gt; B);             --  Local/formal binding.
+
+                    <B>constant</B> Delay: Time := 1 ms;            --  Entity declarative item.
+
+                    <B>signal</B> P3: Bit;                          --  Architecture declarative item.
+
+<B>                 begin</B>
+
+               CheckTiming (P1, P2, 2*Delay);                --  Entity statement.
+
+               P3 &lt;= P1 <B>after</B> Delay;                         --  Architecture statements.
+
+               P2 &lt;= P3 <B>after</B> Delay;
+
+               B:  <B>block                                     </B>--  Internal block hierarchy.
+
+                      ·
+                      ·
+                      ·
+               <B>begin</B>
+
+                      ·
+                      ·
+                      ·
+                  <B>  end block</B>;
+
+<B>               end block</B> X ;
+
+     <B>end block </B>C;
+
+</PRE>
+<P>The block hierarchy extensions implied by component instantiation statements 
+that are bound to design entities are accomplished during the elaboration of a 
+design hierarchy (see Section 12). </P>
+<H3><A name=9.6.2></A><A 
+href="1076_9.html#9.6.2">9.6.2 
+</A>Instantiation of a design entity</H3>
+<P>A component instantiation statement whose instantiated unit denotes either a 
+design entity or a configuration declaration is equivalent to a pair of nested 
+block statements that couple the block hierarchy in the containing design unit 
+to a unique copy of the block hierarchy contained in another design unit 
+(i.e.,the subcomponent). The outer block represents the component instantiation 
+statement; the inner block represents the design entity to which the instance is 
+bound. Each is defined by a block statement. </P>
+<P>The header of the block statement corresponding to the component 
+instantiation statement is empty, as is the declarative part of this block 
+statement. The statement part of the block statement corresponding to the 
+component declaration consists of a nested block statement corresponding to the 
+design entity. </P>
+<P>The header of the block statement corresponding to the design entity consists 
+of the generic and port clauses (if present) that appear in the entity 
+declaration that defines the interface to the design entity, followed by the 
+generic map and port map aspects (if present) that appear in the component 
+instantiation statement that binds the component instance to a copy of that 
+design entity. The declarative part of the block statement corresponding to the 
+design entity consists of the declarative items from the entity declarative 
+part, followed by the declarative items from the declarative part of the 
+corresponding architecture body. The statement part of the block statement 
+corresponding to the design entity consists of the concurrent statements from 
+the entity statement part, followed by the concurrent statements from the 
+statement part of the corresponding architecture body. The meaning of any 
+identifier appearing anywhere in this block statement is that associated with 
+the corresponding occurrence of the identifier in the entity declaration or 
+architecture body, respectively. </P>
+<P>For example, consider the following design entity: </P><PRE>     <B>entity</B> X <B>is</B>
+
+          <B>port</B> (P1, P2: <B>inout</B> BIT);
+
+          <B>constant</B> Delay: DELAY_LENGTH:= 1 ms;
+
+          <B>use</B> WORK.TimingChecks.<B>all</B>;
+
+     <B>begin</B>
+
+<B>          </B>CheckTiming(P1, P2, 2*Delay);
+
+     <B>end</B> <B>entity</B> X;
+
+
+
+     <B>architecture</B> Y<B> of</B> X <B>is</B>
+
+          <B>signal</B> P3: BIT;
+
+     <B>begin</B>
+
+          P3 &lt;= P1 <B>after</B> Delay;
+
+          P2 &lt;= P3 <B>after</B> Delay;
+
+          B: <B>block</B>
+
+              ·
+              ·
+              ·
+          <B>begin</B>
+
+              ·
+              ·
+              ·
+          <B>end</B> <B>block</B> B;
+
+     <B>end</B> <B>architecture</B> Y;
+
+</PRE>
+<P>This design entity is instantiated by the following component instantiation 
+statement: </P><PRE>     C: <B>entity</B> Work.X (Y) <B>port</B> <B>map</B> (P1 =&gt; S1, P2 =&gt; S2);
+
+</PRE>
+<P>The following block statements implement the coupling between the block 
+hierarchy in which component instantiation statement C appears and the block 
+hierarchy contained in design entity X(Y): </P><PRE>     C: <B>block</B>                                                --  Instance block.
+
+     <B>begin</B>
+
+<B></B>         X: <B>block</B>                                            --  Design entity block.
+
+             <B>port</B> (P1, P2: <B>inout</B> BIT);                       --  Entity interface ports.
+
+             <B>port</B> <B>map</B> (P1 =&gt; S1, P2 =&gt; S2);                  --  Instantiation statement port map.
+
+             <B>constant</B> Delay: DELAY_LENGTH := 1 ms;           --  Entity declarative items.
+
+             <B>use</B> WORK.TimingChecks.<B>all</B>;
+
+             <B>signal</B> P3: BIT;                                 --  Architecture declarative item.
+
+         <B>begin</B>
+
+<B>            </B>CheckTiming (P1, P2, 2*Delay);                   --  Entity statement.
+
+            P3 &lt;= P1 <B>after</B> Delay;                            --  Architecture statements.
+
+            P2 &lt;= P3 <B>after</B> Delay;
+
+            B: <B>block</B>
+
+                ·
+                ·
+                ·
+            <B>begin</B>
+
+                ·
+                ·
+                ·
+            <B>end</B> <B>block</B> B;
+
+         <B>end block</B> X;
+
+     <B>end block</B> C;
+
+</PRE>
+<P>Moreover,consider the following design entity, which is followed by an 
+associated configuration declaration and component instantiation: </P><PRE>     <B>entity</B> X <B>is</B>
+
+          <B>port</B> (P1, P2: <B>inout</B> BIT);
+
+          <B>constant</B> Delay: DELAY_LENGTH := 1 ms;
+
+          <B>use</B> WORK.TimingChecks.<B>all</B>;
+
+     <B>begin</B>
+
+          CheckTiming (P1, P2, 2*Delay);
+
+     <B>end</B> <B>entity</B> X;
+
+
+
+     <B>architecture</B> Y<B> of</B> X <B>is</B>
+
+          <B>signal</B> P3: BIT;
+
+     <B>begin</B>
+
+          P3 &lt;= P1 <B>after</B> Delay;
+
+          P2 &lt;= P3 <B>after</B> Delay;
+
+          B: <B>block</B>
+
+              ·
+              ·
+              ·
+          <B>begin</B>
+
+              ·
+              ·
+              ·
+          <B>end</B> <B>block</B> B;
+
+     <B>end</B> <B>architecture</B> Y;
+
+</PRE>
+<P>The configuration declaration is </P><PRE>     <B>configuration</B> Alpha <B>of</B> X <B>is</B>
+
+         <B>for</B> Y
+
+             ·
+             ·
+             ·
+         <B>end</B> <B>for</B>;
+
+     <B>end</B> <B>configuration</B> Alpha;
+
+</PRE>
+<P>The component instantiation is </P><PRE>     C: <B>configuration</B> Work.Alpha <B>port</B> <B>map</B> (P1 =&gt; S1, P2 =&gt; S2);
+
+</PRE>
+<P>The following block statements implement the coupling between the block 
+hierarchy in which component instantiation statement C appears and the block 
+hierarchy contained in design entity X(Y): </P><PRE>     C: <B>block</B>                                                 --  Instance block.
+
+     <B>begin</B>
+
+         X: <B>block</B>                                             --  Design entity block.
+
+             <B>port</B> (P1, P2: <B>inout</B> BIT);                        --  Entity interface ports.
+
+             <B>port</B> <B>map</B> (P1 =&gt; S1, P2 =&gt; S2);                   --  Instantiation statement port map.
+
+             <B>constant</B> Delay: DELAY_LENGTH := 1 ms;            --  Entity declarative items.
+
+             <B>use</B> WORK.TimingChecks.<B>all</B>;
+
+             <B>signal</B> P3: BIT;                                  --  Architecture declarative item.
+
+         <B>begin</B>
+
+            CheckTiming (P1, P2, 2*Delay);                    --  Entity statement.
+
+            P3 &lt;= P1 <B>after</B> Delay;                             --  Architecture statements.
+
+            P2 &lt;= P3 <B>after</B> Delay;
+
+            B: <B>block</B>
+
+                ·
+                ·
+                ·
+            <B>begin</B>
+
+                ·
+                ·
+                ·
+            <B>end</B> <B>block</B> B;
+
+         <B>end block</B> X;
+
+     <B>end block</B> C;
+
+</PRE>
+<P>The block hierarchy extensions implied by component instantiation statements 
+that are bound to design entities occur during the elaboration of a design 
+hierarchy(see Section 12). </P>
+<H2><A name=9.7></A><A 
+href="1076_9.html#9.7">9.7 
+</A>Generate statements</H2>
+<P>A generate statement provides a mechanism for iterative or conditional 
+elaboration of a portion of a description. </P><PRE>     generate_statement ::=
+
+         <I>generate</I>_label :
+
+             generation_scheme <B>generate</B>
+
+                 [ { block_declarative_item }
+
+             <B>begin</B> ]
+
+                 { concurrent_statement }
+
+             <B>end generate</B> [ <I>generate</I>_label ] ;
+
+
+
+     generation_scheme ::=
+
+          <B>for</B> <I>generate</I>_parameter_specification
+
+       | <B>if</B> condition
+
+
+
+     label ::=  identifier
+
+</PRE>
+<P>If a label appears at the end of a generate statement, it must repeat the 
+generate label. </P>
+<P>For a generate statement with a <B>for</B> generation scheme, the generate 
+parameter specification is the declaration of the <I>generate parameter</I> with 
+the given identifier. The generate parameter is a constant object whose type is 
+the base type of the discrete range of the generate parameter specification. 
+</P>
+<P>The discrete range in a generation scheme of the first form must be a static 
+discrete range; similarly, the condition in a generation scheme of the second 
+form must be a static expression. </P>
+<P>The elaboration of a generate statement is described in <A 
+href="1076_12.html#12.4.2">12.4.2 
+</A>. </P>
+<P><I>Example:</I> </P><PRE>     Gen: <B>block</B>
+
+<B>        begin</B>
+
+            L1: CELL <B>port map</B> (Top, Bottom, A(0), B(0)) ;
+
+
+
+            L2: <B>for</B> I <B>in</B> 1 <B>to</B> 3 <B>generate</B>
+
+                L3: <B>for</B> J <B>in</B> 1 <B>to</B> 3 <B>generate</B>
+
+                    L4: <B>if</B> I+J&gt;4 <B>generate</B>
+
+                        L5: CELL <B>port map</B> (A(I-1),B(J-1),A(I),B(J)) ;
+
+                    <B>end generate</B> ;
+
+<B>                end generate</B> ;
+
+<B>            end generate</B> ;
+
+<B>            </B>L6: <B>for</B> I <B>in</B> 1 <B>to</B> 3 <B>generate</B>
+
+                L7: <B>for</B> J <B>in</B> 1 <B>to</B> 3 <B>generate</B>
+
+                    L8: <B>if</B> I+J&lt;4 <B>generate</B>
+
+                        L9: CELL <B>port map</B> (A(I+1),B(J+1),A(I),B(J)) ;
+
+                    <B>end generate</B> ;
+
+<B>                end generate</B> ;
+
+<B>            end generate</B> ;
+
+<B>        end</B> <B>block</B> Gen;
+
+</PRE>
+<HR>
+
+<P><A href="http://www.fysel.ntnu.no/Courses/SIE4020/index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_8.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_10.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

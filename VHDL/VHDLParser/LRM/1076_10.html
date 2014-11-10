@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)1076_10.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=10>Section 10</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_9.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_11.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Scope and visibility</H1>
+<P>The rules defining the scope of declarations and the rules defining which 
+identifiers are visible at various points in the text of the description are 
+presented in this section. The formulation of these rules uses the notion of a 
+declarative region. </P>
+<H2><A name=10.1></A><A 
+href="1076_10.html#10.1">10.1 
+</A>Declarative region</H2>
+<P>A declarative region is a portion of the text of the description. A single 
+declarative region is formed by the text of each of the following: </P>
+<OL type=a>
+  <LI>An entity declaration, together with a corresponding architecture 
+body.<BR>
+  <P></P>
+  <LI>A configuration declaration.<BR>
+  <P></P>
+  <LI>A subprogram declaration, together with the corresponding subprogram 
+  body.<BR>
+  <P></P>
+  <LI>A package declaration, together with the corresponding body (if any).<BR>
+  <P></P>
+  <LI>A record type declaration.<BR>
+  <P></P>
+  <LI>A component declaration.<BR>
+  <P></P>
+  <LI>A block statement.<BR>
+  <P></P>
+  <LI>A process statement.<BR>
+  <P></P>
+  <LI>A loop statement.<BR>
+  <P></P>
+  <LI>A block configuration.<BR>
+  <P></P>
+  <LI>A component configuration.<BR>
+  <P></P>
+  <LI>A generate statement. </LI></OL>
+<P>In each of these cases, the declarative region is said to be 
+<I>associated</I> with the corresponding declaration or statement. A declaration 
+is said to occur<I> immediately within</I> a declarative region if this region 
+is the innermost region that encloses the declaration, not counting the 
+declarative region (if any) associated with the declaration itself. </P>
+<P>Certain declarative regions include disjoint parts. Each declarative region 
+is nevertheless considered as a (logically) continuous portion of the 
+description text. Hence, if any rule defines a portion of text as the text that 
+<I>extends</I> from some specific point of a declarative region to the end of 
+this region, then this portion is the corresponding subset of the declarative 
+region (thus, it does not include intermediate declarative items between the 
+interface declaration and a corresponding body declaration). </P>
+<H2><A name=10.2></A><A 
+href="1076_10.html#10.2">10.2 
+</A>Scope of declarations</H2>
+<P>For each form of declaration, the language rules define a certain portion of 
+the description text called the <I>scope of the declaration</I>. The scope of a 
+declaration is also called the scope of any named entity declared by the 
+declaration. Furthermore, if the declaration associates some notation (either an 
+identifier, a character literal, or an operator symbol) with the named entity, 
+this portion of the text is also called the scope of this notation. Within the 
+scope of a named entity, and only there, there are places where it is legal to 
+use the associated notation in order to refer to the named entity. These places 
+are defined by the rules of visibility and overloading. </P>
+<P>The scope of a declaration that occurs immediately within a declarative 
+region extends from the beginning of the declaration to the end of the 
+declarative region; this part of the scope of a declaration is called the 
+<I>immediate scope</I>. Furthermore, for any of the declarations in the 
+following list, the scope of the declaration extends beyond the immediate scope: 
+</P>
+<OL type=a>
+  <LI>A declaration that occurs immediately within a package declaration<BR>
+  <P></P>
+  <LI>An element declaration in a record type declaration<BR>
+  <P></P>
+  <LI>A formal parameter declaration in a subprogram declaration<BR>
+  <P></P>
+  <LI>A local generic declaration in a component declaration<BR>
+  <P></P>
+  <LI>A local port declaration in a component declaration<BR>
+  <P></P>
+  <LI>A formal generic declaration in an entity declaration<BR>
+  <P></P>
+  <LI>A formal port declaration in an entity declaration<BR></LI></OL>
+<P>In the absence of a separate subprogram declaration, the subprogram 
+specification given in the subprogram body acts as the declaration, and rule(3) 
+applies also in such a case. In each of these cases, the given declaration 
+occurs immediately within some enclosing declaration, and the scope of the given 
+declaration extends to the end of the scope of the enclosing declaration. </P>
+<P>In addition to the above rules, the scope of any declaration that includes 
+the end of the declarative part of a given block (whether it be an external 
+block defined by a design entity or an internal block defined by a block 
+statement) extends into a configuration declaration that configures the given 
+block. </P>
+<P>If a component configuration appears as a configuration item immediately 
+within a block configuration that configures a given block, and if the scope of 
+a given declaration includes the end of the declarative part of that block, then 
+the scope of the given declaration extends from the beginning to the end of the 
+declarative region associated with the given component configuration. A similar 
+rule applies to a block configuration that appears as a configuration item 
+immediately within another block configuration, provided that the contained 
+block configuration configures an internal block. Furthermore, the scope of a 
+use clause is similarly extended. Finally, the scope of a library unit contained 
+within a design library is extended along with the scope of the logical library 
+name corresponding to that design library. </P>
+<P>NOTE--These scope rules apply to all forms of declaration. In particular, 
+they apply also to implicit declarations. </P>
+<H2><A name=10.3></A><A 
+href="1076_10.html#10.3">10.3 
+</A>Visibility</H2>
+<P>The meaning of the occurrence of an identifier at a given place in the text 
+is defined by the visibility rules and also, in the case of overloaded 
+declarations, by the overloading rules. The identifiers considered in this 
+section include any identifier other than a reserved word or attribute 
+designator that denotes a predefined attribute. The places considered in this 
+section are those where a lexical element (such as an identifier) occurs. The 
+overloaded declarations considered in this section are those for subprograms and 
+enumeration literals. </P>
+<P>For each identifier and at each place in the text, the visibility rules 
+determine a set of declarations (with this identifier) that define the possible 
+meanings of an occurrence of the identifier. A declaration is said to be visible 
+at a given place in the text when, according to the visibility rules, the 
+declaration defines a possible meaning of this occurrence. Two cases may arise 
+in determining the meaning of such a declaration: </P>
+<P>-- The visibility rules determine <I>at most one</I> possible meaning. In 
+such a case, the visibility rules are sufficient to determine the declaration 
+defining the meaning of the occurrence of the identifier, or in the absence of 
+such a declaration, to determine that the occurrence is not legal at the given 
+point. </P>
+<P>-- The visibility rules determine <I>more than one</I> possible meaning. In 
+such a case, the occurrence of the identifier is legal at this point if and only 
+if <I>exactly one</I> visible declaration is acceptable for the overloading 
+rules in the given context. </P>
+<P>A declaration is only visible within a certain part of its scope; this part 
+starts at the end of the declaration except in the declaration of a design unit, 
+in which case it starts immediately after the reserved word <B>is</B> is given 
+after the identifier of the design unit. This rule applies to both explicit and 
+implicit declarations. </P>
+<P>Visibility is either by selection or direct. A declaration is visible <I>by 
+selection</I> at places that are defined as follows: </P>
+<OL type=a>
+  <LI>For a primary unit contained in a library: at the place of the suffix in a 
+  selected name whose prefix denotes the library.<BR>
+  <P></P>
+  <LI>For an architecture body associated with a given entity declaration: at 
+  the place of the block specification in a block configuration for an external 
+  block whose interface is defined by that entity declaration.<BR>
+  <P></P>
+  <LI>For an architecture body associated with a given entity declaration: at 
+  the place of an architecture identifier (between the parentheses) in the first 
+  form of an entity aspect in a binding indication.<BR>
+  <P></P>
+  <LI>For a declaration given in a package declaration: at the place of the 
+  suffix in a selected name whose prefix denotes the package.<BR>
+  <P></P>
+  <LI>For an element declaration of a given record type declaration: at the 
+  place of the suffix in a selected name whose prefix is appropriate for the 
+  type; also at the place of a choice (before the compound delimiter =&gt;) in a 
+  named element association of an aggregate of the type.<BR>
+  <P></P>
+  <LI>For a user-defined attribute: at the place of the attribute 
+  designator(after the delimiter ') in an attribute name whose prefix denotes a 
+  named entity with which that attribute has been associated.<BR>
+  <P></P>
+  <LI>For a formal parameter declaration of a given subprogram declaration: at 
+  the place of the formal designator in a formal part (before the compound 
+  delimiter =&gt;) of a named parameter association element of a corresponding 
+  subprogram call.<BR>
+  <P></P>
+  <LI>For a local generic declaration of a given component declaration: at the 
+  place of the formal designator in a formal part (before the compound 
+  delimiter=&gt;) of a named generic association element of a corresponding 
+  component instantiation statement; similarly, at the place of the actual 
+  designator in an actual part (after the compound delimiter =&gt;, if any) of a 
+  generic association element of a corresponding binding indication.<BR>
+  <P></P>
+  <LI>For a local port declaration of a given component declaration: at the 
+  place of the formal designator in a formal part (before the compound 
+  delimiter=&gt;) of a named port association element of a corresponding 
+  component instantiation statement; similarly, at the place of the actual 
+  designator in an actual part (after the compound delimiter =&gt;, if any) of a 
+  port association element of a corresponding binding indication.<BR>
+  <P></P>
+  <LI>For a formal generic declaration of a given entity declaration: at the 
+  place of the formal designator in a formal part (before the compound 
+  delimiter=&gt;) of a named generic association element of a corresponding 
+  binding indication; similarly, at the place of the formal designator in a 
+  formal part(before the compound delimiter =&gt;) of a generic association 
+  element of a corresponding component instantiation statement when the 
+  instantiated unit is a design entity or a configuration declaration.<BR>
+  <P></P>
+  <LI>For a formal port declaration of a given entity declaration: at the place 
+  of the formal designator in a formal part (before the compound delimiter=&gt;) 
+  of a named port association element of a corresponding binding specification; 
+  similarly, at the place of the formal designator in a formal part (before the 
+  compound delimiter =&gt;) of a port association element of a corresponding 
+  component instantiation statement when the instantiated unit is a design 
+  entity or a configuration declaration.<BR>
+  <P></P>
+  <LI>For a formal generic declaration or a formal port declaration of a given 
+  block statement: at the place of the formal designator in a formal part 
+  (before the compound delimiter =&gt;) of a named association element of a 
+  corresponding generic or port map aspect. </LI></OL>
+<P>Finally, within the declarative region associated with a construct other than 
+a record type declaration, any declaration that occurs immediately within the 
+region and that also occurs textually within the construct is visible by 
+selection at the place of the suffix of an expanded name whose prefix denotes 
+the construct. </P>
+<P>Where it is not visible by selection, a visible declaration is said to be 
+<I>directly visible</I>. A declaration is said to be directly visible within a 
+certain part of its immediate scope; this part extends to the end of the 
+immediate scope of the declaration but excludes places where the declaration is 
+hidden as explained in the following paragraphs. In addition, a declaration 
+occurring immediately within the visible part of a package can be made directly 
+visible by means of a use clause according to the rules described in <A 
+href="1076_10.html#10.4">10.4 
+</A>. </P>
+<P>A declaration is said to be <I>hidden</I> within (part of) an inner 
+declarative region if the inner region contains a homograph of this declaration; 
+the outer declaration is then hidden within the immediate scope of the inner 
+homograph. Each of two declarations is said to be a <I>homograph</I> of the 
+other if both declarations have the same identifier, operator symbol, or 
+character literal, and if overloading is allowed for at most one of the two. If 
+overloading is allowed for both declarations, then each of the two is a 
+homograph of the other if they have the same identifier, operator symbol, or 
+character literal, as well as the same parameter and result type profile (see <A 
+href="1076_3.html#3.1.1">3.1.1 
+</A>). </P>
+<P>Within the specification of a subprogram, every declaration with the same 
+designator as the subprogram is hidden. Where hidden in this manner, a 
+declaration is visible neither by selection nor directly. </P>
+<P>Two declarations that occur immediately within the same declarative region 
+must not be homographs, unless exactly one of them is the implicit declaration 
+of a predefined operation. In such cases, a predefined operation is always 
+hidden by the other homograph. Where hidden in this manner, an implicit 
+declaration is hidden within the entire scope of the other declaration 
+(regardless of which declaration occurs first); the implicit declaration is 
+visible neither by selection nor directly. </P>
+<P>Whenever a declaration with a certain identifier is visible from a given 
+point, the identifier and the named entity (if any) are also said to be visible 
+from that point. Direct visibility and visibility by selection are likewise 
+defined for character literals and operator symbols. An operator is directly 
+visible if and only if the corresponding operator declaration is directly 
+visible. </P>
+<P>In addition to the above rules, any declaration that is visible by selection 
+at the end of the declarative part of a given (external or internal) block is 
+visible by selection in a configuration declaration that configures the given 
+block. </P>
+<P>In addition, any declaration that is directly visible at the end of the 
+declarative part of a given block is directly visible in a block configuration 
+that configures the given block. This rule holds unless a use clause that makes 
+a homograph of the declaration potentially visible (see <A 
+href="1076_10.html#10.4">10.4 
+</A>) appears in the corresponding configuration declaration, and if the scope 
+of that use clause encompasses all or part of those configuration items. If such 
+a use clause appears, then the declaration will be directly visible within the 
+corresponding configuration items, except at those places that fall within the 
+scope of the additional use clause. At such places, neither name will be 
+directly visible. </P>
+<P>If a component configuration appears as a configuration item immediately 
+within a block configuration that configures a given block, and if a given 
+declaration is visible by selection at the end of the declarative part of that 
+block, then the given declaration is visible by selection from the beginning to 
+the end of the declarative region associated with the given component 
+configuration. A similar rule applies to a block configuration that appears as a 
+configuration item immediately within another block configuration, provided that 
+the contained block configuration configures an internal block. </P>
+<P>If a component configuration appears as a configuration item immediately 
+within a block configuration that configures a given block, and if a given 
+declaration is directly visible at the end of the declarative part of that 
+block, then the given declaration is visible by selection from the beginning to 
+the end of the declarative region associated with the given component 
+configuration. A similar rule applies to a block configuration that appears as a 
+configuration item immediately within another block configuration, provided that 
+the contained block configuration configures an internal block. Furthermore, the 
+visibility of declarations made directly visible by a use clause within a block 
+is similarly extended. Finally, the visibility of a logical library name 
+corresponding to a design library directly visible at the end of a block is 
+similarly extended. The rules of this paragraph hold unless a use clause that 
+makes a homograph of the declaration potentially visible appears in the 
+corresponding block configuration, and if the scope of that use clause 
+encompasses all or part of those configuration items. If such a use clause 
+appears, then the declaration will be directly visible within the corresponding 
+configuration items, except at those places that fall within the scope of the 
+additional use clause. At such places, neither name will be directly visible. 
+</P>
+<P>NOTES </P>
+<P>1--The same identifier, character literal, or operator symbol may occur 
+indifferent declarations and may thus be associated with different named 
+entities, even if the scopes of these declarations overlap. Overlap of the 
+scopes of declarations with the same identifier, character literal, or operator 
+symbol can result from overloading of subprograms and of enumeration literals. 
+Such overlaps can also occur for named entities declared in the visible parts of 
+packages and for formal generics and ports, record elements, and formal 
+parameters, where there is overlap of the scopes of the enclosing package 
+declarations, entity interfaces, record type declarations, or subprogram 
+declarations. Finally, overlapping scopes can result from nesting. </P>
+<P>2--The rules defining immediate scope, hiding, and visibility imply that a 
+reference to an identifier, character literal, or operator symbol within its own 
+declaration is illegal (except for design units). The identifier,character 
+literal, or operator symbol hides outer homographs within its immediate 
+scope--that is, from the start of the declaration. On the other hand, the 
+identifier, character literal, or operator symbol is visible only after the end 
+of the declaration (again, except for design units). For this reason, all but 
+the last of the following declarations are illegal: </P><PRE>         <B> </B><B><I>constant</I></B><I> K: INTEGER := K*K;</I><B><I>             </I></B><I> --  Illegal</I><B>
+
+          </B><B><I>constant </I></B><I>T: T;</I><B><I>                          </I></B><I> --  Illegal</I><B>
+
+        </B><I>  </I><B><I>procedure</I></B> <I>P (X: P);</I><B><I>                    </I></B><I>  --  Illegal</I><B>
+
+          </B><B><I>function</I></B><B> </B><I>Q (X: REAL := Q)</I> <I><B>return</B> Q;</I><B><I>    </I></B><I>  --  Illegal</I>
+
+       <B>   procedure</B> R (R: REAL);                   --  Legal (although perhaps confusing)
+
+<I>Example:</I></PRE><PRE>   L1:  <B>block</B>
+
+               <B>signal</B> A,B: Bit ;
+
+          <B>begin</B>
+
+          L2:  <B>block</B>
+
+                   <B>signal</B> B: Bit ;                           --  An inner homograph of B.
+
+               <B>begin</B>
+
+                   A &lt;= B <B>after</B> 5 ns;                        --  Means L1.A &lt;= L2.B
+
+                   B &lt;= L1.B <B>after</B> 10 ns;                    --  Means L2.B &lt;= L1.B
+
+               <B>end block</B> ;
+
+                   B &lt;= A <B>after</B> 15 ns;                       --  Means L1.B &lt;= L1.A
+
+          <B>end block</B> ;
+
+</PRE>
+<H2><A name=10.4></A><A 
+href="1076_10.html#10.4">10.4 
+</A>Use clauses</H2>
+<P>A use clause achieves direct visibility of declarations that are visible by 
+selection. </P><PRE>     use_clause ::=
+
+         <B>use</B> selected_name { , selected_name } ;
+
+</PRE>
+<P>Each selected name in a use clause identifies one or more declarations that 
+will potentially become directly visible. If the suffix of the selected name is 
+a simple name, character literal, or operator symbol, then the selected name 
+identifies only the declaration(s) of that simple name, character literal, or 
+operator symbol contained within the package or library denoted by the prefix of 
+the selected name. If the suffix is the reserved word <B>all</B>, then the 
+selected name identifies all declarations that are contained within the package 
+or library denoted by the prefix of the selected name. </P>
+<P>For each use clause, there is a certain region of text called the 
+<I>scope</I> of the use clause. This region starts immediately after the use 
+clause. If a use clause is a declarative item of some declarative region, the 
+scope of the clause extends to the end of the declarative region. If a use 
+clause occurs within the context clause of a design unit, the scope of the use 
+clause extends to the end of the declarative region associated with the design 
+unit. The scope of a use clause may additionally extend into a configuration 
+declaration(see <A 
+href="1076_10.html#10.2">10.2 
+</A>). </P>
+<P>In order to determine which declarations are made directly visible at a given 
+place by use clauses, consider the set of declarations identified by all use 
+clauses whose scopes enclose this place. Any declaration in this set is a 
+potentially visible declaration. A potentially visible declaration is actually 
+made directly visible except in the following two cases: </P>
+<OL type=a>
+  <LI>A potentially visible declaration is not made directly visible if the 
+  place considered is within the immediate scope of a homograph of the 
+  declaration.<BR>
+  <P></P>
+  <LI>Potentially visible declarations that have the same designator are not 
+  made directly visible unless each of them is either an enumeration literal 
+  specification or the declaration of a subprogram (either by a subprogram 
+  declaration or by an implicit declaration). </LI></OL>
+<P>NOTES </P>
+<P>1--These rules guarantee that a declaration that is made directly visible by 
+a use clause cannot hide an otherwise directly visible declaration. </P>
+<P>2--If a named entity X declared in package P is made potentially visible 
+within a package Q (e.g., by the inclusion of the clause "<B>use</B> P.X;" in 
+the context clause of package Q), and the context clause for design unit R 
+includes the clause "<B>use</B> Q.<B>all</B>;", this does not imply that X will 
+be potentially visible in R. Only those named entities that are actually 
+declared in package Q will be potentially visible in design unit R (in the 
+absence of any other use clauses). </P>
+<H2><A name=10.5></A><A 
+href="1076_10.html#10.5">10.5 
+</A>The context of overload resolution</H2>
+<P>Overloading is defined for names, subprograms, and enumeration literals. </P>
+<P>For overloaded entities, overload resolution determines the actual meaning 
+that an occurrence of an identifier or a character literal has whenever the 
+visibility rules have determined that more than one meaning is acceptable at the 
+place of this occurrence; overload resolution likewise determines the actual 
+meaning of an occurrence of an operator or basic operation (see the introduction 
+to Section 3). </P>
+<P>At such a place, all visible declarations are considered. The occurrence is 
+only legal if there is exactly one interpretation of each constituent of the 
+innermost complete context; a <I>complete context</I> is either a declaration,a 
+specification, or a statement. </P>
+<P>When considering possible interpretations of a complete context, the only 
+rules considered are the syntax rules, the scope and visibility rules, and the 
+rules of the form described below. </P>
+<OL type=a>
+  <LI>Any rule that requires a name or expression to have a certain type or to 
+  have the same type as another name or expression.<BR>
+  <P></P>
+  <LI>Any rule that requires the type of a name or expression to be a type of a 
+  certain class; similarly, any rule that requires a certain type to be a 
+  discrete, integer, floating point, physical, universal, character, or Boolean 
+  type.<BR>
+  <P></P>
+  <LI>Any rule that requires a prefix to be appropriate for a certain type.<BR>
+  <P></P>
+  <LI>The rules that require the type of an aggregate or string literal to be 
+  determinable solely from the enclosing complete context. Similarly, the rules 
+  that require the type of the prefix of an attribute, the type of the 
+  expression of a case statement, or the type of the operand of a type 
+  conversion to be determinable independently of the context.<BR>
+  <P></P>
+  <LI>The rules given for the resolution of overloaded subprogram calls; for the 
+  implicit conversions of universal expressions; for the interpretation of 
+  discrete ranges with bounds having a universal type; and for the 
+  interpretation of an expanded name whose prefix denotes a subprogram.<BR>
+  <P></P>
+  <LI>The rules given for the requirements on the return type, the number of 
+  formal parameters, and the types of the formal parameters of the subprogram 
+  denoted by the resolution function name (see <A 
+  href="1076_2.html#2.4">2.4 
+  </A>). </LI></OL>
+<P>NOTES </P>
+<P>1--If there is only one possible interpretation of an occurrence of an 
+identifier, character literal, operator symbol, or string, that occurrence 
+denotes the corresponding named entity. However, this condition does not mean 
+that the occurrence is necessarily legal since other requirements exist that are 
+not considered for overload resolution: for example, the fact that the 
+expression is static, the parameter modes, conformance rules, the use of named 
+association in an indexed name, the use of <B>open</B> in an indexed name, the 
+use of a slice as an actual to a function call, and so forth. </P>
+<P>2--A loop parameter specification is a declaration, and hence a complete 
+context. </P>
+<P>3--Rules that require certain constructs to have the same parameter and 
+result type profile fall under category a. The same holds for rules that require 
+conformance of two constructs, since conformance requires that corresponding 
+names be given the same meaning by the visibility and overloading rules. </P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_9.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_11.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

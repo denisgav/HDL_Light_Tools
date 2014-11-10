@@ -1,0 +1,1623 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0070)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axb.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name="Annex B">Annex B</A></H1>
+<P><A href="http://www.fysel.ntnu.no/Courses/SIE4020/index.html"><IMG height=30 
+src="VHDL LRM- Introduction_AppB_files/hjem.gif" width=30 border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_toc.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppB_files/topp.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axa.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppB_files/venstre.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axc.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppB_files/hoyre.gif" width=30 
+border=0></A> </P>
+<HR>
+
+<H1>Glossary</H1>
+<H1>(informative)</H1>
+<P>This glossary contains brief, informal descriptions for a number of terms and 
+phrases used to define this language. The complete, formal definition of each 
+term or phrase is provided in the main body of the standard. </P>
+<P>For each entry, the relevant clause numbers in the text are given. Some 
+descriptions refer to multiple clauses in which the single concept is discussed; 
+for these, the clause number containing the definition of the concept is given 
+in italics. Other descriptions contain multiple clause numbers when they refer 
+to multiple concepts; for these, none of the clause numbers are italicized. </P>
+<P><B>B.1 abstract literal:</B> A literal of the <I>universal_real</I> abstract 
+type or the <I>universal_integer</I> abstract type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.2">13.2 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4">13.4 
+</A>) </P>
+<P><B>B.2 access type:</B> A type that provides access to an object of a given 
+type. Access to such an object is achieved by an access value returned by an 
+allocator; the access value is said to <I>designate</I> the 
+object.(<I></I><I>§</I>;3<I>, </I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3">3.3 
+</A>) </P>
+<P><B>B.3 access mode: </B>The mode<I> </I>in which a file object is opened, 
+which can be either <I>read-only</I> or <I>write-only</I>. The access mode 
+depends on the value supplied to the Open_Kind parameter. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.4.1">3.4.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html#14.3">14.3 
+</A>). </P>
+<P><B>B.4 access value:</B> A value of an access type. This value is returned by 
+an allocator and designates an object (which must be a variable) of a given 
+type. A null access value designates no object. An access value can only 
+designate an object created by an allocator; it cannot designate an object 
+declared by an object declaration. (<I>§</I><I>3</I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3">3.3 
+</A>) </P>
+<P><B>B.5 active driver:</B> A driver that acquires a new value during a 
+simulation cycle regardless of whether the new value is different from the 
+previous value. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.4">12.6.4 
+</A>) </P>
+<P><B>B.6 actual: </B>An expression, a port, a signal, or a variable associated 
+with a formal port, formal parameter, or formal generic. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.1">1.1.1.1 
+</A>, <I></I><I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.2">1.1.1.2 
+</A></I><I>,</I> § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1.1">3.2.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>, <I></I><I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A></I><I>, </I>§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1">5.2.1 
+</A>, <I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.2">5.2.1.2 
+</A></I>) </P>
+<P><B>B.7 aggregate:</B> </P>
+<P>a) The kind of expression, denoting a value of a composite type. The value is 
+specified by giving the value of each of the elements of the composite type. 
+Either a positional association or a named association may be used to indicate 
+which value is associated with which element. </P>
+<P>b) A kind of target of a variable assignment statement or signal assignment 
+statement assigning a composite value. The target is then said to <I>be in the 
+form of an aggregate</I>. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>, <I></I><I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2">7.3.2 
+</A></I><I>, </I>§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.4">7.3.4 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.5">7.3.5 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.5.2">7.5.2 
+</A>) </P>
+<P><B>B.8 alias: </B>An alternate name for a named entity. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3">4.3.3 
+</A>) </P>
+<P><B>B.9 allocator:</B> An operation used to create anonymous, variable objects 
+accessible by means of <I>access values</I>. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3">3.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.6">7.3.6 
+</A>) </P>
+<P><B>B.10 analysis:</B> The syntactic and semantic analysis of source code in a 
+VHDL design file and the insertion of intermediate form representations of 
+design units into a design library. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1">11.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2">11.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.4">11.4 
+</A>) </P>
+<P><B>B.11 anonymous:</B> The undefined simple name of an item, which is created 
+implicitly. The base type of a numeric type or an array type is 
+anonymous;similarly, the object denoted by an access value is anonymous. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.1">4.1 
+</A>) </P>
+<P><B>B.12 appropriate:</B> A prefix is said to be appropriate for a type if the 
+type of the prefix is the type considered, or if the type of the prefix is an 
+access type whose designated type is the type considered.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1">6.1 
+</A>) </P>
+<P><B>B.13 architecture body: </B>A body associated with an entity declaration 
+to describe the internal organization or operation of a design entity. An 
+architecture body is used to describe the behavior, data flow, or structure of a 
+design entity. (§1, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.2">1.2 
+</A>) </P>
+<P><B>B.14 array object: </B>An object of an array 
+type.(<I></I><I>§</I>3<I>)</I> </P>
+<P><B>B.15 array type: </B>A type, the value of which consists of elements that 
+are all of the same subtype (and hence, of the same type). Each element is 
+uniquely distinguished by an index (for a one-dimensional array) or by a 
+sequence of indexes (for a multidimensional array). Each index must be a value 
+of a discrete type and must lie in the correct index range. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1">3.2.1 
+</A>) </P>
+<P><B>B.16 ascending range:</B> A range L <B>to</B> R. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.17 ASCII:</B> The American Standard Code for Information Interchange. 
+The package Standard contains the definition of the type Character, the first 
+128 values of which represent the ASCII character set. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1">3.1.1 
+</A>, <I>§</I>; <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html#14.2">14.2 
+</A>) </P>
+<P><B>B.18 assertion violation:</B> A violation that occurs when the condition 
+of an assertion statement evaluates to false. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.2">8.2 
+</A>) </P>
+<P><B>B.19 associated driver:</B> The single driver for a signal in the 
+(explicit or equivalent) process statement containing the signal assignment 
+statement. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.1">12.6.1 
+</A>) </P>
+<P><B>B.20 associated in whole:</B> When a single association element of a 
+composite formal supplies the association for the entire formal.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>) </P>
+<P><B>B.21 associated individually:</B> A property of a formal port, generic, or 
+parameter of a composite type with respect to some association list. A composite 
+formal whose association is defined by multiple association elements in a single 
+association list is said to be<I> associated individually </I>in that list. The 
+formats of such association elements must denote non-overlapping subelements or 
+slices of the formal. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>) </P>
+<P><B>B.22 association element:</B> An element that associates an actual or 
+local with a local or formal. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>) </P>
+<P><B>B.23 association list:</B> A list that establishes correspondences between 
+formal or local port or parameter names and local or actual names or 
+expressions. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>) </P>
+<P><B>B.24 attribute:</B> A definition of some characteristic of a named entity. 
+Some attributes are predefined for types, ranges, values, signals, and 
+functions. The remaining attributes are user defined and are always constants.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.4">4.4 
+</A>) </P>
+<P><B>B.25 base specifier:</B> A lexical element that indicates whether a bit 
+string literal is to be interpreted as a binary, octal, or hexadecimal value.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.7">13.7 
+</A>) </P>
+<P><B>B.26 base type:</B> The type from which a subtype defines a subset of 
+possible values, otherwise known as a <I>constraint</I>. This subset is not 
+required to be proper. The base type of a type is the type itself. The base type 
+of a subtype is found by recursively examining the type mark in the subtype 
+indication defining the subtype. If the type mark denotes a type, that type is 
+the base type of the subtype; otherwise, the type mark is a subtype,and this 
+procedure is repeated on that subtype. (§3) <I>See also</I> <B>subtype</B>. </P>
+<P><B>B.27 based literal:</B> An abstract literal expressed in a form that 
+specifies the base explicitly. The base is restricted to the range 2 to 16.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.2">13.4.2 
+</A>) </P>
+<P><B>B.28 basic operation:</B> An operation that is inherent in one of the 
+following: </P>
+<P>a) An assignment (in an assignment statement or initialization); </P>
+<P>b) An allocator; </P>
+<P>c) A selected name, an indexed name, or a slice name; </P>
+<P>d) A qualification (in a qualified expression), an explicit type conversion, 
+a formal or actual designator in the form of a type conversion, or an implicit 
+type conversion of a value of type <I>universal_integer</I> or 
+<I>universal_real</I> to the corresponding value of another numeric type; or 
+</P>
+<P>e) A numeric literal (for a universal type), the literal null (for an access 
+type), a string literal, a bit string literal, an aggregate, or a predefined 
+attribute. (<A name=1076_3.html#3>§3</A>) </P>
+<P><B>B.29 basic signal:</B> A signal that determines the driving values for all 
+other signals. A basic signal is </P>
+<P>-- Either a scalar signal or a resolved signal; </P>
+<P>-- Not a subelement of a resolved signal; </P>
+<P>-- Not an implicit signal of the form S'Stable(T), S'Quiet(T), or 
+S'Transaction; and </P>
+<P>-- Not an implicit signal GUARD. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>) </P>
+<P><B>B.30 belong</B> (to a range):<B> </B>A property of a value with respect to 
+some range. The value V is said to <I>belong to</I> <I>a range</I> if the 
+relations (lower bound &lt;= V) and (V &lt;= upper bound) are both true,where 
+lower bound and upper bound are the lower and upper bounds, respectively,of the 
+range. (<I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1">3.2.1 
+</A>) </P>
+<P><B>B. 31 belong</B> (to a subtype): A property of a value with respect to 
+some subtype. A value is said to <I>belong to</I> <I>a subtype</I> of a given 
+type if it belongs to the type and satisfies the applicable 
+constraint.(<I>§</I><I>3</I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1">3.2.1 
+</A>) </P>
+<P><B>B.32 binding:</B> The process of associating a design entity 
+and,optionally, an architecture with an instance of a component. A binding can 
+be specified in an explicit or a default binding indication. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3">1.3 
+</A>, <I></I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1">5.2.1 
+</A><I>, </I>§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.2">5.2.2 
+</A><I>,</I> §<B> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.3.2.2">12.3.2.2 
+</A></B>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.4.3">12.4.3 
+</A>) </P>
+<P><B>B.33 bit string literal: </B>A literal formed by a sequence of extended 
+digits enclosed between two quotation (") characters and preceded by a base 
+specifier. The type of a bit string literal is determined from the context.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>, <I></I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.7">13.7 
+</A><I>)</I> </P>
+<P><B>B. 34 block: </B>The representation of a portion of the hierarchy of a 
+design. A block is either an external block or an internal 
+block.(<I>§</I><I>1</I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.1">1.1.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.2">1.1.1.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.2.1">1.2.1 
+</A>§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3">1.3 
+</A>, <I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.1">1.3.1 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.2">1.3.2 
+</A>) </P>
+<P><B>B.35 bound: </B>A label that is identified in the instantiation list of a 
+configuration specification. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2">5.2 
+</A>) </P>
+<P><B>B.36 box:</B> The symbol &lt;&gt; in an index subtype definition, which 
+stands for an undefined range. Different objects of the type need not have the 
+same bounds and direction. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1">3.2.1 
+</A>) </P>
+<P><B>B.37 bus: </B>One kind of guarded signal. A bus floats to a user-specified 
+value when all of its drivers are turned off. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2">4.3.2 
+</A>) </P>
+<P><B>B.38 character literal:</B> A literal of the character type. Character 
+literals are formed by enclosing one of the graphic characters (including the 
+space and nonbreaking space characters) between two apostrophe (') characters.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.2">13.2 
+</A>, <I></I><I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.5">13.5 
+</A></I><I>)</I> </P>
+<P><B>B.39 character type:</B> An enumeration type with at least one character 
+literal among its enumeration literals. (<I></I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1">3.1.1 
+</A><I>, </I>§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1.1">3.1.1.1 
+</A>) </P>
+<P><B>B.40 closely related types:</B> Two type marks that denote the same type 
+or two numeric types. Two array types may also be closely related if they have 
+the same dimensionality, if their index types at each position are closely 
+related, and if the array types have the same element types. Explicit type 
+conversion is only allowed between closely related types. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.5">7.3.5 
+</A>) </P>
+<P><B>B.41 complete: </B>A loop that has finished executing. Similarly, an 
+iteration scheme of a loop is complete when the condition of a while iteration 
+scheme is FALSE or all of the values of the discrete range of a for iteration 
+scheme have been assigned to the iteration parameter. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.9">8.9 
+</A>) </P>
+<P><B>B.42 complete context: </B>A declaration, a specification, or a statement; 
+complete contexts are used in overload resolution. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.5">10.5 
+</A>) </P>
+<P><B>B.43 composite type:</B> A type whose values have elements. There are two 
+classes of composite types: <I>array types</I> and <I>record types</I>.(§3, §<I> 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2">3.2 
+</A></I>) </P>
+<P><B>B.44 concurrent statement: </B>A statement that executes 
+asynchronously,with no defined relative order. Concurrent statements are used 
+for dataflow and structural descriptions. (§9) </P>
+<P><B>B.45 configuration: </B>A construct that defines how component instances 
+in a given block are bound to design entities in order to describe how design 
+entities are put together to form a complete design. (<I>§</I>1, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3">1.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2">5.2 
+</A>) </P>
+<P><B>B.46 conform:</B> Two subprogram specifications, are said to conform if, 
+apart from certain allowed minor variations, both specifications are formed by 
+the same sequence of lexical elements, and corresponding lexical elements are 
+given the same meaning by the visibility rules. Conformance is defined similarly 
+for deferred constant declarations. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.7">2.7 
+</A>) </P>
+<P><B>B.47 connected:</B> A formal port associated with an actual port or 
+signal. A formal port associated with the reserved word <B>open</B> is said to 
+be <I>unconnected</I>. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.2">1.1.1.2 
+</A>) </P>
+<P><B>B.48 constant:</B> An object whose value may not be changed. Constants 
+maybe <I>explicitly declared</I>, subelements of explicitly declared constants, 
+or interface constants. Constants declared in packages may also be <I>deferred 
+constants</I>. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.1">4.3.1.1 
+</A>) </P>
+<P><B>B.49 constraint:</B> A subset of the values of a type. The set of possible 
+values for an object of a given type that can be subjected to a condition is 
+called a <I>constraint</I>. A value is said to <I>satisfy</I> the constraint if 
+it satisfies the corresponding condition. There are index constraints,range 
+constraints, and size constraints. (§3) </P>
+<P><B>B.50 conversion function:</B> A function used to convert values flowing 
+through associations. For interface objects of mode <B>in</B>, conversion 
+functions are allowed only on actuals. For interface objects of mode <B>out</B> 
+or<B> buffer</B>, conversion functions are allowed only on formals. For 
+interface objects of mode <B>inout </B>or<B> linkage</B>, conversion functions 
+are allowed on both formals and actuals. Conversion functions have a single 
+parameter. A conversion function associated with an actual accepts the type of 
+the actual and returns the type of the formal. A conversion function associated 
+with a formal accepts the type of the formal and returns the type of the actual. 
+(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>) </P>
+<P><B>B.51 convertible:</B> A property of an operand with respect to some type. 
+An operand is convertible to some type if there exists an implicit conversion to 
+that type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.5">7.3.5 
+</A>) </P>
+<P><B>B.52 current value:</B> The value component of the single transaction of a 
+driver whose time component is not greater than the current simulation time.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6">12.6 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.1">12.6.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.3">12.6.3 
+</A>) </P>
+<P><B>B.53 decimal literal:</B> An abstract literal that is expressed in decimal 
+notation. The base of the literal is implicitly 10. The literal may optionally 
+contain an exponent or a decimal point and fractional part.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.1">13.4.1 
+</A>) </P>
+<P><B>B.54 declaration:</B> A construct that defines a declared entity and 
+associates an identifier (or some other notation) with it. This association is 
+in effect within a region of text that is called the <I>scope</I> of the 
+declaration. Within the scope of a declaration, there are places where it is 
+possible to use the identifier to refer to the associated declared entity; at 
+such places, the identifier is said to be the <I>simple name</I> of the named 
+entity. The simple name is said to <I>denote</I> the associated named 
+entity.(§4) </P>
+<P><B>B.55 declarative part:</B> A syntactic component of certain declarations 
+or statements (such as entity declarations, architecture bodies, and block 
+statements). The declarative part defines the lexical area (usually introduced 
+by a keyword such as <B>is</B> and terminated with another keyword such as 
+<B>begin</B>) within which declarations may occur. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.2">1.1.2 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.2.1">1.2.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3">1.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.6">2.6 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1">9.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2">9.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.6.1">9.6.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.6.2">9.6.2 
+</A>) </P>
+<P><B>B.56 declarative region:</B> A semantic component of certain declarations 
+or statements. A declarative region may include disjoint parts, such as the 
+declarative region of an entity declaration, which extends to the end of any 
+architecture body for that entity. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.1">10.1 
+</A>) </P>
+<P><B>B.57 decorate: </B>To associate a user-defined attribute with a named 
+entity and to define the value of that attribute. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1">5.1 
+</A>) </P>
+<P><B>B.58 default expression:</B> A default value that is used for a formal 
+generic, port, or parameter if the interface object is unassociated. A default 
+expression is also used to provide an initial value for signals and their 
+drivers. (<I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A></I>, <I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A></I>) </P>
+<P><B>B.59 deferred constant:</B> A constant that is declared without an 
+assignment symbol (:=) and expression in a package declaration. A corresponding 
+full declaration of the constant must exist in the package body to define the 
+value of the constant. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.1">4.3.1.1 
+</A>) </P>
+<P><B>B.60 delta cycle:</B> A simulation cycle in which the simulation time at 
+the beginning of the cycle is the same as at the end of the cycle. That 
+is,simulation time is not advanced in a delta cycle. Only nonpostponed processes 
+can be executed during a delta cycle. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.4">12.6.4 
+</A>) </P>
+<P><B>B.61 denote:</B> A property of the identifier given in a declaration. 
+Where the declaration is visible, the identifier given in the declaration is 
+said to <I>denote</I> the named entity declared in the declaration.(§4) </P>
+<P><B>B.62 depend </B>(on a library unit): A design unit that explicitly or 
+implicitly mentions other library units in a use clause. These dependencies 
+affect the allowed order of analysis of design units. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.4">11.4 
+</A>) </P>
+<P><B>B.63 depend </B>(on a signal value):<B> </B>A property of an implicit 
+signal with respect to some other signal. The current value of an implicit 
+signal R is said to <I>depend on</I> the current value of another signal S if R 
+denotes an implicit signal S'Stable(T), S'Quiet(T), or S'Transaction, or if R 
+denotes an implicit GUARD signal and S is any other implicit signal named within 
+the guard expression that defines the current value of R.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.3">12.6.3 
+</A>) </P>
+<P><B>B.64 descending range:</B> A range L <B>downto</B> R. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.65 design entity:</B> An entity declaration together with an associated 
+architecture body. Different design entities may share the same entity 
+declaration, thus describing different components with the same interface or 
+different views of the same component. (§1) </P>
+<P><B>B.66 design file: </B>One or more design units in sequence. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1">11.1 
+</A>) </P>
+<P><B>B.67 design hierarchy:</B> The complete representation of a design that 
+results from the successive decomposition of a design entity into subcomponents 
+and binding of those components to other design entities that may be decomposed 
+in a similar manner. (§1) </P>
+<P><B>B.68 design library:</B> A host-dependent storage facility for 
+intermediate-form representations of analyzed design units. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2">11.2 
+</A>) </P>
+<P><B>B.69 design unit:</B> A construct that can be independently analyzed and 
+stored in a design library. A design unit may be an entity declaration, an 
+architecture body, a configuration declaration, a package declaration, or a 
+package body declaration. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1">11.1 
+</A>) </P>
+<P><B>B.70 designate:</B> A property of access values that relates the value to 
+some object when the access value is nonnull. A nonnull access value is said to 
+<I>designate</I> an object. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3">3.3 
+</A>) </P>
+<P><B>B.71 designated subtype:</B> For an access type, the subtype defined by 
+the subtype indication of the access type definition. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3">3.3 
+</A>) </P>
+<P><B>B.72 designated type:</B> For an access type, the base type of the subtype 
+defined by the subtype indication of the access type definition. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3">3.3 
+</A>) </P>
+<P><B>B.73 designator:</B> </P>
+<P>a) Syntax that forms part of an association element. A formal designator 
+specifies which formal parameter, port, or generic (or which subelement or slice 
+of a parameter, port, or generic) is to be associated with an actual by the 
+given association element. An actual designator specifies which actual 
+expression, signal, or variable is to be associated with a formal (or subelement 
+or subelements of a formal). An actual designator may also specify that the 
+formal in the given association element is to be left unassociated (with an 
+actual designator of <B>open</B>). (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>) </P>
+<P>b) An identifier, character literal, or operator symbol that defines an alias 
+for some other name. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3">4.3.3 
+</A>) </P>
+<P>c) A simple name that denotes a predefined or user-defined attribute in an 
+attribute name, or a user-defined attribute in an attribute specification.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1">5.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.6">6.6 
+</A>) </P>
+<P>d) An simple name, character literal, or operator symbol, and possibly a 
+signature, that denotes a named entity in the entity name list of an attribute 
+specification. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1">5.1 
+</A>) </P>
+<P>e) An identifier or operator symbol that defines the name of a subprogram.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1">2.1 
+</A>) </P>
+<P><B>B.74 directly visible:</B> A visible declaration that is not visible by 
+selection. A declaration is directly visible within its immediate 
+scope,excluding any places where the declaration is hidden. A declaration 
+occurring immediately within the visible part of a package can be made directly 
+visible by means of a use clause. (<I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.3">10.3 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.4">10.4 
+</A>). <I>See also</I> <B>visible</B>. </P>
+<P><B>B.75 discrete array:</B> A one-dimensional array whose elements are of a 
+discrete type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2.3">7.2.3 
+</A>) </P>
+<P><B>B.76 discrete range:</B> A range whose bounds are of a discrete type.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1">3.2.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1.1">3.2.1.1 
+</A>) </P>
+<P><B>B.77 discrete type:</B> An enumeration type or an integer type. Each value 
+of a discrete type has a position number that is an integer value. Indexing and 
+iteration rules use values of discrete types. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.78 driver:</B> A container for a projected output waveform of a signal. 
+The value of the signal is a function of the current values of its drivers. Each 
+process that assigns to a given signal implicitly contains a driver for that 
+signal. A signal assignment statement affects only the associated driver(s). (§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.4.4">12.4.4 
+</A>, <I></I><I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.1">12.6.1 
+</A></I><I>,</I> § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.3">12.6.3 
+</A>) </P>
+<P><B>B.79 driving value:</B> The value a signal provides as a source of other 
+signals. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>) </P>
+<P><B>B.80 effective value:</B> The value obtained by evaluating a reference to 
+the signal within an expression. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>) </P>
+<P><B>B.81 elaboration:</B> The process by which a declaration achieves its 
+effect. Prior to the completion of its elaboration (including before the 
+elaboration), a declaration is not yet elaborated. (§12) </P>
+<P><B>B.82 element:</B> A constituent of a composite type. (§3) <I>See also</I> 
+<B>subelement</B>. </P>
+<P><B>B.83 entity declaration:</B> A definition of the interface between a given 
+design entity and the environment in which it is used. It may also specify 
+declarations and statements that are part of the design entity. A given entity 
+declaration may be shared by many design entities, each of which has a different 
+architecture. Thus, an entity declaration can potentially represent a class of 
+design entities, each with the same interface. (<I>§</I><I>1</I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1">1.1 
+</A>) </P>
+<P><B>B.84 enumeration literal:</B> A literal of an enumeration type. An 
+enumeration literal may be either an identifier or a character literal.(<I>§</I> 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1">3.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>) </P>
+<P><B>B.85 enumeration type: </B>A type whose values are defined by 
+listing(enumerating) them. The values of the type are represented by enumeration 
+literals. (<I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1">3.1.1 
+</A>) </P>
+<P><B>B.86 error:</B> A condition that makes the source description illegal. If 
+an error is detected at the time of analysis of a design unit, it prevents the 
+creation of a library unit for the given design unit. A run-time error causes 
+simulation to terminate. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.4">11.4 
+</A>) </P>
+<P><B>B.87 erroneous:</B> An error condition that cannot always be detected.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1.1.1">2.1.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2">2.2 
+</A>) </P>
+<P><B>B.88 event:</B> A change in the current value of a signal, which occurs 
+when the signal is updated with its effective value. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>) </P>
+<P><B>B.89 execute:</B> </P>
+<P>a) When first the design hierarchy of a model is elaborated, then its nets 
+are initialized, and finally simulation proceeds with repetitive execution of 
+the simulation cycle, during which processes are executed and nets are updated. 
+</P>
+<P>b) When a process performs the actions specified by the algorithm described 
+in its statement part. (§12, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6">12.6 
+</A>) </P>
+<P><B>B.90 expanded name:</B> A selected name (in the syntactic sense) that 
+denotes one or all of the primary units in a library or any named entity within 
+a primary unit. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.3">6.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1">8.1 
+</A>) <I>See also</I> <B>selected name</B>. </P>
+<P><B>B.91 explicit ancestor:</B> The parent of the implicit signal that is 
+defined by the predefined attributes 'DELAYED, 'QUIET, 'STABLE, or 'TRANSACTION. 
+It is determined using the prefix of the attribute. If the prefix denotes an 
+explicit signal or a slice or subelement (or slice thereof),then that is the 
+explicit ancestor of the implicit signal. If the prefix is one of the implicit 
+signals defined by the predefined attributes 'DELAYED,'QUIET, 'STABLE, or 
+'TRANSACTION, this rule is applied recursively. If the prefix is an implicit 
+signal GUARD, the signal has no explicit ancestor.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2">2.2 
+</A>) </P>
+<P><B>B.92 explicit signal:</B> A signal defined by the predefined attributes 
+'DELAYED, 'QUIET, 'STABLE, or 'TRANSACTION. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2">2.2 
+</A>) </P>
+<P><B>B.93 explicitly declared constant:</B> A constant of a specified type that 
+is declared by a constant declaration. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.1">4.3.1.1 
+</A>) </P>
+<P><B>B.94 explicitly declared object:</B> An object of a specified type that is 
+declared by an object declaration. An object declaration is called a 
+<I>single-object declaration</I> if its identifier list has a single identifier; 
+it is called a <I>multiple-object declaration</I> if the identifier list has two 
+or more identifiers. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3">4.3 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1">4.3.1 
+</A>) <I>See also</I> <B>implicitly declared object</B>. </P>
+<P><B>B.95 expression:</B> A formula that defines the computation of a value.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1">7.1 
+</A>) </P>
+<P><B>B.96 extend:</B> A property of source text forming a declarative region 
+with disjoint parts. In a declarative region with disjoint parts, if a portion 
+of text is said to <I>extend</I> from some specific point of a declarative 
+region to the end of the region, then this portion is the corresponding subset 
+of the declarative region (and does not include intermediate declarative items 
+between an interface declaration and a corresponding body declaration).(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.1">10.1 
+</A>) </P>
+<P><B>B.97 extended digit:</B> A lexical element that is either a digit or a 
+letter. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.2">13.4.2 
+</A>) </P>
+<P><B>B.98 external block:</B> A top-level design entity that resides in a 
+library and may be used as a component in other designs. (§1) </P>
+<P><B>B.99 file type: </B>A type that provides access to objects containing a 
+sequence of values of a given type. File types are typically used to access 
+files in the host system environment. The value of a file object is the sequence 
+of values contained in the host system file. (§3, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.4">3.4 
+</A>) </P>
+<P><B>B.100 floating point types:</B> A discrete scalar type whose values 
+approximate real numbers. The representation of a floating point type includes a 
+minimum of six decimal digits of precision. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.4">3.1.4 
+</A>) </P>
+<P><B>B.101 foreign subprogram: </B>A subprogram that is decorated with the 
+attribute 'FOREIGN, defined in package STANDARD. The STRING value of the 
+attribute may specify implementation-dependent information about the foreign 
+subprogram. Foreign subprograms may have non-VHDL implementations. An 
+implementation may place restrictions on the allowable modes, classes, and types 
+of the formal parameters to a foreign subprogram, such as constraints on the 
+number and allowable order of the parameters. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2">2.2 
+</A>) </P>
+<P><B>B.102 formal: </B>A formal port or formal generic of a design entity, a 
+block statement, or a formal parameter of a subprogram. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1.1">2.1.1 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.2">5.2.1.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1">9.1 
+</A>) </P>
+<P><B>B.103 full declaration: </B>A constant declaration occurring in a package 
+body with the same identifier as that of a deferred constant declaration in the 
+corresponding package declaration. A full type declaration is a type declaration 
+corresponding to an incomplete type declaration. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.6">2.6 
+</A>) </P>
+<P><B>B.104 fully bound:</B> A binding indication for the component instance 
+implies an entity interface and an architecture. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.1">5.2.1.1 
+</A>) </P>
+<P><B>B.105 generate parameter: </B>A constant object whose type is the base 
+type of the discrete range of a generate parameter specification. A generate 
+parameter is declared by a generate statement. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.7">9.7 
+</A>) </P>
+<P><B>B.106 generic:</B> An interface constant declared in the block header of a 
+block statement, a component declaration, or an entity declaration. Generics 
+provide a channel for static information to be communicated to a block from its 
+environment. Unlike constants, however, the value of a generic can be supplied 
+externally, either in a component instantiation statement or in a configuration 
+specification. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.1">1.1.1.1 
+</A>) </P>
+<P><B>B.107 generic interface list:</B> A list that defines local or formal 
+generic constants. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.1">1.1.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.1">4.3.2.1 
+</A>) </P>
+<P><B>B.108 globally static expression:</B> An expression that can be evaluated 
+as soon as the design hierarchy in which it appears is elaborated. A locally 
+static expression is also globally static unless the expression appears in a 
+dynamically elaborated context. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.4">7.4 
+</A>) </P>
+<P><B>B.109 globally static primary:</B> A primary whose value can be determined 
+during the elaboration of its complete context and that does not thereafter 
+change. Globally static primaries can only appear within statically elaborated 
+contexts. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.4.2">7.4.2 
+</A>) </P>
+<P><B>B.110 group:</B> A named collection of named entities. Groups relate 
+different named entities for the purposes not specified by the language. In 
+particular, groups may be decorated with attributes. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.6">4.6 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.7">4.7 
+</A>) </P>
+<P><B>B.111 guard:</B> <I>See</I> <B>guard expression</B>. </P>
+<P><B>B.112 guard expression:</B> A Boolean-valued expression associated with a 
+block statement that controls assignments to guarded signals within the block. A 
+guard expression defines an implicit signal GUARD that may be used to control 
+the operation of certain statements within the block. (<I></I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A><I>,</I> § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1">9.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5">9.5 
+</A>) </P>
+<P><B>B.113 guarded assignment:</B> A concurrent signal assignment statement 
+that includes the option <B>guarded</B>, which specifies that the signal 
+assignment statement is executed when a signal GUARD changes from FALSE to TRUE, 
+or when that signal has been TRUE and an event occurs on one of the signals 
+referenced in the corresponding GUARD expression. The signal GUARD may be one of 
+the implicitly declared GUARD signals associated with block statements that have 
+guard expressions, or it may be an explicitly declared signal of type Boolean 
+that is visible at the point of the concurrent signal assignment statement.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5">9.5 
+</A>) </P>
+<P><B>B.114 guarded signal:</B> A signal declared as a register or a bus. Such 
+signals have special semantics when their drivers are updated from within 
+guarded signal assignment statements. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.115 guarded target:</B> A signal assignment target consisting only of 
+guarded signals. An unguarded target is a target consisting only of unguarded 
+signals. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5">9.5 
+</A>) </P>
+<P><B>B.116 hidden:</B> A declaration that is not directly visible. A 
+declaration may be <I>hidden</I> in its scope by a homograph of the declaration. 
+(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.3">10.3 
+</A>) </P>
+<P><B>B.117 homograph:</B> A reflexive property of two declarations. Each of two 
+declarations is said to be a <I>homograph</I> of the other if both declarations 
+have the same identifier and overloading is allowed for at most one of the two. 
+If overloading is allowed for both declarations, then each of the two is a 
+homograph of the other if they have the same identifier, operator symbol, or 
+character literal, as well as the same parameter and result type profile.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.1">1.3.1 
+</A>, <I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.3">10.3 
+</A></I>) </P>
+<P><B>B.118 identify:</B> A property of a name appearing in an element 
+association of an assignment target in the form of an aggregate. The name is 
+said to <I>identify</I> a signal or variable and any subelements of that signal 
+or variable. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4">8.4 
+</A>, §<I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.5">8.5 
+</A></I>) </P>
+<P><B>B.119 immediate scope:</B> A property of a declaration with respect to the 
+declarative region within which the declaration immediately occurs. The 
+immediate scope of the declaration extends from the beginning of the declaration 
+to the end of the declarative region. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.2">10.2 
+</A>) </P>
+<P><B>B.120 immediately within:</B> A property of a declaration with respect to 
+some declarative region. A declaration is said to occur <I>immediately 
+within</I> a declarative region if this region is the innermost region that 
+encloses the declaration, not counting the declarative region (if any)associated 
+with the declaration itself. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.1">10.1 
+</A>) </P>
+<P><B>B.121 implicit signal:</B> Any signal S'Stable(T), S'Quiet(T), S'Delayed, 
+or S'Transaction, or any implicit GUARD signal. <B></B>A slice or subelement (or 
+slice thereof) of an implicit signal is also an implicit signal.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.3">12.6.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.4">12.6.4 
+</A>) </P>
+<P><B>B.122 implicitly declared object: </B>An object whose declaration is not 
+explicit in the source description, but is a consequence of other constructs; 
+for example, signal GUARD. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3">4.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1">9.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html#14.1">14.1 
+</A>) <I>See also </I><B>declared object</B>. </P>
+<P><B>B.123 imply:</B> A property of a binding indication in a configuration 
+specification with respect to the design entity indicated by the binding 
+specification. The binding indication is said to <I>imply</I> the design entity; 
+the design entity maybe indicated directly, indirectly, or by default.<B> </B>(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.1">5.2.1.1 
+</A>) </P>
+<P><B>B.124 impure function:</B> A function that may return a different value 
+each time it is called, even when different calls have the same actual parameter 
+values. A pure function returns the same value each time it is called using the 
+same values as actual parameters. An impure function can update objects outside 
+of its scope and can access a broader class of values than a pure function. (§2) 
+</P>
+<P><B>B.125 incomplete type declaration:</B> A type declaration that is used to 
+define mutually dependent and recursive access types. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3.1">3.3.1 
+</A>) </P>
+<P><B>B.126 index constraint:</B> A constraint that determines the index range 
+for every index of an array type, and thereby the bounds of the array. An index 
+constraint is <I>compatible</I> with an array type if and only if the constraint 
+defined by each discrete range in the index constraint is compatible with the 
+corresponding index subtype in the array type. An array value <I>satisfies</I> 
+an index constraint if the array value and the index constraint have the same 
+index range at each index position . (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1.1">3.2.1.1 
+</A>) </P>
+<P><B>B.127 index range:</B> A multidimensional array has a distinct element for 
+each possible sequence of index values that can be formed by selecting one value 
+for each index (in the given order). The possible values for a given index are 
+all the values that belong to the corresponding range. This range of values is 
+called the <I>index range</I>. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1">3.2.1 
+</A>) </P>
+<P><B>B.128 index subtype:</B> For a given index position of an array, the 
+<I>index subtype</I> is denoted by the type mark of the corresponding index 
+subtype definition. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1">3.2.1 
+</A>) </P>
+<P><B>B.129 inertial delay: </B>A delay model used for switching circuits; a 
+pulse whose duration is shorter than the switching time of the circuit will not 
+be transmitted. Inertial delay is the default delay mode for signal assignment 
+statements. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4">8.4 
+</A>) <I>See also</I> <B>transport delay</B>. </P>
+<P><B>B.130 initial value expression:</B> An expression that specifies the 
+initial value to be assigned to a variable. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.3">4.3.1.3 
+</A>) </P>
+<P><B>B.131 inputs:</B> The signals identified by the longest static prefix of 
+each signal name appearing as a primary in each expression (other than time 
+expressions) within a concurrent signal assignment statement. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5">9.5 
+</A>) </P>
+<P><B>B.132 instance: </B>A subcomponent of a design entity whose prototype is a 
+component declaration, design entity, or configuration declaration. Each 
+instance of a component may have different actuals associated with its local 
+ports and generics. A component instantiation statement whose instantiated unit 
+denotes a component creates an instance of the corresponding component. A 
+component instantiation statement whose instantiated unit denotes either a 
+design entity or a configuration declaration creates an instance of the denoted 
+design entity. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.6">9.6 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.6.1">9.6.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.6.2">9.6.2 
+</A>) </P>
+<P><B>B.133 integer literal:</B> An abstract literal of the type 
+<I>universal_integer</I> that does not contain a base point.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4">13.4 
+</A>) </P>
+<P><B>B.134 integer type:</B> A discrete scalar type whose values represent 
+integer numbers within a specified range. <B></B>(<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.2">3.1.2 
+</A>) </P>
+<P><B>B.135 interface list:</B> A list that declares the interface objects 
+required by a subprogram, component, design entity, or block statement.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.1">4.3.2.1 
+</A>) </P>
+<P><B>B.136 internal block: </B>A nested block in a design unit, as defined by a 
+block statement. (§1) </P>
+<P><B>B.137 ISO:</B> The International Organization for Standardization. </P>
+<P><B>B.138 ISO 8859-1:</B> The ISO Latin-1 character set. Package Standard 
+contains the definition of type Character, which represents the ISO 
+Latin-1character set. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1">3.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html#14.2">14.2 
+</A>) </P>
+<P><B>B.139 kernel process:</B> A conceptual representation of the agent that 
+coordinates the activity of user-defined processes during a simulation. The 
+kernel process causes the execution of I/O operations, the propagation of signal 
+values, and the updating of values of implicit signals [such as S'Stable(T)]; in 
+addition, it detects events that occur and causes the appropriate processes to 
+execute in response to those events. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6">12.6 
+</A>) </P>
+<P><B>B.140 left of:</B> When both a value V1 and a value V2 belong to a range 
+and either the range is an ascending range and V2 is the successor of V1, or the 
+range is a descending range and V2 is the predecessor of V1. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.141 left-to-right order:</B> When each value in a list of values is to 
+the left of the next value in the list within that range, except for the last 
+value in the list. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.142 library:</B> <I>See </I><B>design library</B>. </P>
+<P><B>B.143 library unit:</B> The representation in a design library of an 
+analyzed design unit. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1">11.1 
+</A>) </P>
+<P><B>B.144 literal:</B> A value that is directly specified in the description 
+of a design. A literal can be a bit string literal, enumeration literal, numeric 
+literal, string literal, or the literal <B>null</B>. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>) </P>
+<P><B>B.145 local generic:</B> An interface object declared in a component 
+declaration that serves to connect a formal generic in the interface list of an 
+entity and an actual generic or value in the design unit instantiating that 
+entity. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3">4.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.5">4.5 
+</A>) </P>
+<P></P>
+<P><B>B.146 local port:</B> A signal declared in the interface list of a 
+component declaration that serves to connect a formal port in the interface list 
+of an entity and an actual port or signal in the design unit instantiating that 
+entity. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3">4.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.5">4.5 
+</A>) </P>
+<P><B>B.147 locally static expression:</B> An expression that can be evaluated 
+during the analysis of the design unit in which it appears. (<I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.4">7.4 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.4.1">7.4.1 
+</A>) </P>
+<P><B>B.148 locally static name:</B> A name in which every expression is locally 
+static (if every discrete range that appears as part of the name denotes a 
+locally static range or subtype and if no prefix within the name is either an 
+object or value of an access type or a function call). (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1">6.1 
+</A>) </P>
+<P><B>B.149 locally static primary:</B> One of a certain group of primaries that 
+includes literals, certain constants, and certain attributes. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.4">7.4 
+</A>) </P>
+<P><B>B.150 locally static subtype:</B> A subtype whose bounds and direction can 
+be determined during the analysis of the design unit in which it appears.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.4.1">7.4.1 
+</A>) </P>
+<P><B>B.151 longest static prefix:</B> The name of a signal or a variable 
+name,if the name is a static signal or variable name. Otherwise, the longest 
+static prefix is the longest prefix of the name that is a static signal or 
+variable name. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1">6.1 
+</A>) <I>See also</I> <B>static signal name</B>. </P>
+<P><B>B.152 loop parameter:</B> A constant, implicitly declared by the for 
+clause of a loop statement, used to count the number of iterations of a loop.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.9">8.9 
+</A>) </P>
+<P><B>B.153 lower bound:</B> For a range L <B>to</B> R or L <B>downto</B> R, the 
+smaller of L and R. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.154 match:</B> A property of a signature with respect to the parameter 
+and subtype profile of a subprogram or enumeration literal. The signature is 
+said to <I>match</I> the parameter and result type profile if certain conditions 
+are true. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3.2">2.3.2 
+</A>) </P>
+<P><B>B.155 matching elements:</B> Corresponding elements of two composite type 
+values that are used for certain logical and relational operations.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2.3">7.2.3 
+</A>) </P>
+<P><B>B.156 member:</B> A slice of an object, a subelement, or an object; or a 
+slice of a subelement of an object. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html">3 
+</A>) </P>
+<P><B>B.157 mode:</B> The direction of information flow through the port or 
+parameter. Modes are <B>in</B>, <B>out</B>, <B>inout</B>, <B>buffer</B>, or 
+<B>linkage</B>. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2">4.3.2 
+</A>) </P>
+<P><B>B.158 model:</B> The result of the elaboration of a design hierarchy. The 
+<I>model</I> can be executed in order to simulate the design it represents.(§12, 
+§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6">12.6 
+</A>) </P>
+<P><B>B.159 name:</B> A property of an identifier with respect to some named 
+entity. Each form of declaration associates an identifier with a named entity. 
+In certain places within the scope of a declaration, it is valid to use the 
+identifier to refer to the associated named entity; these places are defined by 
+the visibility rules. At such places, the identifier is said to be the 
+<I>name</I> of the named entity. (<I>§</I>4, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1">6.1 
+</A>) </P>
+<P><B>B.160 named association:</B> An association element in which the formal 
+designator appears explicitly. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2">7.3.2 
+</A>) </P>
+<P><B>B.161 named entity:</B> An item associated with an identifier, character 
+literal, or operator symbol as the result of an explicit or implicit 
+declaration. (§4) <I>See also</I> <B>name</B>. </P>
+<P><B>B.162 net:</B> A collection of drivers, signals (including ports and 
+implicit signals), conversion functions, and resolution functions that connect 
+different processes. Initialization of a net occurs after elaboration, and a net 
+is updated during each simulation cycle. (§12, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.1">12.1 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>) </P>
+<P><B>B.163 nonobject alias:</B> An alias whose designator denotes some named 
+entity other than an object. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3">4.3.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3.2">4.3.3.2 
+</A>) <I>See also</I> <B>object alias</B>. </P>
+<P><B>B.164 nonpostponed process:</B> An explicit or implicit process whose 
+source statment does not contain the reserved word <B>postponed. </B>When a 
+nonpostponed process is resumed, it executes in the current simulation cycle. 
+Thus, nonpostponed processes have access to the current values of 
+signals,whether or not those values are stable at the current model time. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2">9.2 
+</A>) </P>
+<P><B>B.165 null array:</B> Any of the discrete ranges in the index constraint 
+of an array that define a null range. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1.1">3.2.1.1 
+</A>) </P>
+<P><B>B.166 null range:</B> A range that specifies an empty subset of values. A 
+range L <B>to</B> R is a null range if L <B>&gt;</B> R, and range L 
+<B>downto</B> R is a null range if L <B>&lt;</B> R. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.167 null slice:</B> A slice whose discrete range is a null range.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.5">6.5 
+</A>) </P>
+<P><B>B.168 null waveform element:</B> A waveform element that is used to turn 
+off a driver of a guarded signal. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4.1">8.4.1 
+</A>) </P>
+<P><B>B.169 null transaction:</B> A transaction produced by evaluating a null 
+waveform element. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4.1">8.4.1 
+</A>) </P>
+<P><B>B.170 numeric literal:</B> An abstract literal, or a literal of a physical 
+type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>) </P>
+<P><B>B.171 numeric type:</B> An integer type, a floating point type, or a 
+physical type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.172 object:</B> A named entity that has a value of a given type. An 
+object can be a constant, signal, variable, or file. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3">4.3.3 
+</A>) </P>
+<P><B>B.173 object alias:</B> An alias whose alias designator denotes an 
+object(that is, a constant, signal, variable, or file). (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3">4.3.3 
+</A>, <I>§</I><I>;</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3.1">4.3.3.1 
+</A>) <I>See also</I> <B>nonobject alias</B>. </P>
+<P><B>B.174 overloaded:</B> Identifiers or enumeration literals that denote two 
+different named entities. Enumeration literals, subprograms, and predefined 
+operators may be overloaded. At any place where an overloaded enumeration 
+literal occurs in the text of a program, the type of the enumeration literal 
+must be determinable from the context. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1">2.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3">2.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3.1">2.3.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3.2">2.3.2 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1">3.1.1 
+</A>) </P>
+<P><B>B.175 parameter:</B> A constant, signal, variable, or file declared in the 
+interface list of a subprogram specification. The characteristics of the class 
+of objects to which a given parameter belongs are also characteristics of the 
+parameter. In addition, a parameter has an associated mode that specifies the 
+direction of data flow allowed through the parameter. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1.1">2.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1.1.1">2.1.1.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1.1.2">2.1.1.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1.1.3">2.1.1.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3">2.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.6">2.6 
+</A>) </P>
+<P><B>B.176 parameter interface list: </B>An interface list that declares the 
+parameters for a subprogram. It may contain interface constant 
+declarations,interface signal declarations, interface variable declarations, 
+interface file declarations, or any combination thereof. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.1">4.3.2.1 
+</A>) </P>
+<P><B>B.177 parameter type profile:</B> Two formal parameter lists that have the 
+same number of parameters, and at each parameter position the corresponding 
+parameters have the same base type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3">2.3 
+</A>) </P>
+<P><B>B.178 parameter and result type profile: </B>Two subprograms that have the 
+same parameter type profile, and either both are functions with the same result 
+base type, or neither of the two is a function. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3">2.3 
+</A>) </P>
+<P><B>B.179 parent:</B> A process or a subprogram that contains a procedure call 
+statement for a given procedure or for a parent of the given procedure.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2">2.2 
+</A>) </P>
+<P><B>B.180 passive process: </B>A process statement where neither the process 
+itself, nor any procedure of which the process is a parent, contains a signal 
+assignment statement. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2">9.2 
+</A>) </P>
+<P><B>B.181 physical literal:</B> A numeric literal of a physical type.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3">3.1.3 
+</A>) </P>
+<P><B>B.182 physical type:</B> A numeric scalar type that is used to represent 
+measurements of some quantity. Each value of a physical type has a position 
+number that is an integer value. Any value of a physical type is an integral 
+multiple of the primary unit of measurement for that type. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3">3.1.3 
+</A>) </P>
+<P><B>B.183 port:</B> A channel for dynamic communication between a block and 
+its environment. A signal declared in the interface list of an entity 
+declaration,in the header of a block statement, or in the interface list of a 
+component declaration. In addition to the characteristics of signals, ports also 
+have an associated mode; the mode constrains the directions of data flow allowed 
+through the port. (<I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.2">1.1.1.2 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.184 port interface list:</B> An interface list that declares the inputs 
+and outputs of a block, component, or design entity. It consists entirely of 
+interface signal declarations. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1">1.1.1 
+</A>, <I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.2">1.1.1.2 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.1">4.3.2.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1">9.1 
+</A>) </P>
+<P><B>B.185 positional association:</B> An association element that does not 
+contain an explicit appearance of the formal designator. An actual designator at 
+a given position in an association list corresponds to the interface element at 
+the same position in the interface list. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2">7.3.2 
+</A>) </P>
+<P><B>B.186 postponed process: </B>An explicit or implicit process whose source 
+statement contains the reserved word <B>postponed. </B>When a postponed process 
+is resumed, it does not execute until the final simulation cycle at the current 
+modeled time. Thus, a postponed process accesses the values of signals that are 
+the "stable" values at the current simulated time. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2">9.2 
+</A>) </P>
+<P><B>B.187 predefined operators:</B> Implicitly defined operators that operate 
+on the predefined types. Every predefined operator is a pure function. No 
+predefined operators have named formal parameters; therefore, named association 
+may not be used when invoking a predefined operation. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2">7.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html#14.2">14.2 
+</A>) </P>
+<P><B>B.188 primary:</B> One of the elements making up an expression. Each 
+primary has a value and a type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1">7.1 
+</A>) </P>
+<P><B>B.189 projected output waveform: </B>A sequence of one or more 
+transactions representing the current and projected future values of the 
+driver.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.1">12.6.1 
+</A>) </P>
+<P><B>B.190 pulse rejection limit:</B> The threshold time limit for which a 
+signal value whose duration is greater than the limit will be propagated. A 
+pulse rejection limit is specified by the reserved word <B>reject</B> in an 
+inertially delayed signal assignment statement. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4">8.4 
+</A>) </P>
+<P><B>B.191 pure function:</B> A function that returns the same value each time 
+it is called with the same values as actual parameters. An <I>impure</I> 
+function may return a different value each time it is called, even when 
+different calls have the same actual parameter values. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1">2.1 
+</A>) </P>
+<P><B>B.192 quiet:</B> In a given simulation cycle, a signal that is not 
+active.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.2">12.6.2 
+</A>) </P>
+<P><B>B.193 range:</B> A specified subset of values of a scalar type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>)<I>See also</I> <B>ascending range</B>, <B>belong</B> (to a 
+range),<B>descending range</B>, <B>lower bound</B>, and <B>upper bound</B>. </P>
+<P><B>B.194 range constraint:</B> A construct that specifies the range of values 
+in a type. A range constraint is <I>compatible</I> with a subtype if each bound 
+of the range belongs to the subtype or if the range constraint defines a null 
+range. The direction of a range constraint is the same as the direction of its 
+range. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>, <I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.2">3.1.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3">3.1.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.4">3.1.4 
+</A>) </P>
+<P><B>B.195 read:</B> The value of an object is said to be <I>read</I> when its 
+value is referenced or when certain of its attributes are referenced.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2">4.3.2 
+</A>) </P>
+<P><B>B.196 real literal:</B> An abstract literal of the type 
+<I>universal_real</I> that contains a base point. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4">13.4 
+</A>) </P>
+<P><B>B.197 record type: </B>A composite type whose values consist of named 
+elements. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.2">3.2.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2.1">7.3.2.1 
+</A>) </P>
+<P><B>B.198 reference:</B> Access to a named entity. Every appearance of a 
+designator (a name, character literal, or operator symbol) is a reference to the 
+named entity denoted by the designator, unless the designator appears in a 
+library clause or use clause. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.4">10.4 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2">11.2 
+</A>) </P>
+<P><B>B.199 register: </B>A kind of guarded signal that retains its last driven 
+value when all of its drivers are turned off. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.200 regular structure:</B> Instances of one or more components arranged 
+and interconnected (via signals) in a repetitive way. Each instance may have 
+characteristics that depend upon its position within the group of instances. 
+Regular structures may be represented through the use of the generate statement. 
+(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.7">9.7 
+</A>) </P>
+<P><B>B.201 resolution:</B> The process of determining the resolved value of a 
+resolved signal based on the values of multiple sources for that signal.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.4">2.4 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.202 resolution function:</B> A user-defined function that computes the 
+resolved value of a resolved signal. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.4">2.4 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.203 resolution limit:</B> The primary unit of type TIME (by default, 
+1femtosecond). Any TIME value whose absolute value is smaller than this limit is 
+truncated to zero (0) time units. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3.1">3.1.3.1 
+</A>) </P>
+<P><B>B.204 resolved signal:</B> A signal that has an associated resolution 
+function. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.205 resolved value:</B> The output of the resolution function associated 
+with the resolved signal, which is determined as a function of the collection of 
+inputs from the multiple sources of the signal. (<I></I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.4">2.4 
+</A><I>, </I>§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.206 resource library:</B> A library containing library units that are 
+referenced within the design unit being analyzed. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2">11.2 
+</A>) </P>
+<P><B>B.207 result subtype: </B>The subtype of the returned value of a 
+function.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1">2.1 
+</A>) </P>
+<P><B>B.208 resume: </B>The action of a wait statement upon an enclosing process 
+when the conditions on which the wait statement is waiting are satisfied. If the 
+enclosing process is a nonpostponed process, the process will subsequently 
+execute during the current simulation cycle. Otherwise, the process is a 
+postponed process, which will execute during the final simulation cycle at the 
+current simulated time. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.3">12.6.3 
+</A>) </P>
+<P><B>B.209 right of: </B>When a value V1 and a value V2 belong to a range and 
+either the range is an ascending range and V2 is the predecessor of V1, or the 
+range is a descending range and V2 is the successor of V1. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html#14.1">14.1 
+</A>) </P>
+<P><B>B.210 satisfy:</B> A property of a value with respect to some constraint. 
+The value is said to <I>satisfy</I> a constraint if the value is in the subset 
+of values determined by the constraint. (<I></I><I>§</I>3<I>, </I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1.1">3.2.1.1 
+</A>) </P>
+<P><B>B.211 scalar type:</B> A type whose values have no elements. Scalar types 
+consist of <I>enumeration types</I>, <I>integer types</I>, <I>physical 
+types</I>, and <I>floating point types</I>. Enumeration types and integer types 
+are called <I>discrete types</I>. Integer types, floating point types,and 
+physical types are called <I>numeric types</I>. All scalar types are ordered; 
+that is, all relational operators are predefined for their values.(§3, §<I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A></I>) </P>
+<P><B>B.212 scope:</B> A portion of the text in which a declaration may be 
+visible. This portion is defined by visibility and overloading rules.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.2">10.2 
+</A>) </P>
+<P><B>B.213 selected name:</B> Syntactically, a name having a prefix and suffix 
+separated by a dot. Certain selected names are used to denote record elements or 
+objects denoted by an access value. The remaining selected names are referred to 
+as <I>expanded names</I>. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.3">6.3 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1">8.1 
+</A>) Also see <B>expanded name</B>. </P>
+<P><B>B.214 sensitivity</B> <B>set:</B> The set of signals to which a wait 
+statement is sensitive. The sensitivity set is given explicitly in an<B>on</B> 
+clause, or is implied by an <B>until</B> clause. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1">8.1 
+</A>) </P>
+<P><B>B.215 sequential statements: </B>Statements that execute in sequence in 
+the order in which they appear. Sequential statements are used for algorithmic 
+descriptions. (§8) </P>
+<P><B>B.216 short-circuit operation:</B> An operation for which the right 
+operand is evaluated only if the left operand has a certain value. The 
+short-circuit operations are the predefined logical operations <B>and</B>, 
+<B>or</B>,<B>nand</B>, and <B>nor</B> for operands of types BIT and BOOLEAN.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2">7.2 
+</A>) </P>
+<P><B>B.217 signal: </B>An object with a past history of values. A signal may 
+have multiple drivers, each with a current value and projected future values. 
+The term <I>signal</I> refers to objects declared by signal declarations or port 
+declarations. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.218 signal transform:</B> A sequential statement within a statement 
+transform that determines which one of the alternative waveforms, if any, is to 
+be assigned to an output signal. A signal transform can be a sequential signal 
+assignment statement, an if statement, a case statement, or a null statement.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5">9.5 
+</A>) </P>
+<P><B>B.219 simple name: </B>The identifier associated with a named entity, 
+either in its own declaration or in an alias declaration. (§6<B>.</B>2) </P>
+<P><B>B.220 simulation cycle:</B> One iteration in the repetitive execution of 
+the processes defined by process statements in a model. The first simulation 
+cycle occurs after initialization. A simulation cycle can be a delta cycle or a 
+time-advance cycle. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.4">12.6.4 
+</A>) </P>
+<P><B>B.221 single-object declaration:</B> An object declaration whose 
+identifier list contains a single identifier; it is called a multiple-object 
+declaration if the identifier list contains two or more identifiers. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1">4.3.1 
+</A>) </P>
+<P><B>B.222 slice:</B> A one-dimensional array of a sequence of consecutive 
+elements of another one-dimensional array. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.5">6.5 
+</A>) </P>
+<P><B>B.223 source:</B> A contributor to the value of a signal. A source can be 
+a driver or port of a block with which a signal is associated or a composite 
+collection of sources. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2">4.3.1.2 
+</A>) </P>
+<P><B>B.224 specification:</B> A class of construct that associates additional 
+information with a named entity. There are three kinds of 
+specifications:attribute specifications, configuration specifications, and 
+disconnection specifications. (§5) </P>
+<P><B>B.225 statement transform: </B>The first sequential statement in the 
+process equivalent to the concurrent signal assignment statement. The statement 
+transform defines the actions of the concurrent signal assignment statement when 
+it executes. The statement transform is followed by a wait statement, which is 
+the final statement in the equivalent process. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5">9.5 
+</A>) </P>
+<P><B>B.226 static:</B> <I>See</I> <B>locally static</B> and <B>globally 
+static</B>. </P>
+<P><B>B.227 static name:</B> A name in which every expression that appears as 
+part of the name (for example, as an index expression) is a static expression 
+(if every discrete range that appears as part of the name denotes a static range 
+or subtype and if no prefix within the name is either an object or value of an 
+access type or a function call). (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1">6.1 
+</A>) </P>
+<P><B>B.228 static range: </B>A range whose bounds are static expressions.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.4">7.4 
+</A>) </P>
+<P><B>B.229 static signal name:</B> A static name that denotes a signal.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1">6.1 
+</A>) </P>
+<P><B>B.230 static variable name: </B>A static name that denotes a variable.(§ 
+<A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1">6.1 
+</A>) </P>
+<P><B>B.231 string literal:</B> A sequence of graphic characters, or possibly 
+none, enclosed between two quotation marks ("). The type of a string literal is 
+determined from the context. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.6">13.6 
+</A>) </P>
+<P><B>B.232 subaggregate:</B> An aggregate appearing as the expression in an 
+element association within another, multidimensional array aggregate. The 
+subaggregate is an (<I>n</I>-1)-dimensional array aggregate, where <I>n</I> is 
+the dimensionality of the outer aggregate. Aggregates of multidimensional arrays 
+are expressed in row-major (rightmost index varies fastest) order.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2.2">7.3.2.2 
+</A>) </P>
+<P><B>B.233 subelement:</B> An element of another element. Where other 
+subelements are excluded, the term <I>element</I> is used. (§3) </P>
+<P><B>B.234 subprogram specification:</B> Specifies the designator of the 
+subprogram, any formal parameters of the subprogram, and the result type for a 
+function subprogram. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1">2.1 
+</A>) </P>
+<P><B>B.235 subtype:</B> A type together with a constraint. A value <I>belongs 
+to </I>a subtype of a given type if it belongs to the type and satisfies the 
+constraint; the given type is called the <I>base type</I> of the subtype. A type 
+is a subtype of itself. Such a subtype is said to be <I>unconstrained</I> 
+because it corresponds to a condition that imposes no restriction. (§3) </P>
+<P><B>B.236 suspend:</B> A process that stops executing and waits for an event 
+or for a time period to elapse. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.4">12.6.4 
+</A>) </P>
+<P><B>B.237 timeout interval:</B> The maximum time a process will be suspended, 
+as specified by the timeout period in the <B>until</B> clause of a wait 
+statement.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1">8.1 
+</A>) </P>
+<P><B>B.238 to the left of:</B> <I>See</I> <B>left of</B>. </P>
+<P><B>B.239 to the right of:</B> <I>See</I> <B>right of</B>. </P>
+<P><B>B.240 transaction:</B> A pair consisting of a value and a time. The value 
+represents a (current or) future value of the driver; the time represents the 
+relative delay before the value becomes the current value. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html#12.6.1">12.6.1 
+</A>) </P>
+<P><B>B.241 transport delay:</B> An optional delay model for signal assignment. 
+Transport delay is characteristic of hardware devices (such as transmission 
+lines) that exhibit nearly infinite frequency response: any pulse is 
+transmitted, no matter how short its duration. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4">8.4 
+</A>) <I>See also</I> <B>inertial delay</B>. </P>
+<P><B>B.242 type: </B>A set of values and a set of operations. (§3) </P>
+<P><B>B.243 type conversion:</B> An expression that converts the value of a 
+subexpression from one type to the designated type of the type conversion. 
+Associations in the form of a type conversion are also allowed. These 
+associations have functions and restrictions similar to conversion functions but 
+can be used in places where conversion functions cannot. In both 
+cases(expressions and associations), the converted type must be closely related 
+to the designated type. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2">4.3.2.2 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.5">7.3.5 
+</A>) <I>See also</I> <B>conversion function</B> and <B>closely related 
+types</B>. </P>
+<P><B>B.244 unaffected:</B> A waveform in a concurrent signal assignment 
+statement that does not affect the driver of the target. (<I>§</I><I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4">8.4 
+</A></I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5.1">9.5.1 
+</A>) </P>
+<P><B>B.245 unassociated formal:</B> A formal that is not associated with an 
+actual. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.2">5.2.1.2 
+</A>) </P>
+<P><B>B.246 unconstrained subtype:</B> A subtype that corresponds to a condition 
+that imposes no restriction. (<I>§</I><I>3</I>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.2">4.2 
+</A>) </P>
+<P><B>B.247 unit name:</B> A name defined by a unit declaration (either the 
+primary unit declaration or a secondary unit declaration) in a physical type 
+declaration. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3">3.1.3 
+</A>) </P>
+<P><B>B.248 universal_integer:</B> An anonymous predefined integer type that is 
+used for all integer literals. The position number of an integer value is the 
+corresponding value of the type <I>universal_integer</I>. (<I></I><I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.2">3.1.2 
+</A><I>, </I>§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.5">7.3.5 
+</A>) </P>
+<P><B>B.249 universal_real:</B> An anonymous predefined type that is used for 
+literals of floating point types. Other floating point types have no literals. 
+However, for each floating point type there exists an implicit conversion that 
+converts a value of type <I>universal_real</I> into the corresponding value (if 
+any) of the floating point type. (<I>§</I> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.4">3.1.4 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1">7.3.1 
+</A>, § <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.5">7.3.5 
+</A>) </P>
+<P><B>B.250 update: </B>An action on the value of a signal, variable, or file. 
+The value of a signal is said to be <I>updated</I> when the signal appears as 
+the target (or a component of the target) of a signal assignment 
+statement,(indirectly) when it is associated with an interface object of mode 
+<B>out</B>,<B>buffer</B>, <B>inout</B>, or <B>linkage</B>, or when one of its 
+subelements(individually or as part of a slice) is updated. The value of a 
+signal is also said to be <I>updated</I> when it is subelement or slice of a 
+resolved signal,and the resolved signal is updated. The value of a variable is 
+said to be <I>updated</I> when the variable appears as the target (or a 
+component of the target) of a variable assignment statement, (indirectly) when 
+it is associated with an interface object of mode <B>out</B> or <B>linkage</B>, 
+or when one of its subelements (individually or part of a slice) is updated. The 
+value of a file is said to be <I>updated</I> when a WRITE operation is performed 
+on the file object. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2">4.3.2 
+</A>) </P>
+<P><B>B.251 upper bound:</B> For a range L <B>to</B> R or L <B>downto</B> R, the 
+larger of L and R. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1">3.1 
+</A>) </P>
+<P><B>B.252 variable: </B>An object with a single current value.(§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.3">4.3.1.3 
+</A>) </P>
+<P><B>B.253 visible:</B> When the declaration of an identifier defines a 
+possible meaning of an occurrence of the identifier used in the declaration. A 
+visible declaration is visible by selection (for example, by using an expanded 
+name) or directly visible (for example, by using a simple name). (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.3">10.3 
+</A>) </P>
+<P><B>B.254 waveform:</B> A series of transactions, each of which represents a 
+future value of the driver of a signal. The transactions in a waveform are 
+ordered with respect to time, so that one transaction appears before another if 
+the first represents a value that will occur sooner than the value represented 
+by the other. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4">8.4 
+</A>) </P>
+<P><B>B.255 white space character:</B> A space, a nonbreaking space, or a 
+horizontal tabulation character (SP, NBSP, or HT). (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html#14.3">14.3 
+</A>) </P>
+<P><B>B.256 working library:</B> A design library into which the library unit 
+resulting from the analysis of a design unit is placed. (§ <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2">11.2 
+</A>) </P>
+<HR>
+
+<P><A href="http://www.fysel.ntnu.no/Courses/SIE4020/index.html"><IMG height=30 
+src="VHDL LRM- Introduction_AppB_files/hjem.gif" width=30 border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_toc.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppB_files/topp.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axa.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppB_files/venstre.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axc.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppB_files/hoyre.gif" width=30 
+border=0></A> </P></BODY></HTML>

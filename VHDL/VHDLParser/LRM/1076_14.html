@@ -1,0 +1,3228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=14>Section 14</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_13.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_axa.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Predefined language environment</H1>
+<P>This section describes the predefined attributes of VHDL and the packages 
+that all VHDL implementations must provide. </P>
+<H2><A 
+href="1076_14.html#14.1">14.1 
+</A>Predefined Attributes</H2>
+<P>Predefined attributes denote values, functions, types, and ranges associated 
+with various kinds of named entities. These attributes are described below. For 
+each attribute, the following information is provided: </P>
+<P>-- The kind of attribute: value, type, range, function, or signal. </P>
+<P>-- The prefixes for which the attribute is defined. </P>
+<P>-- A description of the parameter or argument, if one exists. </P>
+<P>-- The result of evaluating the attribute, and the result type (if 
+applicable). </P>
+<P>-- Any further restrictions or comments that apply. </P>
+<TABLE width=504 border=0>
+  <TBODY>
+  <TR>
+    <TD width=100><A name="T'BASE">T'BASE</A></TD>
+    <TD width=125></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Type.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The base type of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>This attribute is allowed only as the prefix of 
+      the name of another attribute; for example, T'BASE'LEFT.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'LEFT">T'LEFT</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any scalar type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Same type as T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The left bound of T.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'RIGHT">T'RIGHT</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any scalar type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Same type as T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The right bound of T.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'HIGH">T'HIGH</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value. </TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any scalar type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Same type as T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The upper bound of T.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'LOW">T'LOW</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any scalar type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Same type as T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The lower bound of T.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'ASCENDING">T'ASCENDING</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any scalar type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Boolean</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>TRUE if T is defined with an ascending range; 
+      FALSE otherwise.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'IMAGE">T'IMAGE(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any scalar type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression whose type is the base type of 
+  T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type String.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The string representation of the parameter value, 
+      without leading or trailing whitespace. If T is an enumeration type or 
+      subtype and the parameter value is either an extended identifier or a 
+      character literal, the result is expressed with both a leading and 
+      trailing reverse solidus (backslash) (in the case of an extended 
+      identifier) or apostrophe (in the case of a character literal); in the 
+      case of an extended identifier that has a backslash, the backslash is 
+      doubled in the string representation. If T is an enumeration type or 
+      subtype and the parameter value is a basic identifier, then the result is 
+      expressed in lowercase characters. If T is a numeric type or subtype, the 
+      result is expressed as the decimal representation of the parameter value 
+      without underlines or leading or trailing zeros (except as necessary to 
+      form the image of a legal literal with the proper value); moreover, an 
+      exponent may (but is not required to) be present and the language does not 
+      define under what conditions it is or is not present. If the exponent is 
+      present, the "e" is expressed as a lowercase character. If T is a physical 
+      type or subtype, the result is expressed in terms of the primary unit of T 
+      unless the base type of T is TIME, in which case the result is expressed 
+      in terms of the resolution limit(see <A 
+      href="1076_3.html#3.1.3.1">3.1.3.1 
+      </A>); in either case, if the unit is a basic identifier, the image of the 
+      unit is expressed in lowercase characters. If T is a floating point type 
+      or type, the number of digits to the right of the decimal point 
+      corresponds to the standard form generated when the DIGITS parameter to 
+      TextIO. Write for type REAL is set to 0 (see <A 
+      href="1076_14.html#14.3">14.3 
+      </A>). The result never contains the replacement characters described in 
+      <A 
+      href="1076_13.html#13.10">13.10 
+      </A>.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>It is an error if the parameter value does not 
+      belong to the subtype implied by the prefix.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'VALUE">T'VALUE(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any scalar type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression of type String.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The value of T whose string representation (as 
+      defined in Section 13) is given by the parameter. Leading and trailing 
+      whitespace is allowed and ignored. If T is a numeric type or subtype, the 
+      parameter may be expressed either as a decimal literal or as a based 
+      literal. If T is a physical type or subtype, the parameter may be 
+      expressed using a string representation of any of the unit names of T, 
+      with or without a leading abstract literal. The parameter must have 
+      whitespace between any abstract literal and the unit name. The replacement 
+      characters of <A 
+      href="1076_13.html#13.10">13.10 
+      </A>are allowed in the parameter.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>It is an error if the parameter is not a valid 
+      string representation of a literal of type T or if the result does not 
+      belong to the subtype implied by T.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'POS">T'POS(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any discrete or physical type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression whose type is the base type of 
+  T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type: </TD>
+    <TD vAlign=top width=200><I>universal_integer</I>.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The position number of the value of the 
+    parameter.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'VAL">T'VAL(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any discrete or physical type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression of any integer type.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The value whose position number is the 
+      <I>universal_integer</I> value corresponding to X.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>It is an error if the result does not belong to 
+      the range T'LOW <B>to</B> T'HIGH.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'SUCC">T'SUCC(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any discrete or physical type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression whose type is the base type of 
+  T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The value whose position number is one greater 
+      than that of the parameter.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>An error occurs if X equals T'HIGH or if X does 
+      not belong to the range T'LOW <B>to </B>T'HIGH.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'PRED">T'PRED(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any discrete or physical type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression whose type is the base type of 
+  T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The value whose position number is one less than 
+      that of the parameter.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>An error occurs if X equals T'LOW or if X does 
+      not belong to the range T'LOW <B>to</B> T'HIGH.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'LEFTOF">T'LEFTOF(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any discrete or physical type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression whose type is the base type of 
+  T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type: </TD>
+    <TD vAlign=top width=200>The base type of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The value that is to the left of the parameter in 
+      the range of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>An error occurs if X equals T'LEFT or if X does 
+      not belong to the range T'LOW <B>to</B> T'HIGH.</TD></TR>
+  <TR>
+    <TD width=100><A name="T'RIGHTOF">T'RIGHTOF(X)</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any discrete or physical type or subtype T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>An expression whose type is the base type of 
+  T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result: </TD>
+    <TD vAlign=top width=200>The value that is to the right of the parameter 
+      in the range of T.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>An error occurs if X equals T'RIGHT or if X does 
+      not belong to the range T'LOW <B>to</B> T'HIGH.</TD></TR>
+  <TR>
+    <TD width=100><A name="A'LEFT">A'LEFT [(N)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array 
+    subtype.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type 
+      <I>universal_integer</I>, the value of which must not exceed the 
+      dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type of the left bound of the Nth index range of 
+      A.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>Left bound of the Nth index range of A. (If A is 
+      an alias for an array object, then the result is the left bound of the Nth 
+      index range from the declaration of A, not that of the object.)</TD></TR>
+  <TR>
+    <TD width=100><A name="A'RIGHT">A'RIGHT [(N)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array 
+    subtype.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type 
+      <I>universal_integer</I>, the value of which must not exceed the 
+      dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type of the Nth index range of A.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>Right bound of the Nth index range of A. (If A is 
+      an alias for an array object, then the result is the right bound of the 
+      Nth index range from the declaration of A, not that of the object.)</TD></TR>
+  <TR>
+    <TD width=100><A name="A'HIGH">A'HIGH [(N)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array 
+    subtype.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type 
+      <I>universal_integer</I>, the value of which must not exceed the 
+      dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type of the Nth index range of A.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>Upper bound of the Nth index range of A. (If A is 
+      an alias for an array object, then the result is the upper bound of the 
+      Nth index range from the declaration of A, not that of the object.)</TD></TR>
+  <TR>
+    <TD width=100><A name="A'LOW">A'LOW [(N)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array 
+    subtype.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type 
+      <I>universal_integer</I>, the value of which must not exceed the 
+      dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type of the Nth index range of A.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>Lower bound of the Nth index range of A. (If A is 
+      an alias for an array object, then the result is the lower bound of the 
+      Nth index range from the declaration of A, not that of the object.)</TD></TR>
+  <TR>
+    <TD width=100><A name="A'RANGE">A'RANGE [(N)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Range.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array 
+    subtype.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type 
+      <I>universal_integer</I>, the value of which must not exceed the 
+      dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The type of the Nth index range of A.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The range A'LEFT(N) <B>to</B> A'RIGHT(N) if the 
+      Nth index range of A is ascending, or the range A'LEFT(N) <B>downto</B> 
+      A'RIGHT(N) if the Nth index range of A is descending. (If A is an alias 
+      for an array object, then the result is determined by the Nth index range 
+      from the declaration of A, not that of the object.)</TD></TR>
+  <TR>
+    <TD width=300 colSpan=2><A name="A'REVERSE_RANGE">A'REVERSE_RANGE 
+    [(N)</A>]</TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Range.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array 
+    subtype.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type 
+      <I>universal_integer</I>, the value of which must not exceed the 
+      dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The type of the Nth index range of A.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The range A'RIGHT(N) <B>downto</B> A'LEFT(N) if 
+      the Nth index range of A is ascending, or the range A'RIGHT(N) <B>to</B> 
+      A'LEFT(N) if the Nth index range of A is descending. (If A is an alias for 
+      an array object, then the result is determined by the Nth index range from 
+      the declaration of A, not that of the object.)</TD></TR>
+  <TR>
+    <TD width=100><A name="A'LENGTH">A'LENGTH [(N)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array 
+  subtype</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type 
+      <I>universal_integer</I>, the value of which must not exceed the 
+      dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200><I>universal_integer</I>.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>Number of values in the Nth index range; i.e., if 
+      the Nth index range of A is a null range, then the result is 0. Otherwise, 
+      the result is the value of T'POS(A'HIGH(N)) - T'POS(A'LOW(N)) + 1, where T 
+      is the subtype of the Nth index of A.</TD></TR>
+  <TR>
+    <TD width=300 colSpan=2><A name="A'ASCENDING">A'ASCENDING [(N)]</A></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any prefix A that is appropriate for an array 
+      object, or an alias thereof, or that denotes a constrained array subtype. 
+    </TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A locally static expression of type <I>universal 
+      integer</I>, the value of which must be greater than zero and must not 
+      exceed the dimensionality of A. If omitted, it defaults to 1.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Boolean.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>TRUE if the Nth index range of A is defined with 
+      an ascending range; FALSE otherwise.</TD></TR>
+  <TR>
+    <TD width=300 colSpan=2><A name="S'DELAYED">S'DELAYED [(T)]</A></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Signal.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A static expression of type TIME that evaluates 
+      to a nonnegative value. If omitted, it defaults to 0 ns.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>A signal equivalent to signal S delayed T units 
+      of time. The value of S'DELAYED(t) at time T<SUB>n</SUB> is always equal 
+      to the value of S at time T<SUB>n-t</SUB>. Specifically:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>Let R be of the same subtype as S, let T &gt;= 0 
+      ns, and let P be a process statement of the form<BR><BR><PRE>P:     <B>process</B> (S)
+
+       <B>begin</B>
+
+          R &lt;= <B>transport</B> S <B>after</B> T;
+
+       <B>end process</B> ;</PRE>
+      <P><BR><BR>Assuming that the initial value of R is the same as the initial 
+      value of S, then the attribute 'DELAYED is defined such that S'DELAYED(T) 
+      = R for any T.</P></TD></TR>
+  <TR>
+    <TD width=100><A name="S'STABLE">S'STABLE [(T)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Signal.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A static expression of type TIME that evaluates 
+      to a nonnegative value. If omitted, it defaults to 0 ns.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Boolean.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>A signal that has the value TRUE when an event 
+      has not occurred on signal S for T units of time, and the value FALSE 
+      otherwise. (See <A 
+      href="1076_12.html#12.6.2">12.6.2 
+      </A>.)</TD></TR>
+  <TR>
+    <TD width=100><A name="S'QUIET">S'QUIET [(T)]</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Signal.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Parameter:</TD>
+    <TD vAlign=top width=200>A static expression of type TIME that evaluates 
+      to a nonnegative value. If omitted, it defaults to 0 ns.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Boolean.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>A signal that has the value TRUE when the signal 
+      has been quiet for T units of time, and the value FALSE otherwise. (See <A 
+      href="1076_12.html#12.6.2">12.6.2 
+      </A>.)</TD></TR>
+  <TR>
+    <TD width=100><A name="S'TRANSACTION">S'TRANSACTION</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Signal.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Bit.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result: </TD>
+    <TD vAlign=top width=200>A signal whose value toggles to the inverse of 
+      its previous value in each simulation cycle in which signal S becomes 
+      active.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restriction:</TD>
+    <TD vAlign=top width=200>A description is erroneous if it depends on the 
+      initial value of S'Transaction.</TD></TR>
+  <TR>
+    <TD width=100><A name="S'EVENT">S'EVENT</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Boolean.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>A value that indicates whether an event has just 
+      occurred on signal S. Specifically:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>For a scalar signal S, S'EVENT returns the value 
+      TRUE if an event has occurred on S during the current simulation cycle; 
+      otherwise, it returns the value FALSE.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>For a composite signal S, S'EVENT returns TRUE if 
+      an event has occurred on any scalar subelement of S during the current 
+      simulation cycle; otherwise, it returns FALSE.</TD></TR>
+  <TR>
+    <TD width=100><A name="S'ACTIVE">S'ACTIVE</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Boolean.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>A value that indicates whether signal S is 
+      active. Specifically:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>For a scalar signal S, S'ACTIVE returns the value 
+      TRUE if signal S is active during the current simulation cycle; otherwise, 
+      it returns the value FALSE.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>For a composite signal S, S'ACTIVE returns TRUE if 
+      any scalar subelement of S is active during the current simulation cycle; 
+      otherwise, it returns FALSE.</TD></TR>
+  <TR>
+    <TD width=100><A name="S'LAST_EVENT">S'LAST_EVENT</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type: </TD>
+    <TD vAlign=top width=200>Type Time.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The amount of time that has elapsed since the 
+      last event occurred on signal S. Specifically:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>For a signal S, S'LAST_EVENT returns the smallest 
+      value T of type TIME such that S'EVENT = True during any simulation cycle 
+      at time NOW - T, if such value exists; otherwise, it returns 
+  TIME'HIGH.</TD></TR>
+  <TR>
+    <TD width=100><A name="S'LAST_ACTIVE">S'LAST_ACTIVE</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Time.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The amount of time that has elapsed since the 
+      last time at which signal S was active. Specifically:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>For a signal S, S'LAST_ACTIVE returns the smallest 
+      value T of type TIME such that S'ACTIVE = True during any simulation cycle 
+      at time NOW - T, if such value exists; otherwise, it returns 
+  TIME'HIGH.</TD></TR>
+  <TR>
+    <TD width=100><A name="S'LAST_VALUE">S'LAST_VALUE</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The previous value of S, immediately before the 
+      last change of S.</TD></TR>
+  <TR>
+    <TD width=100><A name="S'DRIVING">S'DRIVING</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type Boolean.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>If the prefix denotes a scalar signal, the result 
+      is False if the current value of the driver for S in the current process 
+      is determined by the null transaction; True otherwise. If the prefix 
+      denotes a composite signal,the result is True if and only if R'DRIVING is 
+      True for every scalar subelement R of S; False otherwise. If the prefix 
+      denotes a null slice of a signal, the result is True.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>This attribute is available only from within a 
+      process, a concurrent statement with an equivalent process, or a 
+      subprogram. If the prefix denotes a port, it is an error if the port does 
+      not have a mode of <B>inout</B>, <B>out</B>, or <B>buffer</B>. It is also 
+      an error if the attribute name appears in a subprogram body that is not a 
+      declarative item contained within a process statement and the prefix is 
+      not a formal parameter of the given subprogram or of a parent of that 
+      subprogram. Finally, it is an error if the prefix denotes a subprogram 
+      formal parameter whose mode is not <B>inout</B> or <B>out</B>.</TD></TR>
+  <TR>
+    <TD width=100><A name="S'DRIVING_VALUE">S'DRIVING_VALUE</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Function.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any signal denoted by the static signal name 
+  S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>The base type of S.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>If S is a scalar signal S, the result is the 
+      current value of the driver for S in the current process. If S is a 
+      composite signal, the result is the aggregate of the values of 
+      R'DRIVING_VALUE for each element R of S. If Sis a null slice, the result 
+      is a null slice.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Restrictions:</TD>
+    <TD vAlign=top width=200>This attribute is available only from within a 
+      process, a concurrent statement with an equivalent process, or a 
+      subprogram. If the prefix denotes a port, it is an error if the port does 
+      not have a mode of <B>inout</B>, <B>out</B>, or <B>buffer</B>. It is also 
+      an error if the attribute appears in a subprogram body that is not a 
+      declarative item contained within a process statement and the prefix is 
+      not a formal parameter of the given subprogram or of a parent of that 
+      subprogram. Finally, it is an error if the prefix denotes a subprogram 
+      formal parameter whose mode is not <B>inout</B> or <B>out</B>, or if 
+      S'DRIVING is False at the time of the evaluation of S'DRIVING_VALUE.</TD></TR>
+  <TR>
+    <TD width=100><A name="E'SIMPLE_NAME">E'SIMPLE_NAME</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any named entity as defined in <A 
+      href="1076_5.html#5.1">5.1 
+      </A>.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type: </TD>
+    <TD vAlign=top width=200>Type String.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>The simple name, character literal, or operator 
+      symbol of the named entity, without leading or trailing whitespace or 
+      quotation marks but with apostrophes (in the case of a character literal) 
+      and both a leading and trailing reverse solidus (backslash) (in the case 
+      of an extended identifier).In the case of a simple name or operator 
+      symbol, the characters are converted to their lowercase equivalents. In 
+      the case of an extended identifier, the case of the identifier preserved, 
+      and any reverse solidus characters appearing as part of the identifier are 
+      represented with two consecutive reverse solidus characters.</TD></TR>
+  <TR>
+    <TD width=100><A name="E'INSTANCE_NAME">E'INSTANCE_NAME</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind: </TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any named entity other than the local ports and 
+      generics of a component declaration.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type String.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>The result string has the following syntax:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2><PRE>instance_name ::=  package_based_path | full_instance_based_path
+
+
+
+     package_based_path ::=
+
+         leader <I>library</I>_logical_name leader <I>package</I>_simple_name  leader
+
+             [ local_item_name ]
+
+
+
+     full_instance_based_path ::=  leader full_path_to_instance [ local_item_name ]
+
+
+
+     full_path_to_instance ::=  { full_path_instance_element leader }
+
+
+
+     local_item_name ::=
+
+         simple_name
+
+         character_literal
+
+         operator_symbol
+
+
+
+     full_path_instance_element ::=
+
+         [ <I>component_instantiation</I>_label @ ]
+
+             <I>entity</I>_simple_name ( <I>architecture</I>_simple_name )
+
+         | <I>block</I>_label
+
+         | generate_label
+
+         | process_label
+
+         | <I>loop</I>_label
+
+         | <I>subprogram</I>_simple_name
+
+
+
+     generate_label ::=  <I>generate</I>_label [ ( literal ) ]
+
+
+
+     process_label ::=  [ <I>process_</I>label ]
+
+
+
+     leader ::=  :</PRE></TD></TR></TBODY></TABLE>
+<P>Package-based paths identify items declared within packages. 
+Full-instance-based paths identify items within an elaborated design hierarchy. 
+</P>
+<P>A library logical name denotes a library; see <A 
+href="1076_11.html#11.2">11.2 
+</A>. Since multiple logical names may denote the same library, the library 
+logical name may not be unique. </P>
+<P>There is one full path instance element for each component instantiation, 
+block statement, generate statement, process statement, or subprogram body in 
+the design hierarchy between the root design entity and the named entity denoted 
+by the prefix. </P>
+<P>In a full path instance element, the architecture simple name must denote an 
+architecture associated with the entity interface designated by the entity 
+simple name; furthermore, the component instantiation label (and the commercial 
+at following it) are required unless the entity simple name and the architecture 
+simple name together denote the root design entity. </P>
+<P>The literal in a generate label is required if the label denotes a generate 
+statement with a for generation scheme; the literal must denote one of the 
+values of the generate parameter. </P>
+<P>A process statement with no label is denoted by an empty process label. </P>
+<P>All characters in basic identifiers appearing in the result are converted to 
+their lowercase equivalents. Both a leading and trailing reverse solidus 
+surround an extended identifier appearing in the result; any reverse solidus 
+characters appearing as part of the identifier are represented with two 
+consecutive reverse solidus characters. </P>
+<TABLE width=504 border=0>
+  <TBODY>
+  <TR>
+    <TD width=100><A name="E'PATH_NAME">E'PATH_NAME</A></TD>
+    <TD vAlign=top width=200></TD>
+    <TD vAlign=top width=200></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Kind:</TD>
+    <TD vAlign=top width=200>Value.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Prefix:</TD>
+    <TD vAlign=top width=200>Any named entity other than the local ports and 
+      generics of a component declaration.</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD vAlign=top width=200>Result Type:</TD>
+    <TD vAlign=top width=200>Type String.</TD></TR>
+  <TR>
+    <TD width=400></TD>
+    <TD vAlign=top width=200>Result:</TD>
+    <TD vAlign=top width=200>A string describing the hierarchical path 
+      starting at the root of the design hierarchy and descending to the named 
+      entity, excluding the name of instantiated design entities. 
+    Specifically:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2>The result string has the following syntax:</TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=400 colSpan=2><PRE>     path_name ::=  package_based_path | instance_based_path
+
+
+
+     instance_based_path ::=
+
+         leader path_to_instance [ local_item_name ]
+
+
+
+      path_to_instance ::=  { path_instance_element leader }
+
+
+
+      path_instance_element  ::=
+
+         <I>component_instantiation</I>_label
+
+         | <I>entity</I>_simple_name
+
+         | <I>block</I>_label
+
+         | generate_label
+
+         | process_label
+
+         | <I>subprogram</I>_simple_name</PRE></TD></TR></TBODY></TABLE>
+<P>Package-based paths identify items declared within packages. Full- instance - 
+based paths identify items within an elaborated design hierarchy. </P>
+<P>There is one path instance element for each component instantiation, block 
+statement, generate statement, process statement, or subprogram body in the 
+design hierarchy between the top design entity and the named entity denoted by 
+the prefix. </P>
+<P><I>Examples:</I> </P><PRE>     <B>library</B> Lib:                             --  All design units are in this library:
+
+     <B>package</B> P <B>is</B>                             --  P'PATH_NAME = ":lib:p:"
+
+                                                   --P'INSTANCE_NAME = ":lib:p:"
+
+
+
+         <B>procedure</B> Proc (F: <B>inout</B> INTEGER);   --  Proc'PATH_NAME = ":lib:p:proc"
+
+                                                       --Proc'INSTANCE_NAME = ":lib:p:proc"
+
+
+
+         <B>constant</B> C: INTEGER := 42;           --  C'PATH_NAME = ":lib:p:c"
+
+     <B>end package</B> P;                           --  C'INSTANCE_NAME = ":lib:p:c"
+
+
+
+     <B>package body</B> P <B>is</B>
+
+         <B>procedure</B> Proc (F: <B>inout</B> INTEGER) <B>is</B>
+
+             <B>variable</B> x: INTEGER;                      --  x'PATH_NAME = ":lib:p:proc:x"
+
+         <B>begin</B>                                         --  x'INSTANCE_NAME = ":lib:p:proc:x"
+
+             ·
+
+             ·
+
+             ·
+
+         <B>end</B>;
+
+     <B>end</B>;
+
+
+
+     <B>library</B> Lib;
+
+     <B>use</B> Lib.P.<B>all</B>;                                     --  Assume that E is in Lib and
+
+     <B>entity</B> E <B>is</B>                                        --  E is the top-level design entity:
+
+                                                        --  E'PATH_NAME = ":e:"
+
+                                                        --  E'INSTANCE_NAME =  ":e(a):"
+
+         <B>generic</B> (G: INTEGER);                          --  G'PATH_NAME = ":e:g"
+
+                                                        --  G'INSTANCE_NAME =  ":e(a):g"
+
+         <B>port</B> (P: <B>in</B> INTEGER);                          --  P'PATH_NAME = ":e:p"
+
+     <B>end entity</B> E;                                      --  P'INSTANCE_NAME =  ":e(a):p"
+
+
+
+     <B>architecture</B> A <B>of</B> E <B>is</B>
+
+         <B>signal</B> S: BIT_VECTOR (1 <B>to</B> G);                  --  S'PATH_NAME = ":e:s"
+
+                                                         --  S'INSTANCE_NAME =  ":e(a):s"
+
+         <B>procedure</B> Proc1 (<B>signal</B> sp1: NATURAL; C: <B>out</B> INTEGER) <B>is</B>
+
+                                                         --  Proc1'PATH_NAME =  ":e:proc1:"
+
+                                                         --  Proc1'INSTANCE_NAME =:e(a):proc1:"
+
+                                                         --  C'PATH_NAME =  ":e:proc1:c"
+
+                                                         --  C'INSTANCE_NAME =  ":e(a):proc1:c"
+
+         <B>variable</B> max: DELAY_LENGTH;                     --  max'PATH_NAME = ":e:proc1:max"
+
+                                                         --  max'INSTANCE_NAME =
+
+                                                         --  ":e(a):proc1:max"
+
+
+
+         <B>begin</B>
+
+             max := sp1 * ns;
+
+             <B>wait on</B> sp1 <B>for</B> max;
+
+             c := sp1;
+
+         <B>end procedure</B> Proc1;
+
+
+
+     <B>begin</B>
+
+<B>     </B>p1: <B>process</B>
+
+             <B>variable</B> T: INTEGER := 12;                  --  T'PATH_NAME =  ":e:p1:t"
+
+         <B>begin</B>                                           --  T'INSTANCE_NAME =  ":e(a):p1:t"
+
+             ·
+
+             ·
+
+             ·
+
+         <B>end process</B> p1;
+
+
+
+         <B>process</B>
+
+             <B>variable</B> T: INTEGER := 12;                  --  T'PATH_NAME =  ":e::t"
+
+         <B>begin</B>                                           --  T'INSTANCE_NAME =  ":e(a)::t"
+
+             ·
+
+             ·
+
+             ·
+
+         <B>end process</B> ;
+
+     <B>end architecture</B>;
+
+
+
+     <B>entity</B> Bottom <B>is</B>
+
+         <B>generic</B> (GBottom : INTEGER);
+
+         <B>port</B>     (PBottom : INTEGER);
+
+     <B>end</B> <B>entity</B> Bottom;
+
+
+
+     <B>architecture</B> BottomArch <B>of</B> Bottom <B>is</B>
+
+         <B>signal</B> SBottom : INTEGER;
+
+     <B>begin</B>
+
+         ProcessBottom : <B>process</B>
+
+             <B>variable</B> V : INTEGER;
+
+         <B>begin</B>
+
+             <B>if</B> GBottom = 4 <B>then</B>
+
+                  <B>assert</B> V'Simple_Name = "v"
+
+                      <B>and</B> V'Path_Name = ":top:b1:b2:g1(4):b3:l1:processbottom:v"
+
+                      <B>and</B> V'Instance_Name =
+
+":top(top):b1:b2:g1(4):b3:l1@bottom(bottomarch):processbottom:v";
+
+                  <B>assert</B> GBottom'Simple_Name = "bottom"
+
+                      <B>and</B> GBottom'Path_Name = ":top:b1:b2:g1(4):b3:l1:gbottom"
+
+                      <B>and</B> GBottom'Instance_Name =
+
+":top(top):b1:b2:g1(4):b3:l1@bottom(bottomarch):gbottom";
+
+             <B>elsif</B> GBottom = -1 <B>then</B>
+
+                  <B>assert</B> V'Simple_Name = "v"
+
+                      <B>and</B> V'Path_Name = ":top:l2:processbottom:v"
+
+                      <B>and</B> V'Instance_Name =
+
+":top(top):l2@bottom(bottomarch):processbottom:v";
+
+                  <B>assert</B> GBottom'Simple_Name = "gbottom"
+
+                      <B>and</B> GBottom'Path_Name = "top:l2:gbottom"
+
+                      <B>and</B> GBottom'Instance_Name =
+
+                       ":top(top):l2@bottom(bottomarch):gbottom";
+
+             <B>end</B> <B>if</B>;
+
+         <B>wait</B>;
+
+         <B>end</B> <B>process</B> ProcessBottom;
+
+     <B>end</B> <B>architecture</B> BottomArch;
+
+
+
+     <B>entity</B> Top <B>is</B> <B>end</B> Top;
+
+
+
+     <B>architecture</B> Top <B>of</B> Top <B>is</B>
+
+         <B>component</B> BComp <B>is</B>
+
+             <B>generic</B> (GComp : INTEGER)
+
+             <B>port</B>      (PComp : INTEGER);
+
+         <B>end</B> <B>component</B> BComp;
+
+
+
+         <B>signal</B> S : INTEGER;
+
+     <B>begin</B>
+
+         B1 : <B>block</B>
+
+             <B>signal</B> S : INTEGER;
+
+
+
+         <B>begin</B>
+
+             B2 : <B>block</B>
+
+                 <B>signal</B> S : INTEGER;
+
+             <B>begin</B>
+
+                 G1 : <B>for</B> I <B>in</B> 1 <B>to</B> 10 <B>generate</B>
+
+                     B3 : <B>block</B>
+
+                          <B>signal</B> S : INTEGER;
+
+                          <B>for</B> L1 : BComp <B>use</B> <B>entity</B> Work.Bottom(BottomArch)
+
+                               <B>generic</B> <B>map</B>    (GBottom =&gt; GComp)
+
+                               <B>port</B> <B>map</B>       (PBottom =&gt; PComp);
+
+
+
+                     <B>begin</B>
+
+                          L1 : BComp <B>generic</B> <B>map</B> (I) <B>port</B> <B>map</B> (S);
+
+                          P1 : <B>process</B>
+
+                               <B>variable</B> V : INTEGER;
+
+                          <B>begin</B>
+
+                               <B>if</B> I = 7 <B>then</B>
+
+                                     <B>assert</B> V'Simple_Name = "v"
+
+                                         <B>and</B> V'Path_Name = ":top:b1:b2:g1(7):b3:p1:v"
+
+                                         <B>and</B> V'Instance_Name = ":top(top):b1:b2:g1(7):b3:p1:v";
+
+                                     <B>assert</B> P1'Simple_Name = "p1"
+
+                                         <B>and</B> P1'Path_Name = ":top:b1:b2:g1(7):b3:p1:"
+
+                                         <B>and</B> P1'Instance_Name = ":top(top):b1:b2:g1(7):b3:p1:";
+
+                                     <B>assert</B> S'Simple_Name = "s"
+
+                                         <B>and</B> S'Path_Name = ":top:b1:b2:g1(7):b3:s"
+
+                                         <B>and</B> S'Instance_Name = ":top(top):b1:b2:g1(7):b3:s";
+
+                                     <B>assert</B> B1.S'Simple_Name = "s"
+
+                                         <B>and</B> B1.S'Path_Name = ":top:b1:s"
+
+                                         <B>and</B> B1.S'Instance_Name = ":top(top):b1:s";
+
+                               <B>end</B> <B>if</B>;
+
+                               <B>wait</B>;
+
+                          <B>end</B> <B>process</B> P1;
+
+                     <B>end</B> <B>block</B> B3;
+
+                 <B>end</B> <B>generate</B>;
+
+             <B>end</B> <B>block</B> B2;
+
+         <B>end</B> <B>block</B> B1;
+
+         L2 : BComp <B>generic</B> <B>map</B> (-1) <B>port</B> <B>map</B> (S);
+
+     <B>end</B> <B>architecture</B> Top;
+
+
+
+     <B>configuration</B> TopConf <B>of</B> Top <B>is</B>
+
+         <B>for</B> Top
+
+             <B>for</B> L2 : BComp <B>use</B>
+
+                 <B>entity</B> Work.Bottom(BottomArch)
+
+                     <B>generic</B> <B>map</B>   (GBottom =&gt; GComp)
+
+                     <B>port</B> <B>map</B>      (PBottom =&gt; PComp);
+
+             <B>end</B> <B>for</B>;
+
+         <B>end</B> <B>for</B>;
+
+     <B>end</B> <B>configuration</B> TopConf;
+
+</PRE>
+<P>NOTES </P>
+<P>1--The relationship between the values of the LEFT, RIGHT, LOW, and HIGH 
+attributes is expressed in the following table: </P>
+<TABLE width=500 border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle width=100></TD>
+    <TD align=left width=100></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><B>Ascending range</B></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><B>Descending range</B></TD></TR>
+  <TR>
+    <TD align=middle width=100></TD>
+    <TD align=left width=100><CODE>T'LEFT</CODE></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><CODE>=</CODE></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><CODE>T'LOW</CODE></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><CODE>T'HIGH</CODE></TD></TR>
+  <TR>
+    <TD align=middle width=100></TD>
+    <TD align=left width=100><CODE>T'RIGHT </CODE></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><CODE>=</CODE></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><CODE>T'HIGH</CODE></TD>
+    <TD align=middle width=100></TD>
+    <TD align=middle width=100><CODE>T'LOW</CODE></TD></TR></TBODY></TABLE>
+<P>2--Since the attributes S'EVENT, S'ACTIVE, S'LAST_EVENT, S'LAST_ACTIVE, and 
+S'LAST_VALUE are functions, not signals, they cannot cause the execution of a 
+process, even though the value returned by such a function may change 
+dynamically. It is thus recommended that the equivalent signal-valued attributes 
+S'STABLE and S'QUIET, or expressions involving those attributes, be used in 
+concurrent contexts such as guard expressions or concurrent signal assignments. 
+Similarly, function STANDARD.NOW should not be used in concurrent contexts. </P>
+<P>3--S'DELAYED(0 ns) is not equal to S during any simulation cycle where 
+S'EVENT is true. </P>
+<P>4--S'STABLE(0 ns) = (S'DELAYED(0 ns) = S), and S'STABLE(0 ns) is FALSE only 
+during a simulation cycle in which S has had a transaction. </P>
+<P>5--For a given simulation cycle, S'QUIET(0 ns) is TRUE if and only if S is 
+quiet for that simulation cycle. </P>
+<P>6--If S'STABLE(T) is FALSE, then, by definition, for some t where 0 ns &lt;= 
+t&lt;= T, S'DELAYED(t) /= S. </P>
+<P>7--If T<SUB>s</SUB> is the smallest value such that S'STABLE (T<SUB>s</SUB>) 
+is FALSE, then for all t where 0 ns &lt;= t &lt; Ts, S'DELAYED(t) = S. </P>
+<P>8--S'EVENT should not be used within a postponed process (or a concurrent 
+statement that has an equivalent postponed process) to determine if the prefix 
+signal S caused the process to resume. However, S'LAST_EVENT = 0 ns can be used 
+for this purpose. </P>
+<P>9--The values of E'PATH_NAME and E'INSTANCE_NAME are not unique. 
+Specifically, named entities in two different, unlabelled processes may have the 
+same path names or instance names. Overloaded subprograms, and named entities 
+within them, may also have the same path names or instance names. </P>
+<P>10--If the prefix to the attributes 'SIMPLE_NAME, 'PATH_NAME, or 
+'INSTANCE_NAME denotes an alias, the result is respectively the simple name, 
+path name or instance name of the alias. See <A 
+href="1076_6.html#6.6">6.6 
+</A>. </P>
+<P>11--For all values V of any scalar type T except a real type, the following 
+relation holds: </P><PRE>     V = T'Value(T'Image(V))
+
+</PRE>
+<H2><A 
+href="1076_14.html#14.2">14.2 
+</A>Package STANDARD</H2>
+<P>Package STANDARD predefines a number of types, subtypes, and functions. An 
+implicit context clause naming this package is assumed to exist at the beginning 
+of each design unit. Package STANDARD may not be modified by the user. </P>
+<P>The operators that are predefined for the types declared for package STANDARD 
+are given in comments since they are implicitly declared. Italics are used for 
+pseudo-names of anonymous types (such as <I>universal_integer</I>), formal 
+parameters, and undefined information (such as <I>implementation_defined</I>). 
+</P><PRE>     <B>package</B> STANDARD <B>is</B>
+
+
+
+        --  Predefined enumeration types:
+
+
+
+        <B>type</B> <U><A name=BOOLEAN>BOOLEAN</A></U> <B>is</B> (FALSE, TRUE);
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "and"     (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "or"      (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "nand"    (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "nor"     (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "xor"     (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "xnor"    (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "not"     (<I>anonymous</I>: BOOLEAN) <B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "="       (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="      (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"       (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="      (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"       (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="      (<I>anonymous</I>, <I>anonymous</I>: BOOLEAN)<B>return</B> BOOLEAN;
+
+
+
+
+
+<B>       type</B> BIT <B>is</B> ('0', '1');
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "and"     (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BIT;
+
+        --  <B>function</B> "or"      (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BIT;
+
+        --  <B>function</B> "nand"    (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BIT;
+
+        --  <B>function</B> "nor"     (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BIT;
+
+        --  <B>function</B> "xor"     (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BIT;
+
+        --  <B>function</B> "xnor"    (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BIT;
+
+
+
+        --  <B>function</B> "not"     (<I>anonymous</I>: BIT) <B>return</B> BIT;
+
+
+
+        --  <B>function</B> "="       (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="      (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"       (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="      (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"       (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="      (<I>anonymous</I>, <I>anonymous</I>: BIT) <B>return</B> BOOLEAN;
+
+
+
+</PRE><PRE>        <B>type <A name=CHARACTER>CHARACTER</A> is(</B>
+
+</PRE>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width=200></TD>
+    <TD width=50>NUL,</TD>
+    <TD width=50></TD>
+    <TD width=50>SOH,</TD>
+    <TD width=50></TD>
+    <TD width=50>STX,</TD>
+    <TD width=50></TD>
+    <TD width=50>ETX,</TD>
+    <TD width=50></TD>
+    <TD width=50>EOT,</TD>
+    <TD width=50></TD>
+    <TD width=50>ENQ,</TD>
+    <TD width=50></TD>
+    <TD width=50>ACK,</TD>
+    <TD width=50></TD>
+    <TD width=50>BEL,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>BS,</TD>
+    <TD width=50></TD>
+    <TD width=50>HT,</TD>
+    <TD width=50></TD>
+    <TD width=50>LF,</TD>
+    <TD width=50></TD>
+    <TD width=50>VT,</TD>
+    <TD width=50></TD>
+    <TD width=50>FF,</TD>
+    <TD width=50></TD>
+    <TD width=50>CR,</TD>
+    <TD width=50></TD>
+    <TD width=50>SO,</TD>
+    <TD width=50></TD>
+    <TD width=50>SI,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>DLE,</TD>
+    <TD width=50></TD>
+    <TD width=50>DC1,</TD>
+    <TD width=50></TD>
+    <TD width=50>DC2,</TD>
+    <TD width=50></TD>
+    <TD width=50>DC3,</TD>
+    <TD width=50></TD>
+    <TD width=50>DC4,</TD>
+    <TD width=50></TD>
+    <TD width=50>NAK,</TD>
+    <TD width=50></TD>
+    <TD width=50>SYN,</TD>
+    <TD width=50></TD>
+    <TD width=50>ETB,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>CAN,<BR></TD>
+    <TD width=50></TD>
+    <TD width=50>EM,</TD>
+    <TD width=50></TD>
+    <TD width=50>SUB,</TD>
+    <TD width=50></TD>
+    <TD width=50>ESC,</TD>
+    <TD width=50></TD>
+    <TD width=50>FSP,</TD>
+    <TD width=50></TD>
+    <TD width=50>GSP,</TD>
+    <TD width=50></TD>
+    <TD width=50>RSP,</TD>
+    <TD width=50></TD>
+    <TD width=50>USP,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>' ',</TD>
+    <TD width=50></TD>
+    <TD width=50>'!',</TD>
+    <TD width=50></TD>
+    <TD width=50>'"',</TD>
+    <TD width=50></TD>
+    <TD width=50>'#',</TD>
+    <TD width=50></TD>
+    <TD width=50>'$',</TD>
+    <TD width=50></TD>
+    <TD width=50>'%',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&amp;',</TD>
+    <TD width=50></TD>
+    <TD width=50>''',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'(',</TD>
+    <TD width=50></TD>
+    <TD width=50>')',</TD>
+    <TD width=50></TD>
+    <TD width=50>'*',</TD>
+    <TD width=50></TD>
+    <TD width=50>'+',</TD>
+    <TD width=50></TD>
+    <TD width=50>',',</TD>
+    <TD width=50></TD>
+    <TD width=50>'-',</TD>
+    <TD width=50></TD>
+    <TD width=50>'.',</TD>
+    <TD width=50></TD>
+    <TD width=50>'/',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'0',</TD>
+    <TD width=50></TD>
+    <TD width=50>'1',</TD>
+    <TD width=50></TD>
+    <TD width=50>'2',</TD>
+    <TD width=50></TD>
+    <TD width=50>'3',</TD>
+    <TD width=50></TD>
+    <TD width=50>'4',</TD>
+    <TD width=50></TD>
+    <TD width=50>'5',</TD>
+    <TD width=50></TD>
+    <TD width=50>'6',</TD>
+    <TD width=50></TD>
+    <TD width=50>'7',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'8',<BR></TD>
+    <TD width=50></TD>
+    <TD width=50>'9',</TD>
+    <TD width=50></TD>
+    <TD width=50>':',</TD>
+    <TD width=50></TD>
+    <TD width=50>';',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&lt;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'=',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&gt;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'?',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'@',</TD>
+    <TD width=50></TD>
+    <TD width=50>'A',</TD>
+    <TD width=50></TD>
+    <TD width=50>'B',</TD>
+    <TD width=50></TD>
+    <TD width=50>'C',</TD>
+    <TD width=50></TD>
+    <TD width=50>'D',</TD>
+    <TD width=50></TD>
+    <TD width=50>'E',</TD>
+    <TD width=50></TD>
+    <TD width=50>'F',</TD>
+    <TD width=50></TD>
+    <TD width=50>'G',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'H',</TD>
+    <TD width=50></TD>
+    <TD width=50>'I',</TD>
+    <TD width=50></TD>
+    <TD width=50>'J',</TD>
+    <TD width=50></TD>
+    <TD width=50>'K',</TD>
+    <TD width=50></TD>
+    <TD width=50>'L',</TD>
+    <TD width=50></TD>
+    <TD width=50>'M',</TD>
+    <TD width=50></TD>
+    <TD width=50>'N',</TD>
+    <TD width=50></TD>
+    <TD width=50>'O',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'P',</TD>
+    <TD width=50></TD>
+    <TD width=50>'Q',</TD>
+    <TD width=50></TD>
+    <TD width=50>'R',</TD>
+    <TD width=50></TD>
+    <TD width=50>'S',</TD>
+    <TD width=50></TD>
+    <TD width=50>'T',</TD>
+    <TD width=50></TD>
+    <TD width=50>'U',</TD>
+    <TD width=50></TD>
+    <TD width=50>'V',</TD>
+    <TD width=50></TD>
+    <TD width=50>'W',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'X',<BR></TD>
+    <TD width=50></TD>
+    <TD width=50>'Y',</TD>
+    <TD width=50></TD>
+    <TD width=50>'Z',</TD>
+    <TD width=50></TD>
+    <TD width=50>'[',</TD>
+    <TD width=50></TD>
+    <TD width=50>'\',</TD>
+    <TD width=50></TD>
+    <TD width=50>']',</TD>
+    <TD width=50></TD>
+    <TD width=50>'^',</TD>
+    <TD width=50></TD>
+    <TD width=50>'_', </TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'`',</TD>
+    <TD width=50></TD>
+    <TD width=50>'a',</TD>
+    <TD width=50></TD>
+    <TD width=50>'b',</TD>
+    <TD width=50></TD>
+    <TD width=50>'c',</TD>
+    <TD width=50></TD>
+    <TD width=50>'d',</TD>
+    <TD width=50></TD>
+    <TD width=50>'e',</TD>
+    <TD width=50></TD>
+    <TD width=50>'f',</TD>
+    <TD width=50></TD>
+    <TD width=50>'g',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'h',</TD>
+    <TD width=50></TD>
+    <TD width=50>'i',</TD>
+    <TD width=50></TD>
+    <TD width=50>'j',</TD>
+    <TD width=50></TD>
+    <TD width=50>'k',</TD>
+    <TD width=50></TD>
+    <TD width=50>'l',</TD>
+    <TD width=50></TD>
+    <TD width=50>'m',</TD>
+    <TD width=50></TD>
+    <TD width=50>'n',</TD>
+    <TD width=50></TD>
+    <TD width=50>'o',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'p',</TD>
+    <TD width=50></TD>
+    <TD width=50>'q',</TD>
+    <TD width=50></TD>
+    <TD width=50>'r',</TD>
+    <TD width=50></TD>
+    <TD width=50>'s',</TD>
+    <TD width=50></TD>
+    <TD width=50>'t',</TD>
+    <TD width=50></TD>
+    <TD width=50>'u',</TD>
+    <TD width=50></TD>
+    <TD width=50>'v',</TD>
+    <TD width=50></TD>
+    <TD width=50>'w',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'x',<BR></TD>
+    <TD width=50></TD>
+    <TD width=50>'y',</TD>
+    <TD width=50></TD>
+    <TD width=50>'z',</TD>
+    <TD width=50></TD>
+    <TD width=50>'{',</TD>
+    <TD width=50></TD>
+    <TD width=50>'|',</TD>
+    <TD width=50></TD>
+    <TD width=50>'}',</TD>
+    <TD width=50></TD>
+    <TD width=50>'~',</TD>
+    <TD width=50></TD>
+    <TD width=50>DEL,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>C128,</TD>
+    <TD width=50></TD>
+    <TD width=50>C129,</TD>
+    <TD width=50></TD>
+    <TD width=50>C130,</TD>
+    <TD width=50></TD>
+    <TD width=50>C131,</TD>
+    <TD width=50></TD>
+    <TD width=50>C132,</TD>
+    <TD width=50></TD>
+    <TD width=50>C133,</TD>
+    <TD width=50></TD>
+    <TD width=50>C134,</TD>
+    <TD width=50></TD>
+    <TD width=50>C135,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>C136,</TD>
+    <TD width=50></TD>
+    <TD width=50>C137,</TD>
+    <TD width=50></TD>
+    <TD width=50>C138,</TD>
+    <TD width=50></TD>
+    <TD width=50>C139,</TD>
+    <TD width=50></TD>
+    <TD width=50>C140,</TD>
+    <TD width=50></TD>
+    <TD width=50>C141,</TD>
+    <TD width=50></TD>
+    <TD width=50>C142,</TD>
+    <TD width=50></TD>
+    <TD width=50>C143,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>C144,</TD>
+    <TD width=50></TD>
+    <TD width=50>C145,</TD>
+    <TD width=50></TD>
+    <TD width=50>C146,</TD>
+    <TD width=50></TD>
+    <TD width=50>C147,</TD>
+    <TD width=50></TD>
+    <TD width=50>C148,</TD>
+    <TD width=50></TD>
+    <TD width=50>C149,</TD>
+    <TD width=50></TD>
+    <TD width=50>C150,</TD>
+    <TD width=50></TD>
+    <TD width=50>C151,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>C152,<BR></TD>
+    <TD width=50></TD>
+    <TD width=50>C153,</TD>
+    <TD width=50></TD>
+    <TD width=50>C154,</TD>
+    <TD width=50></TD>
+    <TD width=50>C155,</TD>
+    <TD width=50></TD>
+    <TD width=50>C156,</TD>
+    <TD width=50></TD>
+    <TD width=50>C157,</TD>
+    <TD width=50></TD>
+    <TD width=50>C158,</TD>
+    <TD width=50></TD>
+    <TD width=50>C159,</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&nbsp;',*</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#161;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#162;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#163;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'¤',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#165;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'¦',</TD>
+    <TD width=50></TD>
+    <TD width=50>'§',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>' ',</TD>
+    <TD width=50></TD>
+    <TD width=50>'©',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#170;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'«',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#170;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'-',[+] </TD>
+    <TD width=50></TD>
+    <TD width=50>'®',</TD>
+    <TD width=50></TD>
+    <TD width=50>' ',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'°',</TD>
+    <TD width=50></TD>
+    <TD width=50>'±',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#178;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#179;',</TD>
+    <TD width=50></TD>
+    <TD width=50>''',</TD>
+    <TD width=50></TD>
+    <TD width=50>'µ',</TD>
+    <TD width=50></TD>
+    <TD width=50>'¶',</TD>
+    <TD width=50></TD>
+    <TD width=50>'·',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>' ',<BR></TD>
+    <TD width=50></TD>
+    <TD width=50>'&#185;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#186;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'»',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#188;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#189;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#190;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#191;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#192;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#193;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#194;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#195;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#196;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#197;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#198;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#199;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#200;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#201;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#202;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#203;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#204;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#205;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#206;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#207;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#208;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#209;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#210;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#211;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#212;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#213;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#214;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#215;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#216;',<BR></TD>
+    <TD width=50></TD>
+    <TD width=50>'&#217;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#218;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#219;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#220;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#221;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#222;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#223;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#224;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#225;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#226;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#227;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#228;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#229;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#230;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#231;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#232;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#233;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#234;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#235;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#236;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#237;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#238;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#239;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#240;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#241;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#242;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#243;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#244;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#245;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#246;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#247;',</TD>
+    <TD width=50></TD></TR>
+  <TR>
+    <TD width=100></TD>
+    <TD width=50>'&#248;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#249;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#250;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#251;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#252;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#253;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#254;',</TD>
+    <TD width=50></TD>
+    <TD width=50>'&#255;');</TD>
+    <TD width=50></TD></TR></TBODY></TABLE><PRE>
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: CHARACTER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: CHARACTER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: CHARACTER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: CHARACTER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: CHARACTER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: CHARACTER) <B>return</B> BOOLEAN;
+
+
+
+        <B>type</B> <A name=SEVERITY_LEVEL>SEVERITY_LEVEL</A> <B>is</B> (NOTE, WARNING, ERROR, FAILURE);
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: SEVERITY_LEVEL)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: SEVERITY_LEVEL)<B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: SEVERITY_LEVEL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: SEVERITY_LEVEL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: SEVERITY_LEVEL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: SEVERITY_LEVEL) <B>return</B> BOOLEAN;
+
+</PRE><PRE>        --  <B>type</B> <A name=universal_integer>universal_integer</A>  <B>is</B> <B>range</B> <I>implementation_defined</I>;
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "+"      (<I>anonymous</I>: <I>universal_integer</I>) <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>: <I>universal_integer</I>) <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "abs"    (<I>anonymous</I>: <I>universal_integer</I>) <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "+"      (<I>anonymous</I>,  <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>,  <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "abs"      (<I>anonymous</I>,  <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "+"      (<I>anonymous</I>, anonymous: <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>, anonymous: <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>, anonymous: <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+
+
+        --  <B>function</B> "/"      (<I>anonymous</I>,<I>anonymous</I>:  <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "mod"    (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "rem"    (<I>anonymous</I>, <I>anonymous</I>: <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+
+
+        --  <B>type</B> <A name=univeral_real>universal_real</A>  <B>is</B> <B>range</B> <I>implementation_defined</I>;
+
+</PRE><PRE>        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>: <I>universal_real</I>) <B>return</B> <I>universal_real</I>;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>: <I>universal_real</I>) <B>return</B> <I>universal_real</I>;
+
+        --  <B>function</B> "abs"    (<I>anonymous</I>: <I>universal_real</I>) <B>return</B> <I>universal_real</I>;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> <I>universal_real</I>;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> <I>universal_real</I>;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> <I>universal_real</I>;
+
+        --  <B>function</B> "/"      (<I>anonymous</I>, <I>anonymous</I>:<I>universal_real</I>) <B>return</B> <I>universal_real</I>;
+
+
+
+        --  <B>function</B> "*"      (<I>anonymous</I>: <I>universal_real</I>;<I>anonymous</I>: <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_real</I>;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>: <I>universal_integer</I>;<I>anonymous</I>: <I>universal_real</I>)
+
+        --                                   <B>return</B> <I>universal_real</I>;
+
+        --  <B>function</B> "/"      (<I>anonymous</I>: <I>universal_real</I>;<I>anonymous</I>: <I>universal_integer</I>)
+
+        --                                   <B>return</B> <I>universal_real</I>;
+
+
+
+
+
+        --  Predefined numeric types:
+
+
+
+        <B>type</B> <A name=INTEGER>INTEGER</A> <B>is range</B> <I>implementation</I>_<I>defined</I>;
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "**"     (<I>anonymous</I>: <I>universal_integer</I>; <I>anonymous</I>: INTEGER)
+
+        --                                   <B>return</B> <I>universal_integer</I>;
+
+        --  <B>function</B> "**"     (<I>anonymous</I>: <I>universal_real</I>; <I>anonymous</I>: INTEGER)
+
+        --                                   <B>return</B> <I>universal_real</I>;
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+        --  <B>function</B> "abs"    (<I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+        --  <B>function</B> "/"      (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+        --  <B>function</B> "mod"    (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+        --  <B>function</B> "rem"    (<I>anonymous</I>, <I>anonymous</I>: INTEGER) <B>return</B> INTEGER;
+
+
+
+        --  <B>function</B> "**"     (<I>anonymous</I>: INTEGER; <I>anonymous</I>: INTEGER)
+
+        --                                   <B>return</B> INTEGER;
+
+
+
+
+
+
+
+</PRE><PRE>        <B>type</B> <A name=REAL>REAL</A> <B>is range</B> <I>implementation</I>_<I>defined</I>;
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>: REAL) <B>return</B> REAL;
+
+        --  <B>function</B> "-       (<I>anonymous</I>: REAL) <B>return</B> REAL;
+
+        --  <B>function</B> "abs"    (<I>anonymous</I>: REAL) <B>return</B> REAL;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> REAL;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> REAL;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> REAL;
+
+        --  <B>function</B> "/"      (<I>anonymous</I>, <I>anonymous</I>: REAL) <B>return</B> REAL;
+
+
+
+        --  <B>function</B> "**"     (<I>anonymous</I>: REAL; <I>anonymous</I>: INTEGER) <B>return</B> REAL;
+
+
+
+
+
+        --  Predefined type TIME:
+
+
+
+        <B>type</B> <A name=TIME>TIME</A> <B>is</B> <B>range</B> <I>implementation_defined</I>
+
+            <B>units</B>
+
+
+
+              fs;                       --  femtosecond
+
+              ps     =   1000 fs;       --  picosecond
+
+              ns     =   1000 ps;       --  nanosecond
+
+              us     =   1000 ns;       --  microsecond
+
+              ms     =   1000 us;       --  millisecond
+
+              sec    =   1000 ms;       --  second
+
+              min    =   60 sec;        --  minute
+
+              hr     =   60 min;        --  hour
+
+            <B>end</B> <B>units</B>;
+
+</PRE><PRE>        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>: TIME) <B>return</B> TIME;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>: TIME) <B>return</B> TIME;
+
+        --  <B>function</B> "abs"    (<I>anonymous</I>: TIME) <B>return</B> TIME;
+
+
+
+        --  <B>function</B> "+"      (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> TIME;
+
+        --  <B>function</B> "-"      (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> TIME;
+
+
+
+        --  <B>function</B> "*"      (<I>anonymous</I>: TIME;     <I>anonymous</I>: INTEGER)    <B>return</B> TIME;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>: TIME;     <I>anonymous</I>: REAL)       <B>return</B> TIME;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>: INTEGER;  <I>anonymous</I>: TIME)       <B>return</B> TIME;
+
+        --  <B>function</B> "*"      (<I>anonymous</I>: REAL;     <I>anonymous</I>: TIME)       <B>return</B> TIME;
+
+        --  <B>function</B> "/"      (<I>anonymous</I>: TIME;     <I>anonymous</I>: INTEGER)    <B>return</B> TIME;
+
+        --  <B>function</B> "/"      (<I>anonymous</I>: TIME;     <I>anonymous</I>: REAL) <B>return</B> TIME;
+
+
+
+        --  <B>function</B> "/"      (<I>anonymous</I>, <I>anonymous</I>: TIME) <B>return</B> <I>universal_integer</I>;
+
+
+
+
+
+        <B>subtype</B> DELAY_LENGTH <B>is</B> TIME <B>range</B> 0 fs <B>to</B> TIME'HIGH;
+
+
+
+
+
+        --  A function that returns the current simulation time, T</PRE>
+<P><SUB>c</SUB> (see <A 
+href="1076_12.html#12.6.4">12.6.4 
+</A>): <B>impure</B> <B>function</B> NOW <B>return</B> DELAY_LENGTH; -- <A 
+name=pred_num_subt>Predefined numeric subtypes</A>: <B>subtype</B> <A 
+name=NATURAL>NATURAL</A> <B>is</B> INTEGER <B>range</B> 0 <B>to</B> 
+INTEGER'HIGH; </P><PRE>        <B>subtype</B> <A name=POSITIVE>POSITIVE</A> <B>is</B> INTEGER <B>range</B> 1 <B>to</B> INTEGER'HIGH;
+
+
+
+
+
+        --  Predefined array types:
+
+
+
+        <B>type</B> <A name=STRING>STRING</A> <B>is</B> <B>array</B> (POSITIVE <B>range</B> &lt;&gt;)<B>of</B> CHARACTER;
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: STRING) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: STRING) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: STRING) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: STRING) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: STRING) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: STRING) <B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: STRING;          <I>anonymous</I>: STRING)
+
+        --                                              <B>return</B> STRING;
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: STRING;          <I>anonymous</I>: CHARACTER)
+
+        --                                              <B>return</B> STRING;
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: CHARACTER;      <I>anonymous</I>: STRING)
+
+        --                                              <B>return</B> STRING;
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: CHARACTER;      <I>anonymous</I>: CHARACTER)
+
+        --                                              <B>return</B> STRING;
+
+
+
+        <B>type</B> <A name=BIT_VECTOR>BIT_VECTOR</A> <B>is</B> <B>array</B> (NATURAL <B>range</B> &lt;&gt;)<B>of</B> BIT;
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "and"    (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "or"     (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "nand"   (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "nor"    (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "xor"    (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "xnor"   (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BIT_VECTOR;
+
+
+
+        --  <B>function</B> "not"    (<I>anonymous</I>: BIT_VECTOR) <B>return</B> BIT_VECTOR;
+
+
+
+        --  <B>function</B> "sll"    (<I>anonymous</I>: BIT_VECTOR; <I>anonymous</I>:INTEGER)
+
+        --                    <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "srl"    (<I>anonymous</I>: BIT_VECTOR; <I>anonymous</I>:INTEGER)
+
+        --                    <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "sla"    (<I>anonymous</I>: BIT_VECTOR; <I>anonymous</I>:INTEGER)
+
+        --                    <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "sra"    (<I>anonymous</I>: BIT_VECTOR; <I>anonymous</I>:INTEGER)
+
+        --                    <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "rol"    (<I>anonymous</I>: BIT_VECTOR; <I>anonymous</I>:INTEGER)
+
+        --                    <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "ror"    (<I>anonymous</I>: BIT_VECTOR; <I>anonymous</I>:INTEGER)
+
+        --                    <B>return</B> BIT_VECTOR;
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: BIT_VECTOR) <B>return</B> BOOLEAN;
+
+
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: BIT_VECTOR;     <I>anonymous</I>: BIT_VECTOR)
+
+        --                                              <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: BIT_VECTOR;     <I>anonymous</I>: BIT)
+
+        --                                              <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: BIT;            <I>anonymous</I>: BIT_VECTOR)
+
+        --                                              <B>return</B> BIT_VECTOR;
+
+        --  <B>function</B> "&amp;"      (<I>anonymous</I>: BIT;            <I>anonymous</I>: BIT)
+
+        --                                              <B>return</B> BIT_VECTOR;
+
+
+
+
+
+        --  The predefined types for opening files:
+
+
+
+        <B>type</B> <A name=FILE_OPEN_KIND>FILE_OPEN_KIND</A> <B>is</B> (
+
+           READ_MODE,                 --  Resulting access mode is read-only.
+
+           WRITE_MODE,                --  Resulting access mode is write-only.
+
+           APPEND_MODE);              --  Resulting access mode is write-only; information
+
+                                      --  is appended to the end of the existing file.
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+</PRE><PRE>
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_KIND) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_KIND) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_KIND) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_KIND) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_KIND) <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_KIND) <B>return</B> BOOLEAN;
+
+
+
+        <B>type</B> <A name=FILE_OPEN_STATUS>FILE_OPEN_STATUS</A> <B>is</B> (
+
+           OPEN_OK,                   --  File open was successful.
+
+           STATUS_ERROR,              --  File object was already open.
+
+           NAME_ERROR,                --  External file not found or inaccessible.
+
+           MODE_ERROR);               --  Could not open file with requested access mode.
+
+
+
+        --  The predefined operators for this type are as follows:
+
+
+
+        --  <B>function</B> "="      (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_STATUS)
+
+                             <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "/="     (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_STATUS)
+
+                             <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&lt;"      (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_STATUS)
+
+                             <B>return</B> BOOLEAN;-
+
+        --  <B>function</B> "&lt;="     (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_STATUS)
+
+                             <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;"      (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_STATUS)
+
+                             <B>return</B> BOOLEAN;
+
+        --  <B>function</B> "&gt;="     (<I>anonymous</I>, <I>anonymous</I>: FILE_OPEN_STATUS)
+
+                             <B>return</B> BOOLEAN;
+
+
+
+        --  The 'FOREIGN attribute:
+
+
+
+<B>                  attribute</B> FOREIGN: STRING;
+
+     <B>end</B> STANDARD;
+
+</PRE>
+<P>The 'FOREIGN attribute may be associated only with architectures (see <A 
+href="1076_1.html#1.2">1.2 
+</A>) or with subprograms. In the latter case, the attribute specification must 
+appear in the declarative part in which the subprogram is declared (see <A 
+href="1076_2.html#2.1">2.1 
+</A>). </P>
+<P>NOTES </P>
+<P>1--The ASCII mnemonics for file separator (FS), group separator (GS), record 
+separator (RS), and unit separator (US) are represented by FSP, GSP, RSP, and 
+USP, respectively, in type CHARACTER in order to avoid conflict with the units 
+of type TIME. </P>
+<P>2--The declarative parts and statement parts of design entities whose 
+corresponding architectures are decorated with the 'FOREIGN attribute and 
+subprograms that are likewise decorated are subject to special elaboration 
+rules. See <A 
+href="1076_12.html#12.3">12.3 
+</A>and <A 
+href="1076_12.html#12.4">12.4 
+</A>. </P>
+<H2><A 
+href="1076_14.html#14.3">14.3 
+</A>Package TEXTIO</H2>
+<P><CODE>Package TEXTIO contains declarations of types and subprograms that 
+support formatted I/O operations on text files.</CODE> </P><PRE>     <B>package</B> TEXTIO <B>is</B>
+
+
+
+        --  Type definitions for text I/O:
+
+
+
+          <B>type</B> LINE <B>is access</B> STRING;        --  A LINE is a pointer to a STRING value.
+
+
+
+          <B>type</B> TEXT <B>is file of</B> STRING;       --  A file of variable-length ASCII records.
+
+
+
+          <B>type</B> SIDE <B>is</B> (RIGHT, LEFT);        --  For justifying output data within fields.
+
+
+
+          <B>subtype</B> WIDTH <B>is</B> NATURAL;          --  For specifying widths of output fields.
+
+
+
+        --  Standard text files:
+
+
+
+          <B>file</B> INPUT:     TEXT <B>open</B> READ_MODE     <B>is</B> "STD_INPUT";
+
+
+
+          <B>file</B> OUTPUT:    TEXT <B>open</B> WRITE_MODE    <B>is</B> "STD_OUTPUT";
+
+
+
+        --  Input routines for standard types:
+
+
+
+          <B>procedure</B> READLINE (<B>file</B> F: TEXT; L: <B>out</B> LINE);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> BIT;              GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> BIT);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> BIT_VECTOR;       GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> BIT_VECTOR);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> BOOLEAN;          GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> BOOLEAN);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> CHARACTER;        GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> CHARACTER);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> INTEGER;          GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> INTEGER);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> REAL;             GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> REAL);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> STRING;           GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> STRING);
+
+
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> TIME;             GOOD: <B>out</B> BOOLEAN);
+
+          <B>procedure</B> READ (L: <B>inout</B> LINE;     VALUE: <B>out</B> TIME);
+
+
+
+
+
+          --  Output routines for standard types:
+
+
+
+          <B>procedure</B> WRITELINE (<B>file</B> F: TEXT; L: <B>inout</B> LINE);
+
+
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in </B>BIT;
+
+                               JUSTIFIED: <B>in </B>SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0);
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in </B>BIT_VECTOR;
+
+                               JUSTIFIED: <B>in </B>SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0);
+
+
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in </B>BOOLEAN;
+
+                               JUSTIFIED: <B>in </B>SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0);
+
+
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in </B>CHARACTER;
+
+                               JUSTIFIED: <B>in </B>SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0);
+
+
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in </B>INTEGER;
+
+                               JUSTIFIED: <B>in </B>SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0);
+
+
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in </B>REAL;
+
+                               JUSTIFIED: <B>in </B>SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0;
+
+                               DIGITS: <B>in </B>NATURAL:= 0);
+
+
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in </B>STRING;
+
+                               JUSTIFIED: <B>in </B>SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0);
+
+
+
+          <B>procedure</B> WRITE (L: <B>inout</B> LINE;     VALUE: <B>in</B> TIME;
+
+                               JUSTIFIED: <B>in</B> SIDE:= RIGHT; FIELD: <B>in </B>WIDTH := 0;
+
+                               UNIT: <B>in </B>TIME:= ns);
+
+
+
+
+
+          --  File position predicate:
+
+
+
+     --<B>function</B> ENDFILE (<B>file</B> F: TEXT) <B>return</B> BOOLEAN;
+
+
+
+     <B>end</B> TEXTIO;
+
+</PRE>
+<P>Procedures READLINE and WRITELINE declared in package TEXTIO read and write 
+entire lines of a file of type TEXT. Procedure READLINE causes the next line to 
+be read from the file and returns as the value of parameter L an access value 
+that designates an object representing that line. If parameter L contains a 
+nonnull access value at the start of the call, the object designated by that 
+value is deallocated before the new object is created. The representation of the 
+line does not contain the representation of the end of the line. It is an error 
+if the file specified in a call to READLINE is not open or, if open, the file 
+has an access mode other than read-only (see <A 
+href="1076_3.html#3.4.1">3.4.1 
+</A>). Procedure WRITELINE causes the current line designated by parameter L to 
+be written to the file and returns with the value of parameter L designating a 
+null string. If parameter L contains a null access value at the start of the 
+call, then a null string is written to the file. It is an error if the file 
+specified in a call to WRITELINE is not open or, if open, the file has an access 
+mode other than write-only. </P>
+<P>The language does not define the representation of the end of a line. An 
+implementation must allow all possible values of types CHARACTER and STRING to 
+be written to a file. However, as an implementation is permitted to use certain 
+values of types CHARACTER and STRING as line delimiters, it may not be possible 
+to read these values from a TEXT file. </P>
+<P>Each READ procedure declared in package TEXTIO extracts data from the 
+beginning of the string value designated by parameter L and modifies the value 
+so that it designates the remaining portion of the line on exit. </P>
+<P>The READ procedures defined for a given type other than CHARACTER and STRING 
+begin by skipping leading <I>whitespace</I> <I>characters</I>. A whitespace 
+character is defined as a space, a nonbreaking space, or a horizontal tabulation 
+character (SP, NBSP, or HT). For all READ procedures, characters are then 
+removed from L and composed into a string representation of the value of the 
+specified type. Character removal and string composition stops when a character 
+is encountered that cannot be part of the value according to the lexical rules 
+of <A 
+href="1076_13.html#13.2">13.2 
+</A>; this character is not removed from L and is not added to the string 
+representation of the value. The READ procedures for types INTEGER and REAL also 
+accept a leading sign; additionally, there can be no space between the sign and 
+the remainder of the literal. The READ procedures for types STRING and 
+BIT_VECTOR also terminate acceptance when VALUE'LENGTH characters have been 
+accepted. Again using the rules of <A 
+href="1076_13.html#13.2">13.2 
+</A>, the accepted characters are then interpreted as a string representation of 
+the specified type. The READ does not succeed if the sequence of characters 
+removed from L is not a valid string representation of a value of the specified 
+type or, in the case of types STRING and BIT_VECTOR, if the sequence does not 
+contain VALUE'LENGTH characters. </P>
+<P>The definitions of the string representation of the value for each data type 
+are as follows: </P>
+<P>-- The representation of a BIT value is formed by a single character, either1 
+or 0. No leading or trailing quotation characters are present. </P>
+<P>-- The representation of a BIT_VECTOR value is formed by a sequence of 
+characters, either 1 or 0. No leading or trailing quotation characters are 
+present. </P>
+<P>-- The representation of a BOOLEAN value is formed by an identifier, either 
+FALSE or TRUE. </P>
+<P>-- The representation of a CHARACTER value is formed by a single character. 
+</P>
+<P>-- The representation of both INTEGER and REAL values is that of a decimal 
+literal (see <A 
+href="1076_13.html#13.4.1">13.4.1 
+</A>), with the addition of an optional leading sign. The sign is never written 
+if the value is nonnegative, but it is accepted during a read even if the value 
+is nonnegative. No spaces can occur between the sign and the remainder of the 
+value. The decimal point is absent in the case of an INTEGER literal and present 
+in the case of a REAL literal. An exponent may optionally be present; moreover, 
+the language does not define under what conditions it is or is not present. 
+However, if the exponent is present, the "e" is written as a lowercase 
+character. Leading and trailing zeroes are written as necessary to meet the 
+requirements of the FIELD and DIGITS parameters, and they are accepted during a 
+read. </P>
+<P>-- The representation of a STRING value is formed by a sequence of 
+characters, one for each element of the string. No leading or trailing quotation 
+characters are present. </P>
+<P>-- The representation of a TIME value is formed by an optional decimal 
+literal composed following the rules for INTEGER and REAL literals described 
+above, one or more blanks, and an identifier that is a unit of type TIME, as 
+defined in package STANDARD (see <A 
+href="1076_14.html#14.2">14.2 
+</A>). When read, the identifier can be expressed with characters of either 
+case; when written, the identifier is expressed in lowercase characters. </P>
+<P>Each WRITE procedure similarly appends data to the end of the string value 
+designated by parameter L; in this case, however, L continues to designate the 
+entire line after the value is appended. The format of the appended data is 
+defined by the string representations defined above for the READ procedures. 
+</P>
+<P>The READ and WRITE procedures for the types BIT_VECTOR and STRING 
+respectively read and write the element values in left-to-right order. </P>
+<P>For each predefined data type there are two READ procedures declared in 
+package TEXTIO. The first has three parameters: L, the line to read from; VALUE, 
+the value read from the line; and GOOD, a Boolean flag that indicates whether 
+the read operation succeeded or not. For example, the operation READ (L, 
+IntVal,OK) would return with OK set to FALSE, L unchanged, and IntVal undefined 
+if IntVal is a variable of type INTEGER and L designates the line "ABC". The 
+success indication returned via parameter GOOD allows a process to recover 
+gracefully from unexpected discrepancies in input format. The second form of 
+read operation has only the parameters L and VALUE. If the requested type cannot 
+be read into VALUE from line L, then an error occurs. Thus, the operation READ 
+(L, IntVal) would cause an error to occur if IntVal is of type INTEGER and L 
+designates the line "ABC". </P>
+<P>For each predefined data type there is one WRITE procedure declared in 
+package TEXTIO. Each of these has at least two parameters: L, the line to which 
+to write; and VALUE, the value to be written. The additional parameters 
+JUSTIFIED, FIELD, DIGITS, and UNIT control the formatting of output data. Each 
+write operation appends data to a line formatted within a <I>field</I> that is 
+at least as long as required to represent the data value. Parameter FIELD 
+specifies the desired field width. Since the actual field width will always beat 
+least large enough to hold the string representation of the data value, the 
+default value 0 for the FIELD parameter has the effect of causing the data value 
+to be written out in a field of exactly the right width (i.e., no leading or 
+trailing spaces). Parameter JUSTIFIED specifies whether values are to be right- 
+or left-justified within the field; the default is right-justified. If the FIELD 
+parameter describes a field width larger than the number of characters necessary 
+for a given value, blanks are used to fill the remaining characters in the 
+field. </P>
+<P>Parameter DIGITS specifies how many digits to the right of the decimal point 
+are to be output when writing a real number; the default value 0 indicates that 
+the number should be output in standard form, consisting of a normalized 
+mantissa plus exponent (e.g. 1.079236E-23). If DIGITS is nonzero, then the real 
+number is output as an integer part followed by '.' followed by the fractional 
+part, using the specified number of digits (e.g., 3.14159 ). </P>
+<P>Parameter UNIT specifies how values of type TIME are to be formatted. The 
+value of this parameter must be equal to one of the units declared as part of 
+the declaration of type TIME; the result is that the TIME value is formatted as 
+an integer or real literal representing the number of multiples of this 
+unit,followed by the name of the unit itself. The name of the unit is formatted 
+using only lowercase characters. Thus the procedure call WRITE(Line, 5 
+ns,UNIT=&gt;us) would result in the string value " 0.005 us" being appended to 
+the string value designated by Line, whereas WRITE(Line, 5 ns) would result in 
+the string value "5 ns" being appended (since the default UNIT value is ns). 
+</P>
+<P>Function ENDFILE is defined for files of type TEXT by the implicit 
+declaration of that function as part of the declaration of the file type. </P>
+<P>NOTES </P>
+<P>1--For a variable L of type Line, attribute L'Length gives the current length 
+of the line, whether that line is being read or written. For a line L that is 
+being written, the value of L'Length gives the number of characters that have 
+already been written to the line; this is equivalent to the column number of the 
+last character of the line. For a line L that is being read, the value of 
+L'Length gives the number of characters on that line remaining to be read. In 
+particular, the expression L'Length = 0 is true precisely when the end of the 
+current line has been reached. </P>
+<P>2--The execution of a read or write operation may modify or even deallocate 
+the string object designated by input parameter L of type Line for that 
+operation; thus, a dangling reference may result if the value of a variable L of 
+type Line is assigned to another access variable and then a read or write 
+operation is performed on L. </P>
+<HR>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_13.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_axa.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+
+</BODY></HTML>

@@ -1,0 +1,966 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html -->
+<HTML><HEAD><TITLE>VHDL LRM-Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=2>Section 2</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_1.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_3.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Subprograms and packages</H1>
+<P>Subprograms define algorithms for computing values or exhibiting behavior. 
+They may be used as computational resources to convert between values of 
+different types, to define the resolution of output values driving a common 
+signal, or to define portions of a process. Packages provide a means of defining 
+these and other resources in a way that allows different design units to share 
+the same declarations. </P>
+<P>There are two forms of subprograms: procedures and functions. A procedure 
+call is a statement; a function call is an expression and returns a value. 
+Certain functions, designated <I>pure</I> functions, return the same value each 
+time they are called with the same values as actual parameters; the 
+remainder,<I>impure</I> functions, may return a different value each time they 
+are called, even when multiple calls have the same actual parameter values. In 
+addition, impure functions can update objects outside of their scope and can 
+access a broader class of values than can pure functions. The definition of a 
+subprogram can be given in two parts: a subprogram declaration defining its 
+calling conventions, and a subprogram body defining its execution. </P>
+<P>Packages may also be defined in two parts. A package declaration defines the 
+visible contents of a package; a package body provides hidden details. In 
+particular, a package body contains the bodies of any subprograms declared in 
+the package declaration. </P>
+<H2><A name=2.1></A><A 
+href="1076_2.html#2.1">2.1 
+</A>Subprogram declarations</H2>
+<P>A subprogram declaration declares a procedure or a function, as indicated by 
+the appropriate reserved word. </P><PRE>     subprogram_declaration ::=
+
+       subprogram_specification ;
+
+
+
+     subprogram_specification ::=
+
+          <B>procedure</B> designator [ ( formal_parameter_list ) ]
+
+       | [ <B>pure</B> | <B>impure</B> ] <B>function</B> designator [ ( formal_parameter_list ) ]
+
+                          <B>return</B> type_mark
+
+
+
+     designator ::=  identifier  |  operator_symbol
+
+
+
+     operator_symbol ::=  string_literal
+
+</PRE>
+<P>The specification of a procedure specifies its designator and its formal 
+parameters(if any). The specification of a function specifies its designator, 
+its formal parameters (if any), the subtype of the returned value (the <I>result 
+subtype</I>), and whether or not the function is pure. A function is 
+<I>impure</I> if its specification contains the reserved word 
+<B>impure</B>;otherwise, it is said to be <I>pure</I>. A procedure designator is 
+always an identifier. A function designator is either an identifier or an 
+operator symbol. A designator that is an operator symbol is used for the 
+overloading of an operator (see <A 
+href="1076_2.html#2.3.1">2.3.1 
+</A>). The sequence of characters represented by an operator symbol must be an 
+operator belonging to one of the classes of operators defined in <A 
+href="1076_7.html#7.2">7.2 
+</A>. Extra spaces are not allowed in an operator symbol, and the case of 
+letters is not significant. </P>
+<P>NOTE--All subprograms can be called recursively. </P>
+<H3><A name=2.1.1></A><A 
+href="1076_2.html#2.1.1">2.1.1 
+</A>Formal parameters</H3>
+<P>The formal parameter list in a subprogram specification defines the formal 
+parameters of the subprogram. </P><PRE>     formal_parameter_list ::=  <I>parameter</I>_interface_list
+
+</PRE>
+<P>Formal parameters of subprograms may be constants, variables, signals, or 
+files. In the first three cases, the mode of a parameter determines how a given 
+formal parameter may be accessed within the subprogram. The mode of a formal 
+parameter, together with its class, may also determine how such access is 
+implemented. In the fourth case, that of files, the parameters have no mode. 
+</P>
+<P>For those parameters with modes, the only modes that are allowed for formal 
+parameters of a procedure are <B>in</B>, <B>inout</B>, and <B>out</B>. If the 
+mode is <B>in</B> and no object class is explicitly specified, <B>constant</B> 
+is assumed. If the mode is <B>inout</B> or <B>out</B>, and no object class is 
+explicitly specified, <B>variable</B> is assumed. </P>
+<P>For those parameters with modes, the only mode that is allowed for formal 
+parameters of a function is the mode <B>in</B> (whether this mode is specified 
+explicitly or implicitly). The object class must be 
+<B>constant</B>,<B>signal</B>, or <B>file</B>. If no object class is explicitly 
+given,<B>constant</B> is assumed. </P>
+<P>In a subprogram call, the actual designator (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>) associated with a formal parameter of class <B>signal</B> must be a 
+signal. The actual designator associated with a formal of class <B>variable</B> 
+must be a variable. The actual designator associated with a formal of class 
+<B>constant</B> must be an expression. The actual designator associated with a 
+formal of class <B>file</B> must be a file. </P>
+<P>NOTE--Attributes of an actual are never passed into a subprogram: references 
+to an attribute of a formal parameter are legal only if that formal has such an 
+attribute. Such references retrieve the value of the attribute associated with 
+the formal. </P>
+<H4><A name=2.1.1.1></A><A 
+href="1076_2.html#2.1.1.1">2.1.1.1 
+</A>Constant and variable parameters</H4>
+<P>For parameters of class <B>constant</B> or <B>variable</B>, only the values 
+of the actual or formal are transferred into or out of the subprogram call. The 
+manner of such transfers, and the accompanying access privileges that are 
+granted for constant and variable parameters, are described in this subclause. 
+</P>
+<P>For a nonforeign subprogram having a parameter of a scalar type or an access 
+type, the parameter is passed by copy. At the start of each call, if the mode is 
+<B>in</B> or <B>inout</B>, the value of the actual parameter is copied into the 
+associated formal parameter; it is an error if, after applying any conversion 
+function or type conversion present in the actual part of the applicable 
+association element (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>), the value of the actual parameter does not belong to the subtype denoted 
+by the subtype indication of the formal. After completion of the subprogram 
+body, if the mode is <B>inout </B>or <B>out</B>, the value of the formal 
+parameter is copied back into the associated actual parameter; it is similarly 
+an error if, after applying any conversion function or type conversion present 
+in the formal part of the applicable association element, the value of the 
+formal parameter does not belong to the subtype denoted by the subtype 
+indication of the actual. </P>
+<P>For a nonforeign subprogram having a parameter whose type is an array or 
+record, an implementation may pass parameter values by copy, as for scalar 
+types. If a parameter of mode <B>out </B>is passed by copy, then the range of 
+each index position of the actual parameter is copied in, and likewise for its 
+subelements or slices. Alternatively, an implementation may achieve these 
+effects by reference; that is, by arranging that every use of the formal 
+parameter (to read or update its value) be treated as a use of the associated 
+actual parameter throughout the execution of the subprogram call. The language 
+does not define which of these two mechanisms is to be adopted for parameter 
+passing, nor whether different calls to the same subprogram are to use the same 
+mechanism. The execution of a subprogram is erroneous if its effect depends on 
+which mechanism is selected by the implementation. </P>
+<P>For a formal parameter of a constrained array subtype of mode <B>in</B> or 
+<B>inout</B>, it is an error if the value of the associated actual 
+parameter(after application of any conversion function or type conversion 
+present in the actual part) does not contain a matching element for each element 
+of the formal. For a formal parameter whose declaration contains a subtype 
+indication denoting an unconstrained array type, the subtype of the formal in 
+any call to the subprogram is taken from the actual associated with that formal 
+in the call to the subprogram. It is also an error if, in either case, the value 
+of each element of the actual array (after applying any conversion function or 
+type conversion present in the actual part) does not belong to the element 
+subtype of the formal. If the formal parameter is of mode <B>out</B> or 
+<B>inout</B>,it is also an error if, at the end of the subprogram call, the 
+value of each element of the formal (after applying any conversion function or 
+type conversion present in the formal part) does not belong to the element 
+subtype of the actual. </P>
+<P></P>
+<H4>NOTES</H4>
+<P>1--For parameters of array and record types, the parameter-passing rules 
+imply that if no actual parameter of such a type is accessible by more than one 
+path, then the effect of a subprogram call is the same whether or not the 
+implementation uses copying for parameter passing. If, however, there are 
+multiple access paths to such a parameter (for example, if another formal 
+parameter is associated with the same actual parameter), then the value of the 
+formal is undefined after updating the actual other than by updating the formal. 
+A description using such an undefined value is erroneous. </P>
+<P>2--As a consequence of the parameter-passing conventions for variables, if a 
+procedure is called with a shared variable (see <A 
+href="1076_4.html#4.3.1.3">4.3.1.3 
+</A>) as an actual to a formal variable parameter of modes <B>inout</B> or 
+<B>out</B>, the shared variable may not be updated until the procedure completes 
+its execution. Furthermore, a formal variable parameter with modes <B>in</B> or 
+<B>inout</B> may not reflect updates made to a shared variable associated with 
+it as an actual during the execution of the subprogram, including updates made 
+to the actual during the execution of a wait statement within a procedure. </P>
+<H4><A name=2.1.1.2></A><A 
+href="1076_2.html#2.1.1.2">2.1.1.2 
+</A>Signal parameters</H4>
+<P>For a formal parameter of class <B>signal</B>, references to the signal, the 
+driver of the signal, or both, are passed into the subprogram call. </P>
+<P>For a signal parameter of mode <B>in</B> or <B>inout</B>, the actual signal 
+is associated with the corresponding formal signal parameter at the start of 
+each call. Thereafter, during the execution of the subprogram body, a reference 
+to the formal signal parameter within an expression is equivalent to a reference 
+to the actual signal. </P>
+<P>It is an error if signal-valued attributes 'STABLE, 'QUIET, 'TRANSACTION, and 
+'DELAYED of formal signal parameters of any mode are read within a subprogram. 
+</P>
+<P>A process statement contains a driver for each actual signal associated with 
+a formal signal parameter of mode <B>out</B> or <B>inout</B> in a subprogram 
+call. Similarly, a subprogram contains a driver for each formal signal parameter 
+of mode <B>out</B> or <B>inout</B> declared in its subprogram specification. 
+</P>
+<P>For a signal parameter of mode <B>inout </B>or <B>out</B>, the driver of an 
+actual signal is associated with the corresponding driver of the formal signal 
+parameter at the start of each call. Thereafter, during the execution of the 
+subprogram body, an assignment to the driver of a formal signal parameter is 
+equivalent to an assignment to the driver of the actual signal. </P>
+<P>If an actual signal is associated with a signal parameter of any mode, the 
+actual must be denoted by a static signal name. It is an error if a conversion 
+function or type conversion appears in either the formal part or the actual part 
+of an association element that associates an actual signal with a formal signal 
+parameter. </P>
+<P>If an actual signal is associated with a signal parameter of any mode, and if 
+the type of the formal is a scalar type, then it is an error if the bounds and 
+direction of the subtype denoted by the subtype indication of the formal are not 
+identical to the bounds and direction of the subtype denoted by the subtype 
+indication of the actual. </P>
+<P>If an actual signal is associated with a formal signal parameter, and if the 
+formal is of a constrained array subtype, then it is an error if the actual does 
+not contain a matching element for each element of the formal. If an actual 
+signal is associated with a formal signal parameter, and if the subtype denoted 
+by the subtype indication of the declaration of the formal is an unconstrained 
+array type, then the subtype of the formal in any call to the subprogram is 
+taken from the actual associated with that formal in the call to the subprogram. 
+It is also an error if the mode of the formal is <B>in</B> or <B>inout</B> and 
+if the value of each element of the actual array does not belong to the element 
+subtype of the formal. </P>
+<P>A formal signal parameter is a guarded signal if and only if it is associated 
+with an actual signal that is a guarded signal. It is an error if the 
+declaration of a formal signal parameter includes the reserved word 
+<B>bus</B>(see <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>). </P>
+<P>NOTE--It is a consequence of the preceding rules that a procedure with an 
+<B>out</B> or <B>inout</B> signal parameter called by a process does not have to 
+complete in order for any assignments to that signal parameter within the 
+procedure to take effect. Assignments to the driver of a formal signal parameter 
+are equivalent to assignments directly to the actual driver contained in the 
+process calling the procedure. </P>
+<H4><A name=2.1.1.3></A><A 
+href="1076_2.html#2.1.1.3">2.1.1.3 
+</A>File parameters</H4>
+<P>For parameters of class <B>file</B>, references to the actual file are passed 
+into the subprogram. No particular parameter-passing mechanism is defined by the 
+language, but a reference to the formal parameter must be equivalent to a 
+reference to the actual parameter. It is an error if an association element 
+associates an actual with a formal parameter of a file type and that association 
+element contains a conversion function or type conversion. It is also an error 
+if a formal of a file type is associated with an actual that is not of a file 
+type. </P>
+<P>At the beginning of a given subprogram call, a file parameter is open (see <A 
+href="1076_3.html#3.4.1">3.4.1 
+</A>) if and only if the actual file object associated with the given parameter 
+in a given subprogram call is also open. Similarly, at the beginning of a given 
+subprogram call, both the access mode of and external file associated with (see 
+<A 
+href="1076_3.html#3.4.1">3.4.1 
+</A>) an open file parameter are the same as, respectively, the access mode of 
+and the external file associated with the actual file object associated with the 
+given parameter in the subprogram call. </P>
+<P>At the completion of the execution of a given subprogram call, the actual 
+file object associated with a given file parameter is open if and only if the 
+formal parameter is also open. Similarly, at the completion of the execution of 
+a given subprogram call, the access mode of and the external file associated 
+with an open actual file object associated with a given file parameter are the 
+same as, respectively, the access mode of and the external file associated with 
+the associated formal parameter. </P>
+<H2><A name=2.2></A><A 
+href="1076_2.html#2.2">2.2 
+</A>Subprogram bodies</H2>
+<P>A subprogram body specifies the execution of a subprogram. </P><PRE>     subprogram_body ::=
+
+       subprogram_specification <B>is</B>
+
+               subprogram_declarative_part
+
+       <B>begin</B>
+
+               subprogram_statement_part
+
+       <B>end</B> [ subprogram_kind ] [ designator ] ;
+
+
+
+     subprogram_declarative_part ::=
+
+       { subprogram_declarative_item }
+
+
+
+     subprogram_declarative_item ::=
+
+         subprogram_declaration
+
+       | subprogram_body
+
+       | type_declaration
+
+       | subtype_declaration
+
+       | constant_declaration
+
+       | variable_declaration
+
+       | file_declaration
+
+       | alias_declaration
+
+       | attribute_declaration
+
+       | attribute_specification
+
+       | use_clause
+
+       | group_template_declaration
+
+       | group_declaration
+
+
+
+     subprogram_statement_part ::=
+
+       { sequential_statement }
+
+
+
+     subprogram_kind ::=  <B>procedure</B> | <B>function</B>
+
+</PRE>
+<P>The declaration of a subprogram is optional. In the absence of such a 
+declaration,the subprogram specification of the subprogram body acts as the 
+declaration. For each subprogram declaration, there must be a corresponding 
+body. If both a declaration and a body are given, the subprogram specification 
+of the body must conform (see <A 
+href="1076_2.html#2.7">2.7 
+</A>) to the subprogram specification of the declaration. Furthermore, both the 
+declaration and the body must occur immediately within the same declarative 
+region (see <A 
+href="1076_10.html#10.1">10.1 
+</A>). </P>
+<P>If a subprogram kind appears at the end of a subprogram body, it must repeat 
+the reserved word given in the subprogram specification. If a designator appears 
+at the end of a subprogram body, it must repeat the designator of the 
+subprogram. </P>
+<P>It is an error if a variable declaration in a subprogram declarative part 
+declares a shared variable. (See <A 
+href="1076_4.html#4.3.1.3">4.3.1.3 
+</A>and <A 
+href="1076_8.html#8.1.4">8.1.4 
+</A>.) </P>
+<P>A <I>foreign subprogram</I> is one that is decorated with the attribute 
+'FOREIGN, defined in package STANDARD (see <A 
+href="1076_14.html#14.2">14.2 
+</A>). The STRING value of the attribute may specify implementation-dependent 
+information about the foreign subprogram. Foreign subprograms may have non-VHDL 
+implementations. An implementation may place restrictions on the allowable 
+modes, classes, and types of the formal parameters to a foreign subprogram; such 
+restrictions may include restrictions on the number and allowable order of the 
+parameters. </P>
+<P>Excepting foreign subprograms, the algorithm performed by a subprogram is 
+defined by the sequence of statements that appears in the subprogram statement 
+part. For a foreign subprogram, the algorithm performed is implementation 
+defined. </P>
+<P>The execution of a subprogram body is invoked by a subprogram call. For this 
+execution, after establishing the association between the formal and actual 
+parameters, the sequence of statements of the body is executed if the subprogram 
+is not a foreign subprogram; otherwise, an implementation-defined action occurs. 
+Upon completion of the body or implementation-dependent action, return is made 
+to the caller (and any necessary copying back of formal to actual parameters 
+occurs). </P>
+<P>A process or a subprogram is said to be a <I>parent</I> of a given subprogram 
+S if that process or subprogram contains a procedure call or function call for S 
+or for a parent of S. </P>
+<P>An <I>explicit signal</I> is a signal other than an implicit signal GUARD or 
+other than one of the implicit signals defined by the predefined attributes 
+'DELAYED, 'STABLE, 'QUIET, or 'TRANSACTION. The <I>explicit ancestor</I> of an 
+implicit signal is found as follows. The implicit signal GUARD has no explicit 
+ancestor. An explicit ancestor of an implicit signal defined by the predefined 
+attributes 'DELAYED, 'STABLE, 'QUIET, or 'TRANSACTION is the signal found by 
+recursively examining the prefix of the attribute. If the prefix denotes an 
+explicit signal, or a member (see <A 
+href="1076_3.html">Section 
+3</A>) of an explicit signal then that is the explicit ancestor of the implicit 
+signal. Otherwise, if the prefix is one of the implicit signals defined by the 
+predefined attributes 'DELAYED, 'STABLE,'QUIET, or 'TRANSACTION, this rule is 
+recursively applied. If the prefix is an implicit signal GUARD, then the signal 
+has no explicit ancestor. </P>
+<P>If a pure function subprogram is a parent of a given procedure and if that 
+procedure contains a reference to an explicitly declared signal or variable 
+object, or a slice or subelement (or slice thereof), of an explicit signal, then 
+that object must be declared within the declarative region formed by the 
+function (see <A 
+href="1076_10.html#10.1">10.1 
+</A>) or within the declarative region formed by the procedure; this rule also 
+holds for the explicit ancestor, if any, of an implicit signal and also for the 
+implicit signal GUARD. If a pure function is the parent of a given procedure, 
+then that procedure must not contain a reference to an explicitly declared file 
+object(see <A 
+href="1076_4.html#4.3.1.4">4.3.1.4 
+</A>) or to a shared variable (see <A 
+href="1076_4.html#4.3.1.3">4.3.1.3 
+</A>). </P>
+<P>Similarly, if a pure function subprogram contains a reference to an 
+explicitly declared signal or variable object, or a slice or subelement (or 
+slice thereof) of an explicit signal , then that object must be declared within 
+the declarative region formed by the function; this rule also holds for the 
+explicit ancestor, if any,of an implicit signal and also for the implicit signal 
+GUARD. A pure function must not contain a reference to an explicitly declared 
+file object. </P>
+<P>A pure function must not be the parent of an impure function. </P>
+<P>The rules of the preceding four paragraphs apply to all pure function 
+subprograms. For pure functions that are not foreign subprograms, violations of 
+any of these rules are errors. However, since implementations cannot in general 
+check that such rules hold for pure function subprograms that are foreign 
+subprograms, a description calling pure foreign function subprograms not 
+adhering to these rules is erroneous. </P>
+<P><I>Example:</I> </P><PRE>-- The declaration of a foreign function subprogram:
+
+
+
+     <B>package</B> P <B>is</B>
+
+        <B>function</B> F <B>return</B> INTEGER;
+
+        <B>attribute</B> FOREIGN <B>of</B> F: <B>function</B> <B>is</B> "implementation-dependent information";
+
+     <B>end</B> <B>package</B> P;
+
+
+
+</PRE>
+<P></P>
+<H4>NOTES</H4>
+<P>1--It follows from the visibility rules that a subprogram declaration must be 
+given if a call of the subprogram occurs textually before the subprogram body, 
+and that such a declaration must occur before the call itself. </P>
+<P>2--The preceding rules concerning pure function subprograms, together with 
+the fact that function parameters may only be of mode <B>in</B>, imply that a 
+pure function has no effect other than the computation of the returned value. 
+Thus, a pure function invoked explicitly as part of the elaboration of a 
+declaration, or one invoked implicitly as part of the simulation cycle, is 
+guaranteed to have no effect on other objects in the description. </P>
+<P>3--VHDL does not define the parameter-passing mechanisms for foreign 
+subprograms. </P>
+<P>4--The declarative parts and statement parts of subprograms decorated with 
+the 'FOREIGN attribute are subject to special elaboration rules. See <A 
+href="1076_12.html#12.3">12.3 
+</A>and <A 
+href="1076_12.html#12.4">12.4 
+</A>. </P>
+<P>5--A pure function subprogram may not reference a shared variable. This 
+prohibition exists because a shared variable may not be declared in a subprogram 
+declarative part and a pure function may not reference any variable declared 
+outside of its declarative region. </P>
+<H2><A name=2.3></A><A 
+href="1076_2.html#2.3">2.3 
+</A>Subprogram overloading</H2>
+<P>Two formal parameter lists are said to have the same <I>parameter type 
+profile</I> if and only if they have the same number of parameters, and if at 
+each parameter position the corresponding parameters have the same base type. 
+Two subprograms are said to have the same <I>parameter and result type 
+profile</I> if and only if both have the same parameter type profile, and if 
+either both are functions with the same result base type or neither of the two 
+is a function. </P>
+<P>A given subprogram designator can be used in several subprogram 
+specifications. The subprogram designator is then said to be overloaded; the 
+designated subprograms are also said to be overloaded and to overload each 
+other. If two subprograms overload each other, one of them can hide the other 
+only if both subprograms have the same parameter and result type profile. </P>
+<P>A call to an overloaded subprogram is ambiguous (and therefore is an error) 
+if the name of the subprogram, the number of parameter associations, the types 
+and order of the actual parameters, the names of the formal parameters (if named 
+associations are used), and the result type (for functions) are not sufficient 
+to identify exactly one (overloaded) subprogram specification. </P>
+<P>Similarly, a reference to an overloaded resolution function name in a subtype 
+indication is ambiguous (and is therefore an error) if the name of the function, 
+the number of formal parameters, the result type, and the relationships between 
+the result type and the types of the formal parameters (as defined in <A 
+href="1076_2.html#2.4">2.4 
+</A>) are not sufficient to identify exactly one (overloaded) subprogram 
+specification. </P>
+<P><I>Examples:</I> </P><PRE>--  Declarations of overloaded subprograms:
+
+
+
+     <B>procedure</B> Dump(F: <B>inout</B> Text; Value: Integer);
+
+     <B>procedure</B> Dump(F: <B>inout</B> Text; Value: String);
+
+
+
+     <B>procedure</B> Check (Setup: Time; <B>signal</B> D: Data; <B>signal</B> C: Clock);
+
+     <B>procedure</B> Check (Hold: Time; <B>signal</B> C: Clock; <B>signal</B> D: Data);
+
+
+
+--  Calls to overloaded subprograms:
+
+
+
+     Dump (Sys_Output, 12) ;
+
+     Dump (Sys_Error, "Actual output does not match expected output") ;
+
+
+
+     Check (Setup=&gt;10 ns, D=&gt;DataBus, C=&gt;Clk1) ;
+
+     Check (Hold=&gt;5 ns, D=&gt;DataBus, C=&gt;Clk2);
+
+     Check (15 ns, DataBus, Clk) ;
+
+      --  Ambiguous if the base type of DataBus is the same type as the base type of Clk.
+
+</PRE>
+<P></P>
+<H4>NOTES</H4>
+<P>1--The notion of parameter and result type profile does not include parameter 
+names, parameter classes, parameter modes, parameter subtypes, or default 
+expressions or their presence or absence. </P>
+<P>2--Ambiguities may (but need not) arise when actual parameters of the call of 
+an overloaded subprogram are themselves overloaded function calls, literals, or 
+aggregates. Ambiguities may also (but need not) arise when several overloaded 
+subprograms belonging to different packages are visible. These ambiguities can 
+usually be solved in two ways: qualified expressions can be used for some or all 
+actual parameters and for the result, if any; or the name of the subprogram can 
+be expressed more explicitly as an expanded name (see <A 
+href="1076_6.html#6.3">6.3 
+</A>). </P>
+<H3><A name=2.3.1></A><A 
+href="1076_2.html#2.3.1">2.3.1 
+</A>Operator overloading</H3>
+<P>The declaration of a function whose designator is an operator symbol is used 
+to overload an operator. The sequence of characters of the operator symbol must 
+be one of the operators in the operator classes defined in <A 
+href="1076_7.html#7.2">7.2 
+</A>. </P>
+<P>The subprogram specification of a unary operator must have a single 
+parameter. The subprogram specification of a binary operator must have two 
+parameters; for each use of this operator, the first parameter is associated 
+with the left operand, and the second parameter is associated with the right 
+operand. </P>
+<P>For each of the operators "+" and "-", overloading is allowed both as a unary 
+operator and as a binary operator. </P>
+<P><A name=notes>NOTES</A> </P>
+<P>1--Overloading of the equality operator does not affect the selection of 
+choices in a case statement or in a selected signal assignment statement; nor 
+does it have an affect on the propagation of signal values. </P>
+<P>2--A user-defined operator that has the same designator as a short-circuit 
+operator (that is, that overloads the short-circuit operator) is not invoked in 
+a short-circuit manner. Specifically, calls to the user-defined operator always 
+evaluate both arguments prior to the execution of the function. </P>
+<P>3--Functions that overload operator symbols may also be called using function 
+call notation rather than operator notation. This statement is also true of the 
+predefined operators themselves. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> MVL <B>is</B> ('0', '1', 'Z', 'X') ;
+
+
+
+     <B>function</B> "and" (Left, Right: MVL) <B>return</B> MVL ;
+
+     <B>function</B> "or" (Left, Right: MVL) <B>return</B> MVL ;
+
+     <B>function</B> "not" (Value: MVL) <B>return</B> MVL ;
+
+
+
+     <B>signal</B> Q,R,S: MVL ;
+
+
+
+     Q &lt;= 'X' <B>or</B> '1';
+
+     R &lt;= "or" ('0','Z');
+
+     S &lt;= (Q <B>and</B> R) <B>or not</B> S;
+
+</PRE>
+<H3><A name=2.3.2></A><A 
+href="1076_2.html#2.3.2">2.3.2 
+</A>Signatures</H3>
+<P>A signature distinguishes between overloaded subprograms and overloaded 
+enumeration literals based on their parameter and result type profiles. A 
+signature can be used in an attribute name, entity designator, or alias 
+declaration. </P><PRE>     signature ::=  [ [ type_mark { , type_mark } ] [ <B>return</B> type_mark ] ]
+
+</PRE>
+<P>(Note that the initial and terminal brackets are part of the syntax of 
+signatures and do not indicate that the entire right-hand side of the production 
+is optional.) A signature is said to <I>match</I> the parameter and result type 
+profile of a given subprogram if and only if all of the following conditions 
+hold: </P>
+<P>-- The number of type marks prior to the reserved word <B>return</B>, if any, 
+matches the number of formal parameters of the subprogram </P>
+<P>-- At each parameter position, the base type denoted by the type mark of the 
+signature is the same as the base type of the corresponding formal parameter of 
+the subprogram </P>
+<P>-- If the reserved word <B>return</B> is present, the subprogram is a 
+function and the base type of the type mark following the reserved word in the 
+signature is the same as the base type of the return type of the function, or 
+the reserved word <B>return</B> is absent and the subprogram is a procedure </P>
+<P>Similarly, a signature is said to match the parameter and result type profile 
+of a given enumeration literal if the signature matches the parameter and result 
+type profile of the subprogram equivalent to the enumeration literal, defined in 
+<A 
+href="1076_3.html#3.1.1">3.1.1 
+</A>. </P>
+<P><I>Example:</I> </P><PRE>     <B>attribute</B> BuiltIn <B>of</B> "or" [MVL, MVL <B>return</B> MVL]: <B>function</B> <B>is</B> TRUE;
+
+       --  Because of the presence of the signature, this attribute specification
+
+       --  decorates only the "or" function defined in the previous section.
+
+
+
+     <B>attribute</B> Mapping <B>of</B> JMP [<B>return</B> OpCode] : <B>literal</B> <B>is</B> "001";
+
+</PRE>
+<H2><A name=2.4></A><A 
+href="1076_2.html#2.4">2.4 
+</A>Resolution functions</H2>
+<P>A resolution function is a function that defines how the values of multiple 
+sources of a given signal are to be resolved into a single value for that 
+signal. Resolution functions are associated with signals that require resolution 
+by including the name of the resolution function in the declaration of the 
+signal or in the declaration of the subtype of the signal. A signal with an 
+associated resolution function is called a resolved signal (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>). </P>
+<P>A resolution function must be a pure function (see <A 
+href="1076_2.html#2.1">2.1 
+</A>); moreover, it must have a single input parameter of class <B>constant</B> 
+that is a one-dimensional,unconstrained array whose element type is that of the 
+resolved signal. The type of the return value of the function must also be that 
+of the signal. Errors occur at the place of the subtype indication containing 
+the name of the resolution function if any of these checks fail (see <A 
+href="1076_4.html#4.2">4.2 
+</A>). </P>
+<P>The resolution function associated with a resolved signal determines the 
+<I>resolved</I> <I>value</I> of the signal as a function of the collection of 
+inputs from its multiple sources. If a resolved signal is of a composite type, 
+and if subelements of that type also have associated resolution functions, such 
+resolution functions have no effect on the process of determining the resolved 
+value of the signal. It is an error if a resolved signal has more connected 
+sources than the number of elements in the index type of the unconstrained array 
+type used to define the parameter of the corresponding resolution function. </P>
+<P>Resolution functions are implicitly invoked during each simulation cycle in 
+which corresponding resolved signals are active (see <A 
+href="1076_12.html#12.6.1">12.6.1 
+</A>). Each time a resolution function is invoked, it is passed an array value, 
+each element of which is determined by a corresponding source of the resolved 
+signal, but excluding those sources that are drivers whose values are determined 
+by null transactions (see <A 
+href="1076_8.html#8.4.1">8.4.1 
+</A>). Such drivers are said to be <I>off</I>. For certain invocations 
+(specifically, those involving the resolution of sources of a signal declared 
+with the signal kind <B>bus</B>), a resolution function may thus be invoked with 
+an input parameter that is a null array; this occurs when all sources of the bus 
+are drivers, and they are all off. In such a case, the resolution function 
+returns a value representing the value of the bus when no source is driving it. 
+</P>
+<P><I>Example:</I> </P><PRE>     <B>function</B> WIRED_OR (Inputs: BIT_VECTOR) <B>return</B> BIT <B>is</B>
+
+       <B>constant</B> FloatValue: BIT := '0';
+
+     <B>begin</B>
+
+       <B>if</B> Inputs'Length = 0 <B>then</B>
+
+                 --  This is a bus whose drivers are all off.
+
+                 <B>return</B> FloatValue;
+
+       <B>else</B>
+
+                 <B>for</B> I <B>in</B> Inputs'Range <B>loop</B>
+
+                            <B>if</B> Inputs(I) = '1' <B>then</B>
+
+                                      <B>Return</B> '1';
+
+                            <B>end If</B>;
+
+                 <B>end Loop</B>;
+
+                 <B>Return</B> '0';
+
+       <B>end if</B>;
+
+     <B>end function</B> WIRED_OR;
+
+</PRE>
+<H2><A name=2.5></A><A 
+href="1076_2.html#2.5">2.5 
+</A>Package declarations</H2>
+<P>A package declaration defines the interface to a package. The scope of a 
+declaration within a package can be extended to other design units. </P><PRE>     package_declaration ::=
+
+       <B>package</B> identifier <B>is</B>
+
+               package_declarative_part
+
+       <B>end</B> [ <B>package</B> ] [ <I>package</I>_simple_name ] ;
+
+
+
+     package_declarative_part ::=
+
+       { package_declarative_item }
+
+
+
+     package_declarative_item ::=
+
+        subprogram_declaration
+
+       | type_declaration
+
+       | subtype_declaration
+
+       | constant_declaration
+
+       | signal_declaration
+
+       | <I>shared</I>_variable_declaration
+
+       | file_declaration
+
+       | alias_declaration
+
+       | component_declaration
+
+       | attribute_declaration
+
+       | attribute_specification
+
+       | disconnection_specification
+
+       | use_clause
+
+       | group_template_declaration
+
+       | group_declaration
+
+</PRE>
+<P>If a simple name appears at the end of the package declaration, it must 
+repeat the identifier of the package declaration. </P>
+<P>Items declared immediately within a package declaration become visible by 
+selection within a given design unit wherever the name of that package is 
+visible in the given unit. Such items may also be made directly visible by an 
+appropriate use clause (see <A 
+href="1076_10.html#10.4">10.4 
+</A>). </P>
+<P>NOTE--Not all packages will have a package body. In particular, a package 
+body is unnecessary if no subprograms or deferred constants are declared in the 
+package declaration. </P>
+<P><I>Examples:</I> </P><PRE>--  A package declaration that needs no package body:
+
+
+
+<B>      package</B> TimeConstants <B>is</B>
+
+        <B>constant</B> tPLH :  Time := 10 ns;
+
+        <B>constant</B> tPHL :  Time := 12 ns;
+
+        <B>constant</B> tPLZ :  Time := 7 ns;
+
+        <B>constant</B> tPZL :  Time := 8 ns;
+
+        <B>constant</B> tPHZ :  Time := 8 ns;
+
+        <B>constant</B> tPZH :  Time := 9 ns;
+
+      <B>end</B> TimeConstants ;
+
+
+
+--  A package declaration that needs a package body:
+
+
+
+      <B>package</B> TriState <B>is</B>
+
+        <B>type </B>Tri <B>is</B> ('0', '1', 'Z', 'E');
+
+        <B>function</B> BitVal (Value: Tri) <B>return</B> Bit ;
+
+        <B>function</B> TriVal (Value: Bit) <B>return</B> Tri;
+
+        <B>type</B> TriVector <B>is array</B> (Natural <B>range</B> &lt;&gt;) <B>of</B> Tri ;
+
+        <B>function</B> Resolve (Sources: TriVector) <B>return</B> Tri ;
+
+      <B>end package</B> TriState ;
+
+</PRE>
+<H2><A name=2.6></A><A 
+href="1076_2.html#2.6">2.6 
+</A>Package bodies</H2>
+<P>A package body defines the bodies of subprograms and the values of deferred 
+constants declared in the interface to the package. </P><PRE>     package_body ::=
+
+       <B>package body</B> <I>package</I>_simple_name <B>is</B>
+
+               package_body_declarative_part
+
+       <B>end</B> [ <B>package</B> <B>body</B> ] [ <I>package</I>_simple_name ] ;
+
+
+
+     package_body_declarative_part ::=
+
+       { package_body_declarative_item }
+
+
+
+     package_body_declarative_item ::=
+
+        subprogram_declaration
+
+       | subprogram_body
+
+       | type_declaration
+
+       | subtype_declaration
+
+       | constant_declaration
+
+       | <I>shared</I>_variable_declaration
+
+       | file_declaration
+
+       | alias_declaration
+
+       | use_clause
+
+       | group_template_declaration
+
+       | group_declaration
+
+</PRE>
+<P>The simple name at the start of a package body must repeat the package 
+identifier. If a simple name appears at the end of the package body, it must be 
+the same as the identifier in the package declaration. </P>
+<P>In addition to subprogram body and constant declarative items, a package body 
+may contain certain other declarative items to facilitate the definition of the 
+bodies of subprograms declared in the interface. Items declared in the body of a 
+package cannot be made visible outside of the package body. </P>
+<P>If a given package declaration contains a deferred constant declaration (see 
+<A 
+href="1076_4.html#4.3.1.1">4.3.1.1 
+</A>), then a constant declaration with the same identifier must appear as a 
+declarative item in the corresponding package body. This object declaration is 
+called the <I>full</I> declaration of the deferred constant. The subtype 
+indication given in the full declaration must conform to that given in the 
+deferred constant declaration. </P>
+<P>Within a package declaration that contains the declaration of a deferred 
+constant, and within the body of that package (before the end of the 
+corresponding full declaration), the use of a name that denotes the deferred 
+constant is only allowed in the default expression for a local generic, local 
+port, or formal parameter. The result of evaluating an expression that 
+references a deferred constant before the elaboration of the corresponding full 
+declaration is not defined by the language. </P>
+<P><I>Example:</I> </P><PRE>     <B>package</B> <B>body</B> TriState <B>is</B>
+
+
+
+       <B>function</B> BitVal (Value: Tri) <B>return</B> Bit <B>is</B>
+
+                <B>constant</B> Bits : Bit_Vector := "0100";
+
+       <B>begin</B>
+
+                <B>return </B>Bits(Tri'Pos(Value));
+
+       <B>end</B>;
+
+
+
+       <B>function</B> TriVal (Value: Bit) <B>return</B> Tri <B>is</B>
+
+<B>       begin</B>
+
+                <B>return </B>Tri'Val(Bit'Pos(Value));
+
+       <B>end</B>;
+
+
+
+       <B>function</B> Resolve (Sources: TriVector) <B>return</B> Tri <B>is</B>
+
+                <B>variable</B> V: Tri := 'Z';
+
+       <B>begin</B>
+
+                <B>for</B> i <B>in</B> Sources'Range <B>loop</B>
+
+                         <B>if</B> Sources(i) /= 'Z' <B>then</B>
+
+                                  <B>if</B> V = 'Z' <B>then</B>
+
+                                              V := Sources(i);
+
+                                  <B>else</B>
+
+                                              <B>return </B>'E';
+
+                                  <B>end if</B>;
+
+                         <B>end if</B>;
+
+                <B>end loop</B>;
+
+                <B>return</B> V;
+
+       <B>end</B>;
+
+<B>     end package body</B> TriState ;
+
+</PRE>
+<H2><A name=2.7></A><A 
+href="1076_2.html#2.7">2.7 
+</A>Conformance rules</H2>
+<P>Whenever the language rules either require or allow the specification of a 
+given subprogram to be provided in more than one place, the following variations 
+are allowed at each place: </P>
+<P>-- A numeric literal can be replaced by a different numeric literal if and 
+only if both have the same value. </P>
+<P>-- A simple name can be replaced by an expanded name in which this simple 
+name is the selector if and only if at both places the meaning of the simple 
+name is given by the same declaration. </P>
+<P>Two subprogram specifications are said to <I>conform</I> if, apart from 
+comments and the above allowed variations, both specifications are formed by the 
+same sequence of lexical elements and if corresponding lexical elements are 
+given the same meaning by the visibility rules. </P>
+<P>Conformance is likewise defined for subtype indications in deferred constant 
+declarations. </P>
+<P>1--A simple name can be replaced by an expanded name even if the simple name 
+is itself the prefix of a selected name. For example, Q.R can be replaced by 
+P.Q.R if Q is declared immediately within P. </P>
+<P>2--The subprogram specification of an impure function is never conformant to 
+a subprogram specification of a pure function. </P>
+<P>3--The following specifications do not conform since they are not formed by 
+the same sequence of lexical elements: </P><PRE>     <B>procedure</B> P (X,Y : INTEGER)
+
+     <B>procedure</B> P (X: INTEGER; Y : INTEGER)
+
+     <B>procedure</B> P (X,Y : <B>in</B> INTEGER)
+
+</PRE>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_1.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_3.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

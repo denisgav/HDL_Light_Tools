@@ -1,0 +1,1051 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)VHDL-standarden/1076_1.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=1>Section 1</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_0.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_2.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Design entites and configurations </H1>
+<P>The <I>design entity</I> is the primary hardware abstraction in VHDL.&nbsp; 
+It represents a portion of a hardware design that has well-defined inputs and 
+outputs and performs a well-defined function. &nbsp; A design entity may 
+represent an entire system, a subsystem, a board, a chip, a macro-cell, a logic 
+gate, or any level of abstraction in between.&nbsp; A <I>configuration</I> can 
+be used to describe how design entities are put together to form a complete 
+design. </P>
+<P>A design entity may be described in terms of a hierarchy of <I>blocks</I>, 
+each of which represents a portion of the whole design. &nbsp; The top-level 
+block in such a hierarchy is the design entity itself; such a block is an 
+<I>external</I> block that resides in a library and may be used as a component 
+of other designs. &nbsp; Nested blocks in the hierarchy are <I>internal</I> 
+blocks, defined by block statements (see <A 
+href="1076_9.html#9.1">9.1 
+</A>). </P>
+<P>A design entity may also be described in terms of interconnected components. 
+&nbsp; Each component of a design entity may be bound to a lower-level design 
+entity in order to define the structure or behavior of that component. &nbsp; 
+Successive decomposition of a design entity into components, and binding those 
+components to other design entities that may be decomposed in like manner, 
+results in a hierarchy of design entities representing a complete design. &nbsp; 
+Such a collection of design entities is called a <I>design hierarchy</I>. &nbsp; 
+The bindings necessary to identify a design hierarchy can be specified in a 
+configuration of the top-level entity in the hierarchy. </P>
+<P>This section describes the way in which design entities and configurations 
+are defined. &nbsp; A design entity is defined by an <I>entity declaration</I> 
+together with a corresponding <I>architecture body</I>. &nbsp; A configuration 
+is defined by a<I> configuration declaration</I>. </P>
+<H2><A name=1.1></A><A 
+href="1076_1.html#1.1">1.1 
+</A>Entity declarations </H2>
+<P>An entity declaration defines the interface between a given design entity and 
+the environment in which it is used. It may also specify declarations and 
+statements that are part of the design entity. A given entity declaration maybe 
+shared by many design entities, each of which has a different architecture. 
+Thus, an entity declaration can potentially represent a class of design 
+entities, each with the same interface. </P><PRE>     entity_declaration ::=
+
+     <B>     entity</B> identifier <B>is</B>
+
+              entity_header
+
+              entity_declarative_part
+
+      [   <B>begin</B>
+
+              entity_statement_part ]
+
+          <B>end</B> [ <B>entity</B> ] [ <I>entity</I>_simple_name ] ;
+
+</PRE>
+<P>The entity header and entity declarative part consist of declarative items 
+that pertain to each design entity whose interface is defined by the entity 
+declaration. The entity statement part, if present, consists of concurrent 
+statements that are present in each such design entity. </P>
+<P>If a simple name appears at the end of an entity declaration, it must repeat 
+the identifier of the entity declaration. </P>
+<H3><A name=1.1.1></A><A 
+href="1076_1.html#1.1.1">1.1.1 
+</A>Entity header </H3>
+<P>The entity header declares objects used for communication between a design 
+entity and its environment. </P><PRE>     entity_header ::=
+
+          [ <I>formal</I>_generic_clause ]
+
+          [ <I>formal</I>_port_clause ]
+
+
+
+     generic_clause ::=
+
+         <B>generic</B> ( generic_list ) ;
+
+
+
+     port_clause ::=
+
+         <B>port</B> ( port_list ) ;
+
+</PRE>
+<P>The generic list in the formal generic clause defines generic constants whose 
+values may be determined by the environment. The port list in the formal port 
+clause defines the input and output ports of the design entity. </P>
+<P>In certain circumstances, the names of generic constants and ports declared 
+in the entity header become visible outside of the design entity (see <A 
+href="1076_10.html#10.2">10.2 
+</A>and <A 
+href="1076_10.html#10.3">10.3 
+</A>). </P>
+<P><I>Examples:</I> </P><PRE>--An entity declaration with port declarations only:
+
+
+
+     <B>entity</B> Full_Adder <B>is</B>
+
+          <B>port</B> (X, Y, Cin: <B>in</B> Bit; Cout, Sum: <B>out</B> Bit) ;
+
+     <B>end</B> Full_Adder ;
+
+
+
+--An entity declaration with generic declarations also:
+
+
+
+     <B>entity</B> AndGate <B>is</B>
+
+          <B>generic</B>
+
+              (N: Natural := 2);
+
+          <B>port</B>
+
+             (Inputs: <B>in</B>       Bit_Vector (1 <B>to</B> N);
+
+              Result: <B>out</B>      Bit) ;
+
+      <B>end entity</B> AndGate ;
+
+
+
+--An entity declaration with neither:
+
+
+
+      <B>entity</B> TestBench <B>is</B>
+
+      <B>end</B> TestBench ;
+
+
+
+</PRE>
+<H4><A name=1.1.1.1></A><A 
+href="1076_1.html#1.1.1.1">1.1.1.1 
+</A>Generics </H4>
+<P>Generics provide a channel for static information to be communicated to a 
+block from its environment. The following applies to both external blocks 
+defined by design entities and to internal blocks defined by block statements. 
+</P><PRE>     generic_list ::=  <I>generic</I>_interface_list
+
+</PRE>
+<P>The generics of a block are defined by a generic interface list; interface 
+lists are described in <A 
+href="1076_4.html#4.3.2.1">4.3.2.1 
+</A>. Each interface element in such a generic interface list declares a formal 
+generic. </P>
+<P>The value of a generic constant may be specified by the corresponding actual 
+in a generic association list. If no such actual is specified for a given formal 
+generic (either because the formal generic is unassociated or because the actual 
+is <B>open</B>), and if a default expression is specified for that generic, the 
+value of this expression is the value of the generic. It is an error if no 
+actual is specified for a given formal generic and no default expression is 
+present in the corresponding interface element. It is an error if some of the 
+subelements of a composite formal generic are connected and others are either 
+unconnected or unassociated. </P>
+<P>NOTE--Generics may be used to control structural, dataflow, or behavioral 
+characteristics of a block, or may simply be used as documentation. In 
+particular, generics may be used to specify the size of ports; the number of 
+subcomponents within a block; the timing characteristics of a block; or even the 
+physical characteristics of a design such as temperature, capacitance,location, 
+etc. </P>
+<H4><A name=1.1.1.2></A><A 
+href="1076_1.html#1.1.1.2">1.1.1.2 
+</A>Ports </H4>
+<P>Ports provide channels for dynamic communication between a block and its 
+environment. The following applies to both external blocks defined by design 
+entities and to internal blocks defined by block statements, including those 
+equivalent to component instantiation statements and generate statements (see <A 
+href="1076_9.html#9.7">9.7 
+</A>). </P><PRE>     port_list ::=  <I>port</I>_interface_list
+
+</PRE>
+<P>The ports of a block are defined by a port interface list; interface lists 
+are described in <A 
+href="1076_4.html#4.3.2.1">4.3.2.1 
+</A>. Each interface element in the port interface list declares a formal port. 
+</P>
+<P>To communicate with other blocks, the ports of a block can be associated with 
+signals in the environment in which the block is used. Moreover, the ports of a 
+block may be associated with an expression in order to provide these ports with 
+constant driving values; such ports must be of mode <B>in</B>. A port is itself 
+a signal (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>); thus, a formal port of a block may be associated as an actual with a 
+formal port of an inner block. The port, signal, or expression associated with a 
+given formal port is called the <I>actual</I> corresponding to the formal port 
+(see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>). The actual, if a port or signal, must be denoted by a static name (see <A 
+href="1076_6.html#6.1">6.1 
+</A>). The actual, if an expression, must be a globally static expression (see 
+<A 
+href="1076_7.html#7.4">7.4 
+</A>). </P>
+<P>After a given description is completely elaborated (see Section 12), if a 
+formal port is associated with an actual that is itself a port, then the 
+following restrictions apply depending upon the mode (see <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>) of the formal port: </P>
+<OL type=a>
+  <LI>For a formal port of mode <B>in</B>,<CODE> </CODE>the associated actual 
+  may only be a port of mode <B>in</B>, <B>inout</B>,or <B>buffer</B>. 
+  <P></P>
+  <LI>For a formal port of mode <B>out</B>,<CODE> </CODE>the associated actual 
+  may only be a port of mode <B>out</B> or <B>inout</B>. 
+  <P></P>
+  <LI>For a formal port of mode <B>inout</B>,<CODE> </CODE>the associated actual 
+  may only be a port of mode <B>inout</B>. 
+  <P></P>
+  <LI>For a formal port of mode <B>buffer</B>,<CODE> </CODE>the associated 
+  actual may only be a port of mode <B>buffer</B>. 
+  <P></P>
+  <LI>For a formal port of mode <B>linkage</B>,<CODE> </CODE>the associated 
+  actual may be a port of any mode. </LI></OL>
+<P>A <B>buffer</B> port may have at most one source (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>and <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>).Furthermore, after a description is completely elaborated (see Section 
+12), any actual associated with a formal buffer port may have at most one 
+source. </P>
+<P>If a formal port is associated with an actual port, signal, or expression, 
+then the formal port is said to be <I>connected</I>. If a formal port is instead 
+associated with the reserved word <B>open</B>, then the formal is said to be<I> 
+unconnected</I>. A port of mode <B>in</B> may be unconnected or unassociated 
+(see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>) only if its declaration includes a default expression (see <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>). A port of any mode other than <B>in</B> may be unconnected or 
+unassociated as long as its type is not an unconstrained array type. It is an 
+error if some of the subelements of a composite formal port are connected and 
+others are either unconnected or unassociated. </P>
+<H3><A name=1.1.2></A><A 
+href="1076_1.html#1.1.2">1.1.2 
+</A>Entity declarative part</H3>
+<P>The entity declarative part of a given entity declaration declares items that 
+are common to all design entities whose interfaces are defined by the given 
+entity declaration. </P><PRE>     entity_declarative_part ::=
+
+          { entity_declarative_item }
+
+
+
+     entity_declarative_item ::=
+
+             subprogram_declaration
+
+          | subprogram_body
+
+          | type_declaration
+
+          | subtype_declaration
+
+          | constant_declaration
+
+          | signal_declaration
+
+          | <I>shared</I>_variable_declaration
+
+          | file_declaration
+
+          | alias_declaration
+
+          | attribute_declaration
+
+          | attribute_specification
+
+          | disconnection_specification
+
+          | use_clause
+
+          | group_template_declaration
+
+          | group_declaration
+
+</PRE>
+<P>Names declared by declarative items in the entity declarative part of a given 
+entity declaration are visible within the bodies of corresponding design 
+entities, as well as within certain portions of a corresponding configuration 
+declaration. </P>
+<P><I>Example:</I> </P><PRE>--An entity declaration with entity declarative items:
+
+
+
+     <B>entity</B> ROM <B>is</B>
+
+<B> </B>          <B>port</B> (     Addr:  <B>in</B>   Word;
+
+                      Data:  <B>out</B>  Word;
+
+                      Sel:   <B>in</B>   Bit);
+
+           <B>type</B>       Instruction <B>is</B> <B>array</B> (1 <B>to</B> 5) <B>of</B> Natural;
+
+           <B>type</B>       Program <B>is</B> <B>array</B> (Natural <B>range</B> &lt;&gt;) <B>of</B> Instruction;
+
+           <B>use</B>        Work.OpCodes.<B>all</B>, Work.RegisterNames.<B>all</B>;
+
+           <B>constant</B> ROM_Code: Program :=
+
+               (
+
+
+
+</PRE><PRE>                       (STM,  R14,  R12,  12,  R13) ,
+
+                       (LD,    R7,   32,   0,  R1 ) ,
+
+                       (BAL,  R14,    0,   0,  R7 ) ,
+
+                               ·
+
+                               ·    --  etc.
+
+                               ·
+
+               );
+
+<B>     end</B> ROM;
+
+</PRE>
+<P>NOTE--The entity declarative part of a design entity whose corresponding 
+architecture is decorated with the 'FOREIGN attribute is subject to special 
+elaboration rules. See <A 
+href="1076_12.html#12.3">12.3 
+</A>. </P>
+<H3><A name=1.1.3></A><A 
+href="1076_1.html#1.1.3">1.1.3 
+</A>Entity statement part</H3>
+<H3></H3>
+<P>The entity statement part contains concurrent statements that are common to 
+each design entity with this interface. </P><PRE>     entity_statement_part ::=
+
+          { entity_statement }
+
+
+
+     entity_statement ::=
+
+             concurrent_assertion_statement
+
+          | <I>passive</I>_concurrent_procedure_call
+
+          | <I>passive</I>_process_statement
+
+</PRE>
+<P>Only concurrent assertion statements, concurrent procedure call statements, 
+or process statements may appear in the entity statement part. All such 
+statements must be passive (see <A 
+href="1076_9.html#9.2">9.2 
+</A>). Such statements may be used to monitor the operating conditions or 
+characteristics of a design entity. </P><PRE>--An entity declaration with statements:
+
+
+
+          <B>entity</B> Latch <B>is</B>
+
+<B></B>             <B>  port (Din:    in     Word;
+
+                     </B>Dout:   <B>out</B>     Word;
+
+                     Load:   <B>in</B>      Bit;
+
+                     Clk:    <B>in</B>      Bit );
+
+               <B>constant</B> Setup: Time := 12 ns;
+
+               <B>constant</B> PulseWidth: Time := 50 ns;
+
+               <B>use</B> Work.TimingMonitors.<B>all</B>;
+
+          <B>begin</B>
+
+               <B>assert</B> Clk='1' <B>or</B> Clk'Delayed'Stable (PulseWidth);
+
+               CheckTiming (Setup, Din, Load, Clk);
+
+          <B>end</B> ;
+
+</PRE>
+<P>NOTE--The entity statement part of a design entity whose corresponding 
+architecture is decorated with the 'FOREIGN attribute is subject to special 
+elaboration rules. See <A 
+href="1076_12.html#12.4">12.4 
+</A>. </P>
+<H2><A name=1.2></A><A 
+href="1076_1.html#1.2">1.2 
+</A>Architecture bodies </H2>
+<P>An architecture body defines the body of a design entity. It specifies the 
+relationships between the inputs and outputs of a design entity and may be 
+expressed in terms of structure, dataflow, or behavior. Such specifications may 
+be partial or complete. </P><PRE>     architecture_body ::=
+
+         <B>architecture</B> identifier <B>of</B> <I>entity</I>_name <B>is</B>
+
+             architecture_declarative_part
+
+         <B>begin</B>
+
+             architecture_statement_part
+
+         <B>end</B> [ <B>architecture</B> ] [ <I>architecture</I>_simple_name ] ;
+
+</PRE>
+<P>The identifier defines the simple name of the architecture body; this simple 
+name distinguishes architecture bodies associated with the same entity 
+declaration. </P>
+<P>The entity name identifies the name of the entity declaration that defines 
+the interface of this design entity. For a given design entity, both the entity 
+declaration and the associated architecture body must reside in the same 
+library. </P>
+<P>If a simple name appears at the end of an architecture body, it must repeat 
+the identifier of the architecture body. </P>
+<P>More than one architecture body may exist corresponding to a given entity 
+declaration. Each declares a different body with the same interface; thus,each 
+together with the entity declaration represents a different design entity with 
+the same interface. </P>
+<P>NOTE--Two architecture bodies that are associated with different entity 
+declarations may have the same simple name, even if both architecture bodies(and 
+the corresponding entity declarations) reside in the same library. </P>
+<H3><A name=1.2.1></A><A 
+href="1076_1.html#1.2.1">1.2.1 
+</A>Architecture declarative part</H3>
+<P>The architecture declarative part contains declarations of items that are 
+available for use within the block defined by the design entity. </P><PRE>     architecture_declarative_part ::=
+
+         { block_declarative_item }
+
+
+
+     block_declarative_item ::=
+
+            subprogram_declaration
+
+         | subprogram_body
+
+         | type_declaration
+
+         | subtype_declaration
+
+         | constant_declaration
+
+         | signal_declaration
+
+         | <I>shared</I>_variable_declaration
+
+         | file_declaration
+
+         | alias_declaration
+
+         | component_declaration
+
+         | attribute_declaration
+
+         | attribute_specification
+
+         | configuration_specification
+
+         | disconnection_specification
+
+         | use_clause
+
+         | group_template_declaration
+
+         | group_declaration
+
+</PRE>
+<P>The various kinds of declaration are described in Section 4, and the various 
+kinds of specification are described in Section 5. The use clause, which makes 
+externally defined names visible within the block, is described in Section 10. 
+</P>
+<P>NOTE--The declarative part of an architecture decorated with the 'FOREIGN 
+attribute is subject to special elaboration rules. See <A 
+href="1076_12.html#12.3">12.3 
+</A>. </P>
+<H3><A name=1.2.2></A><A 
+href="1076_1.html#1.2.2">1.2.2 
+</A>Architecture statement part</H3>
+<P>The architecture statement part contains statements that describe the 
+internal organization and/or operation of the block defined by the design 
+entity. </P><PRE>     architecture_statement_part ::=
+
+          { concurrent_statement }
+
+</PRE>
+<P>All of the statements in the architecture statement part are concurrent 
+statements,which execute asynchronously with respect to one another. The various 
+kinds of concurrent statements are described in Section 9. </P>
+<P><I>Examples:</I> </P><PRE>--A body of entity Full_Adder:
+
+
+
+     <B>architecture</B> DataFlow <B>of</B> Full_Adder <B>is</B>
+
+         <B>signal</B> A,B: Bit;
+
+     <B>begin</B>
+
+         A &lt;= X <B>xor</B> Y;
+
+         B &lt;= A <B>and</B> Cin;
+
+         Sum &lt;= A <B>xor</B> Cin;
+
+         Cout &lt;= B <B>or</B> (X <B>and</B> Y);
+
+     <B>end architecture</B> DataFlow ;
+
+
+
+--A body of entity TestBench:
+
+
+
+<B>     library</B> Test;
+
+     <B>use</B> Test.Components.<B>all</B>;
+
+     <B>architecture</B> Structure <B>of</B> TestBench <B>is</B>
+
+         <B>component</B> Full_Adder
+
+            <B>port</B> (X, Y, Cin: Bit; Cout, Sum: <B>out</B> Bit);
+
+         <B>end</B> <B>component</B>;
+
+
+
+         <B>signal</B> A,B,C,D,E,F,G: Bit;
+
+         <B>signal</B> OK: Boolean;
+
+     <B>begin</B>
+
+         UUT:         Full_Adder         <B>port</B> <B>map</B> (A,B,C,D,E);
+
+         Generator:   AdderTest          <B>port</B> <B>map</B> (A,B,C,F,G);
+
+         Comparator:  AdderCheck         <B>port</B> <B>map</B> (D,E,F,G,OK);
+
+     <B>end</B> Structure;
+
+
+
+--A body of entity AndGate:
+
+
+
+     <B>architecture</B> Behavior <B>of</B> AndGate <B>is</B>
+
+     <B>begin</B>
+
+         <B>process</B> (Inputs)
+
+             <B>variable</B> Temp: Bit;
+
+         <B>begin</B>
+
+             Temp := '1';
+
+             <B>for</B> i <B>in</B> Inputs'Range <B>loop</B>
+
+                  <B>if</B> Inputs(i) = '0' <B>then</B>
+
+                        Temp := '0';
+
+                        <B>exit</B>;
+
+                  <B>end</B> <B>if</B>;
+
+             <B>end</B> <B>loop</B>;
+
+             Result &lt;= Temp <B>after</B> 10 ns;
+
+         <B>end</B> <B>process</B>;
+
+     <B>end</B> Behavior;
+
+</PRE>
+<P>NOTE--The statement part of an architecture decorated with the 'FOREIGN 
+attribute is subject to special elaboration rules. See <A 
+href="1076_12.html#12.4">12.4 
+</A>. </P>
+<H2><A name=1.3></A><A 
+href="1076_1.html#1.3">1.3 
+</A>Configuration declarations</H2>
+<P>The binding of component instances to design entities is performed by 
+configuration specifications (see <A 
+href="1076_5.html#5.2">5.2 
+</A>); such specifications appear in the declarative part of the block in which 
+the corresponding component instances are created. In certain cases, however, it 
+may be appropriate to leave unspecified the binding of component instances in a 
+given block and to defer such specification until later. A configuration 
+declaration provides the mechanism for specifying such deferred bindings. </P><PRE>     configuration_declaration ::=
+
+<B>         configuration</B> identifier <B>of</B> <I>entity</I>_name <B>is</B>
+
+             configuration_declarative_part
+
+             block_configuration
+
+         <B>end</B> [ <B>configuration</B> ] [ <I>configuration</I>_simple_name ] ;
+
+
+
+     configuration_declarative_part ::=
+
+         { configuration_declarative_item }
+
+
+
+     configuration_declarative_item ::=
+
+           use_clause
+
+         | attribute_specification
+
+         | group_declaration
+
+</PRE>
+<P>The entity name identifies the name of the entity declaration that defines 
+the design entity at the apex of the design hierarchy. For a configuration of a 
+given design entity, both the configuration declaration and the corresponding 
+entity declaration must reside in the same library. </P>
+<P>If a simple name appears at the end of a configuration declaration, it must 
+repeat the identifier of the configuration declaration. </P>
+<P></P>
+<H4>NOTES</H4>
+<P>1--A configuration declaration achieves its effect entirely through 
+elaboration (see Section 12). There are no behavioral semantics associated with 
+a configuration declaration. </P>
+<P>2--A given configuration may be used in the definition of another, more 
+complex configuration. </P>
+<P><I>Examples:</I> </P><PRE>--An architecture of a microprocessor:
+
+
+
+     <B>architecture</B> Structure_View <B>of</B> Processor <B>is</B>
+
+<B>         component</B> ALU <B>port</B> ( ··· );  <B>end</B> <B>component</B>;
+
+         <B>component</B> MUX <B>port</B> ( ··· );  <B>end</B> <B>component</B>;
+
+         <B>component</B> Latch <B>port</B> ( ··· );  <B>end</B> <B>component</B>;
+
+     <B>begin</B>
+
+         A1: ALU <B>port</B> <B>map</B> ( ··· ) ;
+
+         M1: MUX <B>port</B> <B>map</B> ( ··· ) ;
+
+         M2: MUX <B>port</B> <B>map</B> ( ··· ) ;
+
+         M3: MUX <B>port</B> <B>map</B> ( ··· ) ;
+
+         L1: Latch <B>port</B> <B>map</B> ( ··· ) ;
+
+         L2: Latch <B>port</B> <B>map</B> ( ··· ) ;
+
+     <B>end</B> Structure_View ;
+
+
+
+--A configuration of the microprocessor:
+
+
+
+     <B>library</B> TTL, Work ;
+
+     <B>configuration</B> V4_27_87 <B>of</B> Processor <B>is</B>
+
+         <B>use</B> Work.<B>all </B>;
+
+         <B>for</B> Structure_View
+
+             <B>for</B> A1: ALU
+
+                 <B>use</B> <B>configuration</B> TTL.SN74LS181 ;
+
+             <B>end</B> <B>for </B>;
+
+             <B>for</B> M1,M2,M3: MUX
+
+                 <B>use</B> <B>entity</B> Multiplex4 (Behavior) ;
+
+             <B>end</B> <B>for </B>;
+
+             <B>for</B> <B>all</B>: Latch
+
+                    -- use defaults
+
+             <B>end</B> <B>for </B>;
+
+         <B>end</B> <B>for</B> ;
+
+     <B>end configuration</B> V4_27_87 ;
+
+</PRE>
+<H3><A name=1.3.1></A><A 
+href="1076_1.html#1.3.1">1.3.1 
+</A>Block configuration</H3>
+<P>A block configuration defines the configuration of a block. Such a block 
+maybe either an internal block defined by a block statement or an external block 
+defined by a design entity. If the block is an internal block, the defining 
+block statement may be either an explicit block statement or an implicit block 
+statement that is itself defined by a generate statement. </P><PRE>     block_configuration ::=
+
+         <B>for</B> block_specification
+
+              { use_clause }
+
+              { configuration_item }
+
+         <B>end</B> <B>for</B> ;
+
+
+
+     block_specification ::=
+
+           <I>architecture</I>_name
+
+         | <I>block_statement</I>_label
+
+         | <I>generate_statement</I>_label [ ( index_specification ) ]
+
+
+
+     index_specification ::=
+
+           discrete_range
+
+         |<I> static</I>_expression
+
+
+
+     configuration_item ::=
+
+           block_configuration
+
+         | component_configuration
+
+</PRE>
+<P>The block specification identifies the internal or external block to which 
+this block configuration applies. </P>
+<P>If a block configuration appears immediately within a configuration 
+declaration, then the block specification of that block configuration must bean 
+architecture name, and that architecture name must denote a design entity body 
+whose interface is defined by the entity declaration denoted by the entity name 
+of the enclosing configuration declaration. </P>
+<P>If a block configuration appears immediately within a component 
+configuration,then the corresponding components must be fully bound (see <A 
+href="1076_5.html#5.2.1.1">5.2.1.1 
+</A>), the block specification of that block configuration must be an 
+architecture name, and that architecture name must denote the same architecture 
+body as that to which the corresponding components are bound. </P>
+<P>If a block configuration appears immediately within another block 
+configuration, then the block specification of the contained block configuration 
+must be a block statement or generate statement label, and the label must denote 
+a block statement or generate statement that is contained immediately within the 
+block denoted by the block specification of the containing block configuration. 
+</P>
+<P>If the scope of a declaration (see <A 
+href="1076_10.html#10.2">10.2 
+</A>) includes the end of the declarative part of a block corresponding to a 
+given block configuration, then the scope of that declaration extends to each 
+configuration item contained in that block configuration, with the exception of 
+block configurations that configure external blocks. In addition, if a 
+declaration is visible (either directly or by selection) at the end of the 
+declarative part of a block corresponding to a given block configuration, then 
+the declaration is visible in each configuration item contained in that block 
+configuration, with the exception of block configurations that configure 
+external blocks. Additionally, if a given declaration is a homograph of a 
+declaration that a use clause in the block configuration makes potentially 
+directly visible, then the given declaration is not directly visible in the 
+block configuration or any of its configuration items. See <A 
+href="1076_10.html#10.3">10.3 
+</A>for more information. </P>
+<P>For any name that is the label of a block statement appearing immediately 
+within a given block, a corresponding block configuration may appear as a 
+configuration item immediately within a block configuration corresponding to the 
+given block. For any collection of names that are labels of instances of the 
+same component appearing immediately within a given block, a corresponding 
+component configuration may appear as a configuration item immediately within a 
+block configuration corresponding to the given block. </P>
+<P>For any name that is the label of a generate statement immediately within a 
+given block, one or more corresponding block configurations may appear as 
+configuration items immediately within a block configuration corresponding to 
+the given block. Such block configurations apply to implicit blocks generated by 
+that generate statement. If such a block configuration contains an index 
+specification that is a discrete range, then the block configuration applies to 
+those implicit block statements that are generated for the specified range of 
+values of the corresponding generate parameter; the discrete range has no 
+significance other than to define the set of generate statement parameter values 
+implied by the discrete range. If such a block configuration contains an index 
+specification that is a static expression, then the block configuration applies 
+only to the implicit block statement generated for the specified value of the 
+corresponding generate parameter. If no index specification appears in such a 
+block configuration, then it applies to exactly one of the following sets of 
+blocks: </P>
+<P>-- All implicit blocks (if any) generated by the corresponding generate 
+statement, if and only if the corresponding generate statement has a generation 
+scheme including the reserved word <B>for</B> </P>
+<P>-- The implicit block generated by the corresponding generate statement, if 
+and only if the corresponding generate statement has a generation scheme 
+including the reserved word <B>if</B> and if the condition in the generate 
+scheme evaluates to TRUE </P>
+<P>-- No implicit or explicit blocks, if and only if the corresponding generate 
+statement has a generation scheme including the reserved word <B>if</B> and the 
+condition in the generate scheme evaluates to FALSE </P>
+<P>If the block specification of a block configuration contains a generate 
+statement label, and if this label contains an index specification, then it is 
+an error if the generate statement denoted by the label does not have a 
+generation scheme including the reserved word <B>for</B>. </P>
+<P>Within a given block configuration, whether implicit or explicit, an implicit 
+block configuration is assumed to appear for any block statement that appears 
+within the block corresponding to the given block configuration, if no explicit 
+block configuration appears for that block statement. Similarly, an implicit 
+component configuration is assumed to appear for each component instance that 
+appears within the block corresponding to the given block configuration, if no 
+explicit component configuration appears for that instance. Such implicit 
+configuration items are assumed to appear following all explicit configuration 
+items in the block configuration. </P>
+<P>It is an error if, in a given block configuration, more than one 
+configuration item is defined for the same block or component instance. </P>
+<P></P>
+<H4>NOTES</H4>
+<P>1--As a result of the rules described in the preceding paragraphs and in 
+Section 10, a simple name that is visible by selection at the end of the 
+declarative part of a given block is also visible by selection within any 
+configuration item contained in a corresponding block configuration. If such a 
+name is directly visible at the end of the given block declarative part, it will 
+likewise be directly visible in the corresponding configuration items,unless a 
+use clause for a different declaration with the same simple name appears in the 
+corresponding configuration declaration, and the scope of that use clause 
+encompasses all or part of those configuration items. If such a use clause 
+appears, then the name will be directly visible within the corresponding 
+configuration items except at those places that fall within the scope of the 
+additional use clause (at which places neither name will be directly visible). 
+</P>
+<P>2--If an implicit configuration item is assumed to appear within a block 
+configuration, that implicit configuration item will never contain explicit 
+configuration items. </P>
+<P>3--If the block specification in a block configuration specifies a generate 
+statement label, and if this label contains an index specification that is a 
+discrete range, then the direction specified or implied by the discrete range 
+has no significance other than to define, together with the bounds of the range, 
+the set of generate statement parameter values denoted by the range. Thus, the 
+following two block configurations are equivalent: </P><PRE>     <B>for</B> Adders(31 <B>downto</B> 0) ··· <B>end</B> <B>for</B>;
+
+
+
+     <B>for</B> Adders(0 <B>to</B> 31) ··· <B>end</B> <B>for</B>;
+
+</PRE>
+<P>4--A block configuration may appear immediately within a configuration 
+declaration only if the entity declaration denoted by the entity name of the 
+enclosing configuration declaration has associated architectures. Furthermore, 
+the block specification of the block configuration must denote one of these 
+architectures. </P>
+<P><I>Examples:</I> </P><PRE>--A block configuration for a design entity:
+
+
+
+     <B>for</B> ShiftRegStruct                 --  An architecture name.
+
+          --  Configuration items
+
+          --  for blocks and components
+
+          --  within ShiftRegStruct.
+
+     <B>end</B> <B>for</B> ;
+
+
+
+--A block configuration for a block statement:
+
+
+
+     <B>for</B> B1                             --  A block label
+
+          --  Configuration items
+
+          --  for blocks and components
+
+          --  within block B1.
+
+     <B>end</B> <B>for</B> ;
+
+</PRE>
+<H3><A name=1.3.2></A><A 
+href="1076_1.html#1.3.2">1.3.2 
+</A>Component configuration</H3>
+<P>A component configuration defines the configuration of one or more component 
+instances in a corresponding block. </P><PRE>     component_configuration ::=
+
+        <B>for</B> component_specification
+
+            [ binding_indication ; ]
+
+            [ block_configuration ]
+
+        <B>end</B> <B>for</B> ;
+
+</PRE>
+<P>The component specification (see <A 
+href="1076_5.html#5.2">5.2 
+</A>) identifies the component instances to which this component configuration 
+applies. A component configuration that appears immediately within a given block 
+configuration applies to component instances that appear immediately within the 
+corresponding block. </P>
+<P>It is an error if two component configurations apply to the same component 
+instance. </P>
+<P>If the component configuration contains a binding indication (see <A 
+href="1076_5.html#5.2.1">5.2.1 
+</A>), then the component configuration implies a configuration specification 
+for the component instances to which it applies. This implicit configuration 
+specification has the same component specification and binding indication as 
+that of the component configuration. </P>
+<P>If a given component instance is unbound in the corresponding block, then any 
+explicit component configuration for that instance that does not contain an 
+explicit binding indication will contain an implicit, default binding indication 
+(see <A 
+href="1076_5.html#5.2.2">5.2.2 
+</A>). Similarly, if a given component instance is unbound in the corresponding 
+block, then any implicit component configuration for that instance will contain 
+an implicit, default binding indication. </P>
+<P>It is an error if a component configuration contains an explicit block 
+configuration and the component configuration does not bind all identified 
+component instances to the same design entity. </P>
+<P>Within a given component configuration, whether implicit or explicit, an 
+implicit block configuration is assumed for the design entity to which the 
+corresponding component instance is bound, if no explicit block configuration 
+appears and if the corresponding component instance is fully bound. </P>
+<P><I>Examples:</I> </P><PRE>--A component configuration with binding indication:
+
+
+
+     <B>for</B> <B>all</B>: IOPort
+
+          <B>use</B> <B>entity</B> StdCells.PadTriState4 (DataFlow)
+
+               <B>port</B> <B>map</B> (Pout=&gt;A, Pin=&gt;B, IO=&gt;Dir, Vdd=&gt;Pwr, Gnd=&gt;Gnd) ;
+
+     <B>end</B> <B>for</B> ;
+
+
+
+--A component configuration containing block configurations:
+
+
+
+     <B>for</B> D1: DSP
+
+         <B>for</B> DSP_STRUCTURE
+
+              --  Binding specified in design entity or else defaults.
+
+             <B>for</B> Filterer
+
+                  --  Configuration items for filtering components.
+
+             <B>end</B> <B>for</B> ;
+
+             <B>for</B> Processor
+
+                  --  Configuration items for processing components.
+
+             <B>end</B> <B>for</B> ;
+
+         <B>end for</B> ;
+
+     <B>end</B> <B>for</B> ;
+
+</PRE>
+<P>NOTE<I>--</I>Therequirement that all component instances corresponding to a 
+block configuration be bound to the same design entity makes the following 
+configuration illegal: </P><PRE><B>     architecture</B> A <B>of</B> E <B>is</B>
+
+<B>          component</B> C <B>is</B> <B>end</B> <B>component</B> C;
+
+          <B>for</B> L1: C <B>use</B> <B>entity</B> E1(X);
+
+          <B>for</B> L2: C <B>use</B> <B>entity</B> E2(X);
+
+     <B>begin</B>
+
+         L1: C;
+
+         L2: C;
+
+     <B>end</B> <B>architecture</B> A;
+
+
+
+     <B><I>configuration</I></B> <I>Illegal</I> <B><I>of</I></B><I> Work.E</I> <B><I>is</I></B><I>
+
+         </I><B><I>for</I></B><I> A
+
+             </I><B><I>for</I></B><I> </I><B><I>all</I></B>: <I>C
+
+                   </I><B><I>for</I></B> <I>X     --  Does not apply to the same design entity in all instances of C.
+
+                     </I><B>·</B><B>·</B><B>·</B><I>
+
+                   </I><B><I>end</I></B><I> </I><B><I>for</I></B>; <I>-- X
+
+             </I><B><I>end</I></B><I> </I><B><I>for</I></B>; <I>-- C
+
+         </I><B><I>end</I></B><I> </I><B><I>for</I></B>; <I>-- A
+
+     </I><B><I>end</I></B><I> </I><B><I>configuration</I></B><I> Illegal </I>;<I>
+
+</I>
+
+
+
+</PRE>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pisc/topp.gif" width=30 border=0></A> <A 
+href="1076_0.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_2.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

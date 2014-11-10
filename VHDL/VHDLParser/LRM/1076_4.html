@@ -1,0 +1,1432 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=4>Section 4</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_3.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_5.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Declarations</H1>
+<P>The language defines several kinds of entities that are declared explicitly 
+or implicitly by declarations. </P><PRE>     declaration ::=
+
+           type_declaration
+
+         | subtype_declaration
+
+         | object_declaration
+
+         | interface_declaration
+
+         | alias_declaration
+
+         | attribute_declaration
+
+         | component_declaration
+
+         | group_template_declaration
+
+         | group_declaration
+
+         | entity_declaration
+
+         | configuration_declaration
+
+         | subprogram_declaration
+
+         | package_declaration
+
+</PRE>
+<P>For each form of declaration, the language rules define a certain region of 
+text called the <I>scope</I> of the declaration (see <A 
+href="1076_10.html#10.2">10.2 
+</A>). Each form of declaration associates an identifier with a named entity. 
+Only within its scope, there are places where it is possible to use the 
+identifier to refer to the associated declared entity; these places are defined 
+by the visibility rules (see <A 
+href="1076_10.html#10.3">10.3 
+</A>). At such places the identifier is said to be a <I>name</I> of the entity; 
+the name is said to <I>denote</I> the associated entity. </P>
+<P>This section describes type and subtype declarations, the various kinds of 
+object declarations, alias declarations, attribute declarations, component 
+declarations, and group and group template declarations. The other kinds of 
+declarations are described in Section 1 and Section 2. </P>
+<P>A declaration takes effect through the process of elaboration. Elaboration of 
+declarations is discussed in Section 12. </P>
+<H2><A name=4.1></A><A 
+href="1076_4.html#4.1">4.1 
+</A>Type declarations</H2>
+<P>A type declaration declares a type. </P><PRE>     type_declaration ::=
+
+          full_type_declaration
+
+        | incomplete_type_declaration
+
+
+
+     full_type_declaration ::=
+
+          <B>type</B> identifier <B>is</B> type_definition ;
+
+
+
+     type_definition ::=
+
+          scalar_type_definition
+
+        | composite_type_definition
+
+        | access_type_definition
+
+        | file_type_definition
+
+</PRE>
+<P>The types created by the elaboration of distinct type definitions are 
+distinct types. The elaboration of the type definition for a scalar type or a 
+constrained array type creates both a base type and a subtype of the base type. 
+</P>
+<P>The simple name declared by a type declaration denotes the declared 
+type,unless the type declaration declares both a base type and a subtype of the 
+base type, in which case the simple name denotes the subtype and the base type 
+is anonymous. A type is said to be <I>anonymous</I> if it has no simple name. 
+For explanatory purposes, this standard sometimes refers to an anonymous type by 
+a pseudo-name, written in italics, and uses such pseudo-names at places where 
+the syntax normally requires an identifier. </P>
+<H4>NOTES</H4>
+<P>1--Two type definitions always define two distinct types, even if they are 
+lexically identical. Thus, the type definitions in the following two integer 
+type declarations define distinct types: </P><PRE>     <B>type</B> A <B>is range</B> 1 <B>to</B> 10;
+
+     <B>type</B> B <B>is range</B> 1 <B>to</B> 10;
+
+</PRE>
+<P>This applies to type declarations for other classes of types as well. </P>
+<P>2--The various forms of type definition are described in Section 3. Examples 
+of type declarations are also given in that section. </P>
+<H2><A name=4.2></A><A 
+href="1076_4.html#4.2">4.2 
+</A>Subtype declarations</H2>
+<P>A subtype declaration declares a subtype. </P><PRE>     subtype_declaration ::=
+
+         <B>subtype</B> identifier <B>is</B> subtype_indication ;
+
+
+
+     subtype_indication ::=
+
+         [ <I>resolution_function</I>_name ] type_mark [ constraint ]
+
+
+
+     type_mark ::=
+
+           <I>type</I>_name
+
+         | <I>subtype</I>_name
+
+
+
+     constraint ::=
+
+           range_constraint
+
+         | index_constraint
+
+</PRE>
+<P>A type mark denotes a type or a subtype. If a type mark is the name of a 
+type,the type mark denotes this type and also the corresponding unconstrained 
+subtype. The base type of a type mark is, by definition, the base type of the 
+type or subtype denoted by the type mark. </P>
+<P>A subtype indication defines a subtype of the base type of the type mark. 
+</P>
+<P>If a subtype indication includes a resolution function name, then any signal 
+declared to be of that subtype will be resolved, if necessary, by the named 
+function (see <A 
+href="1076_2.html#2.4">2.4 
+</A>); for an overloaded function name, the meaning of the function name is 
+determined by context (see <A 
+href="1076_2.html#2.3">2.3 
+</A>and <A 
+href="1076_10.html#10.5">10.5 
+</A>). It is an error if the function does not meet the requirements of a 
+resolution function (see <A 
+href="1076_2.html#2.4">2.4 
+</A>).The presence of a resolution function name has no effect on the 
+declarations of objects other than signals or on the declarations of files, 
+aliases,attributes, or other subtypes. </P>
+<P>If the subtype indication does not include a constraint, the subtype is the 
+same as that denoted by the type mark. The condition imposed by a constraint is 
+the condition obtained after evaluation of the expressions and ranges forming 
+the constraint. The rules defining compatibility are given for each form of 
+constraint in the appropriate section. These rules are such that if a constraint 
+is compatible with a subtype, then the condition imposed by the constraint 
+cannot contradict any condition already imposed by the subtype on its values. An 
+error occurs if any check of compatibility fails. </P>
+<P>The direction of a discrete subtype indication is the same as the direction 
+of the range constraint that appears as the constraint of the subtype 
+indication. If no constraint is present, and the type mark denotes a subtype, 
+the direction of the subtype indication is the same as that of the denoted 
+subtype. If no constraint is present, and the type mark denotes a type, the 
+direction of the subtype indication is the same as that of the range used to 
+define the denoted type. The direction of a discrete subtype is the same as the 
+direction of its subtype indication. </P>
+<P>A subtype indication denoting an access type or a file type may not contain 
+are solution function. Furthermore, the only allowable constraint on a subtype 
+indication denoting an access type is an index constraint (and then only if the 
+designated type is an array type). </P>
+<P>NOTE--A subtype declaration does not define a new type. </P>
+<H2><A name=4.3></A><A 
+href="1076_4.html#4.3">4.3 
+</A>Objects</H2>
+<P>An <I>object</I> is a named entity that contains (has) a value of a given 
+type. An object is one of the following: </P>
+<P>-- An object declared by an object declaration (see <A 
+href="1076_4.html#4.3.1">4.3.1 
+</A>) </P>
+<P>-- A loop or generate parameter (see <A 
+href="1076_8.html#8.9">8.9 
+</A>and <A 
+href="1076_9.html#9.7">9.7 
+</A>) </P>
+<P>-- A formal parameter of a subprogram (see <A 
+href="1076_2.html#2.1.1">2.1.1 
+</A>) </P>
+<P>-- A formal port (see <A 
+href="1076_1.html#1.1.1.2">1.1.1.2 
+</A>and <A 
+href="1076_9.html#9.1">9.1 
+</A>) </P>
+<P>-- A formal generic (see <A 
+href="1076_1.html#1.1.1.1">1.1.1.1 
+</A>and <A 
+href="1076_9.html#9.1">9.1 
+</A>) </P>
+<P>-- A local port (see <A 
+href="1076_4.html#4.5">4.5 
+</A>) </P>
+<P>-- A local generic (see <A 
+href="1076_4.html#4.5">4.5 
+</A>) </P>
+<P>-- An implicit signal GUARD defined by the guard expression of a block 
+statement (see <A 
+href="1076_9.html#9.1">9.1 
+</A>) </P>
+<P>In addition, the following are objects, but are not named entities: </P>
+<P>-- An implicit signal defined by any of the predefined attributes 
+'DELAYED,'STABLE, 'QUIET, and 'TRANSACTION (see <A 
+href="1076_14.html#14.1">14.1 
+</A>) </P>
+<P>-- An element or slice of another object (see <A 
+href="1076_6.html#6.3">6.3 
+</A>, <A 
+href="1076_6.html#6.4">6.4 
+</A>, and <A 
+href="1076_6.html#6.5">6.5 
+</A>) </P>
+<P>-- An object designated by a value of an access type (see <A 
+href="1076_3.html#3.3">3.3 
+</A>) </P>
+<P>There are four classes of objects: constants, signals, variables, and files. 
+The variable class of objects also has an additional subclass: shared variables. 
+The class of an explicitly declared object is specified by the reserved word 
+that must or may appear at the beginning of the declaration of that object. For 
+a given object of a composite type, each subelement of that object is itself an 
+object of the same class and subclass, if any, as the given object. The value of 
+a composite object is the aggregation of the values of its subelements. </P>
+<P>Objects declared by object declarations are available for use within 
+blocks,processes, subprograms, or packages. Loop and generate parameters are 
+implicitly declared by the corresponding statement and are available for use 
+only within that statement. Other objects, declared by interface 
+declarations,create channels for the communication of values between independent 
+parts of a description. </P>
+<H3><A name=4.3.1></A><A 
+href="1076_4.html#4.3.1">4.3.1 
+</A>Object declarations</H3>
+<P>An object declaration declares an object of a specified type. Such an object 
+is called an <I>explicitly declared object</I>. </P><PRE>     object_declaration ::=
+
+           constant_declaration
+
+         | signal_declaration
+
+         | variable_declaration
+
+         | file_declaration
+
+</PRE>
+<P>An object declaration is called a <I>single-object declaration</I> if its 
+identifier list has a single identifier; it is called a <I>multiple-object 
+declaration</I> if the identifier list has two or more identifiers. A 
+multiple-object declaration is equivalent to a sequence of the corresponding 
+number of single-object declarations. For each identifier of the list, the 
+equivalent sequence has a single-object declaration formed by this 
+identifier,followed by a colon and by whatever appears at the right of the colon 
+in the multiple-object declaration; the equivalent sequence is in the same order 
+as the identifier list. </P>
+<P>A similar equivalence applies also for interface object declarations (see <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>). </P>
+<P>NOTE--The subelements of a composite, declared object are not declared 
+objects. </P>
+<H4><A name=4.3.1.1></A><A 
+href="1076_4.html#4.3.1.1">4.3.1.1 
+</A>Constant declarations</H4>
+<P>A constant declaration declares a <I>constant</I> of the specified type. Such 
+a constant is an <I>explicitly declared constant</I>. </P><PRE>     constant_declaration ::=
+
+         <B>constant</B> identifier_list : subtype_indication [ := expression ] ;
+
+</PRE>
+<P>If the assignment symbol ":=" followed by an expression is present in a 
+constant declaration, the expression specifies the value of the constant; the 
+type of the expression must be that of the constant. The value of a constant 
+cannot be modified after the declaration is elaborated. </P>
+<P>If the assignment symbol ":=" followed by an expression is not present in a 
+constant declaration, then the declaration declares a <I>deferred</I> 
+<I>constant</I>. Such a constant declaration may only appear in a package 
+declaration. The corresponding full constant declaration, which defines the 
+value of the constant, must appear in the body of the package (see <A 
+href="1076_2.html#2.6">2.6 
+</A>). </P>
+<P>Formal parameters of subprograms that are of mode <B>in</B> may be 
+constants,and local and formal generics are always constants; the declarations 
+of such objects are discussed in <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>. A loop parameter is a constant within the corresponding loop (see <A 
+href="1076_8.html#8.9">8.9 
+</A>); similarly, a generate parameter is a constant within the corresponding 
+generate statement (see <A 
+href="1076_9.html#9.7">9.7 
+</A>). A subelement or slice of a constant is a constant. </P>
+<P>It is an error if a constant declaration declares a constant that is of a 
+file type, an access type, or a composite type that has a subelement that is a 
+file type or an access type. </P>
+<P>NOTE--The subelements of a composite, declared constant are not declared 
+constants. </P>
+<P><I>Examples:</I> </P><PRE>     <B>constant</B> TOLERANCE : DISTANCE := 1.5 nm;
+
+     <B>constant</B> PI : REAL := 3.141592;
+
+     <B>constant</B> CYCLE_TIME : TIME := 100 ns;
+
+     <B>constant</B> Propagation_Delay : DELAY_LENGTH;   -- a deferred constant
+
+</PRE>
+<H4><A name=4.3.1.2></A><A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>Signal declarations</H4>
+<P>A signal declaration declares a <I>signal</I> of the specified type. Such a 
+signal is an <I>explicitly declared signal</I>. </P><PRE>     signal_declaration ::=
+
+         <B>signal</B> identifier_list : subtype_indication [ signal_kind ] [ := expression ] ;
+
+
+
+     signal_kind ::=  <B>register</B>  |  <B>bus</B>
+
+</PRE>
+<P>If the name of a resolution function appears in the declaration of a signal 
+or in the declaration of the subtype used to declare the signal, then that 
+resolution function is associated with the declared signal. Such a signal is 
+called a <I>resolved</I> <I>signal</I>. </P>
+<P>If a signal kind appears in a signal declaration, then the signals so 
+declared are <I>guarded</I> signals of the kind indicated. For a guarded signal 
+that is of a composite type, each subelement is likewise a guarded signal. For a 
+guarded signal that is of an array type, each slice (see <A 
+href="1076_6.html#6.5">6.5 
+</A>) is likewise a guarded signal. A guarded signal may be assigned values 
+under the control of Boolean-valued <I>guard expressions</I> (or <I>guards</I>). 
+</P>
+<P>When a given guard becomes False, the drivers of the corresponding guarded 
+signals are implicitly assigned a null transaction (see <A 
+href="1076_8.html#8.4.1">8.4.1 
+</A>) to cause those drivers to turn off. A disconnection specification (see <A 
+href="1076_5.html#5.3">5.3 
+</A>) is used to specify the time required for those drivers to turn off. </P>
+<P>If the signal declaration includes the assignment symbol followed by an 
+expression, it must be of the same type as the signal. Such an expression is 
+said to be a <I>default expression</I>. The default expression defines a 
+<I>default value</I> associated with the signal or, for a composite signal,with 
+each scalar subelement thereof. For a signal declared to be of a scalar subtype, 
+the value of the default expression is the default value of the signal. For a 
+signal declared to be of a composite subtype, each scalar subelement of the 
+value of the default expression is the default value of the corresponding 
+subelement of the signal. </P>
+<P>In the absence of an explicit default expression, an implicit default value 
+is assumed for a signal of a scalar subtype or for each scalar subelement of a 
+composite signal, each of which is itself a signal of a scalar subtype. The 
+implicit default value for a signal of a scalar subtype T is defined to be that 
+given by T'LEFT. </P>
+<P>It is an error if a signal declaration declares a signal that is of a file 
+type or an access type. It is also an error if a guarded signal of a scalar type 
+is neither a resolved signal nor a subelement of a resolved signal. </P>
+<P>A signal may have one or more <I>sources</I>. For a signal of a scalar 
+type,each source is either a driver (see <A 
+href="1076_12.html#12.6.1">12.6.1 
+</A>) or an <B>out</B>, <B>inout</B>,<B>buffer</B>, or <B>linkage</B> port of a 
+component instance or of a block statement with which the signal is associated. 
+For a signal of a composite type, each composite source is a collection of 
+scalar sources, one for each scalar subelement of the signal. It is an error if, 
+after the elaboration of a description, a signal has multiple sources and it is 
+not a resolved signal. It is also an error if, after the elaboration of a 
+description, a resolved signal has more sources than the number of elements in 
+the index range of the type of the formal parameter of the resolution function 
+associated with the resolved signal. </P>
+<P>If a subelement or slice of a resolved signal of composite type is associated 
+as an actual in a port map aspect (either in a component instantiation statement 
+or in a binding indication), and if the corresponding formal is of mode 
+<B>out</B>, <B>inout</B>, <B>buffer</B>, or <B>linkage</B>, then every scalar 
+subelement of that signal must be associated exactly once with such a formal in 
+the same port map aspect, and the collection of the corresponding formal parts 
+taken together constitute one source of the signal. If a resolved signal of 
+composite type is associated as an actual in a port map aspect, that is 
+equivalent to each of its subelements being associated in the same port map 
+aspect. </P>
+<P>If a subelement of a resolved signal of composite type has a driver in a 
+given process, then every scalar subelement of that signal must have a driver in 
+the same process, and the collection of all of those drivers taken together 
+constitute one source of the signal. </P>
+<P>The default value associated with a scalar signal defines the value component 
+of a transaction that is the initial contents of each driver (if any) of that 
+signal. The time component of the transaction is not defined, but the 
+transaction is understood to have already occurred by the start of simulation. 
+</P>
+<P><I>Examples:</I> </P><PRE>     <B>signal</B> S : STANDARD.BIT_VECTOR (1 <B>to</B> 10) ;
+
+
+
+     <B>signal</B> CLK1, CLK2 : TIME ;
+
+
+
+     <B>signal</B> OUTPUT : WIRED_OR MULTI_VALUED_LOGIC;
+
+
+
+</PRE>
+<H4>NOTES</H4>
+<P>1--Ports of any mode are also signals. The term <I>signal</I> is used in this 
+standard to refer to objects declared either by signal declarations or by port 
+declarations (or to subelements, slices, or aliases of such objects). It also 
+refers to the implicit signal GUARD (see <A 
+href="1076_9.html#9.1">9.1 
+</A>) and to implicit signals defined by the predefined attributes 'DELAYED, 
+'STABLE, 'QUIET, and 'TRANSACTION. The term <I>port</I> is used to refer to 
+objects declared by port declarations only. </P>
+<P>2--Signals are given initial values by initializing their drivers. The 
+initial values of drivers are then propagated through the corresponding net to 
+determine the initial values of the signals that make up the net (see <A 
+href="1076_12.html#12.6.3">12.6.3 
+</A>). </P>
+<P>3--The value of a signal may be indirectly modified by a signal assignment 
+statement (see <A 
+href="1076_8.html#8.4">8.4 
+</A>); such assignments affect the future values of the signal. </P>
+<P>4--The subelements of a composite, declared signal are not declared signals. 
+</P>
+<P><I>Cross-References:</I> Disconnection specifications, <A 
+href="1076_5.html#5.3">5.3 
+</A>; Disconnection statements, <A 
+href="1076_9.html#9.5">9.5 
+</A>; Guarded assignment, <A 
+href="1076_9.html#9.5">9.5 
+</A>; Guarded blocks, <A 
+href="1076_9.html#9.1">9.1 
+</A>; Guarded targets, <A 
+href="1076_9.html#9.5">9.5 
+</A>; Signal guard, <A 
+href="1076_9.html#9.1">9.1 
+</A>. </P>
+<H4><A name=4.3.1.3></A><A 
+href="1076_4.html#4.3.1.3">4.3.1.3 
+</A>Variable declarations</H4>
+<P>A variable declaration declares a <I>variable</I> of the specified type. Such 
+a variable is an <I>explicitly declared variable</I>. </P><PRE>    variable_declaration ::=
+
+        [ <B>shared</B> ] <B>variable</B> identifier_list : subtype_indication [ := expression ] ;
+
+</PRE>
+<P>A variable declaration that includes the reserved word <B>shared</B> is a 
+<I>shared variable declaration</I>. A shared variable declaration declares a 
+<I>shared variable</I>. Shared variables are a subclass of the variable class of 
+objects. More than one process may access a given shared variable; however,if 
+more than one process accesses a given shared variable during the same 
+simulation cycle (see <A 
+href="1076_12.html#12.6.4">12.6.4 
+</A>), neither the value of the shared variable after the access nor the value 
+read from the shared variable is defined by the language. A description is 
+erroneous if it depends on whether or how an implementation sequentializes 
+access to shared variables. </P>
+<P>If the variable declaration includes the assignment symbol followed by an 
+expression, the expression specifies an initial value for the declared variable; 
+the type of the expression must be that of the variable. Such an expression is 
+said to be an <I>initial value expression</I>. </P>
+<P>If an initial value expression appears in the declaration of a variable, then 
+the initial value of the variable is determined by that expression each time the 
+variable declaration is elaborated. In the absence of an initial value 
+expression, a default initial value applies. The default initial value for a 
+/variable of a scalar subtype T is defined to be the value given by T'LEFT. The 
+default initial value of a variable of a composite type is defined to be the 
+aggregate of the default initial values of all of its scalar subelements, each 
+of which is itself a variable of a scalar subtype. The default initial value of 
+a variable of an access type is defined to be the value <B>null</B> for that 
+type. </P>
+<H4>NOTES</H4>
+<P>1--The value of a variable may be modified by a variable assignment statement 
+(see <A 
+href="1076_8.html#8.5">8.5 
+</A>); such assignments take effect immediately. </P>
+<P>2--The variables declared within a given procedure persist until that 
+procedure completes and returns to the caller. For procedures that contain wait 
+statements, a variable may therefore persist from one point in simulation time 
+to another, and the value in the variable is thus maintained over time. For 
+processes, which never complete, all variables persist from the beginning of 
+simulation until the end of simulation. </P>
+<P>3--The subelements of a composite, declared variable are not declared 
+variables. </P>
+<P>4--Since the language does not guarantee the synchronization of accesses to 
+shared variables by multiple processes in the same simulation cycle, the use of 
+shared variables in this manner is non portable and nondeterministic. For 
+example, consider the following architecture: </P><PRE>     <B>architecture</B> UseSharedVariables <B>of</B> SomeEntity is
+
+         <B>subtype</B> ShortRange <B>is</B> INTEGER <B>range</B> 0 <B>to</B> 1;
+
+         <B>shared</B> <B>variable</B> Counter: ShortRange := 0;
+
+
+
+     <B>begin</B>
+
+     PROC1: <B>process</B>
+
+        <B>begin</B>
+
+            Counter := Counter + 1;     -- The subtype check may or may not fail.
+
+            <B>wait</B>;
+
+        <B>end</B> <B>process</B> PROC1;
+
+
+
+      PROC2: <B>process</B>
+
+        <B>begin</B>
+
+            Counter := Counter - 1;     -- The subtype check may or may not fail.
+
+            <B>wait</B>;
+
+        <B>end</B> <B>process</B> PROC2;
+
+<B>     end</B> <B>architecture</B> UseSharedVariables;
+
+</PRE>
+<P>In particular, the value of Counter after the execution of both processes is 
+not guaranteed to be either 0 or 1, even if Counter is declared to be of type 
+INTEGER. </P>
+<P>5--Variables declared immediately within entity declarations, architecture 
+bodies, packages, package bodies, and blocks must be shared variables. Variables 
+declared immediately within subprograms and processes must not be shared 
+variables. </P>
+<P><I>Examples:</I> </P><PRE>     <B>variable</B> INDEX : INTEGER <B>range</B> 0 <B>to</B> 99 := 0 ;
+
+         -- Initial value is determined by the initial value expression
+
+
+
+     <B>variable</B> COUNT : POSITIVE ;
+
+         -- Initial value is POSITIVE'LEFT; that is,1.
+
+
+
+     <B>variable</B> MEMORY : BIT_MATRIX (0 <B>to</B> 7, 0 <B>to</B> 1023) ;
+
+         -- Initial value is the aggregate of the initial values of each element
+
+</PRE>
+<H4><A name=4.3.1.4></A><A 
+href="1076_4.html#4.3.1.4">4.3.1.4 
+</A>File declarations</H4>
+<P>A file declaration declares a <I>file</I> of the specified type. Such a file 
+is an <I>explicitly declared file</I>. </P><PRE>     file_declaration ::=
+
+          <B>file</B> identifier_list : subtype_indication [ file_open_information ] ;
+
+
+
+     file_open_information ::=  [ <B>open</B> <I>file_open_kind</I>_expression ] <B>is</B> file_logical_name
+
+
+
+     file_logical_name ::=  <I>string</I>_expression
+
+</PRE>
+<P>The subtype indication of a file declaration must define a file subtype. </P>
+<P>If file open information is included in a given file declaration, then the 
+file declared by the declaration is opened (see <A 
+href="1076_3.html#3.4.1">3.4.1 
+</A>) with an implicit call to FILE_OPEN when the file declaration is elaborated 
+(see <A 
+href="1076_12.html#12.3.1.4">12.3.1.4 
+</A>). This implicit call is to the FILE_OPEN procedure of the first form, and 
+it associates the identifier with the file parameter F, the file logical name 
+with the External_Name parameter, and the file open kind expression with the 
+Open_Kind parameter. If a file open kind expression is not included in the file 
+open information of a given file declaration, then the default value of 
+READ_MODE is used during elaboration of the file declaration. </P>
+<P>If file open information is not included in a given file declaration, then 
+the file declared by the declaration is not opened when the file declaration is 
+elaborated. </P>
+<P>The file logical name must be an expression of predefined type STRING. The 
+value of this expression is interpreted as a logical name for a file in the host 
+system environment. An implementation must provide some mechanism to associate a 
+file logical name with a host-dependent file. Such a mechanism is not defined by 
+the language. </P>
+<P>The file logical name identifies an external file in the host file system 
+that is associated with the file object. This association provides a mechanism 
+for either importing data contained in an external file into the design during 
+simulation or exporting data generated during simulation to an external file. 
+</P>
+<P>If multiple file objects are associated with the same external file, and each 
+file object has an access mode that is read-only (see <A 
+href="1076_3.html#3.4.1">3.4.1 
+</A>), then values read from each file object are read from the external file 
+associated with the file object. The language does not define the order in which 
+such values are read from the external file, nor does it define whether each 
+value is read once or multiple times (once per file object). </P>
+<P>The language does not define the order of and the relationship, if any, 
+between values read from and written to multiple file objects that are 
+associated with the same external file. An implementation may restrict the 
+number of file objects that may be associated at one time with a given external 
+file. </P>
+<P>If a formal subprogram parameter is of the class <B>file</B>, it must be 
+associated with an actual that is a file object. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> IntegerFile <B>is</B> <B>file</B> <B>of</B> INTEGER;
+
+
+
+     <B>file</B> F1: IntegerFile;                  --  No implicit FILE_OPEN is performed
+
+                                            --  during elaboration.
+
+
+
+     <B>file</B> F2: IntegerFile <B>is</B> "test.dat";    --  At elaboration, an implicit call is performed:
+
+                                            --  FILE_OPEN (F2, "test.dat");
+
+                                            --  The OPEN_KIND parameter defaults to
+
+                                            --  READ_MODE.
+
+
+
+     <B>file</B> F3: IntegerFile <B>open</B> WRITE_MODE <B>is</B> "test.dat";
+
+                                            --  At elaboration, an implicit call is performed:
+
+                                            --  FILE_OPEN (F3, "test.dat", WRITE_MODE);
+
+</PRE>
+<P>NOTE--All file objects associated with the same external file should be of 
+the same base type. </P>
+<H3><A name=4.3.2></A><A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>Interface declarations</H3>
+<P>An interface declaration declares an <I>interface object</I> of a specified 
+type. Interface objects include <I>interface constants</I> that appear as 
+generics of a design entity, a component, or a block, or as constant parameters 
+of subprograms; <I>interface signals</I> that appear as ports of a design 
+entity, component, or block, or as signal parameters of subprograms;<I>interface 
+variables</I> that appear as variable parameters of subprograms; and 
+<I>interface files</I> that appear as file parameters of subprograms. </P><PRE>     interface_declaration ::=
+
+            interface_constant_declaration
+
+          | interface_signal_declaration
+
+          | interface_variable_declaration
+
+          | interface_file_declaration
+
+
+
+     interface_constant_declaration ::=
+
+          [<B>constant</B>] identifier_list : [<B> in </B>] subtype_indication [ := <I>static</I>_expression ]
+
+
+
+     interface_signal_declaration ::=
+
+          [<B>signal</B>] identifier_list : [ mode ] subtype_indication [<B> bus </B>] [ := <I>static</I>_expression ]
+
+
+
+     interface_variable_declaration ::=
+
+          [<B>variable</B>] identifier_list : [ mode ] subtype_indication [ := <I>static</I>_expression ]
+
+
+
+     interface_file_declaration ::=
+
+          <B>file</B> identifier_list subtype_indication
+
+
+
+     mode ::=  <B>in</B> | <B>out</B> | <B>inout</B> | <B>buffer</B> | <B>linkage</B>
+
+</PRE>
+<P>If no mode is explicitly given in an interface declaration other than an 
+interface file declaration, mode <B>in</B> is assumed. </P>
+<P>For an interface constant declaration or an interface signal declaration, the 
+subtype indication must define a subtype that is neither a file type nor an 
+access type. </P>
+<P>For an interface file declaration, it is an error if the subtype indication 
+does not denote a subtype of a file type. </P>
+<P>If an interface signal declaration includes the reserved word <B>bus</B>, 
+then the signal declared by that interface declaration is a guarded signal of 
+signal kind <B>bus</B>. </P>
+<P>If an interface declaration contains a ":=" symbol followed by an 
+expression,the expression is said to be the <I>default</I> <I>expression</I> of 
+the interface object. The type of a default expression must be that of the 
+corresponding interface object. It is an error if a default expression appears 
+in an interface declaration and any of the following conditions hold: </P>
+<P>-- The mode is <B>linkage</B> </P>
+<P>-- The interface object is a formal signal parameter </P>
+<P>-- The interface object is a formal variable parameter of mode other than 
+<B>in</B>. </P>
+<P>In an interface signal declaration appearing in a port list, the default 
+expression defines the default value(s) associated with the interface signal or 
+its subelements. In the absence of a default expression, an implicit default 
+value is assumed for the signal or for each scalar subelement, as defined for 
+signal declarations (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>). The value, whether implicitly or explicitly provided, is used to 
+determine the initial contents of drivers, if any, of the interface signal as 
+specified for signal declarations. </P>
+<P>An interface object provides a channel of communication between the 
+environment and a particular portion of a description. The value of an interface 
+object may be determined by the value of an associated object or expression in 
+the environment; similarly, the value of an object in the environment may be 
+determined by the value of an associated interface object. The manner in which 
+such associations are made is described in <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>. </P>
+<P>The value of an object is said to be <I>read</I> when one of the following 
+conditions is satisfied: </P>
+<P>-- When the object is evaluated, and also (indirectly) when the object is 
+associated with an interface object of the modes <B>in</B>, <B>inout</B>, or 
+<B>linkage</B>. </P>
+<P>-- When the object is a signal and a name denoting the object appears in a 
+sensitivity list in a wait statement or a process statement. </P>
+<P>-- When the object is a signal and the value of any of its predefined 
+attributes 'STABLE, 'QUIET, 'DELAYED, 'TRANSACTION, 'EVENT, 'ACTIVE,'LAST_EVENT, 
+'LAST_ACTIVE, or 'LAST_VALUE is read. </P>
+<P>-- When one of its subelements is read. </P>
+<P>-- When the object is a file and a READ operation is performed on the file. 
+</P>
+<P>The value of an object is said to be <I>updated</I> when one of the following 
+conditions is satisfied: </P>
+<P>-- When it is the target of an assignment, and also (indirectly) when the 
+object is associated with an interface object of the modes 
+<B>out</B>,<B>buffer</B>, <B>inout</B>, or <B>linkage</B>. </P>
+<P>-- When one of its subelements is updated. </P>
+<P>-- When the object is a file and a WRITE operation is performed on the file. 
+</P>
+<P>Only signal, variable, or file objects may be updated. </P>
+<P>An interface object has one of the following modes: </P>
+<P>-- <B>in.</B> The value of the interface object may only be read. In 
+addition, any attributes of the interface object may be read, except that 
+attributes 'STABLE, 'QUIET, 'DELAYED, and 'TRANSACTION of a subprogram signal 
+parameter may not be read within the corresponding subprogram. For a file 
+object, operation ENDFILE is allowed. </P>
+<P>-- <B>out. </B>The value of the interface object may be updated. Reading the 
+attributes of the interface element, other than the predefined attributes 
+'STABLE, 'QUIET, 'DELAYED, 'TRANSACTION, 'EVENT, 'ACTIVE, 
+'LAST_EVENT,'LAST_ACTIVE, and 'LAST_VALUE, is allowed. No other reading is 
+allowed. </P>
+<P>-- <B>inout. </B>The value of the interface object may be both read and 
+updated. Reading the attributes of the interface object, other than the 
+attributes 'STABLE, 'QUIET, 'DELAYED, and 'TRANSACTION of a signal parameter,is 
+also permitted. For a file object, all file operations (see <A 
+href="1076_3.html#3.4.1">3.4.1 
+</A>) are allowed. </P>
+<P>-- <B>buffer. </B>The value of the interface object may be both read and 
+updated. Reading the attributes of the interface object is also permitted. </P>
+<P>-- <B>linkage.</B> The value of the interface object may be read or 
+updated,but only by appearing as an actual corresponding to an interface object 
+of mode <B>linkage</B>. No other reading or updating is permitted. </P>
+<H4>NOTES</H4>
+<P>1--Although signals of modes <B>inout</B> and <B>buffer</B> have the same 
+characteristics with respect to whether they may be read or updated, a signal of 
+mode <B>inout</B> may be updated by zero or more sources, whereas a signal of 
+mode <B>buffer</B> must be updated by at most one source (see <A 
+href="1076_1.html#1.1.1.2">1.1.1.2 
+</A>). </P>
+<P>2--A subprogram parameter that is of a file type must be declared as a file 
+parameter. </P>
+<P>3--Since shared variables are a subclass of variables, a shared variable may 
+be associated as an actual with a formal of class variable. </P>
+<H4><A name=4.3.2.1></A><A 
+href="1076_4.html#4.3.2.1">4.3.2.1 
+</A>Interface lists</H4>
+<P>An interface list contains the declarations of the interface objects required 
+by a subprogram, a component, a design entity, or a block statement. </P><PRE>     interface_list ::=
+
+          interface_element { ; interface_element }
+
+
+
+     interface_element ::=  interface_declaration
+
+</PRE>
+<P>A <I>generic</I> interface list consists entirely of interface constant 
+declarations. A <I>port</I> interface list consists entirely of interface signal 
+declarations. A <I>parameter</I> interface list may contain interface constant 
+declarations, interface signal declarations, interface variable declarations, 
+interface file declarations, or any combination thereof. </P>
+<P>A name that denotes an interface object may not appear in any interface 
+declaration within the interface list containing the denoted interface object 
+except to declare this object. </P>
+<P>NOTE--The above restriction makes the following three interface lists 
+illegal: </P><PRE>     <B><I>entity</I></B> <I>E</I> <B><I>is</I></B><I>
+
+           </I><B><I>generic</I></B><I>     (G1:   INTEGER;     G2:   INTEGER := G1);                    -- illegal
+
+           </I><B><I>port</I></B><I>        (P1:   STRING;      P2:   STRING(P1'RANGE));                    -- illegal
+
+
+
+           </I><B><I>procedure</I></B><I> X (Y1, Y2: INTEGER;   Y3:   INTEGER </I><B><I>range</I></B> <I>Y1</I> <B><I>to</I></B><I> Y2)</I>;                 <I>-- illegal
+
+     </I><B><I>end</I></B><I> E;</I>
+
+</PRE>
+<P>However,the following interface lists are legal: </P><PRE>     <B>entity</B> E <B>is</B>
+
+          <B>generic</B>      (G1, G2, G3, G4:    INTEGER);
+
+          <B>port</B>         (P1, P2:            STRING (G1 <B>to</B> G2));
+
+
+
+          <B>procedure</B> X  (Y3:                INTEGER <B>range</B> G3 <B>to</B> G4);
+
+     <B>end</B> E;
+
+</PRE>
+<H4><A name=4.3.2.2></A><A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>Association lists</H4>
+<P>An association list establishes correspondences between formal or local 
+generic, port, or parameter names on the one hand and local or actual names or 
+expressions on the other. </P><PRE>     association_list ::=
+
+         association_element { , association_element }
+
+
+
+     association_element ::=
+
+         [ formal_part =&gt; ] actual_part
+
+
+
+     formal_part ::=
+
+          formal_designator
+
+         | <I>function</I>_name ( formal_designator )
+
+         | type_mark ( formal_designator )
+
+
+
+     formal_designator ::=
+
+          <I>generic</I>_name
+
+         | <I>port</I>_name
+
+         | <I>parameter</I>_name
+
+
+
+     actual_part ::=
+
+           actual_designator
+
+         | <I>function</I>_name ( actual_designator )
+
+         | type_mark ( actual_designator )
+
+
+
+     actual_designator ::=
+
+           expression
+
+         | <I>signal</I>_name
+
+         | <I>variable</I>_name
+
+         | <I>file</I>_name
+
+         | <B>open</B>
+
+</PRE>
+<P>Each association element in an association list associates one actual 
+designator with the corresponding interface element in the interface list of a 
+subprogram declaration, component declaration, entity declaration, or block 
+statement. The corresponding interface element is determined either by position 
+or by name. </P>
+<P>An association element is said to be <I>named</I> if the formal designator 
+appears explicitly; otherwise, it is said to be <I>positional</I>. For a 
+positional association, an actual designator at a given position in an 
+association list corresponds to the interface element at the same position in 
+the interface list. </P>
+<P>Named associations can be given in any order, but if both positional and 
+named associations appear in the same association list, then all positional 
+associations must occur first at their normal position. Hence once a named 
+association is used, the rest of the association list must use only named 
+associations. </P>
+<P>In the following, the term <I>actual</I> refers to an actual designator, and 
+the term <I>formal</I> refers to a formal designator. </P>
+<P>The formal part of a named element association may be in the form of a 
+function call, where the single argument of the function is the formal 
+designator itself, if and only if the mode of the formal is <B>out</B>, 
+<B>inout</B>,<B>buffer</B>, or <B>linkage</B>, and if the actual is not 
+<B>open</B>. In this case, the function name must denote a function whose single 
+parameter is of the type of the formal and whose result is the type of the 
+corresponding actual. Such a <I>conversion function</I> provides for type 
+conversion in the event that data flows from the formal to the actual. </P>
+<P>Alternatively, the formal part of a named element association may be in the 
+form of a type conversion, where the expression to be converted is the formal 
+designator itself, if and only if the mode of the formal is 
+<B>out</B>,<B>inout</B>, <B>buffer</B>, or <B>linkage</B>, and if the actual is 
+not <B>open</B>. In this case, the base type denoted by the type mark must be 
+the same as the base type of the corresponding actual. Such a type conversion 
+provides for type conversion in the event that data flows from the formal to the 
+actual. It is an error if the type of the formal is not closely related to the 
+type of the actual. (See <A 
+href="1076_7.html#7.3.5">7.3.5 
+</A>.) </P>
+<P>Similarly, the actual part of a (named or positional) element association 
+maybe in the form of a function call, where the single argument of the function 
+is the actual designator itself, if and only if the mode of the formal is 
+<B>in</B>, <B>inout</B>, or <B>linkage</B>, and if the actual is not 
+<B>open</B>. In this case, the function name must denote a function whose single 
+parameter is of the type of the actual, and whose result is the type of the 
+corresponding formal. In addition, the formal must not be of class 
+<B>constant</B> for this interpretation to hold (the actual is interpreted as an 
+expression that is a function call if the class of the formal is 
+<B>constant</B>). Such a conversion function provides for type conversion in the 
+event that data flows from the actual to the formal. </P>
+<P>Alternatively, the actual part of a (named or positional) element association 
+may be in the form of a type conversion, where the expression to be type 
+converted is the actual designator itself, if and only if the mode of the formal 
+is <B>in</B>, <B>inout</B>, or <B>linkage</B>, and if the actual is not 
+<B>open</B>. In this case, the base type denoted by the type mark must be the 
+same as the base type of the corresponding formal. Such a type conversion 
+provides for type conversion in the event that data flows from the actual to the 
+formal. It is an error if the type of the actual is not closely related to the 
+type of the formal. </P>
+<P>The type of the actual (after applying the conversion function or type 
+conversion, if present in the actual part) must be the same as the type of the 
+corresponding formal, if the mode of the formal is <B>in</B>, <B>inout</B>, or 
+<B>linkage</B>, and if the actual is not <B>open</B>. Similarly, if the mode of 
+the formal is <B>out</B>, <B>inout</B>, <B>buffer</B>, or <B>linkage</B>, and if 
+the actual is not <B>open</B>, then the type of the formal (after applying the 
+conversion function or type conversion, if present in the formal part) must be 
+the same as the corresponding actual. </P>
+<P>For the association of signals with corresponding formal ports, association 
+of a formal of a given composite type with an actual of the same type is 
+equivalent to the association of each scalar subelement of the formal with the 
+matching subelement of the actual, provided that no conversion function or type 
+conversion is present in either the actual part or the formal part of the 
+association element. If a conversion function or type conversion is present,then 
+the entire formal is considered to be associated with the entire actual. </P>
+<P>Similarly, for the association of actuals with corresponding formal 
+subprogram parameters, association of a formal parameter of a given composite 
+type with an actual of the same type is equivalent to the association of each 
+scalar subelement of the formal parameter with the matching subelement of the 
+actual. Different parameter passing mechanisms may be required in each case, but 
+in both cases the associations will have an equivalent effect. This equivalence 
+applies provided that no actual is accessible by more than one path (see <A 
+href="1076_2.html#2.1.1.1">2.1.1.1 
+</A>). </P>
+<P>A formal may be either an explicitly declared interface object or member (see 
+<A 
+href="1076_3.html">Section 
+3</A>) of such an interface object. In the former case,such a formal is said to 
+be <I>associated in whole</I>. In the latter cases,named association must be 
+used to associate the formal and actual; the subelements of such a formal are 
+said to be <I>associated individually</I>. Furthermore, every scalar subelement 
+of the explicitly declared interface object must be associated exactly once with 
+an actual (or subelement thereof)in the same association list, and all such 
+associations must appear in a contiguous sequence within that association list. 
+Each association element that associates a slice or subelement (or slice 
+thereof) of an interface object must identify the formal with a locally static 
+name. </P>
+<P>If an interface element in an interface list includes a default expression 
+fora formal generic, for a formal port of any mode other than <B>linkage</B>, or 
+for a formal variable or constant parameter of mode <B>in</B>, then any 
+corresponding association list need not include an association element for that 
+interface element. If the association element is not included in the association 
+list, or if the actual is <B>open</B>, then the value of the default expression 
+is used as the actual expression or signal value in an implicit association 
+element for that interface element. </P>
+<P>It is an error if an actual of <B>open</B> is associated with a formal that 
+is associated individually. An actual of <B>open</B> counts as the single 
+association allowed for the corresponding formal but does not supply a constant, 
+signal, or variable (as is appropriate to the object class of the formal) to the 
+formal. </P>
+<H4>NOTES</H4>
+<P>1--It is a consequence of these rules that, if an association element is 
+omitted from an association list in order to make use of the default expression 
+on the corresponding interface element, all subsequent association elements in 
+that association list must be named associations. </P>
+<P>2--Although a default expression can appear in an interface element that 
+declares a (local or formal) port, such a default expression is not interpreted 
+as the value of an implicit association element for that port. Instead, the 
+value of the expression is used to determine the effective value of that port 
+during simulation if the port is left unconnected (see <A 
+href="1076_12.html#12.6.2">12.6.2 
+</A>). </P>
+<P>3--Named association may not be used when invoking implicitly defined 
+operations, since the formal parameters of these operators are not named (see <A 
+href="1076_7.html#7.2">7.2 
+</A>). </P>
+<P>4--Since information flows only from the actual to the formal when the mode 
+of the formal is <B>in</B>, and since a function call is itself an expression, 
+the actual associated with a formal of object class <B>constant</B> is never 
+interpreted as a conversion function or a type conversion converting an actual 
+designator that is an expression. Thus, the following association element is 
+legal: </P><PRE>     Param =&gt; F (<B>open</B>)
+
+</PRE>
+<P>under the conditions that Param is a constant formal and F is a function 
+returning the same base type as that of Param and having one or more parameters, 
+all of which may be defaulted. </P>
+<P>5--No conversion function or type conversion may appear in the actual part 
+when the actual designator is <B>open</B>. </P>
+<H3><A name=4.3.3></A><A 
+href="1076_4.html#4.3.3">4.3.3 
+</A>Alias declarations</H3>
+<P>An alias declaration declares an alternate name for an existing named entity. 
+</P><PRE>     alias_declaration ::=
+
+          <B>alias</B> alias_designator [ : subtype_indication ] <B>is</B> name [ signature ] ;
+
+
+
+     alias_designator ::=  identifier | character_literal | operator_symbol
+
+</PRE>
+<P>An <I>object alias</I> is an alias whose alias designator denotes an object 
+(that is, a constant, a variable, a signal, or a file). A <I>nonobject alias</I> 
+is an alias whose alias designator denotes some named entity other than an 
+object. An alias can be declared for all named entities except for labels, loop 
+parameters, and generate parameters. </P>
+<P>The alias designator in an alias declaration denotes the named entity 
+specified by the name and, if present, the signature in the alias declaration. 
+An alias of a signal denotes a signal; an alias of a variable denotes a 
+variable; an alias of a constant denotes a constant; and an alias of a file 
+denotes a file. Similarly, an alias of a subprogram (including an operator) 
+denotes a subprogram, an alias of an enumeration literal denotes an enumeration 
+literal,and so forth. </P>
+<H4>NOTES</H4>
+<P>1--Since, for example, the alias of a variable is a variable, every reference 
+within this document to a designator (a name, character literal, or operator 
+symbol) that requires the designator to denote a named entity with certain 
+characteristics (for example, to be a variable) allows the designator to denote 
+an alias, so long as the aliased name denotes a named entity having the required 
+characteristics. This situation holds except where aliases are specifically 
+prohibited. </P>
+<P>2--The alias of an overloadable object is itself overloadable. </P>
+<H4><A name=4.3.3.1></A><A 
+href="1076_4.html#4.3.3.1">4.3.3.1 
+</A>Object aliases</H4>
+<P>The following rules apply to object aliases: </P>
+<OL type=a>
+  <LI>A signature may not appear in a declaration of an object alias. 
+  <LI>The name must be a static name (see <A 
+  href="1076_6.html#6.1">6.1 
+  </A>) that denotes an object. The base type of the name specified in an alias 
+  declaration must be the same as the base type of the type mark in the subtype 
+  indication (if the subtype indication is present); this type must not be a 
+  multi-dimensional array type. When the object denoted by the name is 
+  referenced via the alias defined by the alias declaration, the following rules 
+  apply: </LI></OL>
+<P>-- If the subtype indication is absent or if it is present and denotes an 
+unconstrained array type: </P>
+<P>-- If the alias designator denotes a slice of an object, then the subtype of 
+the object is viewed as if it were of the subtype specified by the slice </P>
+<P>-- Otherwise, the object is viewed as if it were of the subtype specified in 
+the declaration of the object denoted by the name </P>
+<P>-- If the subtype indication is present and denotes a constrained array 
+subtype, then the object is viewed as if it were of the subtype specified by the 
+subtype indication; moreover, the subtype denoted by the subtype indication must 
+include a matching element (see <A 
+href="1076_7.html#7.2.2">7.2.2 
+</A>) for each element of the object denoted by the name; </P>
+<P>-- If the subtype indication denotes a scalar subtype, then the object is 
+viewed as if it were of the subtype specified by the subtype 
+indication;moreover, it is an error if this subtype does not have the same 
+bounds and direction as the subtype denoted by the object name. </P>
+<OL type=a>
+  <LI>The same applies to attribute references where the prefix of the attribute 
+  name denotes the alias. 
+  <P></P>
+  <LI>A reference to an element of an object alias is implicitly a reference to 
+  the matching element of the object denoted by the alias. A reference to a 
+  slice of an object alias consisting of the elements e<SUB>1</SUB>, 
+  e<SUB>2</SUB>, ..., e<SUB>n</SUB> is implicitly a reference to a slice of the 
+  object denoted by the alias consisting of the matching elements corresponding 
+  to each of e<SUB>1</SUB> through e<SUB>n</SUB>. </LI></OL>
+<H4><A name=4.3.3.2></A><A 
+href="1076_4.html#4.3.3.2">4.3.3.2 
+</A>Nonobject aliases</H4>
+<P>The following rules apply to nonobject aliases: </P>
+<OL type=a>
+  <LI>A subtype indication may not appear in a nonobject alias. 
+  <P></P>
+  <LI>A signature is required if the name denotes a subprogram (including an 
+  operator) or enumeration literal. In this case, the signature is required to 
+  match (see <A 
+  href="1076_2.html#2.3">2.3 
+  </A>) the parameter and result type profile of exactly one of the subprograms 
+  or enumeration literals denoted by the name. 
+  <P></P>
+  <LI>If the name denotes an enumeration type, then one implicit alias 
+  declaration for each of the literals of the type immediately follows the alias 
+  declaration for the enumeration type; each such implicit declaration has, as 
+  its alias designator, the simple name or character literal of the literal and 
+  has, as its name, a name constructed by taking the name of the alias for thee 
+  numeration type and substituting the simple name or character literal being 
+  aliased for the simple name of the type. Each implicit alias has a signature 
+  that matches the parameter and result type profile of the literal being 
+  aliased. 
+  <P></P>
+  <LI>Alternatively, if the name denotes a physical type, then one implicitali 
+  as declaration for each of the units of the type immediately follows the alias 
+  declaration for the physical type; each such implicit declaration has, as its 
+  name, a name constructed by taking the name of the alias for the physical type 
+  and substituting the simple name of the unit being aliased for the simple name 
+  of the type. 
+  <P></P>
+  <LI>Finally, if the name denotes a type, then implicit alias declarations for 
+  each predefined operator for the type immediately follow the explicit alias 
+  declaration for the type and, if present, any implicit alias declarations for 
+  literals or units of the type. Each implicit alias has a signature that 
+  matches the parameter and result type profile of the implicit operator being 
+  aliased. </LI></OL>
+<P><I>Examples:</I> </P><PRE>     <B>variable</B> REAL_NUMBER : BIT_VECTOR (0 <B>to</B> 31);
+
+
+
+     <B>alias</B> SIGN : BIT <B>is</B> REAL_NUMBER (0);
+
+         -- SIGN is now a scalar (BIT) value
+
+
+
+     <B>alias</B> MANTISSA : BIT_VECTOR (23 <B>downto</B> 0) <B>is</B> REAL_NUMBER (8 <B>to</B> 31);
+
+         -- MANTISSA is a 24b value whose range is 23 <B>downto</B> 0.
+
+         -- Note that the ranges of MANTISSA and REAL_NUMBER (8 <B>to</B> 31)
+
+         -- have opposite directions.  A reference to MANTISSA (23 <B>downto</B> 18)
+
+         -- is equivalent to a reference to REAL_NUMBER (8 <B>to</B> 13).
+
+
+
+     <B>alias</B> EXPONENT : BIT_VECTOR (1 <B>to</B> 7) <B>is</B> REAL_NUMBER (1 <B>to</B> 7);
+
+          -- EXPONENT is a 7-bit value whose range is 1 <B>to</B> 7.
+
+
+
+     <B>alias</B> STD_BIT   <B>is</B> STD.STANDARD.BIT;                 --   explicit alias
+
+
+
+     --  <B>alias</B> '0'   <B>is</B> STD.STANDARD.'0'        --   implicit aliases ...
+
+     --                         [<B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> '1'   <B>is</B> STD.STANDARD.'1'
+
+     --                         [<B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "and" <B>is</B> STD.STANDARD."and"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "or"  <B>is</B> STD.STANDARD."or"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "nand" <B>is</B> STD.STANDARD."nand"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "nor"  <B>is</B> STD.STANDARD."nor"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "xor" <B>is</B> STD.STANDARD."xor"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "xnor <B>is</B> STD.STANDARD."xnor"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "not" <B>is</B> STD.STANDARD."not"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BIT];
+
+     -- <B>alias</B> "="   <B>is</B> STD.STANDARD."="
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BOOLEAN];
+
+     -- <B>alias</B> "/="  <B>is</B> STD.STANDARD."/="
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BOOLEAN];
+
+     -- <B>alias</B> "&lt;"   <B>is</B> STD.STANDARD."&lt;"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BOOLEAN];
+
+     -- <B>alias</B> "&lt;="  <B>is</B> STD.STANDARD."&lt;="
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BOOLEAN];
+
+     -- <B>alias</B> "&gt;"  <B>is</B> STD.STANDARD."&gt;"
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BOOLEAN];
+
+     -- <B>alias</B> "&gt;="  <B>is</B> STD.STANDARD."&gt;="
+
+     --                     [STD.STANDARD.BIT, STD.STANDARD.BIT
+
+     --                         <B>return</B> STD.STANDARD.BOOLEAN];
+
+</PRE>
+<P>NOTE--An alias of an explicitly declared object is not an explicitly declared 
+object,nor is the alias of a subelement or slice of an explicitly declared 
+object an explicitly declared object. </P>
+<H2><A name=4.4></A><A 
+href="1076_4.html#4.4">4.4 
+</A>Attribute declarations</H2>
+<P>An attribute is a value, function, type, range, signal, or constant that may 
+be associated with one or more named entities in a description. There are two 
+categories of attributes: predefined attributes and user-defined attributes. 
+Predefined attributes provide information about named entities in a description. 
+Section 14 contains the definition of all predefined attributes. Predefined 
+attributes that are signals may not be updated. </P>
+<P>User-defined attributes are constants of arbitrary type. Such attributes are 
+defined by an attribute declaration. </P><PRE>     attribute_declaration ::=
+
+          <B>attribute</B> identifier: type_mark ;
+
+</PRE>
+<P>The identifier is said to be the <I>designator</I> of the attribute. An 
+attribute may be associated with an entity declaration, an architecture, a 
+configuration,a procedure, a function, a package, a type, a subtype, a constant, 
+a signal, a variable, a component, a label, a literal, a unit, a group, or a 
+file. </P>
+<P>The type mark must denote a subtype that is neither an access type nor a file 
+type. The subtype need not be constrained. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> COORDINATE <B>is</B> <B>record</B> X,Y: INTEGER; <B>end</B> <B>record</B>;
+
+     <B>subtype</B> POSITIVE <B>is</B> INTEGER <B>range</B> 1 <B>to</B> INTEGER'HIGH;
+
+     <B>attribute</B> LOCATION: COORDINATE;
+
+     <B>attribute</B> PIN_NO: POSITIVE;
+
+
+
+</PRE>
+<H4>NOTES</H4>
+<P>1--A given named entity E will be decorated with the user-defined attribute A 
+if and only if an attribute specification for the value of attribute A exists in 
+the same declarative part as the declaration of E. In the absence of such a 
+specification, an attribute name of the form E'A is illegal. </P>
+<P>2--A user-defined attribute is associated with the named entity denoted by 
+the name specified in a declaration, not with the name itself. Hence, an 
+attribute of an object can be referenced by using an alias for that object 
+rather than the declared name of the object as the prefix of the attribute name, 
+and the attribute referenced in such a way is the same attribute (and therefore 
+has the same value) as the attribute referenced by using the declared name of 
+the object as the prefix. </P>
+<P>3--A user-defined attribute of a port, signal, variable, or constant of some 
+composite type is an attribute of the entire port, signal, variable, or 
+constant, not of its elements. If it is necessary to associate an attribute with 
+each element of some composite object, then the attribute itself can be declared 
+to be of a composite type such that for each element of the object,there is a 
+corresponding element of the attribute. </P>
+<H2><A name=4.5></A><A 
+href="1076_4.html#4.5">4.5 
+</A>Component declarations</H2>
+<P>A component declaration declares a virtual design entity interface that may 
+be used in a component instantiation statement. A component configuration or a 
+configuration specification can be used to associate a component instance with a 
+design entity that resides in a library. </P><PRE>     component_declaration ::=
+
+        <B>component</B> identifier [ <B>is</B> ]
+
+           [ <I>local</I>_generic_clause ]
+
+           [ <I>local</I>_port_clause ]
+
+        <B>end component</B> [ <I>component</I>_simple_name ] ;
+
+</PRE>
+<P>Each interface object in the local generic clause declares a local generic. 
+Each interface object in the local port clause declares a local port. </P>
+<P>If a simple name appears at the end of a component declaration, it must 
+repeat the identifier of the component declaration. </P>
+<H2><A name=4.6></A><A 
+href="1076_4.html#4.6">4.6 
+</A>Group template declarations</H2>
+<P>A group template declaration declares a <I>group template</I>, which defines 
+the allowable classes of named entities that can appear in a group. </P><PRE>     group_template_declaration ::=
+
+         <B>group</B> identifier <B>is</B> ( entity_class_entry_list ) ;
+
+
+
+     entity_class_entry_list ::=
+
+         entity_class_entry { , entity_class_entry }
+
+
+
+     entity_class_entry ::=  entity_class [ &lt;&gt; ]
+
+</PRE>
+<P>A group template is characterized by the number of entity class entries and 
+the entity class at each position. Entity classes are described in <A 
+href="1076_5.html#5.1">5.1 
+</A>. </P>
+<P>An entity class entry that is an entity class defines the entity class that 
+may appear at that position in the group type. An entity class entry that 
+includes a box (&lt;&gt;) allows zero or more group constituents to appear in 
+this position in the corresponding group declaration; such an entity class entry 
+must be the last one within the entity class entry list. </P>
+<P><I>Examples:</I> </P><PRE>     <B>group</B> PIN2PIN <B>is</B> (<B>signal</B>, <B>signal</B>);         --  Groups of this type consist of two signals.
+
+
+
+     <B>group</B> RESOURCE <B>is</B> (<B>label</B> &lt;&gt;);              --  Groups of this type consist of any number
+
+                                                --  of labels.
+
+     <B>group</B> DIFF_CYCLES <B>is</B> (<B>group</B> &lt;&gt;);           --  A group of groups.
+
+</PRE>
+<H2><A name=4.7></A><A 
+href="1076_4.html#4.7">4.7 
+</A>Group declarations</H2>
+<P>A group declaration declares a <I>group</I>, a named collection of named 
+entities. Named entities are described </P>
+<P>in <A 
+href="1076_5.html#5.1">5.1 
+</A>. </P><PRE>     group_declaration ::=
+
+         <B>group</B> identifier : <I>group_template</I>_name ( group_constituent_list ) ;
+
+
+
+     group_constituent_list ::=  group_constituent { , group_constituent }
+
+
+
+     group_constituent ::=  name | character_literal
+
+</PRE>
+<P>It is an error if the class of any group constituent in the group constituent 
+list is not the same as the class specified by the corresponding entity class 
+entry in the entity class entry list of the group template. </P>
+<P>A name that is a group constituent may not be an attribute name (see <A 
+href="1076_6.html#6.6">6.6 
+</A>), nor, if it contains a prefix, may that prefix be a function call. </P>
+<P>If a group declaration appears within a package body, and a group constituent 
+within that group declaration is the same as the simple name of the package 
+body, then the group constituent denotes the package declaration and not the 
+package body. The same rule holds for group declarations appearing within 
+subprogram bodies containing group constituents with the same designator as that 
+of the enclosing subprogram body. </P>
+<P>If a group declaration contains a group constituent that denotes a variable 
+of an access type, the group declaration declares a group incorporating the 
+variable itself, and not the designated object, if any. </P>
+<P><I>Examples:</I> </P><PRE>     <B>group</B> G1: RESOURCE (L1, L2);                    --  A group of two labels.
+
+
+
+     <B>group</B> G2: RESOURCE (L3, L4, L5);                --  A group  of three labels.
+
+
+
+     <B>group</B> C2Q: PIN2PIN (PROJECT.GLOBALS.CK, Q);     --  Groups may associate named
+
+                                                     --  entities in different declarative                             --  parts (and regions).
+
+     <B>group</B> CONSTRAINT1: DIFF_CYCLES (G1, G3);        --  A group of groups.
+
+</PRE>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_3.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_5.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

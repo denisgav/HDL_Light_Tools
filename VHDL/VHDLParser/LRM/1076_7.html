@@ -1,0 +1,1692 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=7>Section 7</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_6.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_8.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Expressions</H1>
+<P></P>
+<P></P>
+<P>The rules applicable to the different forms of expression, and to their 
+evaluation, are given in this section. </P>
+<H2><A name=7.1></A><A 
+href="1076_7.html#7.1">7.1 
+</A>Expressions</H2>
+<P>An expression is a formula that defines the computation of a value. </P><PRE>     expression ::=
+
+           relation { <B>and</B> relation }
+
+        | relation { <B>or</B> relation }
+
+        | relation { <B>xor</B> relation }
+
+        | relation [ <B>nand</B> relation ]
+
+        | relation [ <B>nor</B> relation ]
+
+        | relation { <B>xnor</B> relation }
+
+
+
+     relation ::=
+
+         shift_expression [ relational_operator shift_expression ]
+
+
+
+     shift_expression ::=
+
+         simple_expression [ shift_operator simple_expression ]
+
+
+
+     simple_expression ::=
+
+         [ sign ] term { adding_operator term }
+
+
+
+     term ::=
+
+         factor { multiplying_operator factor }
+
+
+
+     factor ::=
+
+           primary [ ** primary ]
+
+        | <B>abs</B> primary
+
+        | <B>not</B> primary
+
+
+
+     primary ::=
+
+           name
+
+        | literal
+
+        | aggregate
+
+        | function_call
+
+        | qualified_expression
+
+        | type_conversion
+
+        | allocator
+
+        | ( expression )
+
+</PRE>
+<P>Each primary has a value and a type. The only names allowed as primaries are 
+attributes that yield values and names denoting objects or values. In the case 
+of names denoting objects, the value of the primary is the value of the object. 
+</P>
+<P>The type of an expression depends only upon the types of its operands and on 
+the operators applied; for an overloaded operand or operator, the determination 
+of the operand type, or the identification of the overloaded operator, depends 
+on the context (see <A 
+href="1076_10.html#10.5">10.5 
+</A>). For each predefined operator, the operand and result types are given in 
+the following clause. </P>
+<P>NOTE--The syntax for an expression involving logical operators allows a 
+sequence of <B>and</B>, <B>or</B>, <B>xor</B>, or <B>xnor</B> operators (whether 
+predefined or user-defined), since the corresponding predefined operations are 
+associative. For the operators <B>nand</B> and <B>nor</B> (whether predefined or 
+user-defined), however, such a sequence is not allowed, since the corresponding 
+predefined operations are not associative. </P>
+<H2><A name=7.2></A><A 
+href="1076_7.html#7.2">7.2 
+</A>Operators</H2>
+<P>The operators that may be used in expressions are defined below. Each 
+operator belongs to a class of operators, all of which have the same precedence 
+level;the classes of operators are listed in order of increasing precedence. 
+</P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=left width=125>logical_operator</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50>::=</TD>
+    <TD align=middle width=50><B>and</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>or</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>nand</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>nor</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>xor</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>xnor</B></TD></TR>
+  <TR>
+    <TD align=left width=125>relational_operator</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50>::=</TD>
+    <TD align=middle width=50>=</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>/=</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>&lt;</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>&lt;=</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>&gt;</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>&gt;=</TD></TR>
+  <TR>
+    <TD align=left width=125>shift_operator</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50>::=</TD>
+    <TD align=middle width=50><B>sll</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>srl</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>sla</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>sra</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>rol</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>ror</B></TD></TR>
+  <TR>
+    <TD align=left width=125>adding_operator</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50>::=</TD>
+    <TD align=middle width=50>+</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>-</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>&amp;</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD></TR>
+  <TR>
+    <TD align=left width=125>sign</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50>::=</TD>
+    <TD align=middle width=50>+</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>-</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD></TR>
+  <TR>
+    <TD align=left width=125>mutiplying_operator</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50>::=</TD>
+    <TD align=middle width=50>*</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50>/</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>mod</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>rem</B></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD></TR>
+  <TR>
+    <TD align=left width=125>micellaneous_operator</TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50>::=</TD>
+    <TD align=middle width=50>**</TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>abs</B></TD>
+    <TD align=middle width=50>|</TD>
+    <TD align=middle width=50><B>not</B></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD>
+    <TD align=middle width=50></TD></TR></TBODY></TABLE>
+<P>Operators of higher precedence are associated with their operands before 
+operators of lower precedence. Where the language allows a sequence of 
+operators, operators with the same precedence level are associated with their 
+operands in textual order, from left to right. The precedence of an operator is 
+fixed and may not be changed by the user, but parentheses can be used to control 
+the association of operators and operands. </P>
+<P>In general, operands in an expression are evaluated before being associated 
+with operators. For certain operations, however, the right-hand operand is 
+evaluated if and only if the left-hand operand has a certain value. These 
+operations are called <I>short-circuit</I> operations. The logical operations 
+<B>and</B>, <B>or</B>, <B>nand</B>, and <B>nor</B> defined for operands of types 
+BIT and BOOLEAN are all short-circuit operations; furthermore, these are the 
+only short-circuit operations. </P>
+<P>Every predefined operator is a pure function (see <A 
+href="1076_2.html#2.1">2.1 
+</A>). No predefined operators have named formal parameters; therefore, named 
+association (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>) may not be used when invoking a predefined operation. </P>
+<H4>NOTES</H4>
+<P></P>
+<P>1--The predefined operators for the standard types are declared in package 
+STANDARD as shown in <A 
+href="1076_14.html#14.2">14.2 
+</A>. </P>
+<P>2--The operator <B>not</B> is classified as a miscellaneous operator for the 
+purposes of defining precedence, but is otherwise classified as a logical 
+operator. </P>
+<H3><A name=7.2.1></A><A 
+href="1076_7.html#7.2.1">7.2.1 
+</A>Logical operators</H3>
+<P>The logical operators <B>and</B>, <B>or</B>, <B>nand</B>, 
+<B>nor</B>,<B>xor</B>, <B>xnor</B>, and <B>not</B> are defined for predefined 
+types BIT and BOOLEAN. They are also defined for any one-dimensional array type 
+whose element type is BIT or BOOLEAN. For the binary operators 
+<B>and</B>,<B>or</B>, <B>nand</B>, <B>nor</B>, <B>xor</B>, and <B>xnor</B>, the 
+operands must be of the same base type. Moreover, for the binary operators 
+<B>and</B>,<B>or</B>, <B>nand</B>, <B>nor</B>, <B>xor</B>, and <B>xnor</B> 
+defined on one-dimensional array types, the operands must be arrays of the same 
+length,the operation is performed on matching elements of the arrays, and the 
+result is an array with the same index range as the left operand. For the unary 
+operator <B>not</B> defined on one-dimensional array types, the operation is 
+performed on each element of the operand, and the result is an array with the 
+same index range as the operand. </P>
+<P>The effects of the logical operators are defined in the following tables. The 
+symbol T represents TRUE for type BOOLEAN, '1' for type BIT; the symbol F 
+represents FALSE for type BOOLEAN, '0' for type BIT.<BR><BR></P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle width=25><U>A</U></TD>
+    <TD align=middle width=25><U>B</U></TD>
+    <TD align=middle width=75><U>A <B>and</B> B</U></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25><U>A</U></TD>
+    <TD align=middle width=25><U>B</U></TD>
+    <TD align=middle width=75><U>A <B>or</B> B</U></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25><U>A</U></TD>
+    <TD align=middle width=25><U>B</U></TD>
+    <TD align=middle width=75><U>A <B>xor</B> B</U></TD></TR>
+  <TR>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD></TR>
+  <TR>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>F</TD></TR>
+  <TR>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>T</TD></TR>
+  <TR>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD></TR>
+  <TR>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>T</TD></TR>
+  <TR>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD></TR>
+  <TR>
+    <TD align=middle width=25><U>A</U></TD>
+    <TD align=middle width=25><U>B</U></TD>
+    <TD align=middle width=75><U>A <B>nand </B>B</U></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25><U>A</U></TD>
+    <TD align=middle width=25><U>B</U></TD>
+    <TD align=middle width=75><U>A <B>nor </B>B</U></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25><U>A</U></TD>
+    <TD align=middle width=25><U>B</U></TD>
+    <TD align=middle width=75><U>A <B>xnor </B>B</U></TD></TR>
+  <TR>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=75></TD></TR>
+  <TR>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD></TR>
+  <TR>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>F</TD></TR>
+  <TR>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>F</TD></TR>
+  <TR>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>T</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=25></TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=25>F</TD>
+    <TD align=middle width=75>T</TD></TR>
+  <TR>
+    <TD align=middle width=75><U>A</U></TD>
+    <TD align=middle width=75><B><U>not A</U></B></TD></TR>
+  <TR>
+    <TD align=middle width=75></TD>
+    <TD align=middle width=75></TD></TR>
+  <TR>
+    <TD align=middle width=75>T</TD>
+    <TD align=middle width=75>F</TD></TR>
+  <TR>
+    <TD align=middle width=75>F</TD>
+    <TD align=middle width=75>T</TD></TR></TBODY></TABLE>
+<P>For the short-circuit operations <B>and</B>, <B>or</B>, <B>nand</B>, and 
+<B>nor</B> on types BIT and BOOLEAN, the right operand is evaluated only if the 
+value of the left operand is not sufficient to determine the result of the 
+operation. For operations <B>and</B> and <B>nand</B>, the right operand is 
+evaluated only if the value of the left operand is T; for operations <B>or</B> 
+and <B>nor</B>, the right operand is evaluated only if the value of the left 
+operand is F. </P>
+<P>NOTE--All of the binary logical operators belong to the class of operators 
+with the lowest precedence. The unary logical operator <B>not</B> belongs to the 
+class of operators with the highest precedence. </P>
+<H3><A name=7.2.2></A><A 
+href="1076_7.html#7.2.2">7.2.2 
+</A>Relational operators</H3>
+<P>Relational operators include tests for equality, inequality, and ordering of 
+operands. The operands of each relational operator must be of the same type. The 
+result type of each relational operator is the predefined type 
+BOOLEAN.<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD><B>Operator</B></TD>
+    <TD><B>Operation</B></TD>
+    <TD><B>Operand type</B></TD>
+    <TD><B>Result type</B></TD></TR>
+  <TR>
+    <TD>=</TD>
+    <TD>Equality</TD>
+    <TD>Any type</TD>
+    <TD>BOOLEAN</TD></TR>
+  <TR>
+    <TD>/=</TD>
+    <TD>Inequality</TD>
+    <TD>Any type</TD>
+    <TD>BOOLEAN</TD></TR>
+  <TR>
+    <TD>&lt;<BR>&lt;=<BR>&gt;<BR>&gt;=</TD>
+    <TD>Ordering</TD>
+    <TD>Any scalar type or discrete array type</TD>
+    <TD>BOOLEAN</TD></TR></TBODY></TABLE></CENTER>
+<P>The equality and inequality operators (= and /=) are defined for all types 
+other than file types. The equality operator returns the value TRUE if the two 
+operands are equal and returns the value FALSE otherwise. The inequality 
+operator returns the value FALSE if the two operands are equal and returns the 
+value TRUE otherwise. </P>
+<P>Two scalar values of the same type are equal if and only if the values are 
+the same. Two composite values of the same type are equal if and only if for 
+each element of the left operand there is a <I>matching</I> <I>element</I> of 
+the right operand and vice versa, and the values of matching elements are equal, 
+as given by the predefined equality operator for the element type. In 
+particular, two null arrays of the same type are always equal. Two values of an 
+access type are equal if and only if they both designate the same object or they 
+both are equal to the null value for the access type. </P>
+<P>For two record values, matching elements are those that have the same element 
+identifier. For two one-dimensional array values, matching elements are those 
+(if any) whose index values match in the following sense: the left bounds of the 
+index ranges are defined to match; if two elements match, the elements 
+immediately to their right are also defined to match. For two multi-dimensional 
+array values, matching elements are those whose indices match in successive 
+positions. </P>
+<P>The ordering operators are defined for any scalar type and for any discrete 
+array type. A <I>discrete</I> <I>array</I> is a one-dimensional array whose 
+elements are of a discrete type. Each operator returns TRUE if the corresponding 
+relation is satisfied; otherwise, the operator returns FALSE. </P>
+<P>For scalar types, ordering is defined in terms of the relative values. For 
+discrete array types, the relation &lt; (less than) is defined such that the 
+left operand is less than the right operand if and only if </P>
+<P>-- The left operand is a null array and the right operand is a nonnull array; 
+otherwise, </P>
+<P>-- Both operands are nonnull arrays, and one of the following conditions is 
+satisfied: </P>
+<P>-- The leftmost element of the left operand is less than that of the right;or 
+</P>
+<P>-- The leftmost element of the left operand is equal to that of the right, 
+and the tail of the left operand is less than that of the right (the tail 
+consists of the remaining elements to the right of the leftmost element and can 
+be null). </P>
+<P>The relation &lt;= (less than or equal) for discrete array types is defined 
+to be the inclusive disjunction of the results of the &lt; and = operators for 
+the same two operands. The relations &gt; (greater than) and &gt;= (greater than 
+or equal) are defined to be the complements of the &lt;= and &lt;operators 
+respectively for the same two operands. </P>
+<H3><A name=7.2.3></A><A 
+href="1076_7.html#7.2.3">7.2.3 
+</A>Shift operators</H3>
+<P>The shift operators <B>sll</B>, <B>srl</B>, <B>sla</B>, <B>sra</B>, 
+<B>rol</B>,and <B>ror</B> are defined for any one-dimensional array type whose 
+element type is either of the predefined types BIT or BOOLEAN.<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD><B>Operator</B></TD>
+    <TD><B>Operation</B></TD>
+    <TD><B>Left operand type</B></TD>
+    <TD><B>Right operand type</B></TD>
+    <TD><B>Result type</B></TD></TR>
+  <TR>
+    <TD><B>sll</B></TD>
+    <TD>Shift left logical</TD>
+    <TD>Any one-dimensional array type whose element type is BIT or BOOLEAN</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD><B>srl</B></TD>
+    <TD>Shift right logical</TD>
+    <TD>Any one-dimensional array type whose element typeis BIT or BOOLEAN</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD><B>sla</B></TD>
+    <TD>Shift left arithmetic</TD>
+    <TD>Any one-dimensional array type whose element type is BIT or BOOLEAN</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD><B>sra</B></TD>
+    <TD>Shift right arithmetic</TD>
+    <TD>Any one-dimensional array type whose element type is BIT or BOOLEAN</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD><B>rol</B></TD>
+    <TD>Rotate left logical</TD>
+    <TD>Any one-dimensional array type whose element type is BIT or BOOLEAN</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD><B>ror</B></TD>
+    <TD>Rotate right logical</TD>
+    <TD>Any one-dimensional array type whose element type is BIT or BOOLEAN</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR></TBODY></TABLE></CENTER>
+<P></P>
+<P>The index subtypes of the return values of all shift operators are the same 
+as the index subtypes of their left arguments. </P>
+<P>The values returned by the shift operators are defined as follows. In the 
+remainder of this section, the values of their leftmost arguments are referred 
+to as L and the values of their rightmost arguments are referred to as R. </P>
+<P>-- The <B>sll</B> operator returns a value that is L logically shifted left 
+by R index positions. That is, if R is 0 or if L is a null array, the return 
+value is L. Otherwise, a basic shift operation replaces L with a value that is 
+the result of a concatenation whose left argument is the rightmost (L'Length -1) 
+elements of L and whose right argument is T'Left, where T is the element type of 
+L. If R is positive, this basic shift operation is repeated R times to form the 
+result. If R is negative, then the return value is the value of the expression L 
+<B>srl</B> -R. </P>
+<P>-- The <B>srl</B> operator returns a value that is L logically shifted right 
+by R index positions. That is, if R is 0 or if L is a null array, the return 
+value is L. Otherwise, a basic shift operation replaces L with a value that is 
+the result of a concatenation whose right argument is the leftmost (L'Length -1) 
+elements of L and whose left argument is T'Left, where T is the element type of 
+L. If R is positive, this basic shift operation is repeated R times to form the 
+result. If R is negative, then the return value is the value of the expression L 
+<B>sll</B> -R. </P>
+<P>-- The <B>sla</B> operator returns a value that is L arithmetically shifted 
+left by R index positions. That is, if R is 0 or if L is a null array, the 
+return value is L. Otherwise, a basic shift operation replaces L with a value 
+that is the result of a concatenation whose left argument is the 
+rightmost(L'Length - 1) elements of L and whose right argument is L(L'Right). If 
+R is positive, this basic shift operation is repeated R times to form the 
+result. If R is negative, then the return value is the value of the expression L 
+<B>sra</B> -R. </P>
+<P>-- The <B>sra</B> operator returns a value that is L arithmetically shifted 
+right by R index positions. That is, if R is 0 or if L is a null array, the 
+return value is L. Otherwise, a basic shift operation replaces L with a value 
+that is the result of a concatenation whose right argument is the 
+leftmost(L'Length - 1) elements of L and whose left argument is L(L'Left). If R 
+is positive, this basic shift operation is repeated R times to form the result. 
+If R is negative, then the return value is the value of the expression 
+L<B>sla</B> -R. </P>
+<P>-- The <B>rol</B> operator returns a value that is L rotated left by R index 
+positions. That is, if R is 0 or if L is a null array, the return value is L. 
+Otherwise, a basic rotate operation replaces L with a value that is the result 
+of a concatenation whose left argument is the rightmost (L'Length - 1) elements 
+of L and whose right argument is L(L'Left). If R is positive, this basic rotate 
+operation is repeated R times to form the result. If R is negative, then the 
+return value is the value of the expression L <B>ror</B> -R. </P>
+<P>-- The <B>ror</B> operator returns a value that is L rotated right by R index 
+positions. That is, if R is 0 or if L is a null array, the return value is L. 
+Otherwise, a basic rotate operation replaces L with a value that is the result 
+of a concatenation whose right argument is the leftmost (L'Length - 1) elements 
+of L and whose left argument is L(L'Right). If R is positive, this basic rotate 
+operation is repeated R times to form the result. If R is negative, then the 
+return value is the value of the expression L <B>rol</B> -R. </P>
+<H4>NOTES</H4>
+<P></P>
+<P>1--The logical operators may be overloaded, for example, to disallow negative 
+integers as the second argument. </P>
+<P>2--The subtype of the result of a shift operator is the same as that of the 
+left operand. </P>
+<H3><A name=7.2.4></A><A 
+href="1076_7.html#7.2.4">7.2.4 
+</A>Adding operators</H3>
+<P>The adding operators + and - are predefined for any numeric type and have 
+their conventional mathematical meaning. The concatenation operator &amp; is 
+predefined for any one-dimensional array type.<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD><B>Operator</B></TD>
+    <TD><B>Operation</B></TD>
+    <TD><B>Left operand type</B></TD>
+    <TD><B>Right operand type</B></TD>
+    <TD><B>Result type</B></TD></TR>
+  <TR>
+    <TD>+</TD>
+    <TD>Addition</TD>
+    <TD>Any numeric type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR>
+  <TR>
+    <TD>-</TD>
+    <TD>Subtraction</TD>
+    <TD>Any numeric type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR>
+  <TR>
+    <TD rowSpan=4>&amp;</TD>
+    <TD rowSpan=4>Concatenation</TD>
+    <TD>Any array type</TD>
+    <TD>Same array type</TD>
+    <TD>Same array type</TD></TR>
+  <TR>
+    <TD>Any array type</TD>
+    <TD>The element type</TD>
+    <TD>Same array type</TD></TR>
+  <TR>
+    <TD>The element type</TD>
+    <TD>Any array type</TD>
+    <TD>Same array type</TD></TR>
+  <TR>
+    <TD>The element type</TD>
+    <TD>The element type</TD>
+    <TD>Any array type</TD></TR></TBODY></TABLE></CENTER>
+<P></P>
+<P>For concatenation, there are three mutually exclusive cases: </P>
+<OL type=a>
+  <LI>If both operands are one-dimensional arrays of the same type, the result 
+  of the concatenation is a one-dimensional array of this same type whose length 
+  is the sum of the lengths of its operands, and whose elements consist of the 
+  elements of the left operand (in left-to-right order) followed by the elements 
+  of the right operand (in left-to-right order). The direction of the result is 
+  the direction of the left operand, unless the left operand is a null array, in 
+  which case the direction of the result is that of the right operand. 
+  <P>If both operands are null arrays, then the result of the concatenation is 
+  the right operand. Otherwise, the direction and bounds of the result are 
+  determined as follows: Let S be the index subtype of the base type of the 
+  result. The direction of the result of the concatenation is the direction of 
+  S, and the left bound of the result is S'LEFT. </P>
+  <P></P>
+  <LI>If one of the operands is a one-dimensional array and the type of the 
+  other operand is the element type of this aforementioned one-dimensional 
+  array, the result of the concatenation is given by the rules in case 1, using 
+  in place of the other operand an implicit array having this operand as its 
+  only element. 
+  <P></P>
+  <LI>If both operands are of the same type and it is the element type of some 
+  one-dimensional array type, the type of the result must be known from the 
+  context and is this one-dimensional array type. In this case, each operand is 
+  treated as the one element of an implicit array, and the result of the 
+  concatenation is determined as in case a. </LI></OL>
+<P>In all cases, it is an error if either bound of the index subtype of the 
+result does not belong to the index subtype of the type of the result, unless 
+the result is a null array. It is also an error if any element of the result 
+does not belong to the element subtype of the type of the result. </P>
+<P><I>Examples:</I> </P><PRE>     <B>subtype</B> BYTE <B>is</B> BIT_VECTOR (7 <B>downto</B> 0);
+
+     <B>type</B> MEMORY <B>is</B> <B>array</B> (Natural <B>range</B> &lt;&gt;) <B>of</B> BYTE;
+
+
+
+     --  The following concatenation accepts two BIT_VECTORs and returns a BIT_VECTOR
+
+     --  (case a):
+
+
+
+     <B>constant</B> ZERO: BYTE := "0000" &amp; "0000";
+
+
+
+     --  The next two examples show that the same expression can represent either case a or
+
+     --  case c, depending on the context of the expression.
+
+
+
+     --  The following concatenation accepts two BIT_VECTORS and returns a BIT_VECTOR
+
+     --  (case a):
+
+
+
+
+
+     <B>constant</B> C1: BIT_VECTOR := ZERO &amp; ZERO;
+
+
+
+     --  The following concatenation accepts two BIT_VECTORs and returns a MEMORY
+
+     --  (case c):
+
+
+
+     <B>constant</B> C2: MEMORY := ZERO &amp; ZERO;
+
+
+
+     --  The following concatenation accepts a BIT_VECTOR and a MEMORY, returning a
+
+     --  MEMORY (case b):
+
+
+
+     <B>constant</B> C3: MEMORY := ZERO &amp; C2;
+
+
+
+     --  The following concatenation accepts a MEMORY and a BIT_VECTOR, returning a
+
+     --  MEMORY (case b):
+
+
+
+<B>     constant</B> C4: MEMORY := C2 &amp; ZERO;
+
+
+
+     --  The following concatenation accepts two MEMORYs and returns a MEMORY (case a):
+
+
+
+     <B>constant</B> C5: MEMORY := C2 &amp; C3;
+
+
+
+     <B>type</B> R1 <B>is</B> 0 <B>to</B> 7;
+
+     <B>type</B> R2 <B>is</B> 7 <B>downto</B> 0;
+
+
+
+     <B>type</B> T1 <B>is</B> <B>array</B> (R1 <B>range</B> &lt;&gt;) <B>of</B> Bit;
+
+     <B>type</B> T2 <B>is</B> <B>array</B> (R2 <B>range</B> &lt;&gt;) <B>of</B> Bit;
+
+
+
+     <B>subtype</B> S1 <B>is</B> T1(R1);
+
+     <B>subtype</B> S2 <B>is</B> T2(R2);
+
+
+
+     <B>constant</B> K1: S1 := (<B>others</B> =&gt; '0');
+
+     <B>constant</B> K2: T1 := K1(1 <B>to</B> 3) &amp; K1(3 <B>to</B> 4);              --  K2'Left = 0 <B>and</B> K2'Right = 4
+
+     <B>constant</B> K3: T1 := K1(5 <B>to</B> 7) &amp; K1(1 <B>to</B> 2);              --  K3'Left = 0 <B>and</B> K3'Right = 4
+
+     <B>constant</B> K4: T1 := K1(2 <B>to</B> 1) &amp; K1(1 <B>to</B> 2);              --  K4'Left = 0 <B>and</B> K4'Right = 1
+
+
+
+     <B>constant</B> K5: S2 := (<B>others</B> =&gt; '0');
+
+     <B>constant</B> K6: T2 := K5(3 <B>downto</B> 1) &amp; K5(4 <B>downto</B> 3);      --  K6'Left = 7 <B>and</B> K6'Right = 3
+
+     <B>constant</B> K7: T2 := K5(7 <B>downto</B> 5) &amp; K5(2 <B>downto</B> 1)       --  K7'Left = 7 <B>and</B> K7'Right = 3
+
+     <B>constant</B> K8: T2 := K5(1 <B>downto</B> 2) &amp; K5(2 <B>downto</B> 1);      --  K8'Left = 7 <B>and</B> K8'Right = 6
+
+</PRE>
+<H4>NOTES</H4>
+<P></P>
+<P>1--For a given concatenation whose operands are of the same type, there maybe 
+visible more than one array type that could be the result type according to the 
+rules of case 3. The concatenation is ambiguous and therefore an error if, using 
+the overload resolution rules of <A 
+href="1076_2.html#2.3">2.3 
+</A>and <A 
+href="1076_10.html#10.5">10.5 
+</A>, the type of the result is not uniquely determined. </P>
+<P>2--Additionally, for a given concatenation, there may be visible array types 
+that allow both case a and case c to apply. The concatenation is again ambiguous 
+and therefore an error if the overload resolution rules cannot be used to 
+determine a result type uniquely. </P>
+<H3><A name=7.2.5></A><A 
+href="1076_7.html#7.2.5">7.2.5 
+</A>Sign operators</H3>
+<P>Signs + and - are predefined for any numeric type and have their conventional 
+mathematical meaning: they respectively represent the identity and negation 
+functions. For each of these unary operators, the operand and the result have 
+the same type.<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR align=middle>
+    <TD align=middle><B>Operator</B></TD>
+    <TD align=middle><B>Operation</B></TD>
+    <TD align=middle><B>Operand type</B></TD>
+    <TD align=middle><B>Result type</B></TD></TR>
+  <TR>
+    <TD align=middle>+</TD>
+    <TD align=middle>Identity</TD>
+    <TD align=middle>Any numeric type</TD>
+    <TD align=middle>Same type</TD></TR>
+  <TR>
+    <TD align=middle>-</TD>
+    <TD align=middle>Negation</TD>
+    <TD align=middle>Any numeric type</TD>
+    <TD align=middle>Same type</TD></TR></TBODY></TABLE></CENTER>
+<P></P>
+<P></P>
+<P>NOTE--Because of the relative precedence of signs + and - in the grammar for 
+expressions, a signed operand must not follow a multiplying operator, the 
+exponentiating operator **, or the operators <B>abs</B> and <B>not</B>. For 
+example, the syntax does not allow the following expressions: </P><PRE>     <I>A/+B           --  An illegal expression</I>
+
+     <I>A**-B          --  An illegal expression</I>
+
+</PRE>
+<P>However,these expressions may be rewritten legally as follows: </P><PRE>     A/(+B)         --  A legal expression
+
+     A**(-B)        --  A legal expression
+
+</PRE>
+<H3><A name=7.2.6></A><A 
+href="1076_7.html#7.2.6">7.2.6 
+</A>Multiplying operators</H3>
+<P>The operators * and / are predefined for any integer and any floating point 
+type and have their conventional mathematical meaning; the operators <B>mod</B> 
+and <B>rem</B> are predefined for any integer type. For each of these operators, 
+the operands and the result are of the same type.<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle><B>Operator</B></TD>
+    <TD><B>Operation</B></TD>
+    <TD><B>Left operand type</B></TD>
+    <TD><B>Right operand type</B></TD>
+    <TD><B>Result type</B></TD></TR>
+  <TR>
+    <TD align=middle rowSpan=2>*</TD>
+    <TD rowSpan=2>Multiplication</TD>
+    <TD>Any integer type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR>
+  <TR>
+    <TD>Any floating point type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR>
+  <TR>
+    <TD align=middle rowSpan=2>/</TD>
+    <TD rowSpan=2>Division</TD>
+    <TD>Any integer type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR>
+  <TR>
+    <TD>Any floating point type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR>
+  <TR>
+    <TD align=middle><B>mod</B></TD>
+    <TD>Modulus</TD>
+    <TD>Any integer type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR>
+  <TR>
+    <TD align=middle><B>rem</B></TD>
+    <TD>Remainder</TD>
+    <TD>Any integer type</TD>
+    <TD>Same type</TD>
+    <TD>Same type</TD></TR></TBODY></TABLE></CENTER>
+<P></P>
+<P>Integer division and remainder are defined by the following relation: </P><PRE>     A = (A/B)*B + (A <B>rem</B> B)
+
+</PRE>
+<P>where(A <B>rem</B> B) has the sign of A and an absolute value less than the 
+absolute value of B. Integer division satisfies the following identity: </P><PRE>     (-A)/B = -(A/B) = A/(-B)
+
+</PRE>
+<P>The result of the modulus operation is such that (A <B>mod</B> B) has the 
+sign of B and an absolute value less than the absolute value of B; in addition, 
+for some integer value N, this result must satisfy the relation: </P><PRE>     A = B*N + (A <B>mod</B> B)
+
+</PRE>
+<P>In addition to the above table, the operators * and / are predefined for any 
+physical type.<BR><BR></P>
+<CENTER>
+<P></P>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle><B>Operator</B></TD>
+    <TD><B>Operation</B></TD>
+    <TD><B>Left operand type</B></TD>
+    <TD><B>Right operand type</B></TD>
+    <TD><B>Result type</B></TD></TR>
+  <TR>
+    <TD align=middle rowSpan=4>*</TD>
+    <TD rowSpan=4>Multiplication</TD>
+    <TD>Any physical type</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD>Any physical type</TD>
+    <TD>REAL</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD>INTEGER</TD>
+    <TD>Any physical type</TD>
+    <TD>Same as right</TD></TR>
+  <TR>
+    <TD>REAL</TD>
+    <TD>Any physical type</TD>
+    <TD>Same as right</TD></TR>
+  <TR>
+    <TD align=middle rowSpan=3>/</TD>
+    <TD rowSpan=3>Division</TD>
+    <TD>Any physical type</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD>Any physical type</TD>
+    <TD>REAL</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD>Any physical type</TD>
+    <TD>The same type</TD>
+    <TD><I>Universal integer</I></TD></TR></TBODY></TABLE></CENTER>
+<P>Multiplication of a value P of a physical type T<SUB>p</SUB> by a value I of 
+type INTEGER is equivalent to the following computation: </P><PRE>     T</PRE>
+<P><SUB>p</SUB>'Val( T<SUB>p</SUB>'Pos(P) * I ) </P>
+<P>Multiplication of a value P of a physical type T<SUB>p</SUB> by a value F of 
+type REAL is equivalent to the following computation: </P><PRE>     T</PRE>
+<P><SUB>p</SUB>'Val( INTEGER( REAL( T<SUB>p</SUB>'Pos(P) ) * F )) </P>
+<P>Division of a value P of a physical type T<SUB>p</SUB> by a value I of type 
+INTEGER is equivalent to the following computation: </P><PRE>     T</PRE>
+<P><SUB>p</SUB>'Val( T<SUB>p</SUB>'Pos(P) / I ) </P>
+<P>Division of a value P of a physical type T<SUB>p</SUB> by a value F of type 
+REAL is equivalent to the following computation: </P><PRE>     T</PRE>
+<P><SUB>p</SUB>'Val( INTEGER( REAL( T<SUB>p</SUB>'Pos(P) ) / F )) </P>
+<P>Division of a value P of a physical type T<SUB>p</SUB> by a value P2 of the 
+same physical type is equivalent to the following computation: </P><PRE>     T</PRE>
+<P><SUB>p</SUB>'Pos(P) / T<SUB>p</SUB>'Pos(P2) </P>
+<P><I>Examples:</I> </P><PRE>       5   <B>rem</B>   3  =  2
+
+       5   <B>mod</B>   3  =  2
+
+
+
+     (-5)  <B>rem</B>   3  = -2
+
+     (-5)  <B>mod</B>   3  =  1
+
+
+
+     (-5)  <B>rem</B> (-3) = -2
+
+     (-5)  <B>mod</B> (-3) = -2
+
+
+
+       5   <B>rem</B> (-3) =  2
+
+       5   <B>mod</B> (-3) = -1
+
+</PRE>
+<P>NOTE--Because of the precedence rules (see <A 
+href="1076_7.html#7.2">7.2 
+</A>), the expression "-5 <B>rem</B> 2" is interpreted as "-(5 <B>rem</B> 2)" 
+and not as "(-5) <B>rem</B> 2". </P>
+<H3><A name=7.2.7></A><A 
+href="1076_7.html#7.2.7">7.2.7 
+</A>Miscellaneous operators</H3>
+<P>The unary operator <B>abs</B> is predefined for any numeric type.<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle><B>Operator</B></TD>
+    <TD align=middle><B>Operation</B></TD>
+    <TD align=middle><B>Operand type</B></TD>
+    <TD align=middle><B>Result type</B></TD></TR>
+  <TR>
+    <TD align=middle><B>abs</B></TD>
+    <TD align=middle>Absolute value</TD>
+    <TD align=middle>Any numeric type</TD>
+    <TD align=middle>Same numeric type</TD></TR></TBODY></TABLE></CENTER>
+<P></P>
+<P>The <I>exponentiating</I> operator ** is predefined for each integer type and 
+for each floating point type. In either case the right operand, called the 
+exponent, is of the predefined type INTEGER.<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle><B>Operator</B></TD>
+    <TD align=middle><B>Operation</B></TD>
+    <TD><B>Left operand type</B></TD>
+    <TD><B>Right operand type</B></TD>
+    <TD><B>Result type</B></TD></TR>
+  <TR>
+    <TD align=middle rowSpan=2>**</TD>
+    <TD align=middle rowSpan=2>Exponentiation</TD>
+    <TD>Any integer type</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR>
+  <TR>
+    <TD>Any floating point type</TD>
+    <TD>INTEGER</TD>
+    <TD>Same as left</TD></TR></TBODY></TABLE></CENTER>
+<P></P>
+<P>Exponentiation with an integer exponent is equivalent to repeated 
+multiplication of the left operand by itself for a number of times indicated by 
+the absolute value of the exponent and from left to right; if the exponent is 
+negative, then the result is the reciprocal of that obtained with the absolute 
+value of the exponent. Exponentiation with a negative exponent is only allowed 
+for a left operand of a floating point type. Exponentiation by a zero exponent 
+results in the value one. Exponentiation of a value of a floating point type is 
+approximate. </P>
+<H2><A name=7.3></A><A 
+href="1076_7.html#7.3">7.3 
+</A>Operands</H2>
+<P>The operands in an expression include names (that denote objects, values, or 
+attributes that result in a value), literals, aggregates, function calls, 
+qualified expressions, type conversions, and allocators. In addition, an 
+expression enclosed in parentheses may be an operand in an expression. Names are 
+defined in <A 
+href="1076_6.html#6.1">6.1 
+</A>; the other kinds of operands are defined in the following subclauses. </P>
+<H3><A name=7.3.1></A><A 
+href="1076_7.html#7.3.1">7.3.1 
+</A>Literals</H3>
+<P>A literal is either a numeric literal, an enumeration literal, a string 
+literal, a bit string literal, or the literal <B>null</B>. </P><PRE>     literal ::=
+
+             numeric_literal
+
+          | enumeration_literal
+
+          | string_literal
+
+          | bit_string_literal
+
+          | <B>null</B>
+
+
+
+     numeric_literal ::=
+
+             abstract_literal
+
+          | physical_literal
+
+</PRE>
+<P>Numeric literals include literals of the abstract types 
+<I>universal_integer</I> and <I>universal_real</I>, as well as literals of 
+physical types. Abstract literals are defined in <A 
+href="1076_13.html#13.4">13.4 
+</A>; physical literals are defined in <A 
+href="1076_3.html#3.1.3">3.1.3 
+</A>. </P>
+<P>Enumeration literals are literals of enumeration types. They include both 
+identifiers and character literals. Enumeration literals are defined in <A 
+href="1076_3.html#3.1.1">3.1.1 
+</A>. </P>
+<P>String and bit string literals are representations of one-dimensional arrays 
+of characters. The type of a string or bit string literal must be determinable 
+solely from the context in which the literal appears, excluding the literal 
+itself but using the fact that the type of the literal must be a one-dimensional 
+array of a character type. The lexical structure of string and bit string 
+literals is defined in Section 13, Lexical Elements. </P>
+<P>For a nonnull array value represented by either a string or bit string 
+literal,the direction and bounds of the array value are determined according to 
+the rules for positional array aggregates, where the number of elements in the 
+aggregate is equal to the length (see <A 
+href="1076_13.html#13.6">13.6 
+</A>and <A 
+href="1076_13.html#13.7">13.7 
+</A>) of the string or bit string literal. For a null array value represented by 
+either a string or bit string literal, the direction and leftmost bound of the 
+array value are determined as in the non-null case. If the direction is 
+ascending, then the rightmost bound is the predecessor (as given by the 'PRED 
+attribute) of the leftmost bound; otherwise the rightmost bound is the successor 
+(as given by the 'SUCC attribute) of the leftmost bound. </P>
+<P>The character literals corresponding to the graphic characters contained 
+within a string literal or a bit string literal must be visible at the place of 
+the string literal. </P>
+<P>The literal <B>null</B> represents the null access value for any access type. 
+</P>
+<P>Evaluation of a literal yields the corresponding value. </P>
+<P><I>Examples:</I> </P><PRE>
+     3.14159_26536          --  A literal of type <I>universal_real.</I>
+
+     5280                   --  A literal of type <I>universal_integer.</I>
+
+     10.7 ns                --  A literal of a physical type.
+
+     O"4777"                --  A bit-string literal.
+
+     "54LS281"              --  A string literal.
+
+     ""                     --  A string literal representing a null array.
+
+</PRE>
+<H3><A name=7.3.2></A><A 
+href="1076_7.html#7.3.2">7.3.2 
+</A>Aggregates</H3>
+<P>An aggregate is a basic operation (see the introduction to Section 3) that 
+combines one or more values into a composite value of a record or array type. 
+</P><PRE>     aggregate ::=
+
+         ( element_association { , element_association } )
+
+
+
+     element_association ::=
+
+         [ choices =&gt; ] expression
+
+
+
+     choices ::=  choice { | choice }
+
+
+
+
+
+     choice ::=
+
+            simple_expression
+
+         | discrete_range
+
+         | <I>element</I>_simple_name
+
+         | <B>others</B>
+
+</PRE>
+<P>Each element association associates an expression with elements (possibly 
+none). An element association is said to be <I>named</I> if the elements are 
+specified explicitly by choices; otherwise, it is said to be <I>positional</I>. 
+For a positional association, each element is implicitly specified by position 
+in the textual order of the elements in the corresponding type declaration. </P>
+<P>Both named and positional associations can be used in the same aggregate, 
+with all positional associations appearing first (in textual order) and all 
+named associations appearing next (in any order, except that no associations may 
+follow an <B>others</B> association). Aggregates containing a single element 
+association must always be specified using named association in order to 
+distinguish them from parenthesized expressions. </P>
+<P>An element association with a choice that is an element simple name is only 
+allowed in a record aggregate. An element association with a choice that is a 
+simple expression or a discrete range is only allowed in an array aggregate: a 
+simple expression specifies the element at the corresponding index value, 
+whereas a discrete range specifies the elements at each of the index values in 
+the range. The discrete range has no significance other than to define the set 
+of choices implied by the discrete range. In particular, the direction specified 
+or implied by the discrete range has no significance. An element association 
+with the choice <B>others</B> is allowed in either an array aggregate or a 
+record aggregate if the association appears last and has this single choice; it 
+specifies all remaining elements, if any. </P>
+<P>Each element of the value defined by an aggregate must be represented once 
+and only once in the aggregate. </P>
+<P>The type of an aggregate must be determinable solely from the context in 
+which the aggregate appears, excluding the aggregate itself but using the fact 
+that the type of the aggregate must be a composite type. The type of an 
+aggregate in turn determines the required type for each of its elements. </P>
+<H4><A name=7.3.2.1></A><A 
+href="1076_7.html#7.3.2.1">7.3.2.1 
+</A>Record aggregates</H4>
+<P>If the type of an aggregate is a record type, the element names given as 
+choices must denote elements of that record type. If the choice <B>others</B> is 
+given as a choice of a record aggregate, it must represent at least one element. 
+An element association with more than one choice, or with the choice 
+<B>others</B>, is only allowed if the elements specified are all of the same 
+type. The expression of an element association must have the type of the 
+associated record elements. </P>
+<P>A record aggregate is evaluated as follows. The expressions given in the 
+element associations are evaluated in an order (or lack thereof) not defined by 
+the language. The expression of a named association is evaluated once for each 
+associated element. A check is made that the value of each element of the 
+aggregate belongs to the subtype of this element. It is an error if this check 
+fails. </P>
+<H4><A name=7.3.2.2></A><A 
+href="1076_7.html#7.3.2.2">7.3.2.2 
+</A>Array aggregates</H4>
+<P>For an aggregate of a one-dimensional array type, each choice must specify 
+values of the index type, and the expression of each element association must be 
+of the element type. An aggregate of an n-dimensional array type, where n is 
+greater than 1, is written as a one-dimensional aggregate in which the index 
+subtype of the aggregate is given by the first index position of the array type, 
+and the expression specified for each element association is an 
+(n-1)-dimensional array or array aggregate, which is called a 
+<I>subaggregate</I>. A string or bit string literal is allowed as a subaggregate 
+in the place of any aggregate of a one-dimensional array of a character type. 
+</P>
+<P>Apart from a final element association with the single choice 
+<B>others</B>,the rest (if any) of the element associations of an array 
+aggregate must be either all positional or all named. A named association of an 
+array aggregate is allowed to have a choice that is not locally static, or 
+likewise a choice that is a null range, only if the aggregate includes a single 
+element association and this element association has a single choice. An 
+<B>others</B> choice is locally static if the applicable index constraint is 
+locally static. </P>
+<P>The subtype of an array aggregate that has an <B>others</B> choice must be 
+determinable from the context. That is, an array aggregate with an <B>others</B> 
+choice may only appear </P>
+<OL type=a>
+  <LI>As an actual associated with a formal parameter or formal generic declared 
+  to be of a constrained array subtype (or subelement thereof) 
+  <LI>As the default expression defining the default initial value of a port 
+  declared to be of a constrained array subtype 
+  <LI>As the result expression of a function, where the corresponding function 
+  result type is a constrained array subtype 
+  <LI>As a value expression in an assignment statement, where the target is a 
+  declared object, and the subtype of the target is a constrained array subtype 
+  (or subelement of such a declared object) 
+  <LI>As the expression defining the initial value of a constant or variable 
+  object, where that object is declared to be of a constrained array subtype 
+  <LI>As the expression defining the default values of signals in a signal 
+  declaration, where the corresponding subtype is a constrained array subtype 
+  <LI>As the expression defining the value of an attribute in an attribute 
+  specification, where that attribute is declared to be of a constrained array 
+  subtype 
+  <LI>As the operand of a qualified expression whose type mark denotes a 
+  constrained array subtype 
+  <LI>i) As a subaggregate nested within an aggregate, where that aggregate 
+  itself appears in one of these contexts </LI></OL>
+<P>The bounds of an array that does not have an <B>others</B> choice are 
+determined as follows. If the aggregate appears in one of the contexts in the 
+preceding list, then the direction of the index subtype of the aggregate is that 
+of the corresponding constrained array subtype; otherwise, the direction of the 
+index subtype of the aggregate is that of the index subtype of the base type of 
+the aggregate. For an aggregate that has named associations, the leftmost and 
+rightmost bounds are determined by the direction of the index subtype of the 
+aggregate and the smallest and largest choices given. For a positional 
+aggregate, the leftmost bound is determined by the applicable index constraint 
+if the aggregate appears in one of the contexts in the preceding list; 
+otherwise, the leftmost bound is given by S'LEFT where S is the index subtype of 
+the base type of the array. In either case, the rightmost bound is determined by 
+the direction of the index subtype and the number of elements. </P>
+<P>The evaluation of an array aggregate that is not a subaggregate proceeds in 
+two steps. First, the choices of this aggregate and of its subaggregates, if 
+any,are evaluated in some order (or lack thereof) that is not defined by the 
+language. Second, the expressions of the element associations of the array 
+aggregate are evaluated in some order that is not defined by the language; the 
+expression of a named association is evaluated once for each associated element. 
+The evaluation of a subaggregate consists of this second step (the first step is 
+omitted since the choices have already been evaluated). </P>
+<P>For the evaluation of an aggregate that is not a null array, a check is made 
+that the index values defined by choices belong to the corresponding index 
+subtypes, and also that the value of each element of the aggregate belongs to 
+the subtype of this element. For a multidimensional aggregate of dimension n, a 
+check is made that all (n-1)-dimensional subaggregates have the same bounds. It 
+is an error if any one of these checks fails. </P>
+<H3><A name=7.3.3></A><A 
+href="1076_7.html#7.3.3">7.3.3 
+</A>Function calls</H3>
+<P>A function call invokes the execution of a function body. The call specifies 
+the name of the function to be invoked and specifies the actual parameters, if 
+any, to be associated with the formal parameters of the function. Execution of 
+the function body results in a value of the type declared to be the result type 
+in the declaration of the invoked function. </P><PRE>     function_call ::=
+
+        <I>function</I>_name [ ( actual_parameter_part ) ]
+
+
+
+     actual_parameter_part ::=  <I>parameter</I>_association_list
+
+</PRE>
+<P>For each formal parameter of a function, a function call must specify exactly 
+one corresponding actual parameter. This actual parameter is specified either 
+explicitly, by an association element (other than the actual part <B>open</B>) 
+in the association list, or in the absence of such an association element, by a 
+default expression (see <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>). </P>
+<P>Evaluation of a function call includes evaluation of the actual parameter 
+expressions specified in the call and evaluation of the default expressions 
+associated with formal parameters of the function that do not have actual 
+parameters associated with them. In both cases, the resulting value must belong 
+to the subtype of the associated formal parameter. (If the formal parameter is 
+of an unconstrained array type, then the formal parameter takes on the subtype 
+of the actual parameter.) The function body is executed using the actual 
+parameter values and default expression values as the values of the 
+corresponding formal parameters. </P>
+<P>NOTE--If a name (including one used as a prefix) has an interpretation both 
+as a function call and an indexed name, then the innermost complete context is 
+used to disambiguate the name. If, after applying this rule, there is not 
+exactly one interpretation of the name, then the name is ambiguous. See <A 
+href="1076_10.html#10.5">10.5 
+</A>. </P>
+<H3><A name=7.3.4></A><A 
+href="1076_7.html#7.3.4">7.3.4 
+</A>Qualified expressions</H3>
+<P>A qualified expression is a basic operation (see the introduction to Section 
+3)that is used to explicitly state the type, and possibly the subtype, of an 
+operand that is an expression or an aggregate. </P><PRE>     qualified_expression ::=
+
+            type_mark ' ( expression )
+
+          | type_mark ' aggregate
+
+</PRE>
+<P>The operand must have the same type as the base type of the type mark. The 
+value of a qualified expression is the value of the operand. The evaluation of a 
+qualified expression evaluates the operand and checks that its value belongs to 
+the subtype denoted by the type mark. </P>
+<P>NOTE--Whenever the type of an enumeration literal or aggregate is not known 
+from the context, a qualified expression can be used to state the type 
+explicitly. </P>
+<H3><A name=7.3.5></A><A 
+href="1076_7.html#7.3.5">7.3.5 
+</A>Type conversions</H3>
+<P>A type conversion provides for explicit conversion between closely related 
+types. </P><PRE>     type_conversion ::=  type_mark ( expression )
+
+</PRE>
+<P>The target type of a type conversion is the base type of the type mark. The 
+type of the operand of a type conversion must be determinable independent of the 
+context (in particular, independent of the target type). Furthermore, the 
+operand of a type conversion is not allowed to be the literal <B>null</B>, an 
+allocator, an aggregate, or a string literal. An expression enclosed by 
+parentheses is allowed as the operand of a type conversion only if the 
+expression alone is allowed. </P>
+<P>If the type mark denotes a subtype, conversion consists of conversion to the 
+target type followed by a check that the result of the conversion belongs to the 
+subtype. </P>
+<P>Explicit type conversions are allowed between <I>closely related types</I>. 
+In particular, a type is closely related to itself. Other types are closely 
+related only under the following conditions: </P>
+<OL type=a>
+  <LI><I>Abstract Numeric Types</I>--Any abstract numeric type is closely 
+  related to any other abstract numeric type. In an explicit type conversion 
+  where the type mark denotes an abstract numeric type, the operand can be of 
+  any integer or floating point type. The value of the operand is converted to 
+  the target type, which must also be an integer or floating point type. The 
+  conversion of a floating point value to an integer type rounds to the nearest 
+  integer; if the value is halfway between two integers, rounding may be up or 
+  down. 
+  <LI><I>Array Types</I>--Two array types are closely related if and only if 
+  <P>-- The types have the same dimensionality; </P>
+  <P>-- For each index position, the index types are either the same or are 
+  closely related; and </P>
+  <P>-- The element types are the same. </P>
+  <P>In an explicit type conversion where the type mark denotes an array type, 
+  the following rules apply: if the type mark denotes an unconstrained array 
+  type and if the operand is not a null array, then, for each index position, 
+  the bounds of the result are obtained by converting the bounds of the operand 
+  to the corresponding index type of the target type. If the type mark denotes a 
+  constrained array subtype, then the bounds of the result are those imposed by 
+  the type mark. In either case, the value of each element of the result is that 
+  of the matching element of the operand (see <A 
+  href="1076_7.html#7.2.2">7.2.2 
+  </A>). </P></LI></OL>
+<P>No other types are closely related. </P>
+<P>In the case of conversions between numeric types, it is an error if the 
+result of the conversion fails to satisfy a constraint imposed by the type mark. 
+</P>
+<P>In the case of conversions between array types, a check is made that any 
+constraint on the element subtype is the same for the operand array type as for 
+the target array type. If the type mark denotes an unconstrained array type, 
+then, for each index position, a check is made that the bounds of the result 
+belong to the corresponding index subtype of the target type. If the type mark 
+denotes a constrained array subtype, a check is made that for each element of 
+the operand there is a matching element of the target subtype, and vice versa. 
+It is an error if any of these checks fail. </P>
+<P>In certain cases, an implicit type conversion will be performed. An implicit 
+conversion of an operand of type <I>universal_integer</I> to another integer 
+type, or of an operand of type <I>universal_real</I> to another floating point 
+type, can only be applied if the operand is either a numeric literal or an 
+attribute, or if the operand is an expression consisting of the division of a 
+value of a physical type by a value of the same type; such an operand is called 
+a <I>convertible</I> universal operand. An implicit conversion of a convertible 
+universal operand is applied if and only if the innermost complete context 
+determines a unique (numeric) target type for the implicit conversion, and there 
+is no legal interpretation of this context without this conversion. </P>
+<P>NOTE--Two array types may be closely related even if corresponding index 
+positions have different directions. </P>
+<H3><A name=7.3.6></A><A 
+href="1076_7.html#7.3.6">7.3.6 
+</A>Allocators</H3>
+<P>The evaluation of an allocator creates an object and yields an access value 
+that designates the object. </P><PRE>     allocator ::=
+
+            <B>new</B> subtype_indication
+
+          | <B>new</B> qualified_expression
+
+</PRE>
+<P>The type of the object created by an allocator is the base type of the type 
+mark given in either the subtype indication or the qualified expression. For an 
+allocator with a subtype indication, the initial value of the created object is 
+the same as the default initial value for an explicitly declared variable of the 
+designated subtype. For an allocator with a qualified expression, this 
+expression defines the initial value of the created object. </P>
+<P>The type of the access value returned by an allocator must be determinable 
+solely from the context, but using the fact that the value returned is of an 
+access type having the named designated type. </P>
+<P>The only allowed form of constraint in the subtype indication of an allocator 
+is an index constraint. If an allocator includes a subtype indication and if the 
+type of the object created is an array type, then the subtype indication must 
+either denote a constrained subtype or include an explicit index constraint. A 
+subtype indication that is part of an allocator must not include a resolution 
+function. </P>
+<P>If the type of the created object is an array type, then the created object 
+is always constrained. If the allocator includes a subtype indication, the 
+created object is constrained by the subtype. If the allocator includes a 
+qualified expression, the created object is constrained by the bounds of the 
+initial value defined by that expression. For other types, the subtype of the 
+created object is the subtype defined by the subtype of the access type 
+definition. </P>
+<P>For the evaluation of an allocator, the elaboration of the subtype indication 
+or the evaluation of the qualified expression is first performed. The new object 
+is then created, and the object is then assigned its initial value. Finally, an 
+access value that designates the created object is returned. </P>
+<P>In the absence of explicit deallocation, an implementation must guarantee 
+that any object created by the evaluation of an allocator remains allocated for 
+as long as this object or one of its subelements is accessible directly or 
+indirectly; that is, as long as it can be denoted by some name. </P>
+<H4>NOTES</H4>
+<P>1--Procedure Deallocate is implicitly declared for each access type. This 
+procedure provides a mechanism for explicitly deallocating the storage occupied 
+by an object created by an allocator. </P>
+<P>2--An implementation may (but need not) deallocate the storage occupied by an 
+object created by an allocator, once this object has become inaccessible. </P>
+<P><I>Examples:</I> </P><PRE>     <B>new</B> NODE  --  Takes on default initial value.
+
+     <B>new</B> NODE'(15 ns, <B>null</B>)                                --  Initial value is specified.
+
+     <B>new</B> NODE'(Delay =&gt; 5  ns, \Next\ =&gt; Stack)            --  Initial value is specified.
+
+     <B>new</B> BIT_VECTOR'("00110110")                           --  Constrained by initial value.
+
+     <B>new</B> STRING (1 <B>to</B> 10)                                  --  Constrained by index constraint.
+
+     <B>new</B><I> STRING                                            --  Illegal: must be constrained</I>.
+
+</PRE>
+<H2><A name=7.4></A><A 
+href="1076_7.html#7.4">7.4 
+</A>Static expressions</H2>
+<P>Certain expressions are said to be <I>static</I>. Similarly, certain discrete 
+ranges are said to be static, and the type marks of certain subtypes are said to 
+denote static subtypes. </P>
+<P>There are two categories of static expression. Certain forms of expression 
+can be evaluated during the analysis of the design unit in which they appear; 
+such an expression is said to be <I>locally static</I>. Certain forms of 
+expression can be evaluated as soon as the design hierarchy in which they appear 
+is elaborated; such an expression is said to be <I>globally static</I>. </P>
+<H3><A name=7.4.1></A><A 
+href="1076_7.html#7.4.1">7.4.1 
+</A>Locally static primaries</H3>
+<P>An expression is said to be locally static if and only if every operator in 
+the expression denotes an implicitly defined operator whose operands and result 
+are scalar and if every primary in the expression is a <I>locally static 
+primary</I>, where a locally static primary is defined to be one of the 
+following: </P>
+<OL type=a>
+  <LI>A literal of any type other than type TIME 
+  <LI>A constant (other than a deferred constant) explicitly declared by a 
+  constant declaration and initialized with a locally static expression 
+  <LI>An alias whose aliased name (given in the corresponding alias declaration) 
+  is a locally static primary 
+  <LI>A function call whose function name denotes an implicitly defined 
+  operator, and whose actual parameters are each locally static expressions 
+  <LI>A predefined attribute that is a value, other than the predefined 
+  attribute 'PATH_NAME, and whose prefix is either a locally static subtype or 
+  is an object name that is of a locally static subtype 
+  <LI>A predefined attribute that is a function, other than the predefined 
+  attributes 'EVENT, 'ACTIVE, 'LAST_EVENT, 'LAST_ACTIVE, 'LAST_VALUE, 'DRIVING, 
+  and 'DRIVING_VALUE, whose prefix is either a locally static subtype or is an 
+  object that is of a locally static subtype, and whose actual parameter (if 
+  any)is a locally static expression 
+  <LI>A user-defined attribute whose value is defined by a locally static 
+  expression 
+  <LI>A qualified expression whose operand is a locally static expression 
+  <LI>A type conversion whose expression is a locally static expression 
+  <LI>A locally static expression enclosed in parentheses </LI></OL>
+<P>A locally static range is either a range of the second form (see <A 
+href="1076_3.html#3.1">3.1 
+</A>) whose bounds are locally static expressions, or a range of the first form 
+whose prefix denotes either a locally static subtype or an object that is of a 
+locally static subtype. A locally static range constraint is a range constraint 
+whose range is locally static. A locally static scalar subtype is either a 
+scalar base type or a scalar subtype formed by imposing on a locally static 
+subtype a locally static range constraint. A locally static discrete range is 
+either a locally static subtype or a locally static range. </P>
+<P>A locally static index constraint is an index constraint for which each index 
+subtype of the corresponding array type is locally static and in which each 
+discrete range is locally static. A locally static array subtype is a 
+constrained array subtype formed by imposing on an unconstrained array type a 
+locally static index constraint. A locally static record subtype is a record 
+type whose fields are all of locally static subtypes. A locally static access 
+subtype is a subtype denoting an access type. A locally static file subtype is a 
+subtype denoting a file type. </P>
+<P>A locally static subtype is either a locally static scalar subtype, a locally 
+static array subtype, a locally static record subtype, a locally static access 
+subtype, or a locally static file subtype. </P>
+<H3><A name=7.4.2></A><A 
+href="1076_7.html#7.4.2">7.4.2 
+</A>Globally static primaries</H3>
+<P>An expression is said to be globally static if and only if every operator in 
+the expression denotes a pure function and every primary in the expression is a 
+<I>globally</I> <I>static primary</I>, where a globally static primary is a 
+primary that, if it denotes an object or a function, does not denote a 
+dynamically elaborated named entity (see <A 
+href="1076_12.html#12.5">12.5 
+</A>) and is one of the following: </P>
+<OL type=a>
+  <LI>A literal of type TIME 
+  <LI>A locally static primary 
+  <LI>A generic constant 
+  <LI>A generate parameter 
+  <LI>A constant (including a deferred constant) 
+  <LI>An alias whose aliased name (given in the corresponding alias declaration) 
+  is a globally static primary 
+  <LI>An array aggregate, if and only if 
+  <P>1) All expressions in its element associations are globally static 
+  expressions, and </P>
+  <P>2) All ranges in its element associations are globally static ranges </P>
+  <LI>A record aggregate, if and only if all expressions in its element 
+  associations are globally static expressions 
+  <LI>A function call whose function name denotes a pure function and whose 
+  actual parameters are each globally static expressions 
+  <LI>A predefined attribute that is a value and whose prefix is either a 
+  globally static subtype or is an object or function call that is of a globally 
+  static subtype 
+  <LI>A predefined attribute that is a function, other than the predefined 
+  attributes 'EVENT, 'ACTIVE, 'LAST_EVENT, 'LAST_ACTIVE, 'LAST_VALUE, 
+  'DRIVING,and 'DRIVING_VALUE, whose prefix is either a globally static subtype 
+  or is an object or function call that is of a globally static subtype, and 
+  whose actual parameter (if any) is a globally static expression 
+  <LI>A user-defined attribute whose value is defined by a globally static 
+  expression 
+  <LI>A qualified expression whose operand is a globally static expression 
+  <LI>A type conversion whose expression is a globally static expression 
+  <LI>An allocator of the first form (see <A 
+  href="1076_7.html#7.3.6">7.3.6 
+  </A>) whose subtype indication denotes a globally static subtype 
+  <LI>An allocator of the second form whose qualified expression is a globally 
+  static expression 
+  <LI>A globally static expression enclosed in parentheses 
+  <LI>A subelement or a slice of a globally static primary, provided that any 
+  index expressions are globally static expressions and any discrete ranges used 
+  in slice names are globally static discrete ranges </LI></OL>
+<P>A globally static range is either a range of the second form (see <A 
+href="1076_3.html#3.1">3.1 
+</A>) whose bounds are globally static expressions, or a range of the first form 
+whose prefix denotes either a globally static subtype or an object that is of a 
+globally static subtype. A globally static range constraint is a range 
+constraint whose range is globally static. A globally static scalar subtype is 
+either a scalar base type or a scalar subtype formed by imposing on a globally 
+static subtype a globally static range constraint. A globally static discrete 
+range is either a globally static subtype or a globally static range. </P>
+<P>A globally static index constraint is an index constraint for which each 
+index subtype of the corresponding array type is globally static and in which 
+each discrete range is globally static. A globally static array subtype is a 
+constrained array subtype formed by imposing on an unconstrained array type a 
+globally static index constraint. A globally static record subtype is a record 
+type whose fields are all of globally static subtypes. A globally static access 
+subtype is a subtype denoting an access type. A globally static file subtype is 
+a subtype denoting a file type. </P>
+<P>A globally static subtype is either a globally static scalar subtype, a 
+globally static array subtype, a globally static record subtype, a globally 
+static access subtype, or a globally static file subtype. </P>
+<H4>NOTES</H4>
+<P>1--An expression that is required to be a static expression may either be a 
+locally static expression or a globally static expression. Similarly, a range,a 
+range constraint, a scalar subtype, a discrete range, an index constraint, or an 
+array subtype that is required to be static may either be locally static or 
+globally static. </P>
+<P>2--The rules for locally and globally static expressions imply that a 
+declared constant or a generic may be initialized with an expression that is 
+neither globally nor locally static; for example, with a call to an impure 
+function. The resulting constant value may be globally or locally static, even 
+though its subtype or its initial value expression is neither. Only interface 
+constant, variable, and signal declarations require that their initial value 
+expressions be static expressions. </P>
+<H2><A name=7.5></A><A 
+href="1076_7.html#7.5">7.5 
+</A>Universal expressions</H2>
+<P>A <I>universal_expression</I> is either an expression that delivers a result 
+of type <I>universal_integer</I> or one that delivers a result of type 
+<I>universal_real</I>. </P>
+<P>The same operations are predefined for the type universal_integer as for any 
+integer type. The same operations are predefined for the type universal_real as 
+for any floating point type. In addition, these operations include the following 
+multiplication and division operators:<BR><BR></P>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle><B>Operator</B></TD>
+    <TD align=middle><B>Operation</B></TD>
+    <TD><B>Left operand type</B></TD>
+    <TD><B>Right operand type</B></TD>
+    <TD><B>Result type</B></TD></TR>
+  <TR>
+    <TD align=middle rowSpan=2>*</TD>
+    <TD align=middle rowSpan=2>Mutiplication</TD>
+    <TD><I>Universal real</I></TD>
+    <TD><I>Universal integer</I></TD>
+    <TD><I>Universal real</I></TD></TR>
+  <TR>
+    <TD><I>Universal real</I></TD>
+    <TD><I>Universal real</I></TD>
+    <TD><I>Universal real</I></TD></TR>
+  <TR>
+    <TD align=middle>/</TD>
+    <TD align=middle>Division</TD>
+    <TD><I>Universal real</I></TD>
+    <TD><I>Universal integer</I></TD>
+    <TD><I>Universal real</I></TD></TR></TBODY></TABLE></CENTER>
+<P>The accuracy of the evaluation of a universal expression of type 
+<I>universal_real</I> is at least as good as the accuracy of evaluation of 
+expressions of the most precise predefined floating point type supported by the 
+implementation, apart from <I>universal_real</I> itself. </P>
+<P>For the evaluation of an operation of a universal expression, the following 
+rules apply. If the result is of type <I>universal_integer</I>, then the values 
+of the operands and the result must lie within the range of the integer type 
+with the widest range provided by the implementation, excluding type 
+<I>universal_integer</I> itself. If the result is of type <I>universal_real</I>, 
+then the values of the operands and the result must lie within the range of the 
+floating point type with the widest range provided by the implementation, 
+excluding type <I>universal_real</I> itself. </P>
+<P>NOTE<I>--</I>The predefined operators for the universal types are declared in 
+package STANDARD as shown in <A 
+href="1076_14.html#14.2">14.2 
+</A>. </P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_6.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_8.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

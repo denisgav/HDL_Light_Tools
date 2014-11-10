@@ -1,0 +1,1870 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0070)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axa.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name="Annex A">Annex A</A></H1>
+<P><A href="http://www.fysel.ntnu.no/Courses/SIE4020/index.html"><IMG height=30 
+src="VHDL LRM- Introduction_AppA_files/hjem.gif" width=30 border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_toc.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppA_files/topp.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppA_files/venstre.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axb.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppA_files/hoyre.gif" width=30 
+border=0></A> </P>
+<HR>
+
+<H1>Syntax summary</H1>
+<H1>(informative)</H1>
+<P>This annex provides a summary of the syntax for VHDL. Productions are ordered 
+alphabetically by left-hand nonterminal name. The clause number indicates the 
+clause where the production is given. </P><PRE>     abstract_literal ::=  decimal_literal | based_literal					<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4"> 13.4</A>]</B>
+
+
+
+     access_type_definition ::=  <B>access</B> subtype_indication				<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3"> 3.3</A>  ]</B>
+
+
+
+     actual_designator ::=                                        				<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2"> 4.3.2.2</A>]</B>
+
+           expression
+
+        | <I>signal</I>_name
+
+        | <I>variable</I>_name
+
+        | <I>file</I>_name
+
+        | <B>open</B>
+
+
+
+     actual_parameter_part ::=  <I>parameter</I>_association_list				<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.3"> 7.3.3</A>]</B>
+
+
+
+     actual_part ::=                                              				<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2"> 4.3.2.2</A>]</B>
+
+           actual_designator
+
+        | <I>function</I>_name ( actual_designator )
+
+        | type_mark ( actual_designator )
+
+
+
+     adding_operator ::=  + | -  | &amp;                              				<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2"> 7.2</A>]</B>
+
+
+
+     aggregate ::=                                               				<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2"> 7.3.2</A>]</B>
+
+         ( element_association { , element_association } )
+
+
+
+     alias_declaration ::=                                                                   	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3"> 4.3.3</A>]</B>
+
+          <B>alias</B> alias_designator [ : subtype_indication ] <B>is</B> name [ signature ] ;
+
+
+
+     alias_designator ::=  identifier | character_literal | operator_symbol                  	<B>[§</B> <B><A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.3"> 4.3.3</A>]</B>
+
+
+
+     allocator ::=                                                                           	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.6"> 7.3.6</A>]</B>
+
+            <B>new</B> subtype_indication
+
+          | <B>new</B> qualified_expression
+
+
+
+     architecture_body ::=                                                                     	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.2"> 1.2</A>]</B>
+
+            <B>architecture</B> identifier <B>of</B> <I>entity</I>_name <B>is</B>
+
+                architecture_declarative_part
+
+            <B>begin</B>
+
+                architecture_statement_part
+
+            <B>end</B> [ <B>architecture</B> ] [ <I>architecture</I>_simple_name ] ;
+
+
+
+     architecture_declarative_part ::=                                                       	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.2.1"> 1.2.1</A>]</B>
+
+          { block_declarative_item }
+
+
+
+     architecture_statement_part ::=                                                         	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.2.2"> 1.2.2</A>]</B>
+
+          { concurrent_statement }
+
+
+
+     array_type_definition ::=                                                               	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1"> 3.2.1</A>]</B>
+
+          unconstrained_array_definition  |  constrained_array_definition
+
+
+
+     assertion ::=                                                                             	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.2"> 8.2</A>]</B>
+
+         <B>assert</B> condition
+
+             [ <B>report</B> expression ]
+
+             [ <B>severity</B> expression ]
+
+
+
+     assertion_statement ::=  [ label : ] assertion ;                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.2"> 8.2</A>]</B>
+
+
+
+<B>     </B>association_element ::=                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2"> 4.3.2.2</A>]</B>
+
+         [ formal_part =&gt; ] actual_part
+
+
+
+     association_list ::=                                                                  	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2"> 4.3.2.2</A>]</B>
+
+         association_element { , association_element }
+
+
+
+     attribute_declaration :                                                                   	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.4"> 4.4</A>]</B>
+
+<B>           attribute</B> identifier : type_mark ;
+
+
+
+     attribute_designator ::=  <I>attribute</I>_simple_name                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.6"> 6.6</A>]</B>
+
+</PRE><PRE>     attribute_name ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.6"> 6.6</A>]</B>
+
+          prefix [ signature ] ' attribute_designator [ ( expression ) ]
+
+
+
+     attribute_specification ::=                                                               	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1"> 5.1</A>]</B>
+
+          <B>attribute </B>attribute_designator <B>of</B> entity_specification <B>is </B>expression ;
+
+
+
+     base ::=  integer                                                                      	<B>[</B>§<B><A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.2"> 13.4.2</A>]</B>
+
+
+
+     base_specifier ::=  B | O | X                                                            	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.7"> 13.7</A>]</B>
+
+
+
+     based_integer ::=                                                                      	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.2"> 13.4.2</A>]</B>
+
+         extended_digit { [ underline ] extended_digit }
+
+
+
+     based_literal ::=                                                                     	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.2"> 13.4.2</A>]</B>
+
+         base # based_integer [ . based_integer ] # [ exponent ]
+
+
+
+     basic_character ::=                                                                      	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.1"> 13.1</A>]</B>
+
+         basic_graphic_character | format_effector
+
+
+
+     basic_graphic_character ::=                                                              	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.1"> 13.1</A>]</B>
+
+         upper_case_letter | digit | special_character| space_character
+
+
+
+     basic_identifier ::=  letter  { [ underline ] letter_or_digit }                          	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.3.1"> 13.3.1</A>]</B>
+
+
+
+     binding_indication ::=                                                                  	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1"> 5.2.1</A>]</B>
+
+         [ <B>use</B> entity_aspect ]
+
+         [ generic_map_aspect ]
+
+         [ port_map_aspect ]
+
+
+
+     <A name=bit_string_literal>bit_string_literal</A> ::=  base_specifier " [ bit_value ] "                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.7"> 13.7</A>]</B>
+
+
+
+     <A name=bit_value>bit_value</A> ::=  extended_digit { [ underline ] extended_digit }                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.7"> 13.7</A>]</B>
+
+
+
+     block_configuration ::=                                                                 	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.1"> 1.3.1</A>]</B>
+
+          <B>for</B> block_specification
+
+                { use_clause }
+
+                { configuration_item }
+
+          <B>end</B> <B>for</B> ;
+
+
+
+     block_declarative_item ::=                                                              	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.2.1"> 1.2.1</A>]</B>
+
+           subprogram_declaration
+
+        | subprogram_body
+
+        | type_declaration
+
+        | subtype_declaration
+
+        | constant_declaration
+
+        | signal_declaration
+
+        | <I>shared</I>_variable_declaration
+
+        | file_declaration
+
+        | alias_declaration
+
+        | component_declaration
+
+        | attribute_declaration
+
+        | attribute_specification
+
+        | configuration_specification
+
+        | disconnection_specification
+
+        | use_clause
+
+        | group_template_declaration
+
+        | group_declaration
+
+
+
+     block_declarative_part ::=                                                               	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1"> 9.1</A>]</B>
+
+</PRE><PRE>        { block_declarative_item }
+
+
+
+     block_header ::=                                                                         	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1"> 9.1</A>]</B>
+
+        [ generic_clause
+
+        [ generic_map_aspect ; ] ]
+
+        [ port_clause
+
+        [ port_map_aspect ; ] ]
+
+
+
+     block_specification ::=                                                                 	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.1"> 1.3.1</A>]</B>
+
+           <I>architecture</I>_name
+
+        | <I>block_statement</I>_label
+
+        | <I>generate_statement</I>_label [ ( index_specification ) ]
+
+
+
+     block_statement ::=                                                                       	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1"> 9.1</A>]</B>
+
+          <I>block</I>_label :
+
+              <B>block</B> [ ( <I>guard</I>_expression ) ] [ <B>is</B> ]
+
+                  block_header
+
+                  block_declarative_part
+
+              <B>begin</B>
+
+                  block_statement_part
+
+              <B>end block</B> [ <I>block</I>_label ] ;
+
+
+
+     block_statement_part ::=                                                                  	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.1"> 9.1</A>]</B>
+
+        { concurrent_statement }
+
+
+
+     case_statement ::=										<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.8"> 8.8</A>]</B>
+
+        [ <I>case</I>_label : ]
+
+             <B>case</B> expression <B>is</B>
+
+                  case_statement_alternative
+
+                  { case_statement_alternative }
+
+<B>             end case</B> [ <I>case</I>_label ]<B> </B>;
+
+
+
+     case_statement_alternative ::=                                                            	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.8"> 8.8</A>]</B>
+
+         <B>when</B> choices =&gt;
+
+            sequence_of_statements
+
+
+
+     character_literal ::= ' graphic_character '                                              	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.5"> 13.5</A>]</B>
+
+
+
+     choice ::=                                                                              	<B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2"> 7.3.2</A>]</B>
+
+           simple_expression
+
+        | discrete_range
+
+        | <I>element</I>_simple_name
+
+        | <B>others</B>
+
+
+
+<B>     </B>choices ::=  choice { | choice }                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2"> 7.3.2</A>]</B>
+
+
+
+     component_configuration ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.2"> 1.3.2</A>]</B>
+
+        <B>for</B> component_specification
+
+             [ binding_indication ; ]
+
+             [ block_configuration ]
+
+         <B>end</B> <B>for</B> ;
+
+
+
+     component_declaration ::=                                                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.5"> 4.5</A>]</B>
+
+        <B>component</B> identifier [ <B>is</B> ]
+
+           [ <I>local</I>_generic_clause ]
+
+           [ <I>local</I>_port_clause ]
+
+        <B>end component</B> [ <I>component</I>_simple_name ] ;
+
+
+
+     component_instantiation_statement ::=                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.6"> 9.6</A>]</B>
+
+        <I>instantiation</I>_label :
+
+            instantiated_unit
+
+                 [ generic_map_aspect ]
+
+                 [ port_map_aspect ] ;
+
+
+
+     component_specification ::=                                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2"> 5.2</A>]</B>
+
+</PRE><PRE>        instantiation_list : <I>component</I>_name
+
+
+
+     composite_type_definition ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2"> 3.2</A>]</B>
+
+          array_type_definition
+
+        | record_type_definition
+
+
+
+     concurrent_assertion_statement ::=                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.4"> 9.4</A>]</B>
+
+        [ label : ] [ <B>postponed</B> ] assertion ;
+
+
+
+     concurrent_procedure_call_statement ::=                                                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.3"> 9.3</A>]</B>
+
+        [ label : ] [ <B>postponed</B> ] procedure_call ;
+
+
+
+     concurrent_signal_assignment_statement ::=                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5"> 9.5</A>]</B>
+
+          [ label : ] [ <B>postponed</B> ] conditional_signal_assignment
+
+        | [ label : ] [ <B>postponed</B> ] selected_signal_assignment
+
+
+
+     concurrent_statement ::=                                                                    <B>[§ 9]</B>
+
+           block_statement
+
+        | process_statement
+
+        | concurrent_procedure_call_statement
+
+        | concurrent_assertion_statement
+
+        | concurrent_signal_assignment_statement
+
+        | component_instantiation_statement
+
+        | generate_statement
+
+
+
+     condition ::=  <I>boolean</I>_expression                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1"> 8.1</A>]</B>
+
+
+
+     condition_clause ::=  <B>until</B> condition                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1"> 8.1</A>]</B>
+
+
+
+     conditional_signal_assignment ::=                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5.1"> 9.5.1</A>]</B>
+
+         target<I> </I> &lt;=  options conditional_waveforms ;
+
+
+
+     conditional_waveforms ::=                                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5.1"> 9.5.1</A>]</B>
+
+</PRE><PRE>         { waveform <B>when</B> condition <B>else</B> }
+
+           waveform [ <B>when</B> condition ]
+
+
+
+     configuration_declaration ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3"> 1.3</A>]</B>
+
+          <B>configuration</B> identifier <B>of</B> <I>entity</I>_name <B>is</B>
+
+               configuration_declarative_part
+
+               block_configuration
+
+          <B>end</B> [ <B>configuration</B> ] [ <I>configuration</I>_simple_name ] ;
+
+
+
+     configuration_declarative_item ::=                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3"> 1.3</A>]</B>
+
+           use_clause
+
+        | attribute_specification
+
+        | group_declaration
+
+
+
+     configuration_declarative_part ::=                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3"> 1.3</A>]</B>
+
+        { configuration_declarative_item }
+
+
+
+     configuration_item ::=                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.1"> 1.3.1</A>]</B>
+
+           block_configuration
+
+         | component_configuration
+
+
+
+     configuration_specification ::=                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2"> 5.2</A>]</B>
+
+         <B>for</B> component_specification binding_indication ;
+
+
+
+     constant_declaration ::=                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.1"> 4.3.1.1</A>]</B>
+
+         <B>constant</B> identifier_list : subtype_indication [ := expression ] ;
+
+
+
+     constrained_array_definition ::=                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1"> 3.2.1</A>]</B>
+
+         <B>array</B> index_constraint <B>of</B> <I>element</I>_subtype_indication
+
+
+
+     constraint ::=                                                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.2"> 4.2</A>]</B>
+
+           range_constraint
+
+         | index_constraint
+
+
+
+     context_clause ::=  { context_item }                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.3"> 11.3</A>]</B>
+
+
+
+     context_item ::=                                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.3"> 11.3</A>]</B>
+
+          library_clause
+
+        | use_clause
+
+
+
+     decimal_literal ::=  integer [ . integer ] [ exponent ]                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.1"> 13.4.1</A>]</B>
+
+
+
+     declaration ::=                                                                             <B>[§ 4]</B>
+
+           type_declaration
+
+         | subtype_declaration
+
+         | object_declaration
+
+         | interface_declaration
+
+         | alias_declaration
+
+         | attribute_declaration
+
+         | component_declaration
+
+         | group_template_declaration
+
+         | group_declaration
+
+         | entity_declaration
+
+         | configuration_declaration
+
+         | subprogram_declaration
+
+         | package_declaration
+
+
+
+     delay_mechanism ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4"> 8.4</A>]</B>
+
+            <B>transport</B>
+
+        | [ <B>reject</B> <I>time</I>_expression ] <B>inertial</B>
+
+
+
+     design_file ::=  design_unit { design_unit }                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1"> 11.1</A>]</B>
+
+
+
+     design_unit ::=  context_clause library_unit                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1"> 11.1</A>]</B>
+
+
+
+     designator ::=  identifier  |  operator_symbol                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1"> 2.1</A>]</B>
+
+
+
+     direction ::=  <B>to</B> | <B>downto</B>                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1"> 3.1</A>]</B>
+
+
+
+     disconnection_specification ::=                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.3"> 5.3</A>]</B>
+
+</PRE><PRE>        <B>disconnect </B>guarded_signal_specification <B>after </B><I>time</I>_expression ;
+
+
+
+     discrete_range ::=  <I>discrete</I>_subtype_indication | range                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1"> 3.2.1</A>]</B>
+
+
+
+     element_association ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.2"> 7.3.2</A>]</B>
+
+        [ choices =&gt; ] expression
+
+
+
+     element_declaration ::=                                                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.2"> 3.2.2</A>]</B>
+
+         identifier_list : element_subtype_definition ;
+
+
+
+     element_subtype_definition ::=  subtype_indication                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.2"> 3.2.2</A>]</B>
+
+
+
+     entity_aspect ::=                                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.1"> 5.2.1.1</A>]</B>
+
+            <B>entity</B> <I>entity</I>_name [ ( <I>architecture</I>_identifier) ]
+
+         | <B>configuration</B> <I>configuration</I>_name
+
+         | <B>open</B>
+
+
+
+     entity_class ::=                                                                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1"> 5.1</A>]</B>
+
+            <B>entity</B>      | <B>architecture</B>   | <B>configuration</B>
+
+         | <B>procedure</B>    | <B>function</B>       | <B>package</B>
+
+         | <B>type</B>         | <B>subtype</B>        | <B>constant</B>
+
+         | <B>signal</B>       | <B>variable</B>       | <B>component</B>
+
+         | <B>label</B>        | <B>literal</B>        | <B>units</B>
+
+         | <B>group</B>        | <B>file</B>
+
+
+
+     entity_class_entry ::=  entity_class [ &lt;&gt; ]                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.6"> 4.6</A>]</B>
+
+
+
+     entity_class_entry_list ::=                                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.6"> 4.6</A>]</B>
+
+          entity_class_entry { , entity_class_entry }
+
+
+
+     entity_declaration ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1"> 1.1</A>]</B>
+
+          <B>entity</B> identifier <B>is</B>
+
+              entity_header
+
+              entity_declarative_part
+
+      [   <B>begin</B>
+
+              entity_statement_part ]
+
+          <B>end</B> [ <B>entity</B> ] [ <I>entity</I>_simple_name ] ;
+
+
+
+     entity_declarative_item ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.2"> 1.1.2</A>]</B>
+
+            subprogram_declaration
+
+         | subprogram_body
+
+         | type_declaration
+
+         | subtype_declaration
+
+         | constant_declaration
+
+         | signal_declaration
+
+         | <I>shared</I>_variable_declaration
+
+         | file_declaration
+
+         | alias_declaration
+
+         | attribute_declaration
+
+         | attribute_specification
+
+         | disconnection_specification
+
+         | use_clause
+
+         | group_template_declaration
+
+         | group_declaration
+
+
+
+     entity_declarative_part ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.2"> 1.1.2</A>]</B>
+
+        { entity_declarative_item }
+
+
+
+     entity_designator ::=  entity_tag [ signature ]                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1"> 5.1</A>]</B>
+
+
+
+     entity_header ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1"> 1.1.1</A>]</B>
+
+         [ <I>formal</I>_generic_clause ]
+
+         [ <I>formal</I>_port_clause ]
+
+
+
+     entity_name_list ::=                                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1"> 5.1</A>]</B>
+
+            entity_designator { , entity_designator }
+
+         | <B>others</B>
+
+         | <B>all</B>
+
+
+
+     entity_specification ::=                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1"> 5.1</A>]</B>
+
+         entity_name_list : entity_class
+
+
+
+     entity_statement ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.3"> 1.1.3</A>]</B>
+
+</PRE><PRE>           concurrent_assertion_statement
+
+         | <I>passive</I>_concurrent_procedure_call_statement
+
+         | <I>passive</I>_process_statement
+
+
+
+     entity_statement_part ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.3"> 1.1.3</A>]</B>
+
+         { entity_statement }
+
+
+
+     entity_tag ::=  simple_name | character_literal | operator_symbol                          <B>[§</B> <B>  <A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.1"> 5.1</A>]</B>
+
+
+
+     enumeration_literal ::=  identifier | character_literal                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1"> 3.1.1</A>]</B>
+
+
+
+     enumeration_type_definition ::=                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.1"> 3.1.1</A>]</B>
+
+         ( enumeration_literal { , enumeration_literal } )
+
+
+
+     exit_statement ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.11"> 8.11</A>]</B>
+
+         [ label : ] <B>exit</B> [ <I>loop</I>_label ] [ <B>when</B> condition ] ;
+
+
+
+     exponent ::=  E [ + ] integer | E - integer                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.1"> 13.4.1</A>]</B>
+
+
+
+     expression ::=                                                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1"> 7.1</A>]</B>
+
+            relation { <B>and</B> relation }
+
+          | relation { <B>or</B> relation }
+
+          | relation { <B>xor</B> relation }
+
+          | relation [ <B>nand</B> relation ]
+
+          | relation [ <B>nor</B> relation ]
+
+          | relation { <B>xnor</B> relation }
+
+
+
+     extended_digit ::=  digit | letter                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.2"> 13.4.2</A>]</B>
+
+
+
+     extended_identifier ::=  \ graphic_character { graphic_character } \                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.3.2"> 13.3.2</A>]</B>
+
+
+
+     factor ::=                                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1"> 7.1</A>]</B>
+
+            primary [ ** primary ]
+
+          | <B>abs</B> primary
+
+          | <B>not</B> primary
+
+
+
+     file_declaration ::=                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.4"> 4.3.1.4</A>]</B>
+
+          <B>file</B> identifier_list : subtype_indication [ file_open_information ] ;
+
+
+
+     file_logical_name ::=  <I>string</I>_expression                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.4"> 4.3.1.4</A>]</B>
+
+
+
+     file_open_information ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.4"> 4.3.1.4</A>]</B>
+
+           [ <B>open</B> <I>file_open_kind</I>_expression ] <B>is</B> file_logical_name
+
+
+
+     file_type_definition ::=                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.4"> 3.4</A>]</B>
+
+           <B>file</B>  <B>of</B> type_mark
+
+
+
+     floating_type_definition  ::=  range_constraint                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.4"> 3.1.4</A>]</B>
+
+
+
+     formal_designator ::=                                                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2"> 4.3.2.2</A>]</B>
+
+             <I>generic</I>_name
+
+          | <I>port</I>_name
+
+          | <I>parameter</I>_name
+
+
+
+     formal_parameter_list ::=  <I>parameter</I>_interface_list                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1.1"> 2.1.1</A>]</B>
+
+
+
+     formal_part ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.2"> 4.3.2.2</A>]</B>
+
+             formal_designator
+
+          | <I>function</I>_name ( formal_designator )
+
+          | type_mark ( formal_designator )
+
+
+
+     full_type_declaration ::=                                                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.1"> 4.1</A>]</B>
+
+         <B>type</B> identifier <B>is</B> type_definition ;
+
+
+
+     function_call ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.3"> 7.3.3</A>]</B>
+
+</PRE><PRE>        <I>function</I>_name [ ( actual_parameter_part ) ]
+
+
+
+     generate_statement ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.7"> 9.7</A>]</B>
+
+        <I>generate</I>_label :
+
+            generation_scheme <B>generate</B>
+
+                [ { block_declarative_item }
+
+            <B>begin</B> ]
+
+                { concurrent_statement }
+
+            <B>end generate</B> [ <I>generate</I>_label ] ;
+
+
+
+     generation_scheme ::=                                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.7"> 9.7</A>]</B>
+
+            <B>for</B> <I>generate</I>_parameter_specification
+
+          | <B>if</B> condition
+
+
+
+     generic_clause ::=                                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1"> 1.1.1</A>]</B>
+
+         <B>generic</B> ( generic_list ) ;
+
+
+
+     generic_list ::=  <I>generic</I>_interface_list                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.1"> 1.1.1.1</A>]</B>
+
+
+
+     generic_map_aspect ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.2"> 5.2.1.2</A>]</B>
+
+         <B>generic map</B> ( <I>generic</I>_association_list )
+
+
+
+     graphic_character ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.1"> 13.1</A>]</B>
+
+         basic_graphic_character | lower_case_letter | other_special_character
+
+
+
+     group_constituent ::=  name | character_literal                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.7"> 4.7</A>]</B>
+
+
+
+     group_constituent_list ::=  group_constituent { , group_constituent}                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.7"> 4.7</A>]</B>
+
+
+
+     group_declaration ::=                                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.7"> 4.7</A>]</B>
+
+         <B>group</B> identifier : <I>group_template</I>_name ( group_constituent_list ) ;
+
+
+
+     group_template_declaration ::=                                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.6"> 4.6</A>]</B>
+
+         <B>group</B> identifier <B>is</B> ( entity_class_entry_list ) ;
+
+
+
+     guarded_signal_specification ::=                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.3"> 5.3</A>]</B>
+
+         <I>guarded</I>_signal_list : type_mark
+
+
+
+     identifier ::=  basic_identifier | extended_identifier                                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.3"> 13.3</A>]</B>
+
+
+
+     identifier_list ::=  identifier { , identifier }                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.2"> 3.2.2</A>]</B>
+
+
+
+     if_statement ::=                                                                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.7"> 8.7</A>]</B>
+
+         [ <I>if</I>_label : ]
+
+               <B>if</B> condition <B>then</B>
+
+                    sequence_of_statements
+
+              { <B>elsif</B> condition <B>then</B>
+
+                    sequence_of_statements }
+
+              [ <B>else</B>
+
+                    sequence_of_statements ]
+
+              <B>end if</B> [ <I>if</I>_label ] ;
+
+
+
+     incomplete_type_declaration ::=  <B>type</B> identifier ;                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.3.1"> 3.3.1</A>]</B>
+
+
+
+     index_constraint ::=  ( discrete_range { , discrete_range } )                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1"> 3.2.1</A>]</B>
+
+
+
+     index_specification ::=                                                                 <B>[§</B>; <B>  <A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.3.1"> 1.3.1</A>]</B>
+
+           discrete_range
+
+         |<I> static</I>_expression
+
+
+
+     index_subtype_definition ::= type_mark <B>range</B> &lt;&gt;                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1"> 3.2.1</A>]</B>
+
+
+
+     indexed_name ::=  prefix ( expression { , expression } )                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.4"> 6.4</A>]</B>
+
+
+
+     instantiated_unit ::=                                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.6"> 9.6</A>]</B>
+
+</PRE><PRE>          [ <B>component</B> ] <I>component</I>_name
+
+         | <B>entity</B> <I>entity</I>_name [ ( <I>architecture</I>_identifier ) ]
+
+         | <B>configuration</B> <I>configuration</I>_name
+
+
+
+     instantiation_list ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2"> 5.2</A>]</B>
+
+           <I>instantiation</I>_label { , <I>instantiation</I>_label }
+
+         | <B>others</B>
+
+         | <B>all</B>
+
+
+
+     integer ::=  digit  { [ underline ] digit }                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.4.1"> 13.4.1</A>]</B>
+
+
+
+     integer_type_definition ::=  range_constraint                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.2"> 3.1.2</A>]</B>
+
+
+
+     interface_constant_declaration ::=                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2"> 4.3.2</A>]</B>
+
+         [ <B>constant </B>] identifier_list : [ <B>in </B>] subtype_indication [ := <I>static</I>_expression ]
+
+
+
+     interface_declaration ::=                                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2"> 4.3.2</A>]</B>
+
+            interface_constant_declaration
+
+         | interface_signal_declaration
+
+         | interface_variable_declaration
+
+         | interface_file_declaration
+
+
+
+     interface_element ::=  interface_declaration                                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.1"> 4.3.2.1</A>]</B>
+
+
+
+     interface_file_declaration ::=                                                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2"> 4.3.2</A>]</B>
+
+         <B>file</B> identifier_list : subtype_indication
+
+
+
+     interface_list ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2.1"> 4.3.2.1</A>]</B>
+
+         interface_element { ; interface_element }
+
+
+
+     interface_signal_declaration ::                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2"> 4.3.2</A>]</B>
+
+         [<B>signal</B>] identifier_list : [ mode ] subtype_indication [ <B>bus </B>] [ := <I>static</I>_expression ]
+
+
+
+     interface_variable_declaration ::=                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2"> 4.3.2</A>]</B>
+
+         [<B>variable</B>] identifier_list : [ mode ] subtype_indication [ := <I>static</I>_expression ]
+
+
+
+     iteration_scheme ::=                                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.9"> 8.9</A>]</B>
+
+            <B>while</B> condition
+
+         | <B>for</B> <I>loop</I>_parameter_specification
+
+
+
+     label ::=  identifier<B>                                                                     [§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.7"> 9.7</A>]</B>
+
+
+
+     letter ::=  upper_case_letter | lower_case_letter                                      <B>[§</B>; <B>  <A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.3.1"> 13.3.1</A>]</B>
+
+
+
+     letter_or_digit ::=  letter | digit                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.3.1"> 13.3.1</A>]</B>
+
+
+
+     library_clause ::=  <B>library</B> logical_name_list ;                                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2"> 11.2</A>]</B>
+
+
+
+     library_unit ::=                                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1"> 11.1</A>]</B>
+
+</PRE><PRE>             primary_unit
+
+          | secondary_unit
+
+
+
+     literal ::=                                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1"> 7.3.1</A>]</B>
+
+             numeric_literal
+
+          | enumeration_literal
+
+          | string_literal
+
+          | bit_string_literal
+
+          | <B>null</B>
+
+
+
+     logical_name ::=  identifier                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2"> 11.2</A>]</B>
+
+
+
+     logical_name_list ::=  logical_name { , logical_name }                                   <B>[§</B> <B>  <A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.2"> 11.2</A>]</B>
+
+
+
+     logical_operator ::=  <B>and</B> | <B>or</B> | <B>nand</B> | <B>nor</B> | <B>xor</B> | <B>xnor</B>                                  <B>[<U>§</U></B><U>;</U><B><A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2"> 7.2</A>]</B>
+
+
+
+     loop_statement ::=                                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.9"> 8.9</A>]</B>
+
+         [ <I>loop</I>_label : ]
+
+              [ iteration_scheme ] <B>loop</B>
+
+                   sequence_of_statements
+
+              <B>end loop</B> [ <I>loop</I>_label ] ;
+
+
+
+     miscellaneous_operator ::=  ** | <B>abs</B> | <B>not</B>                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2"> 7.2</A>]</B>
+
+
+
+     mode ::=  <B>in</B> | <B>out</B> | <B>inout</B> | <B>buffer</B> | <B>linkage</B>                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.2"> 4.3.2</A>]</B>
+
+
+
+     multiplying_operator ::=  * | / | <B>mod</B> | <B>rem</B>                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2"> 7.2</A>]</B>
+
+
+
+     name ::=                                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1"> 6.1</A>]</B>
+
+            simple_name
+
+         | operator_symbol
+
+         | selected_name
+
+         | indexed_name
+
+         | slice_name
+
+         | attribute_name
+
+     next_statement ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.10"> 8.10</A>]</B>
+
+         [ label : ] <B>next</B> [ <I>loop</I>_label ] [ <B>when</B> condition ] ;
+
+
+
+     null_statement ::=  [ label : ] <B>null</B> ;                                                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.13"> 8.13</A>]</B>
+
+
+
+     numeric_literal ::=                                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.1"> 7.3.1</A>]</B>
+
+            abstract_literal
+
+         | physical_literal
+
+
+
+     object_declaration ::=                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1"> 4.3.1</A>]</B>
+
+            constant_declaration
+
+         | signal_declaration
+
+         | variable_declaration
+
+         | file_declaration
+
+
+
+     operator_symbol ::=  string_literal                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1"> 2.1</A>]</B>
+
+
+
+     options ::=  [ <B>guarded </B>] [ delay_mechanism ]                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5"> 9.5</A>]</B>
+
+
+
+     package_body ::=                                                                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.6"> 2.6</A>]</B>
+
+         <B>package body</B> <I>package</I>_simple_name <B>is</B>
+
+             package_body_declarative_part
+
+         <B>end</B> [ <B>package</B> <B>body</B> ] [ <I>package</I>_simple_name ] ;
+
+
+
+     package_body_declarative_item ::=                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.6"> 2.6</A>]</B>
+
+            subprogram_declaration
+
+         | subprogram_body
+
+         | type_declaration
+
+         | subtype_declaration
+
+         | constant_declaration
+
+         | <I>shared</I>_variable_declaration
+
+         | file_declaration
+
+         | alias_declaration
+
+         | use_clause
+
+         | group_template_declaration
+
+         | group_declaration
+
+
+
+     package_body_declarative_part ::=                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.6"> 2.6</A>]</B>
+
+</PRE><PRE>         { package_body_declarative_item }
+
+
+
+     package_declaration ::=                                                                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.5"> 2.5</A>]</B>
+
+         <B>package</B> identifier <B>is</B>
+
+            package_declarative_part
+
+         <B>end</B> [ <B>package</B> ] [ <I>package</I>_simple_name ] ;
+
+
+
+     package_declarative_item ::=                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.5"> 2.5</A>]</B>
+
+            subprogram_declaration
+
+         | type_declaration
+
+         | subtype_declaration
+
+         | constant_declaration
+
+         | signal_declaration
+
+         | <I>shared</I>_variable_declaration
+
+         | file_declaration
+
+         | alias_declaration
+
+         | component_declaration
+
+         | attribute_declaration
+
+         | attribute_specification
+
+         | disconnection_specification
+
+         | use_clause
+
+         | group_template_declaration
+
+         | group_declaration
+
+
+
+     package_declarative_part ::=                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.5"> 2.5</A>]</B>
+
+         { package_declarative_item }
+
+
+
+     parameter_specification ::=                                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.9"> 8.9</A>]</B>
+
+         identifier <B>in</B> discrete_range
+
+
+
+     physical_literal ::=  [ abstract_literal ] <I>unit</I>_name                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3"> 3.1.3</A>]</B>
+
+
+
+     physical_type_definition ::=                                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3"> 3.1.3</A>]</B>
+
+         range_constraint
+
+             <B>units</B>
+
+                 primary_unit_declaration
+
+                 { secondary_unit_declaration }
+
+             <B>end</B> <B>units</B> [ <I>physical_type</I>_simple_name ]
+
+
+
+     port_clause ::=                                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1"> 1.1.1</A>]</B>
+
+         <B>port</B> ( port_list ) ;
+
+
+
+     port_list ::=  <I>port</I>_interface_list                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_1.html#1.1.1.2"> 1.1.1.2</A>]</B>
+
+
+
+     port_map_aspect ::=                                                                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.2.1.2"> 5.2.1.2</A>]</B>
+
+         <B>port map</B> ( <I>port</I>_association_list )
+
+
+
+     prefix ::=                                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.1"> 6.1</A>]</B>
+
+            name
+
+         | function_call
+
+
+
+     primary ::=                                                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1"> 7.1</A>]</B>
+
+            name
+
+         | literal
+
+         | aggregate
+
+         | function_call
+
+         | qualified_expression
+
+         | type_conversion
+
+         | allocator
+
+         | ( expression )
+
+
+
+     primary_unit ::                                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1"> 11.1</A>]</B>
+
+            entity_declaration
+
+         | configuration_declaration
+
+         | package_declaration
+
+
+
+     primary_unit_declaration ::= identifier;
+
+     procedure_call ::=  <I>procedure</I>_name [ ( actual_parameter_part ) ]                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.6"> 8.6</A>]</B>
+
+
+
+     procedure_call_statement ::=<B>  </B>[ label : ]  procedure_call ;                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.6"> 8.6</A>]</B>
+
+
+
+     process_declarative_item ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2"> 9.2</A>]</B>
+
+</PRE><PRE>            subprogram_declaration
+
+         | subprogram_body
+
+         | type_declaration
+
+         | subtype_declaration
+
+         | constant_declaration
+
+         | variable_declaration
+
+         | file_declaration
+
+         | alias_declaration
+
+         | attribute_declaration
+
+         | attribute_specification
+
+         | use_clause
+
+         | group_template_declaration
+
+         | group_declaration
+
+
+
+     process_declarative_part ::=                                                             <B>[§</B>; <B>  <A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2"> 9.2</A>]</B>
+
+         { process_declarative_item }
+
+
+
+     process_statement ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2"> 9.2</A>]</B>
+
+         [ <I>process</I>_label : ]
+
+              [ <B>postponed</B> ] <B>process</B> [ ( sensitivity_list ) ] [ <B>is</B> ]
+
+                   process_declarative_part
+
+              <B>begin</B>
+
+                   process_statement_part
+
+              <B>end</B> [ <B>postponed</B> ]<B> process</B> [ <I>process</I>_label ] ;
+
+
+
+     process_statement_part ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.2"> 9.2</A>]</B>
+
+         { sequential_statement }
+
+
+
+     qualified_expression ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.4"> 7.3.4</A>]</B>
+
+            type_mark ' ( expression )
+
+         | type_mark ' aggregate
+
+     range ::=                                                                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1"> 3.1</A>]</B>
+
+            <I>range</I>_attribute_name
+
+         | simple_expression direction simple_expression
+
+
+
+     range_constraint ::=  <B>range</B> range                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1"> 3.1</A>]</B>
+
+
+
+     record_type_definition ::=                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.2"> 3.2.2</A>]</B>
+
+         <B>record</B>
+
+              element_declaration
+
+             { element_declaration }
+
+         <B>end</B> <B>record</B> [ <I>record_type</I>_simple_name ]
+
+
+
+     relation ::=                                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1"> 7.1</A>]</B>
+
+         shift_expression [ relational_operator shift_expression ]
+
+
+
+     relational_operator ::=   =  |  /=  |  &lt;  |  &lt;=  |  &gt;  |  &gt;=                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2"> 7.2</A>]</B>
+
+
+
+     report_statement ::=                                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.3"> 8.3</A>]</B>
+
+         [ label : ]
+
+              <B>report</B> expression
+
+               [ <B>severity</B> expression ] ;
+
+
+
+     return_statement ::=                                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.12"> 8.12</A>]</B>
+
+        [ label : ] <B>return</B> [ expression ] ;
+
+
+
+     scalar_type_definition ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1"> 3.1</A>]</B>
+
+            enumeration_type_definition  | integer_type_definition
+
+         | floating_type_definition          | physical_type_definition
+
+
+
+     secondary_unit ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html#11.1"> 11.1</A>]</B>
+
+           architecture_body
+
+        | package_body
+
+
+
+     secondary_unit_declaration ::=  identifier = physical_literal ;                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.1.3"> 3.1.3</A>]</B>
+
+
+
+     selected_name ::=  prefix . suffix                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.3"> 6.3</A>]</B>
+
+
+
+     selected_signal_assignment ::=                                                          <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5.2"> 9.5.2</A>]</B>
+
+</PRE><PRE>         <B>with</B> expression <B>select</B>
+
+              target &lt;= options selected_waveforms ;
+
+
+
+     selected_waveforms ::=                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_9.html#9.5.2"> 9.5.2</A>]</B>
+
+         { waveform <B>when</B> choices , }
+
+           waveform <B>when</B> choices
+
+
+
+     sensitivity_clause ::=  <B>on</B> sensitivity_list                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1"> 8.1</A>]</B>
+
+
+
+     sensitivity_list ::=  <I>signal</I>_name { , <I>signal</I>_name }                                     <B>  [§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1"> 8.1</A>]</B>
+
+
+
+     sequence_of_statements ::=                                                                  <B>[§ 8]</B>
+
+         { sequential_statement }
+
+
+
+     sequential_statement ::=                                                                    <B>[§ 8]</B>
+
+           wait_statement
+
+        | assertion_statement
+
+        | report_statement
+
+        | signal_assignment_statement
+
+        | variable_assignment_statement
+
+        | procedure_call_statement
+
+        | if_statement
+
+        | case_statement
+
+        | loop_statement
+
+        | next_statement
+
+        | exit_statement
+
+        | return_statement
+
+        | null_statement
+
+
+
+     shift_expression ::=                                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1"> 7.1</A>]</B>
+
+          simple_expression [ shift_operator simple_expression ]
+
+
+
+     shift_operator ::=  <B>sll</B> | <B>srl</B> | <B>sla</B> | <B>sra</B> | <B>rol</B> | <B>ror</B>                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2"> 7.2</A>]</B>
+
+
+
+     sign ::=  + | -                                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.2"> 7.2</A>]</B>
+
+
+
+     signal_assignment_statement ::=                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4"> 8.4</A>]</B>
+
+         [ label : ] target &lt;= [ delay_mechanism ] waveform ;
+
+
+
+     signal_declaration ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2"> 4.3.1.2</A>]</B>
+
+         <B>signal</B> identifier_list : subtype_indication [ signal_kind ] [ := expression ] ;
+
+
+
+     signal_kind ::=  <B>register</B>  |  <B>bus                                                     [§</B>; <B>  <A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.2"> 4.3.1.2</A>]</B>
+
+
+
+     signal_list ::=                                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_5.html#5.3"> 5.3</A>]</B>
+
+            <I>signal</I>_name { , <I>signal</I>_name }
+
+         | <B>others</B>
+
+         | <B>all</B>
+
+
+
+     signature ::=  [ [ type_mark { , type_mark } ] [ <B>return</B> type_mark ] ]                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.3.2"> 2.3.2</A>]</B>
+
+
+
+     simple_expression ::=                                                                     <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1"> 7.1</A>]</B>
+
+         [ sign ] term { adding_operator term }
+
+
+
+     simple_name ::=  identifier                                                               <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.2"> 6.2</A>]</B>
+
+
+
+     slice_name ::=  prefix ( discrete_range )                                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.5"> 6.5</A>]</B>
+
+
+
+     string_literal ::=  " { graphic_character } "                                            <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html#13.6"> 13.6</A>]</B>
+
+
+
+     subprogram_body ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2"> 2.2</A>]</B>
+
+         subprogram_specification <B>is</B>
+
+<B>             </B>subprogram_declarative_part
+
+         <B>begin</B>
+
+             subprogram_statement_part
+
+         <B>end</B> [ subprogram_kind ] [ designator ] ;
+
+
+
+     subprogram_declaration ::=                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1"> 2.1</A>]</B>
+
+</PRE><PRE>        subprogram_specification ;
+
+
+
+     subprogram_declarative_item ::=                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2"> 2.2</A>]</B>
+
+            subprogram_declaration
+
+         | subprogram_body
+
+         | type_declaration
+
+         | subtype_declaration
+
+         | constant_declaration
+
+         | variable_declaration
+
+         | file_declaration
+
+         | alias_declaration
+
+         | attribute_declaration
+
+         | attribute_specification
+
+         | use_clause
+
+         | group_template_declaration
+
+         | group_declaration
+
+
+
+     subprogram_declarative_part ::=                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2"> 2.2</A>]</B>
+
+        { subprogram_declarative_item }
+
+
+
+     subprogram_kind ::=  <B>procedure</B> | <B>function</B>                                                 <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2"> 2.2</A>]</B>
+
+
+
+     subprogram_specification ::=                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.1"> 2.1</A>]</B>
+
+           <B>procedure</B> designator [ ( formal_parameter_list ) ]
+
+        | [ <B>pure</B> | <B>impure</B> ] <B>function</B> designator [ ( formal_parameter_list ) ]
+
+                   <B>return</B> type_mark
+
+
+
+     subprogram_statement_part ::=                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_2.html#2.2"> 2.2</A>]</B>
+
+        { sequential_statement }
+
+
+
+     subtype_declaration ::=                                                                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.2"> 4.2</A>]</B>
+
+        <B>subtype</B> identifier <B>is</B> subtype_indication ;
+
+
+
+     subtype_indication ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.2"> 4.2</A>]</B>
+
+        [ <I>resolution_function</I>_name ] type_mark [ constraint ]
+
+
+
+     suffix ::=                                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_6.html#6.3"> 6.3</A>]</B>
+
+            simple_name
+
+         | character_literal
+
+         | operator_symbol
+
+         | <B>all</B>
+
+
+
+     target ::=                                                                                <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4"> 8.4</A>]</B>
+
+         name
+
+         | aggregate
+
+
+
+     term ::=                                                                                  <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.1"> 7.1</A>]</B>
+
+         factor { multiplying_operator factor }
+
+
+
+     timeout_clause ::=  <B>for</B> <I>time</I>_expression                                                   <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1"> 8.1</A>]</B>
+
+
+
+     type_conversion ::=  type_mark ( expression )                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_7.html#7.3.5"> 7.3.5</A>]</B>
+
+
+
+     type_declaration ::=                                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.1"> 4.1</A>]</B>
+
+            full_type_declaration
+
+         | incomplete_type_declaration
+
+
+
+     type_definition ::=                                                                       <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.1"> 4.1</A>]</B>
+
+           scalar_type_definition
+
+         | composite_type_definition
+
+         | access_type_definition
+
+         | file_type_definition
+
+
+
+     type_mark ::=                                                                             <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.2"> 4.2</A>]</B>
+
+            <I>type</I>_name
+
+         | <I>subtype</I>_name
+
+
+
+     unconstrained_array_definition ::=                                                      <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html#3.2.1"> 3.2.1</A>]</B>
+
+</PRE><PRE>         <B>array</B> ( index_subtype_definition { , index_subtype_definition } )
+
+              <B>of</B> <I>element</I>_subtype_indication
+
+
+
+     use_clause ::=                                                                           <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_10.html#10.4"> 10.4</A>]</B>
+
+         <B>use</B> selected_name { , selected_name } ;
+
+
+
+     variable_assignment_statement ::=                                                         <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.5"> 8.5</A>]</B>
+
+         [ label : ] target<I> </I> := expression ;
+
+
+
+     variable_declaration ::=                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_4.html#4.3.1.3"> 4.3.1.3</A>]</B>
+
+         [ <B>shared</B> ] <B>variable</B> identifier_list : subtype_indication [ := expression ] ;
+
+
+
+     wait_statement ::=                                                                        <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.1"> 8.1</A>]</B>
+
+         [ label : ] <B>wait</B> [ sensitivity_clause ] [ condition_clause ] [ timeout_clause ] ;
+
+
+
+     waveform ::=                                                                              <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4"> 8.4</A>]</B>
+
+          waveform_element { , waveform_element }
+
+        | <B>unaffected</B>
+
+
+
+     waveform_element ::=                                                                    <B>[§<A href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html#8.4.1"> 8.4.1</A>]</B>
+
+<I>          value</I>_expression [ <B>after</B> <I>time</I>_expression ]
+
+        | <B>null</B> [ <B>after</B> <I>time</I>_expression ]
+
+</PRE>
+<HR>
+
+<P><A href="http://www.fysel.ntnu.no/Courses/SIE4020/index.html"><IMG height=30 
+src="VHDL LRM- Introduction_AppA_files/hjem.gif" width=30 border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_toc.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppA_files/topp.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_14.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppA_files/venstre.gif" width=30 
+border=0></A> <A 
+href="http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_axb.html"><IMG 
+height=30 src="VHDL LRM- Introduction_AppA_files/hoyre.gif" width=30 
+border=0></A> </P></BODY></HTML>

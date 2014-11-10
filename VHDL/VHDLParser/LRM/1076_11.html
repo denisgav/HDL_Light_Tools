@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_11.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=11>Section 11</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_10.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_12.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Design units and their analysis </H1>
+<P>The overall organization of descriptions, as well as their analysis and 
+subsequent definition in a design library, are discussed in this section. </P>
+<H2><A name=11.1></A><A 
+href="1076_11.html#11.1">11.1 
+</A>Design units</H2>
+<P>Certain constructs may be independently analyzed and inserted into a design 
+library; these constructs are called <I>design units</I>. One or more design 
+units in sequence comprise a <I>design file</I>. </P><PRE>     design_file ::=  design_unit { design_unit }
+
+
+
+     design_unit ::=  context_clause library_unit
+
+
+
+     library_unit ::=
+
+            primary_unit
+
+         | secondary_unit
+
+
+
+     primary_unit ::=
+
+            entity_declaration
+
+         | configuration_declaration
+
+         | package_declaration
+
+
+
+     secondary_unit ::=
+
+            architecture_body
+
+         | package_body
+
+</PRE>
+<P>Design units in a design file are analyzed in the textual order of their 
+appearance in the design file. Analysis of a design unit defines the 
+corresponding library unit in a design library. A <I>library unit</I> is either 
+a primary unit or a secondary unit. A secondary unit is a separately analyzed 
+body of a primary unit resulting from a previous analysis. </P>
+<P>The name of a primary unit is given by the first identifier after the initial 
+reserved word of that unit. Of the secondary units, only architecture bodies are 
+named; the name of an architecture body is given by the identifier following the 
+reserved word <B>architecture</B>. Each primary unit in a given library must 
+have a simple name that is unique within the given library, and each 
+architecture body associated with a given entity declaration must have a simple 
+name that is unique within the set of names of the architecture bodies 
+associated with that entity declaration. </P>
+<P>Entity declarations, architecture bodies, and configuration declarations are 
+discussed in Section 1. Package declarations and package bodies are discussed in 
+Section 2. </P>
+<H2><A name=11.2></A><A 
+href="1076_11.html#11.2">11.2 
+</A>Design libraries </H2>
+<P>A <I>design library</I> is an implementation-dependent storage facility for 
+previously analyzed design units. A given implementation is required to support 
+any number of design libraries. </P><PRE>     library_clause  ::=  <B>library</B> logical_name_list ;
+
+
+
+     logical_name_list  ::=  logical_name { , logical_name }
+
+
+
+     logical_name  ::=  identifier
+
+</PRE>
+<P>A library clause defines logical names for design libraries in the host 
+environment. A library clause appears as part of a context clause at the 
+beginning of a design unit. There is a certain region of text called the<I> 
+scope</I> of a library clause; this region starts immediately after the library 
+clause, and it extends to the end of the declarative region associated with the 
+design unit in which the library clause appears. Within this scope each logical 
+name defined by the library clause is directly visible, except where hidden in 
+an inner declarative region by a homograph of the logical name according to the 
+rules of <A 
+href="1076_10.html#10.3">10.3 
+</A>. </P>
+<P>If two or more logical names having the same identifier (see <A 
+href="1076_13.html#13.3">13.3 
+</A>) appear in library clauses in the same context clause, the second and 
+subsequent occurrences of the logical name have no effect. The same is true of 
+logical names appearing both in the context clause of a primary unit and in the 
+context clause of a corresponding secondary unit. </P>
+<P>Each logical name defined by the library clause denotes a design library in 
+the host environment. </P>
+<P>For a given library logical name, the actual name of the corresponding design 
+libraries in the host environment may or may not be the same. A given 
+implementation must provide some mechanism to associate a library logical name 
+with a host-dependent library. Such a mechanism is not defined by the language. 
+</P>
+<P>There are two classes of design libraries: working libraries and resource 
+libraries. A <I>working library</I> is the library into which the library unit 
+resulting from the analysis of a design unit is placed. A <I>resource 
+library</I> is a library containing library units that are referenced within the 
+design unit being analyzed. Only one library may be the working library during 
+the analysis of any given design unit; in contrast, any number of libraries 
+(including the working library itself) may be resource libraries during such an 
+analysis. </P>
+<P>Every design unit except package STANDARD is assumed to contain the following 
+implicit context items as part of its context clause: </P><PRE>    <B> library</B> STD, WORK ; <B>use</B> STD.STANDARD.<B>all</B> ;
+
+</PRE>
+<P>Library logical name STD denotes the design library in which package STANDARD 
+and package TEXTIO reside; these are the only standard packages defined by the 
+language (see Section 14). (The use clause makes all declarations within package 
+STANDARD directly visible within the corresponding design unit; see <A 
+href="1076_10.html#10.4">10.4 
+</A>). Library logical name WORK denotes the current working library during a 
+given analysis. </P>
+<P>The library denoted by the library logical name STD contains no library units 
+other than package STANDARD and package TEXTIO. </P>
+<P>A secondary unit corresponding to a given primary unit may only be placed 
+into the design library in which the primary unit resides. </P>
+<P>NOTE--The design of the language assumes that the contents of resource 
+libraries named in all library clauses in the context clause of a design unit 
+will remain unchanged during the analysis of that unit (with the possible 
+exception of the updating of the library unit corresponding to the analyzed 
+design unit within the working library, if that library is also a resource 
+library). </P>
+<H2><A name=11.3></A><A 
+href="1076_11.html#11.3">11.3 
+</A>Context clauses </H2>
+<P>A context clause defines the initial name environment in which a design unit 
+is analyzed. </P><PRE>     context_clause ::=  { context_item }
+
+
+
+     context_item  ::=
+
+           library_clause
+
+         | use_clause
+
+</PRE>
+<P>A library clause defines library logical names that may be referenced in the 
+design unit; library clauses are described in <A 
+href="1076_11.html#11.2">11.2 
+</A>. A use clause makes certain declarations directly visible within the design 
+unit; use clauses are described in <A 
+href="1076_10.html#10.4">10.4 
+</A>. </P>
+<P>NOTE--The rules given for use clauses are such that the same effect is 
+obtained whether the name of a library unit is mentioned once or more than once 
+by the applicable use clauses, or even within a given use clause. </P>
+<H2><A name=11.4></A><A 
+href="1076_11.html#11.4">11.4 
+</A>Order of analysis </H2>
+<P>The rules defining the order in which design units can be analyzed are direct 
+consequences of the visibility rules. In particular: </P>
+<OL type=a>
+  <LI>A primary unit whose name is referenced within a given design unit must be 
+  analyzed prior to the analysis of the given design unit.<BR>
+  <LI>A primary unit must be analyzed prior to the analysis of any corresponding 
+  secondary unit. </LI></OL>
+<P>In each case, the second unit <I>depends on</I> the first unit. </P>
+<P>The order in which design units are analyzed must be consistent with the 
+partial ordering defined by the above rules. </P>
+<P>If any error is detected while attempting to analyze a design unit, then the 
+attempted analysis is rejected and has no effect whatsoever on the current 
+working library. </P>
+<P>A given library unit is potentially affected by a change in any library unit 
+whose name is referenced within the given library unit. A secondary unit is 
+potentially affected by a change in its corresponding primary unit. If a library 
+unit is changed (e.g., by reanalysis of the corresponding design unit),then all 
+library units that are potentially affected by such a change become obsolete and 
+must be reanalyzed before they can be used again. </P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_10.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_12.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

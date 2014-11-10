@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://www.fysel.ntnu.no/Courses/SIE4020/1076_0.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=0>Section 0</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_1.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Overview of this standard<BR></H1>
+<P>This section describes the purpose and organization of this standard, the 
+IEEE Standard VHDL Language Reference Manual (IEEE Std. 1076-1993). </P>
+<H2><A name=0.1></A><A 
+href="1076_0.html#0.1">0.1 
+</A>Intent and scope of this document</H2>
+<P>The intent of this standard is to define VHDL accurately. Its primary 
+audiences are the implementor of tools supporting the language and the advanced 
+user of the language. Other users are encouraged to use commercially available 
+books, tutorials, and classes to learn the language in some detail prior to 
+reading this manual. These resources generally focus on how to use the language, 
+rather than how a VHDL-compliant tool is required to behave. </P>
+<P>At the time of its publication, this document was the authoritative 
+definition of VHDL. From time to time, it may become necessary to correct and/or 
+clarify portions of this standard. Such corrections and clarifications may be 
+published in separate documents. Such documents modify this standard at the time 
+of their publication and remain in effect until superseded by subsequent 
+documents or until the standard is officially revised. </P>
+<H2><A name=0.2></A><A></A><A 
+href="1076_0.html#0.2">0.2 
+</A>Structure and terminology of this document</H2>
+<P>This manual is organized into sections, each of which focuses on some 
+particular area of the language. Every fifth line of each section, not including 
+section headings, footers, and the section title, is numbered in the left 
+margin. Within each section, individual constructs or concepts are discussed in 
+each clause. </P>
+<P>Each clause describing a specific construct begins with an introductory 
+paragraph. Next, the syntax of the construct is described using one or more 
+grammatical "productions." </P>
+<P>A set of paragraphs describing the meaning and restrictions of the construct 
+in narrative form then follow. Unlike many other IEEE standards, which use the 
+verb "shall" to indicate mandatory requirements of the standard and "may" to 
+indicate optional features, the verb "is" is used uniformly throughout this 
+document. In all cases, "is" is to be interpreted as having mandatory weight. 
+</P>
+<P>Additionally, the word "must" is used to indicate mandatory weight. This word 
+is preferred over the more common "shall," as "must" denotes a different meaning 
+to different readers of this standard. </P>
+<OL type=a>
+  <LI>To the developer of tools that process VHDL, "must" denotes a requirement 
+  that the standard imposes. The resulting implementation is required to enforce 
+  the requirement and to issue an error if the requirement is not met by some 
+  VHDL source text.<BR>
+  <P></P>
+  <LI>To the VHDL model developer, "must" denotes that the characteristics of 
+  VHDL are natural consequences of the language definition. The model developer 
+  is required to adhere to the constraint implied by the characteristic.<BR>
+  <P></P>
+  <LI>To the VHDL model user, "must" denotes that the characteristics of the 
+  models are natural consequences of the language definition. The model user can 
+  depend on the characteristics of the model implied by its VHDL source text. 
+  </LI></OL>
+<P>Finally, each clause may end with examples, notes, and references to other 
+pertinent clauses. </P>
+<H3><A name=0.2.1></A><A 
+href="1076_0.html#0.2.1">0.2.1 
+</A>Syntactic description</H3>
+<P>The form of a VHDL description is described by means of context-free syntax, 
+using a simple variant of backus naur form; in particular: </P>
+<OL type=a>
+  <LI>Lowercased words in roman font, some containing embedded underlines, are 
+  used to denote syntactic categories, for example: <PRE>          formal_port_list
+
+</PRE>
+  <P>Whenever the name of a syntactic category is used, apart from the syntax 
+  rules themselves, spaces take the place of underlines (thus, "formal port 
+  list" would appear in the narrative description when referring to the above 
+  syntactic category).<BR></P>
+  <P></P>
+  <LI>Boldface words are used to denote reserved words, for example: <PRE>          <B>array</B>
+
+</PRE>
+  <P>Reserved words must be used only in those places indicated by the syntax. 
+  <BR></P>
+  <P></P>
+  <LI>A <I>production</I> consists of a <I>left-hand side</I>, the symbol 
+  "::="(which is read as "can be replaced by"), and a <I>right-hand side</I>. 
+  The left-hand side of a production is always a syntactic category; the 
+  right-hand side is a replacement rule.<BR>
+  <P>The meaning of a production is a textual-replacement rule: any occurrence 
+  of the left-hand side may be replaced by an instance of the right-hand 
+  side.<BR></P>
+  <P></P>
+  <LI>A vertical bar separates alternative items on the right-hand side of a 
+  production unless it occurs immediately after an opening brace, in which case 
+  it stands for itself: <PRE>          letter_or_digit ::= letter | digit
+
+
+
+          choices  ::=  choice { | choice }
+
+</PRE>
+  <P>In the first instance, an occurrence of "letter_or_digit" can be replaced 
+  by either "letter" or "digit." In the second case, "choices" can be replaced 
+  by a list of "choice," separated by vertical bars (see item f for the meaning 
+  of braces).<BR></P>
+  <P></P>
+  <LI>Square brackets enclose optional items on the right-hand side of a 
+  production; thus the two following productions are equivalent: <PRE>          return_statement ::= <B>return</B> [ expression ] ;
+
+
+
+          return_statement ::= <B>return</B> ; | <B>return</B> expression ;
+
+</PRE>
+  <P>Note, however, that the initial and terminal square brackets in the 
+  right-hand side of the production for signatures (in <A 
+  href="1076_2.html#2.3.2">2.3.2 
+  </A>) are part of the syntax of signatures and do not indicate that the entire 
+  right-hand side is optional.<BR></P>
+  <P></P>
+  <LI>Braces enclose a repeated item or items on the right-hand side of a 
+  production. The items may appear zero or more times; the repetitions occur 
+  from left to right as with an equivalent left-recursive rule. Thus, the 
+  following two productions are equivalent: <PRE>          term ::= factor { multiplying_operator factor }
+
+
+
+          term ::= factor | term multiplying_operator factor
+
+</PRE>
+  <LI>If the name of any syntactic category starts with an italicized part, it 
+  is equivalent to the category name without the italicized part. The italicized 
+  part is intended to convey some semantic information. For example, 
+  <I>type</I>_name and <I>subtype</I>_name are both syntactically equivalent to 
+  name alone.<BR>
+  <P></P>
+  <LI>The term simple_name is used for any occurrence of an identifier that 
+  already denotes some declared entity.<BR></LI></OL>
+<H3><A name=0.2.2></A><A 
+href="1076_0.html#0.2.2">0.2.2 
+</A>Semantic description</H3>
+<P>The meaning and restrictions of a particular construct are described with a 
+set of narrative rules immediately following the syntactic productions. In these 
+rules, an italicized term indicates the definition of that term and identifiers 
+appearing entirely in uppercase refer to definitions in package STANDARD (see <A 
+href="1076_14.html#14.2">14.2 
+</A>). </P>
+<P>The following terms are used in these semantic descriptions with the 
+following meaning: </P><PRE>erroneous          The condition described represents an ill-formed description; implementations are however,
+
+                   not required to detect and report this condition.
+
+
+
+                   Conditions are deemed erroneous only when it is impossible in general to detect the condition
+
+                   During The Processing Of The Language.
+
+
+
+error              The condition described represents an ill-formed description; implementations are required to
+
+                   detect the condition and report an error to the user of the tool.
+
+
+
+illegal            A synonym for "error."
+
+
+
+legal              The condition described represents a well-formed description.
+
+</PRE>
+<H3><A name=0.2.3></A><A 
+href="1076_0.html#0.2.3">0.2.3 
+</A>Front matter, examples, notes, references, and annexes</H3>
+<P>Prior to this section are several pieces of introductory material; following 
+the final section are some annexes and an index. The front matter, annexes,and 
+index serve to orient and otherwise aid the user of this manual but are not part 
+of the definition of VHDL. </P>
+<P>Some clauses of this standard contain examples, notes, and cross-references 
+to other clauses of the manual; these parts always appear at the end of a 
+clause. Examples are meant to illustrate the possible forms of the construct 
+described. Illegal examples are italicized. Notes are meant to emphasize 
+consequences of the rules described in the clause or elsewhere. In order to 
+distinguish notes from the other narrative portions of this standard, notes are 
+set as enumerated paragraphs in a font smaller than the rest of the text. 
+Cross-references are meant to guide the user to other relevant clauses of the 
+manual. Examples, notes, and cross-references are not part of the definition of 
+the language. </P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_1.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

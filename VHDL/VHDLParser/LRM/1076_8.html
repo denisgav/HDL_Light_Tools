@@ -1,0 +1,1045 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_8.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=8>Section 8</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_7.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_9.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Sequential statements</H1>
+<P></P>
+<P></P>
+<P>The various forms of sequential statements are described in this section. 
+Sequential statements are used to define algorithms for the execution of a 
+subprogram or process; they execute in the order in which they appear. </P><PRE>     sequence_of_statements ::=
+
+         { sequential_statement }
+
+
+
+     sequential_statement ::=
+
+          wait_statement
+
+       | assertion_statement
+
+       | report_statement
+
+       | signal_assignment_statement
+
+       | variable_assignment_statement
+
+       | procedure_call_statement
+
+       | if_statement
+
+       | case_statement
+
+       | loop_statement
+
+       | next_statement
+
+       | exit_statement
+
+       | return_statement
+
+       | null_statement
+
+</PRE>
+<P>All sequential statements may be labeled. Such labels are implicitly declared 
+at the beginning of the declarative part of the innermost enclosing process 
+statement or subprogram body. </P>
+<H2><A name=8.1></A><A 
+href="1076_8.html#8.1">8.1 
+</A>Wait statement</H2>
+<P>The wait statement causes the suspension of a process statement or a 
+procedure. </P><PRE>     wait_statement ::=
+
+         [ label : ] <B>wait</B> [ sensitivity_clause ] [ condition_clause ] [ timeout_clause ] ;
+
+
+
+     sensitivity_clause ::=  <B>on</B> sensitivity_list
+
+
+
+     sensitivity_list ::=  <I>signal</I>_name { , <I>signal</I>_name }
+
+
+
+     condition_clause ::=  <B>until</B> condition
+
+
+
+     condition ::=  <I>boolean</I>_expression
+
+
+
+     timeout_clause ::=  <B>for</B> <I>time</I>_expression
+
+</PRE>
+<P>The sensitivity clause defines the <I>sensitivity set</I> of the wait 
+statement,which is the set of signals to which the wait statement is sensitive. 
+Each signal name in the sensitivity list identifies a given signal as a member 
+of the sensitivity set. Each signal name in the sensitivity list must be a 
+static signal name, and each name must denote a signal for which reading is 
+permitted. If no sensitivity clause appears, the sensitivity set is constructed 
+according to the following (recursive) rule: </P>
+<P>The sensitivity set is initially empty. For each primary in the condition of 
+the condition clause, if the primary is </P>
+<P>-- A simple name that denotes a signal, add the longest static prefix of the 
+name to the sensitivity set </P>
+<P>-- A selected name whose prefix denotes a signal, add the longest static 
+prefix of the name to the sensitivity set </P>
+<P>-- An expanded name whose prefix denotes a signal, add the longest static 
+prefix of the name to the sensitivity set </P>
+<P>-- An indexed name whose prefix denotes a signal, add the longest static 
+prefix of the name to the sensitivity set and apply this rule to all expressions 
+in the indexed name </P>
+<P>-- A slice name whose prefix denotes a signal, add the longest static prefix 
+of the name to the sensitivity set and apply this rule to any expressions 
+appearing in the discrete range of the slice name </P>
+<P>-- An attribute name, if the designator denotes a signal attribute, add the 
+longest static prefix of the name of the implicit signal denoted by the 
+attribute name to the sensitivity set; otherwise, apply this rule to the prefix 
+of the attribute name </P>
+<P>-- An aggregate, apply this rule to every expression appearing after the 
+choices and the =&gt;, if any, in every element association </P>
+<P>-- A function call, apply this rule to every actual designator in every 
+parameter association </P>
+<P>-- An actual designator of <B>open</B> in a parameter association, do not add 
+to the sensitivity set </P>
+<P>-- A qualified expression, apply this rule to the expression or aggregate 
+qualified by the type mark, as appropriate </P>
+<P>-- A type conversion, apply this rule to the expression type converted by the 
+type mark </P>
+<P>-- A parenthesized expression, apply this rule to the expression enclosed 
+within the parentheses </P>
+<P>-- Otherwise, do not add to the sensitivity set </P>
+<P>This rule is also used to construct the sensitivity sets of the wait 
+statements in the equivalent process statements for concurrent procedure call 
+statements( <A 
+href="1076_9.html#9.3">9.3 
+</A>), concurrent assertion statements ( <A 
+href="1076_9.html#9.4">9.4 
+</A>), and concurrent signal assignment statements ( <A 
+href="1076_9.html#9.5">9.5 
+</A>). </P>
+<P>If a signal name that denotes a signal of a composite type appears in a 
+sensitivity list, the effect is as if the name of each scalar subelement of that 
+signal appears in the list. </P>
+<P>The condition clause specifies a condition that must be met for the process 
+to continue execution. If no condition clause appears, the condition clause 
+<B>until</B> TRUE is assumed. </P>
+<P>The timeout clause specifies the maximum amount of time the process will 
+remain suspended at this wait statement. If no timeout clause appears, the 
+timeout clause <B>for</B> (STD.STANDARD.TIME'HIGH - STD.STANDARD.NOW) is 
+assumed. It is an error if the time expression in the timeout clause evaluates 
+to a negative value. </P>
+<P>The execution of a wait statement causes the time expression to be evaluated 
+to determine the <I>timeout interval</I>. It also causes the execution of the 
+corresponding process statement to be suspended, where the corresponding process 
+statement is the one that either contains the wait statement or is the parent 
+(see <A 
+href="1076_2.html#2.2">2.2 
+</A>) of the procedure that contains the wait statement. The suspended process 
+will resume, at the latest, immediately after the timeout interval has expired. 
+</P>
+<P>The suspended process may also resume as a result of an event occurring on 
+any signal in the sensitivity set of the wait statement. If such an event 
+occurs,the condition in the condition clause is evaluated. If the value of the 
+condition is TRUE, the process will resume. If the value of the condition is 
+FALSE, the process will re-suspend. Such re-suspension does not involve the 
+recalculation of the timeout interval. </P>
+<P>It is an error if a wait statement appears in a function subprogram or in a 
+procedure that has a parent that is a function subprogram. Furthermore, it is an 
+error if a wait statement appears in an explicit process statement that includes 
+a sensitivity list or in a procedure that has a parent that is such a process 
+statement. </P>
+<P><I>Example:</I> </P><PRE>     <B>type</B> Arr <B>is</B> <B>array</B> (1 <B>to</B> 5) <B>of</B> BOOLEAN;
+
+     <B>function</B> F (P: BOOLEAN) <B>return</B> BOOLEAN;
+
+     <B>signal</B> S: Arr;
+
+     <B>signal</B> l, r: INTEGER <B>range</B> 1 <B>to</B> 5;
+
+
+
+     --  The following two wait statements have the same meaning:
+
+
+
+     <B>wait</B> <B>until</B> F(S(3)) <B>and</B> (S(l) <B>or</B> S(r));
+
+     <B>wait</B> <B>on</B> S(3), S, l, r <B>until</B> F(S(3)) <B>and</B> (S(l) <B>or</B> S(r));
+
+</PRE>
+<H4>NOTES</H4>
+<P>1--The wait statement <B>wait</B> <B>until</B> Clk = '1'; has semantics 
+identical to </P><PRE>     <B>loop</B>
+
+          <B>wait</B> <B>on</B> Clk;
+
+          <B>exit</B> <B>when</B> Clk = '1';
+
+     <B>end</B> <B>loop</B>;
+
+</PRE>
+<P>because of the rules for the construction of the default sensitivity clause. 
+These same rules imply that <B>wait</B> <B>until</B> True; has semantics 
+identical to <B>wait</B>;. </P>
+<P>2--The conditions that cause a wait statement to resume execution of its 
+enclosing process may no longer hold at the time the process resumes execution 
+if the enclosing process is a postponed process. </P>
+<P>3--The rule for the construction of the default sensitivity set implies that 
+if a function call appears in a condition clause and the called function is an 
+impure function,then any signals that are accessed by the function but that are 
+not passed through the association list of the call are not added to the default 
+sensitivity set for the condition by virtue of the appearance of the function 
+call in the condition. </P>
+<H2><A name=8.2></A><A 
+href="1076_8.html#8.2">8.2 
+</A>Assertion statement</H2>
+<P>An assertion statement checks that a specified condition is true and reports 
+an error if it is not. </P><PRE>     assertion_statement ::=  [ label : ] assertion ;
+
+
+
+     assertion ::=
+
+          <B>assert</B> condition
+
+              [ <B>report</B> expression ]
+
+              [ <B>severity</B> expression ]
+
+</PRE>
+<P>If the <B>report</B> clause is present, it must include an expression of 
+predefined type STRING that specifies a message to be reported. If the 
+<B>severity</B> clause is present, it must specify an expression of predefined 
+type SEVERITY_LEVEL that specifies the severity level of the assertion. </P>
+<P>The<B> report</B> clause specifies a message string to be included in error 
+messages generated by the assertion. In the absence of a <B>report</B> clause 
+for a given assertion, the string "Assertion violation." is the default value 
+for the message string. The <B>severity</B> clause specifies a severity level 
+associated with the assertion. In the absence of a <B>severity</B> clause fora 
+given assertion, the default value of the severity level is ERROR. </P>
+<P>Evaluation of an assertion statement consists of evaluation of the Boolean 
+expression specifying the condition. If the expression results in the value 
+FALSE, then an <I>assertion violation</I> is said to occur. When an assertion 
+violation occurs, the <B>report</B> and <B>severity</B> clause expressions of 
+the corresponding assertion, if present, are evaluated. The specified message 
+string and severity level (or the corresponding default values, if not 
+specified) are then used to construct an error message. </P>
+<P>The error message consists of at least </P>
+<OL type=a>
+  <LI>An indication that this message is from an assertion 
+  <LI>The value of the severity level 
+  <LI>The value of the message string 
+  <LI>The name of the design unit (see <A 
+  href="1076_11.html#11.1">11.1 
+  </A>) containing the assertion </LI></OL>
+<H2><A name=8.3></A><A 
+href="1076_8.html#8.3">8.3 
+</A>Report statement</H2>
+<P>A report statement displays a message. </P><PRE>     report_statement ::=
+
+         [ label : ]
+
+              <B>report</B> expression
+
+                  [ <B>severity</B> expression ] ;
+
+</PRE>
+<P>The <B>report</B> statement expression must be of the predefined type STRING. 
+The string value of this expression is included in the message generated by the 
+report statement. If the <B>severity</B> clause is present, it must specify an 
+expression of predefined type SEVERITY_LEVEL. The severity clause specifies a 
+severity level associated with the report. In the absence of a <B>severity</B> 
+clause for a given report, the default value of the severity level is NOTE. </P>
+<P>The evaluation of a report statement consists of the evaluation of the report 
+expression and severity clause expression, if present. The specified message 
+string and severity level (or corresponding default, if the severity level is 
+not specified) are then used to construct a report message. </P>
+<P>The report message consists of at least </P>
+<OL type=a>
+  <LI>An indication that this message is from a report statement 
+  <LI>The value of the severity level 
+  <LI>The value of the message string 
+  <LI>The name of the design unit containing the report statement </LI></OL>
+<P><I>Example:</I> </P><PRE>     <B>report</B> "Entering process P";                             --  A report statement
+
+                                                              --  with default severity NOTE.
+
+
+
+     <B>report</B> "Setup or Hold violation; outputs driven to 'X'   --  Another report statement;
+
+          <B>severity</B> WARNING;                                        --  severity is specified.
+
+</PRE>
+<H2><A></A><A name=8.4></A><A 
+href="1076_8.html#8.4">8.4 
+</A>Signal assignment statement</H2>
+<P>A signal assignment statement modifies the projected output waveforms 
+contained in the drivers of one or more signals (see <A 
+href="1076_12.html#12.6.1">12.6.1 
+</A>). </P><PRE>     signal_assignment_statement ::=
+
+         [ label : ] target &lt;= [ delay_mechanism ] waveform ;
+
+
+
+     delay_mechanism ::=
+
+           <B>transport</B>
+
+       | [ <B>reject</B> <I>time</I>_expression ] <B>inertial</B>
+
+
+
+     target ::=
+
+           name
+
+        | aggregate
+
+
+
+     waveform ::=
+
+          waveform_element { , waveform_element }
+
+        | <B>unaffected</B>
+
+</PRE>
+<P>If the target of the signal assignment statement is a name, then the name 
+must denote a signal, and the base type of the value component of each 
+transaction produced by a waveform element on the right-hand side must be the 
+same as the base type of the signal denoted by that name. This form of signal 
+assignment assigns right-hand side values to the drivers associated with a 
+single (scalar or composite) signal. </P>
+<P>If the target of the signal assignment statement is in the form of an 
+aggregate, then the type of the aggregate must be determinable from the context, 
+excluding the aggregate itself but including the fact that the type of the 
+aggregate must be a composite type. The base type of the value component of each 
+transaction produced by a waveform element on the right-hand side must be the 
+same as the base type of the aggregate. Furthermore, the expression in each 
+element association of the aggregate must be a locally static name that denotes 
+a signal. This form of signal assignment assigns slices or subelements of the 
+right-hand side values to the drivers associated with the signal named as the 
+corresponding slice or subelement of the aggregate. </P>
+<P>If the target of a signal assignment statement is in the form of an 
+aggregate,and if the expression in an element association of that aggregate is a 
+signal name that denotes a given signal, then the given signal and each 
+subelement thereof (if any) are said to be <I>identified</I> by that element 
+association as targets of the assignment statement. It is an error if a given 
+signal or any subelement thereof is identified as a target by more than one 
+element association in such an aggregate. Furthermore, it is an error if an 
+element association in such an aggregate contains an <B>others</B> choice or a 
+choice that is a discrete range. </P>
+<P>The right-hand side of a signal assignment may optionally specify a delay 
+mechanism. A delay mechanism consisting of the reserved word <B>transport</B> 
+specifies that the delay associated with the first waveform element is to be 
+construed as <I>transport</I> delay. Transport delay is characteristic of 
+hardware devices (such as transmission lines) that exhibit nearly infinite 
+frequency response: any pulse is transmitted, no matter how short its duration. 
+If no delay mechanism is present, or if a delay mechanism including the reserved 
+word <B>inertial</B> is present, the delay is construed to be <I>inertial</I> 
+delay. Inertial delay is characteristic of switching circuits:a pulse whose 
+duration is shorter than the switching time of the circuit will not be 
+transmitted, or in the case that a pulse rejection limit is specified, a pulse 
+whose duration is shorter than that limit will not be transmitted. </P>
+<P>Every inertially delayed signal assignment has a <I>pulse rejection 
+limit</I>. If the delay mechanism specifies inertial delay, and if the reserved 
+word <B>reject</B> followed by a time expression is present, then the time 
+expression specifies the pulse rejection limit. In all other cases, the pulse 
+rejection limit is specified by the time expression associated with the first 
+waveform element. </P>
+<P>It is an error if the pulse rejection limit for any inertially delayed signal 
+assignment statement is either negative or greater than the time expression 
+associated with the first waveform element. </P>
+<P>It is an error if the reserved word <B>unaffected</B> appears as a waveform 
+in a (sequential) signal assignment statement. </P>
+<P>NOTE<I>--</I>The reserved word <B>unaffected</B> may only appear as a 
+waveform in concurrent signal assignment statements. See <A 
+href="1076_9.html#9.5.1">9.5.1 
+</A>. </P>
+<P><I>Examples:</I> </P><PRE>--  Assignments using inertial delay:
+
+
+
+       --  The following three assignments are equivalent to each other:
+
+
+
+            Output_pin &lt;= Input_pin <B>after</B> 10 ns;
+
+            Output_pin &lt;= <B>inertial</B> Input_pin <B>after</B> 10 ns;
+
+            Output_pin &lt;= <B>reject</B> 10 ns <B>inertial</B> Input_pin <B>after</B> 10 ns;
+
+
+
+       --  Assignments with a <I>pulse rejection limit</I> less than the time expression:
+
+
+
+            Output_pin &lt;= <B>reject</B> 5 ns <B>inertial</B> Input_pin <B>after</B> 10 ns;
+
+            Output_pin &lt;= <B>reject</B> 5 ns <B>inertial</B> Input_pin <B>after</B> 10 ns, <B>not</B> Input_pin <B>after</B> 20 ns;
+
+
+
+--  Assignments using transport delay:
+
+
+
+<B>           </B> Output_pin &lt;= <B>transport</B> Input_pin <B>after</B> 10 ns;
+
+            Output_pin &lt;= <B>transport</B> Input_pin <B>after</B> 10 ns, <B>not</B> Input_pin <B>after</B> 20 ns;
+
+
+
+       --  Their equivalent assignments:
+
+
+
+            Output_pin &lt;= <B>reject</B> 0 ns <B>inertial</B> Input_pin <B>after</B> 10 ns;
+
+            Output_pin &lt;= <B>reject</B> 0 ns <B>inertial</B> Input_pin <B>after</B> 10 ns, <B>not</B> Input_pin <B>after</B> 10 ns;
+
+</PRE>
+<P>NOTE<I>--</I>If a right-hand side value expression is either a numeric 
+literal or an attribute that yields a result of type <I>universal_integer</I> or 
+<I>universal_real,</I>then an implicit type conversion is performed. </P>
+<H3><A name=8.4.1></A><A 
+href="1076_8.html#8.4.1">8.4.1 
+</A>Updating a projected output waveform</H3>
+<P>The effect of execution of a signal assignment statement is defined in terms 
+of its effect upon the projected output waveforms (see <A 
+href="1076_12.html#12.6.1">12.6.1 
+</A>) representing the current and future values of drivers of signals. </P><PRE>     waveform_element ::=
+
+<I>          value</I>_expression [ <B>after</B> <I>time</I>_expression ]
+
+        | <B>null</B> [ <B>after</B> <I>time</I>_expression ]
+
+</PRE>
+<P>The future behavior of the driver(s) for a given target is defined by 
+transactions produced by the evaluation of waveform elements in the waveform of 
+a signal assignment statement. The first form of waveform element is used to 
+specify that the driver is to assign a particular value to the target at the 
+specified time. The second form of waveform element is used to specify that the 
+driver of the signal is to be turned off, so that it (at least temporarily) 
+stops contributing to the value of the target. This form of waveform element is 
+called a <I>null waveform element</I>. It is an error if the target of a signal 
+assignment statement containing a null waveform element is not a guarded signal 
+or an aggregate of guarded signals. </P>
+<P>The base type of the time expression in each waveform element must be the 
+predefined physical type TIME as defined in package STANDARD. If the 
+<B>after</B> clause of a waveform element is not present, then an 
+implicit"<B>after</B> 0 ns" is assumed. It is an error if the time expression in 
+a waveform element evaluates to a negative value. </P>
+<P>Evaluation of a waveform element produces a single transaction. The time 
+component of the transaction is determined by the current time added to the 
+value of the time expression in the waveform element. For the first form of 
+waveform element, the value component of the transaction is determined by the 
+value expression in the waveform element. For the second form of waveform 
+element, the value component is not defined by the language, but it is defined 
+to be of the type of the target. A transaction produced by the evaluation of the 
+second form of waveform element is called a <I>null transaction</I>. </P>
+<P>For the execution of a signal assignment statement whose target is of a 
+scalar type, the waveform on its right-hand side is first evaluated. Evaluation 
+of a waveform consists of the evaluation of each waveform element in the 
+waveform. Thus, the evaluation of a waveform results in a sequence of 
+transactions, where each transaction corresponds to one waveform element in the 
+waveform. These transactions are called <I>new </I>transactions. It is an error 
+if the sequence of new transactions is not in ascending order with respect to 
+time. </P>
+<P>The sequence of transactions is then used to update the projected output 
+waveform representing the current and future values of the driver associated 
+with the signal assignment statement. Updating a projected output waveform 
+consists of the deletion of zero or more previously computed transactions(called 
+<I>old</I> transactions) from the projected output waveform and the addition of 
+the new transactions, as follows: </P>
+<OL type=a>
+  <LI>All old transactions that are projected to occur at or after the time at 
+  which the earliest new transaction is projected to occur are deleted from the 
+  projected output waveform. 
+  <P></P>
+  <LI>The new transactions are then appended to the projected output waveform in 
+  the order of their projected occurrence. 
+  <P>If the initial delay is inertial delay according to the definitions of <A 
+  href="1076_8.html#8.4">8.4 
+  </A>, the projected output waveform is further modified as follows: </P>
+  <P></P>
+  <LI>All of the new transactions are marked. 
+  <P></P>
+  <LI>An old transaction is marked if the time at which it is projected to occur 
+  is less than the time at which the first new transaction is projected to occur 
+  minus the pulse rejection limit. 
+  <P></P>
+  <LI>For each remaining unmarked, old transaction, the old transaction is 
+  marked if it immediately precedes a marked transaction and its value component 
+  is the same as that of the marked transaction. 
+  <P></P>
+  <LI>The transaction that determines the current value of the driver is marked. 
+
+  <P></P>
+  <LI>All unmarked transactions (all of which are old transactions) are deleted 
+  from the projected output waveform. </LI></OL>
+<P>For the purposes of marking transactions, any two successive null 
+transactions in a projected output waveform are considered to have the same 
+value component. </P>
+<P>The execution of a signal assignment statement whose target is of a composite 
+type proceeds in a similar fashion, except that the evaluation of the waveform 
+results in one sequence of transactions for each scalar subelement of the type 
+of the target. Each such sequence consists of transactions whose value portions 
+are determined by the values of the same scalar subelement of the value 
+expressions in the waveform, and whose time portion is determined by the time 
+expression corresponding to that value expression. Each such sequence is then 
+used to update the projected output waveform of the driver of the matching 
+subelement of the target. This applies both to a target that is the name of a 
+signal of a composite type and to a target that is in the form of an aggregate. 
+</P>
+<P>If a given procedure is declared by a declarative item that is not contained 
+within a process statement, and if a signal assignment statement appears in that 
+procedure, then the target of the assignment statement must be a formal 
+parameter of the given procedure or of a parent of that procedure, or an 
+aggregate of such formal parameters. Similarly, if a given procedure is declared 
+by a declarative item that is not contained within a process statement, and if a 
+signal is associated with an <B>inout</B> or <B>out</B> mode signal parameter in 
+a subprogram call within that procedure, then the signal so associated must be a 
+formal parameter of the given procedure or of a parent of that procedure. </P>
+<H4>NOTES</H4>
+<P>1--These rules guarantee that the driver affected by a signal assignment 
+statement is always statically determinable if the signal assignment appears 
+within a given process (including the case in which it appears within a 
+procedure that is declared within the given process). In this case, the affected 
+driver is the one defined by the process; otherwise, the signal assignment must 
+appear within a procedure, and the affected driver is the one passed to the 
+procedure along with a signal parameter of that procedure. </P>
+<P>2--Overloading the operator "=" has no effect on the updating of a projected 
+output waveform. </P>
+<P>3--Consider a signal assignment statement of the form </P><PRE>     T &lt;= <B>reject</B> t</PRE>
+<P><SUB>r</SUB> <B>inertial</B> e<SUB>1</SUB> <B>after</B> t<SUB>1</SUB> { , 
+e<I><SUB>i</SUB></I> <B>after</B> t<I><SUB>i&lt;./sub&gt;</SUB></I><SUB> } ; 
+</SUB></P>
+<P>The following relations hold: </P><PRE>     0 ns &lt;= t</PRE>
+<P><SUB>r</SUB> &lt;= t<SUB>1</SUB> </P>
+<P>and </P><PRE>     0 ns &lt;= t</PRE>
+<P><SUB>i</SUB> &lt; t<I><SUB>i</SUB></I>+1 </P>
+<P>Note that, if t<SUB>r</SUB> = 0 ns, then the waveform editing is identical to 
+that for transport-delayed assignment, and if t<SUB>r</SUB> = t<SUB>1</SUB>, the 
+waveform is identical to that for the statement </P><PRE>     T &lt;= e</PRE>
+<P><SUB>1</SUB> <B>after</B> t<SUB>1</SUB> { , e<I><SUB>i</SUB></I> <B>after</B> 
+t<I><SUB>i</SUB></I> } ; </P>
+<P>4--Consider the following signal assignment in some process: </P><PRE>     S &lt;= <B>reject</B> 15 ns <B>inertial</B> 12 <B>after</B> 20 ns, 18 <B>after</B> 41 ns;
+
+</PRE>
+<P>where S is a signal of some integer type. Assume that at the time this signal 
+assignment is executed, the driver of S in the process has the following 
+contents (the first entry is the current driving value):<BR><BR></P>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle>1</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>12</TD>
+    <TD align=middle>5</TD>
+    <TD align=middle>8</TD></TR>
+  <TR>
+    <TD align=middle>NOW</TD>
+    <TD align=middle>+3 ns</TD>
+    <TD align=middle>+12 ns</TD>
+    <TD align=middle>+13 ns</TD>
+    <TD align=middle>+20 ns</TD>
+    <TD align=middle>+42 ns</TD></TR></TBODY></TABLE>
+<P></P>
+<P>(The times given are relative to the current time.) The updating of the 
+projected output waveform proceeds as follows: </P>
+<P>a. The driver is truncated at 20 ns. The driver now contains the following 
+pending transactions:<BR><BR></P>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle>1</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>12</TD></TR>
+  <TR>
+    <TD align=middle>NOW</TD>
+    <TD align=middle>+3 ns</TD>
+    <TD align=middle>+12 ns</TD>
+    <TD align=middle>+13 ns</TD></TR></TBODY></TABLE>
+<P></P>
+<P>b. The new waveforms are added to the driver. The driver now contains the 
+following pending transactions:<BR><BR></P>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle>1</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>12</TD>
+    <TD align=middle>12</TD>
+    <TD align=middle>18</TD></TR>
+  <TR>
+    <TD align=middle>NOW</TD>
+    <TD align=middle>+3 ns</TD>
+    <TD align=middle>+12 ns</TD>
+    <TD align=middle>+13 ns</TD>
+    <TD align=middle>+20 ns</TD>
+    <TD align=middle>+41 ns</TD></TR></TBODY></TABLE>
+<P></P>
+<P>c. All new transactions are marked, as well as those old transactions that 
+occur at less than the time of the first new waveform (20 ns) less the rejection 
+limit (15 ns). The driver now contains the following pending transactions 
+(marked transactions are emboldened):<BR><BR></P>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle>1</TD>
+    <TD align=middle><B>2</B></TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>12</TD>
+    <TD align=middle><B>12</B></TD>
+    <TD align=middle><B>18</B></TD></TR>
+  <TR>
+    <TD align=middle>NOW</TD>
+    <TD align=middle><B>+3 ns</B></TD>
+    <TD align=middle>+12 ns</TD>
+    <TD align=middle>+13 ns</TD>
+    <TD align=middle><B>+20 ns</B></TD>
+    <TD align=middle><B>+41 ns</B></TD></TR></TBODY></TABLE>
+<P></P>
+<P>d. Each remaining unmarked transaction is marked if it immediately precedes a 
+marked transaction and has the same value as the marked transaction. The driver 
+now contains the following pending transactions:<BR><BR></P>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle>1</TD>
+    <TD align=middle><B>2</B></TD>
+    <TD align=middle>2</TD>
+    <TD align=middle><B>12</B></TD>
+    <TD align=middle><B>12</B></TD>
+    <TD align=middle><B>18</B></TD></TR>
+  <TR>
+    <TD align=middle>NOW</TD>
+    <TD align=middle><B>+3 ns</B></TD>
+    <TD align=middle>+12 ns</TD>
+    <TD align=middle><B>+13 ns</B></TD>
+    <TD align=middle><B>+20 ns</B></TD>
+    <TD align=middle><B>+41 ns</B></TD></TR></TBODY></TABLE>
+<P></P>
+<P>e. The transaction that determines the current value of the driver is marked, 
+and all unmarked transactions are then deleted. The final driver contents are 
+then as follows, after clearing the markings:<BR><BR></P>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle>1</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>12</TD>
+    <TD align=middle>12</TD>
+    <TD align=middle>18</TD></TR>
+  <TR>
+    <TD align=middle>NOW</TD>
+    <TD align=middle>+3 ns</TD>
+    <TD align=middle>+13 ns</TD>
+    <TD align=middle>+20 ns</TD>
+    <TD align=middle>+41 ns</TD></TR></TBODY></TABLE>
+<P></P>
+<P>5--No subtype check is performed on the value component of a new transaction 
+when it is added to a driver. Instead, a subtype check that the value component 
+of a transaction belongs to the subtype of the signal driven by the driver is 
+made when the driver takes on that value. See <A 
+href="1076_12.html#12.6.1">12.6.1 
+</A>. </P>
+<H2><A name=8.5></A><A 
+href="1076_8.html#8.5">8.5 
+</A>Variable assignment statement</H2>
+<P>A variable assignment statement replaces the current value of a variable with 
+anew value specified by an expression. The named variable and the right-hand 
+side expression must be of the same type. </P><PRE>      variable_assignment_statement ::=
+
+          [ label : ] target := expression ;
+
+</PRE>
+<P>If the target of the variable assignment statement is a name, then the name 
+must denote a variable, and the base type of the expression on the right-hand 
+side must be the same as the base type of the variable denoted by that name. 
+This form of variable assignment assigns the right-hand side value to a 
+single(scalar or composite) variable. </P>
+<P>If the target of the variable assignment statement is in the form of an 
+aggregate, then the type of the aggregate must be determinable from the context, 
+excluding the aggregate itself but including the fact that the type of the 
+aggregate must be a composite type. The base type of the expression on the 
+right-hand side must be the same as the base type of the aggregate. Furthermore, 
+the expression in each element association of the aggregate must be a locally 
+static name that denotes a variable. This form of variable assignment assigns 
+each subelement or slice of the right-hand side value to the variable named as 
+the corresponding subelement or slice of the aggregate. </P>
+<P>If the target of a variable assignment statement is in the form of an 
+aggregate, and if the locally static name in an element association of that 
+aggregate denotes a given variable or denotes another variable of which the 
+given variable is a subelement or slice, then the element association is said to 
+<I>identify</I> the given variable as a target of the assignment statement. It 
+is an error if a given variable is identified as a target by more than one 
+element association in such an aggregate. </P>
+<P>For the execution of a variable assignment whose target is a variable name, 
+the variable name and the expression are first evaluated. A check is then made 
+that the value of the expression belongs to the subtype of the variable, except 
+in the case of a variable that is an array (in which case the assignment 
+involves a subtype conversion). Finally, the value of the expression becomes the 
+new value of the variable. A design is erroneous if it depends on the order of 
+evaluation of the target and source expressions of an assignment statement. </P>
+<P>The execution of a variable assignment whose target is in the form of an 
+aggregate proceeds in a similar fashion, except that each of the names in the 
+aggregate is evaluated, and a subtype check is performed for each subelement or 
+slice of the right-hand side value that corresponds to one of the names in the 
+aggregate. The value of the subelement or slice of the right-hand side value 
+then becomes the new value of the variable denoted by the corresponding name. 
+</P>
+<P>An error occurs if the aforementioned subtype checks fail. </P>
+<P>The determination of the type of the target of a variable assignment 
+statement may require determination of the type of the expression if the target 
+is a name that can be interpreted as the name of a variable designated by the 
+access value returned by a function call, and similarly, as an element or slice 
+of such a variable. </P>
+<P>NOTE--If the right-hand side is either a numeric literal or an attribute that 
+yields a result of type universal integer or universal real, then an implicit 
+type conversion is performed. </P>
+<H3><A name=8.5.1></A><A 
+href="1076_8.html#8.5.1">8.5.1 
+</A>Array variable assignments</H3>
+<P>If the target of an assignment statement is a name denoting an array 
+variable(including a slice), the value assigned to the target is implicitly 
+converted to the subtype of the array variable; the result of this subtype 
+conversion becomes the new value of the array variable. </P>
+<P>This means that the new value of each element of the array variable is 
+specified by the matching element (see <A 
+href="1076_7.html#7.2.2">7.2.2 
+</A>) in the corresponding array value obtained by evaluation of the expression. 
+The subtype conversion checks that for each element of the array variable there 
+is a matching element in the array value, and vice versa. An error occurs if 
+this check fails. </P>
+<P>NOTE--The implicit subtype conversion described for assignment to an array 
+variable is performed only for the value of the right-hand side expression as a 
+whole; it is not performed for subelements or slices that are array values. </P>
+<H2><A name=8.6></A><A 
+href="1076_8.html#8.6">8.6 
+</A>Procedure call statement</H2>
+<P>A procedure call invokes the execution of a procedure body. </P><PRE>     procedure_call_statement ::=  [ label : ] procedure_call ;
+
+
+
+     procedure_call ::=  <I>procedure</I>_name [ ( actual_parameter_part ) ]
+
+</PRE>
+<P>The procedure name specifies the procedure body to be invoked. The actual 
+parameter part, if present, specifies the association of actual parameters with 
+formal parameters of the procedure. </P>
+<P>For each formal parameter of a procedure, a procedure call must specify 
+exactly one corresponding actual parameter. This actual parameter is specified 
+either explicitly, by an association element (other than the actual <B>open</B>) 
+in the association list or, in the absence of such an association element, by a 
+default expression (see <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>). </P>
+<P>Execution of a procedure call includes evaluation of the actual parameter 
+expressions specified in the call and evaluation of the default expressions 
+associated with formal parameters of the procedure that do not have actual 
+parameters associated with them. In both cases, the resulting value must belong 
+to the subtype of the associated formal parameter. (If the formal parameter is 
+of an unconstrained array type, then the formal parameter takes on the subtype 
+of the actual parameter.) The procedure body is executed using the actual 
+parameter values and default expression values as the values of the 
+corresponding formal parameters. </P>
+<H2><A name=8.7></A><A 
+href="1076_8.html#8.7">8.7 
+</A>If statement</H2>
+<P>An if statement selects for execution one or none of the enclosed sequences 
+of statements, depending on the value of one or more corresponding conditions. 
+</P><PRE>     if_statement ::=
+
+          [ <I>if</I>_label : ]
+
+                <B>if</B> condition <B>then</B>
+
+                     sequence_of_statements
+
+                { <B>elsif</B> condition <B>then</B>
+
+                     sequence_of_statements }
+
+                [ <B>else</B>
+
+                     sequence_of_statements ]
+
+                <B>end if</B> [ <I>if</I>_label ] ;
+
+</PRE>
+<P>If a label appears at the end of an if statement, it must repeat the if 
+label. </P>
+<P>For the execution of an if statement, the condition specified after 
+<B>if</B>,and any conditions specified after <B>elsif</B>, are evaluated in 
+succession(treating a final <B>else</B> as <B>elsif</B> TRUE <B>then</B>) until 
+one evaluates to TRUE or all conditions are evaluated and yield FALSE. If one 
+condition evaluates to TRUE, then the corresponding sequence of statements is 
+executed; otherwise, none of the sequences of statements is executed. </P>
+<H2><A name=8.8></A><A 
+href="1076_8.html#8.8">8.8 
+</A>Case statement</H2>
+<P>A case statement selects for execution one of a number of alternative 
+sequences of statements; the chosen alternative is defined by the value of an 
+expression. </P><PRE>     case_statement ::=
+
+         [ <I>case</I>_label : ]
+
+              <B>case</B> expression <B>is</B>
+
+                  case_statement_alternative
+
+                  { case_statement_alternative }
+
+<B>              end case</B> [ <I>case</I>_label ]<B> </B>;
+
+
+
+     case_statement_alternative ::=
+
+         <B>when</B> choices =&gt;
+
+            sequence_of_statements
+
+</PRE>
+<P>The expression must be of a discrete type, or of a one-dimensional array type 
+whose element base type is a character type. This type must be determinable 
+independently of the context in which the expression occurs, but using the fact 
+that the expression must be of a discrete type or a one-dimensional character 
+array type. Each choice in a case statement alternative must be of the same type 
+as the expression; the list of choices specifies for which values of the 
+expression the alternative is chosen. </P>
+<P>If the expression is the name of an object whose subtype is locally 
+static,whether a scalar type or an array type, then each value of the subtype 
+must be represented once and only once in the set of choices of the case 
+statement, and no other value is allowed; this rule is likewise applied if the 
+expression is a qualified expression or type conversion whose type mark denotes 
+a locally static subtype, or if the expression is a call to a function whose 
+return type mark denotes a locally static subtype. </P>
+<P>If the expression is of a one-dimensional character array type, then the 
+expression must be one of the following: </P>
+<P>-- The name of an object whose subtype is locally static </P>
+<P>-- An indexed name whose prefix is one of the members of this list and whose 
+indexing expressions are locally static expressions </P>
+<P>-- A slice name whose prefix is one of the members of this list and whose 
+discrete range is a locally static discrete range </P>
+<P>-- A function call whose return type mark denotes a locally static subtype 
+</P>
+<P>-- A qualified expression or type conversion whose type mark denotes a 
+locally static subtype </P>
+<P>In such a case, each choice appearing in any of the case statement 
+alternatives must be a locally static expression whose value is of the same 
+length as that of the case expression. It is an error if the element subtype of 
+the one-dimensional character array type is not a locally static subtype. </P>
+<P>For other forms of expression, each value of the (base) type of the 
+expression must be represented once and only once in the set of choices, and no 
+other value is allowed. </P>
+<P>The simple expression and discrete ranges given as choices in a case 
+statement must be locally static. A choice defined by a discrete range stands 
+for all values in the corresponding range. The choice <B>others</B> is only 
+allowed for the last alternative and as its only choice; it stands for all 
+values(possibly none) not given in the choices of previous alternatives. An 
+element simple name (see <A 
+href="1076_7.html#7.3.2">7.3.2 
+</A>) is not allowed as a choice of a case statement alternative. </P>
+<P>If a label appears at the end of a case statement, it must repeat the case 
+label. </P>
+<P>The execution of a case statement consists of the evaluation of the 
+expression followed by the execution of the chosen sequence of statements. </P>
+<H4>NOTES</H4>
+<P>1--The execution of a case statement chooses one and only one 
+alternative,since the choices are exhaustive and mutually exclusive. A qualified 
+expression whose type mark denotes a locally static subtype can often be used as 
+the expression of a case statement to limit the number of choices that need be 
+explicitly specified. </P>
+<P>2--An <B>others</B> choice is required in a case statement if the type of the 
+expression is the type <I>universal_integer</I> (for example, if the expression 
+is an integer literal), since this is the only way to cover all values of the 
+type <I>universal_integer.</I> </P>
+<P>3--Overloading the operator "=" has no effect on the semantics of case 
+statement execution. </P>
+<H2><A name=8.9></A><A 
+href="1076_8.html#8.9">8.9 
+</A>Loop statement</H2>
+<P>A loop statement includes a sequence of statements that is to be executed 
+repeatedly, zero or more times. </P><PRE>     loop_statement ::=
+
+         [ <I>loop</I>_label : ]
+
+              [ iteration_scheme ] <B>loop</B>
+
+                   sequence_of_statements
+
+              <B>end loop</B> [ <I>loop</I>_label ] ;
+
+
+
+     iteration_scheme ::=
+
+            <B>while</B> condition
+
+         | <B>for</B> <I>loop</I>_parameter_specification
+
+
+
+     parameter_specification ::=
+
+         identifier <B>in</B> discrete_range
+
+</PRE>
+<P>If a label appears at the end of a loop statement, it must repeat the label 
+at the beginning of the loop statement. </P>
+<P>Execution of a loop statement is complete when the loop is left as a 
+consequence of the completion of the iteration scheme (see below), if any, or 
+the execution of a next statement, an exit statement, or a return statement. 
+</P>
+<P>A loop statement without an iteration scheme specifies repeated execution of 
+the sequence of statements. </P>
+<P>For a loop statement with a <B>while</B> iteration scheme, the condition is 
+evaluated before each execution of the sequence of statements; if the value of 
+the condition is TRUE, the sequence of statements is executed; if FALSE, the 
+iteration scheme is said to be <I>complete</I> and the execution of the loop 
+statement is complete. </P>
+<P>For a loop statement with a <B>for</B> iteration scheme, the loop parameter 
+specification is the declaration of the <I>loop parameter</I> with the given 
+identifier. The loop parameter is an object whose type is the base type of the 
+discrete range. Within the sequence of statements, the loop parameter is a 
+constant. Hence, a loop parameter is not allowed as the target of an assignment 
+statement. Similarly, the loop parameter must not be given as an actual 
+corresponding to a formal of mode <B>out</B> or <B>inout</B> in an association 
+list. </P>
+<P>For the execution of a loop with a <B>for</B> iteration scheme, the discrete 
+range is first evaluated. If the discrete range is a null range, the iteration 
+scheme is said to be <I>complete</I> and the execution of the loop statement is 
+therefore complete; otherwise, the sequence of statements is executed once for 
+each value of the discrete range (subject to the loop not being left as a 
+consequence of the execution of a next statement, an exit statement, or a return 
+statement), after which the iteration scheme is said to be <I>complete</I>. 
+Prior to each such iteration, the corresponding value of the discrete range is 
+assigned to the loop parameter. These values are assigned in left-to-right 
+order. </P>
+<P>NOTE--A loop may be left as the result of the execution of a next statement 
+if the loop is nested inside of an outer loop and the next statement has a loop 
+label that denotes the outer loop. </P>
+<H2><A name=8.10></A><A 
+href="1076_8.html#8.10">8.10 
+</A>Next statement</H2>
+<P>A next statement is used to complete the execution of one of the iterations 
+of an enclosing loop statement (called "loop" in the following text). The 
+completion is conditional if the statement includes a condition. </P><PRE>     next_statement ::=
+
+         [ label : ] <B>next</B> [ <I>loop</I>_label ] [ <B>when</B> condition ] ;
+
+</PRE>
+<P>A next statement with a loop label is only allowed within the labeled loop 
+and applies to that loop; a next statement without a loop label is only allowed 
+within a loop and applies only to the innermost enclosing loop (whether labeled 
+or not). </P>
+<P>For the execution of a next statement, the condition, if present, is first 
+evaluated. The current iteration of the loop is terminated if the value of the 
+condition is TRUE or if there is no condition. </P>
+<H2><A name=8.11></A><A 
+href="1076_8.html#8.11">8.11 
+</A>Exit statement</H2>
+<P>An exit statement is used to complete the execution of an enclosing loop 
+statement (called "loop" in the following text). The completion is conditional 
+if the statement includes a condition. </P><PRE>     exit_statement ::=
+
+         [ label : ] <B>exit</B> [ <I>loop</I>_label ] [ <B>when</B> condition ] ;
+
+</PRE>
+<P>An exit statement with a loop label is only allowed within the labeled loop 
+and applies to that loop; an exit statement without a loop label is only allowed 
+within a loop and applies only to the innermost enclosing loop (whether labeled 
+or not). </P>
+<P>For the execution of an exit statement, the condition, if present, is first 
+evaluated. Exit from the loop then takes place if the value of the condition is 
+TRUE or if there is no condition. </P>
+<H2><A name=8.12></A><A 
+href="1076_8.html#8.12">8.12 
+</A>Return statement</H2>
+<P>A return statement is used to complete the execution of the innermost 
+enclosing function or procedure body. </P><PRE>     return_statement ::=
+
+         [ label : ] <B>return</B> [ expression ] ;
+
+</PRE>
+<P>A return statement is only allowed within the body of a function or 
+procedure,and it applies to the innermost enclosing function or procedure. </P>
+<P>A return statement appearing in a procedure body must not have an expression. 
+A return statement appearing in a function body must have an expression. </P>
+<P>The value of the expression defines the result returned by the function. The 
+type of this expression must be the base type of the type mark given after the 
+reserved word <B>return</B> in the specification of the function. It is an error 
+if execution of a function completes by any means other than the execution of a 
+return statement. </P>
+<P>For the execution of a return statement, the expression (if any) is first 
+evaluated and a check is made that the value belongs to the result subtype. The 
+execution of the return statement is thereby completed if the check succeeds; so 
+also is the execution of the enclosing subprogram. An error occurs at the place 
+of the return statement if the check fails. </P>
+<H4>NOTES</H4>
+<P>1--If the expression is either a numeric literal, or an attribute that yields 
+a result of type <I>universal_integer</I> or <I>universal_real</I>, then an 
+implicit conversion of the result is performed. </P>
+<P>2--If the return type mark of a function denotes a constrained array 
+subtype,then no implicit subtype conversions are performed on the values of the 
+expressions of the return statements within the subprogram body of that 
+function. Thus, for each index position of each value, the bounds of the 
+discrete range must be the same as the discrete range of the return subtype,and 
+the directions must be the same. </P>
+<H2><A name=8.13></A><A 
+href="1076_8.html#8.13">8.13 
+</A>Null statement</H2>
+<P>A null statement performs no action. </P><PRE>     null_statement ::=
+
+         [ label : ] <B>null</B> ;
+
+</PRE>
+<P>The execution of the null statement has no effect other than to pass on to 
+the next statement. </P>
+<P>NOTE--The null statement can be used to specify explicitly that no action is 
+to be performed when certain conditions are true, although it is never mandatory 
+for this (or any other) purpose. This is particularly useful in conjunction with 
+the case statement, in which all possible values of the case expression must be 
+covered by choices: for certain choices, it may be that no action is required. 
+</P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_7.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_9.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

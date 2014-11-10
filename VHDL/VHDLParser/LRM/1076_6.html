@@ -1,0 +1,470 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=6>Section 6</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_5.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_7.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Names</H1>
+<P></P>
+<P>The rules applicable to the various forms of name are described in this 
+section. </P>
+<H2><A name=6.1></A><A 
+href="1076_6.html#6.1">6.1 
+</A>Names</H2>
+<P>Names can denote declared entities, whether declared explicitly or 
+implicitly. Names can also denote </P>
+<P>-- Objects denoted by access values, </P>
+<P>-- Subelements of composite objects, </P>
+<P>-- Subelements of composite values, </P>
+<P>-- Slices of composite objects, </P>
+<P>-- Slices of composite values, and </P>
+<P>-- Attributes of any named entity. </P><PRE>     name ::=
+
+           simple_name
+
+        | operator_symbol
+
+        | selected_name
+
+        | indexed_name
+
+        | slice_name
+
+        | attribute_name
+
+
+
+     prefix ::=
+
+           name
+
+        | function_call
+
+</PRE>
+<P>Certain forms of name (indexed and selected names, slices, and attribute 
+names) include a <I>prefix</I> that is a name or a function call. If the prefix 
+of a name is a function call, then the name denotes an element, a slice, or an 
+attribute, either of the result of the function call, or (if the result is an 
+access value) of the object designated by the result. Function calls are defined 
+in <A 
+href="1076_7.html#7.3.3">7.3.3 
+</A>. </P>
+<P>If the type of a prefix is an access type, then the prefix must not be a name 
+that denotes a formal parameter of mode <B>out</B> or a subelement thereof. </P>
+<P>A prefix is said to be <I>appropriate</I> for a type in either of the 
+following cases: </P>
+<P>-- The type of the prefix is the type considered. </P>
+<P>-- The type of the prefix is an access type whose designated type is the type 
+considered. </P>
+<P>The evaluation of a name determines the named entity denoted by the name. The 
+evaluation of a name that has a prefix includes the evaluation of the 
+prefix,that is, of the corresponding name or function call. If the type of the 
+prefix is an access type, the evaluation of the prefix includes the 
+determination of the object designated by the corresponding access value. In 
+such a case, it is an error if the value of the prefix is a null access value. 
+It is an error if,after all type analysis (including overload resolution) the 
+name is ambiguous. </P>
+<P>A name is said to be a <I>static</I> <I>name</I> if and only if one of the 
+following conditions holds: </P>
+<P>-- The name is a simple name or selected name (including those that are 
+expanded names) that does not denote a function call or an object or value of an 
+access type and (in the case of a selected name) whose prefix is a static name. 
+</P>
+<P>-- The name is an indexed name whose prefix is a static name, and every 
+expression that appears as part of the name is a static expression. </P>
+<P>-- The name is a slice name whose prefix is a static name and whose discrete 
+range is a static discrete range. </P>
+<P>Furthermore, a name is said to be a <I>locally static name</I> if and only if 
+one of the following conditions hold: </P>
+<P>-- The name is a simple name or selected name (including those that are 
+expanded names) that is not an alias and that does not denote a function call or 
+an object or a value of an access type and (in the case of a selected name) 
+whose prefix is a locally static name. </P>
+<P>-- The name is a simple name or selected name (including those that are 
+expanded names) that is an alias, and that the aliased name given in the 
+corresponding alias declaration (see <A 
+href="1076_4.html#4.3.3">4.3.3 
+</A>) is a locally static name, and (in the case of a selected name) whose 
+prefix is a locally static name. </P>
+<P>-- The name is an indexed name whose prefix is a locally static name, and 
+every expression that appears as part of the name is a locally static 
+expression. </P>
+<P>-- The name is a slice name whose prefix is a locally static name and whose 
+discrete range is a locally static discrete range. </P>
+<P>A <I>static signal name</I> is a static name that denotes a signal. The 
+<I>longest static prefix</I> of a signal name is the name itself, if the name is 
+a static signal name; otherwise, it is the longest prefix of the name that is a 
+static signal name. Similarly, a <I>static variable name</I> is a static name 
+that denotes a variable, and the longest static prefix of a variable name is the 
+name itself, if the name is a static variable name; otherwise, it is the longest 
+prefix of the name that is a static variable name. </P>
+<P><I>Examples:</I> </P><PRE>     S(C,2)            --  A static name: C is a static constant.
+
+     R(J <B>to</B> 16)        --  A nonstatic name: J is a signal.
+
+                       --  R is the longest static prefix of R(J <B>to</B> 16).
+
+
+
+     T(n)              --  A static name; n is a generic constant.
+
+     T(2)              --  A locally static name.
+
+</PRE>
+<H2><A name=6.2></A><A 
+href="1076_6.html#6.2">6.2 
+</A>Simple names</H2>
+<P>A simple name for a named entity is either the identifier associated with the 
+entity by its declaration, or another identifier associated with the entity by 
+an alias declaration. In particular, the simple name for an entity interface, a 
+configuration, a package, a procedure, or a function is the identifier that 
+appears in the corresponding entity declaration, configuration declaration, 
+package declaration, procedure declaration, or function declaration, 
+respectively. The simple name of an architecture is that defined by the 
+identifier of the architecture body. </P><PRE>     simple_name ::=  identifier
+
+</PRE>
+<P>The evaluation of a simple name has no other effect than to determine the 
+named entity denoted by the name. </P>
+<H2><A name=6.3></A><A 
+href="1076_6.html#6.3">6.3 
+</A>Selected names</H2>
+<P>A selected name is used to denote a named entity whose declaration appears 
+either within the declaration of another named entity or within a design 
+library. </P><PRE>     selected_name ::=  prefix . suffix
+
+
+
+     suffix ::=
+
+            simple_name
+
+          | character_literal
+
+          | operator_symbol
+
+          | <B>all</B>
+
+</PRE>
+<P>A selected name may be used to denote an element of a record, an object 
+designated by an access value, or a named entity whose declaration is contained 
+within another named entity, particularly within a library or a package. 
+Furthermore, a selected name may be used to denote all named entities whose 
+declarations are contained within a library or a package. </P>
+<P>For a selected name that is used to denote a record element, the suffix must 
+be a simple name denoting an element of a record object or value. The prefix 
+must be appropriate for the type of this object or value. </P>
+<P>For a selected name that is used to denote the object designated by an access 
+value, the suffix must be the reserved word <B>all</B>. The prefix must belong 
+to an access type. </P>
+<P>The remaining forms of selected names are called <I>expanded names</I>. The 
+prefix of an expanded name may not be a function call. </P>
+<P>An expanded name denotes a primary unit contained in a design library if the 
+prefix denotes the library and the suffix is the simple name of a primary unit 
+whose declaration is contained in that library. An expanded name denotes all 
+primary units contained in a library if the prefix denotes the library and the 
+suffix is the reserved word <B>all</B>. An expanded name is not allowed for a 
+secondary unit, particularly for an architecture body. </P>
+<P>An expanded name denotes a named entity declared in a package if the prefix 
+denotes the package and the suffix is the simple name, character literal, or 
+operator symbol of a named entity whose declaration occurs immediately within 
+that package. An expanded name denotes all named entities declared in a package 
+if the prefix denotes the package and the suffix is the reserved word 
+<B>all</B>. </P>
+<P>An expanded name denotes a named entity declared immediately within a named 
+construct if the prefix denotes a construct that is an entity interface, an 
+architecture, a subprogram, a block statement, a process statement, a generate 
+statement, or a loop statement, and the suffix is the simple name, character 
+literal, or operator symbol of a named entity whose declaration occurs 
+immediately within that construct. This form of expanded name is only allowed 
+within the construct itself. </P>
+<P>If, according to the visibility rules, there is at least one possible 
+interpretation of the prefix of a selected name as the name of an enclosing 
+entity interface, architecture, subprogram, block statement, process statement, 
+generate statement, or loop statement, then the only interpretations considered 
+are those of the immediately preceding paragraph. In this case, the selected 
+name is always interpreted as an expanded name. In particular, no 
+interpretations of the prefix as a function call are considered. </P>
+<P><I>Examples:</I> </P><PRE>     --  Given the following declarations:
+
+
+
+     <B>type</B> INSTR_TYPE <B>is</B>
+
+        <B>record</B>
+
+            OPCODE:    OPCODE_TYPE;
+
+        <B>end</B> <B>record</B>;
+
+     <B>signal</B> INSTRUCTION: INSTR_TYPE;
+
+
+
+     --  The name "INSTRUCTION.OPCODE" is the name of a record element.
+
+
+
+     --  Given the following declarations:
+
+
+
+
+
+     <B>type</B> INSTR_PTR <B>is</B> <B>access</B> INSTR_TYPE;
+
+     <B>variable</B> PTR: INSTR_PTR;
+
+
+
+     --  The name "PTR.<B>all</B>" is the name of the object designated by PTR.
+
+
+
+     --  Given the following library clause:
+
+
+
+     <B>library</B> TTL, CMOS;
+
+
+
+     --  The name "TTL.SN74LS221" is the name of a design unit contained in a library
+
+     --  and the name "CMOS.<B>all</B>" denotes all design units contained in a library.
+
+
+
+     --  Given the following declaration and use clause:
+
+
+
+     <B>library</B> MKS;
+
+     <B>use</B> MKS.MEASUREMENTS, STD.STANDARD;
+
+
+
+     --  The name "MEASUREMENTS.VOLTAGE" denotes a named entity declared in a
+
+     --  package and the name "STANDARD.<B>all</B>" denotes all named entities declared in a
+
+     --  package.
+
+
+
+     --  Given the following process label and declarative part:
+
+
+
+
+
+     P: <B>process</B>
+
+         <B>variable</B> DATA: INTEGER;
+
+     <B>begin</B>
+
+
+
+     --  Within process P, the name "P.DATA" denotes a named entity declared in process P.
+
+
+
+     <B>end</B> <B>process</B>;
+
+</PRE>
+<P></P>
+<H4>NOTES</H4>
+<P>1--The object denoted by an access value is accessed differently depending on 
+whether the entire object or a subelement of the object is desired. If the 
+entire object is desired, a selected name whose prefix denotes the access value 
+and whose suffix is the reserved word <B>all</B> is used. In this case, the 
+access value is not automatically dereferenced, since it is necessary to 
+distinguish an access value from the object denoted by an access value. </P>
+<P>If a subelement of the object is desired, a selected name whose prefix 
+denotes the access value is again used; however, the suffix in this case denotes 
+the subelement. In this case, the access value is automatically dereferenced. 
+</P>
+<P>These two cases are shown in the following example: </P><PRE>     <B>type</B> rec;
+
+
+
+     <B>type</B> recptr <B>is</B> <B>access</B> rec;
+
+
+
+     <B>type</B> rec <B>is</B>
+
+          <B>record</B>
+
+                value        : INTEGER;
+
+                \next\       : recptr;
+
+          <B>end</B> <B>record</B>;
+
+
+
+     <B>variable</B> list1, list2: recptr;
+
+     <B>variable</B> recobj: rec;
+
+
+
+     list2 := list1;          --  Access values are copied;
+
+                                        --  list1 and list2 now denote the same object.
+
+     list2 := list1.\next\;   --  list2 denotes the same object as list1.\next\.
+
+                                        --  list1.\next\ is the same as list1.all.\next\.
+
+                                        --  An implicit dereference of the access value occurs before the
+
+                                        --  "\next\" field is selected.
+
+     recobj := list2.all      --  An explicit dereference is needed here.
+
+</PRE>
+<P>2--Overload resolution may be used to disambiguate selected names. See rules 
+1 and 3 of <A 
+href="1076_10.html#10.5">10.5 
+</A>. </P>
+<P>3--If, according to the rules of this clause and of <A 
+href="1076_10.html#10.5">10.5 
+</A>, there is not exactly one interpretation of a selected name that satisfies 
+these rules, then the selected name is ambiguous. </P>
+<H2><A name=6.4></A><A 
+href="1076_6.html#6.4">6.4 
+</A>Indexed names</H2>
+<P>An indexed name denotes an element of an array. </P><PRE>     indexed_name ::=  prefix ( expression { , expression } )
+
+</PRE>
+<P>The prefix of an indexed name must be appropriate for an array type. The 
+expressions specify the index values for the element; there must be one such 
+expression for each index position of the array, and each expression must be of 
+the type of the corresponding index. For the evaluation of an indexed name,the 
+prefix and the expressions are evaluated. It is an error if an index value does 
+not belong to the range of the corresponding index range of the array. </P>
+<P><I>Examples:</I> </P><PRE>     REGISTER_ARRAY(5)          --  An element of a one-dimensional array.
+
+     MEMORY_CELL(1024,7)        --  An element of a two-dimensional array.
+
+</PRE>
+<P>NOTE--If a name (including one used as a prefix) has an interpretation both 
+as an indexed name and as a function call, then the innermost complete context 
+is used to disambiguate the name. If, after applying this rule, there is not 
+exactly one interpretation of the name, then the name is ambiguous. See <A 
+href="1076_10.html#10.5">10.5 
+</A>. </P>
+<H2><A name=6.5></A><A 
+href="1076_6.html#6.5">6.5 
+</A>Slice names</H2>
+<P>A slice name denotes a one-dimensional array composed of a sequence of 
+consecutive elements of another one-dimensional array. A slice of a signal is a 
+signal; a slice of a variable is a variable; a slice of a constant is a 
+constant; a slice of a value is a value. </P><PRE>     slice_name ::=  prefix ( discrete_range )
+
+</PRE>
+<P>The prefix of a slice must be appropriate for a one-dimensional array object. 
+The base type of this array type is the type of the slice. </P>
+<P>The bounds of the discrete range define those of the slice and must be of the 
+type of the index of the array. The slice is a <I>null slice</I> if the discrete 
+range is a null range. It is an error if the direction of the discrete range is 
+not the same as that of the index range of the array denoted by the prefix of 
+the slice name. </P>
+<P>For the evaluation of a name that is a slice, the prefix and the discrete 
+range are evaluated. It is an error if either of the bounds of the discrete 
+range does not belong to the index range of the prefixing array, unless the 
+slice is a null slice. (The bounds of a null slice need not belong to the 
+subtype of the index.) </P>
+<P><I>Examples:</I> </P><PRE>     <B>signal</B>   R15:  BIT_VECTOR (0 <B>to</B> 31) ;
+
+     <B>constant</B>     DATA:       BIT_VECTOR (31 <B>downto</B> 0) ;
+
+
+
+     R15(0 <B>to</B> 7)                 --  A slice with an ascending range.
+
+     DATA(24 <B>downto</B> 1)           --  A slice with a descending range.
+
+     DATA(1 <B>downto</B> 24)           --  A null slice.
+
+     DATA(24 <B>to</B> 25)              --  An error.
+
+</PRE>
+<P>NOTE--If A is a one-dimensional array of objects, the name A(N <B>to</B> N) 
+or A(N <B>downto</B> N) is a slice that contains one element; its type is the 
+base type of A. On the other hand, A(N) is an element of the array A and has the 
+corresponding element type. </P>
+<H2><A name=6.6></A><A 
+href="1076_6.html#6.6">6.6 
+</A>Attribute names</H2>
+<P>An attribute name denotes a value, function, type, range, signal, or constant 
+associated with a named entity. </P><PRE>     attribute_name ::=
+
+          prefix [ signature ] ' attribute_designator [ ( expression ) ]
+
+
+
+     attribute_designator ::=  <I>attribute</I>_simple_name
+
+</PRE>
+<P>The applicable attribute designators depend on the prefix plus the signature, 
+if any. The meaning of the prefix of an attribute must be determinable 
+independently of the attribute designator and independently of the fact that it 
+is the prefix of an attribute. </P>
+<P>A signature may follow the prefix if and only if the prefix denotes a 
+subprogram or enumeration literal, or an alias thereof. In this case, the 
+signature is required to match (see <A 
+href="1076_2.html#2.3.2">2.3.2 
+</A>) the parameter and result type profile of exactly one visible subprogram or 
+enumeration literal, as is appropriate to the prefix. </P>
+<P>If the attribute designator denotes a predefined attribute, the expression 
+either must or may appear, depending upon the definition of that attribute (see 
+Section 14); otherwise, it must not be present. </P>
+<P>If the prefix of an attribute name denotes an alias, then the attribute name 
+denotes an attribute of the aliased name and not the alias itself, except when 
+the attribute designator denotes any of the predefined attributes 'SIMPLE_NAME, 
+'PATH_NAME, or 'INSTANCE_NAME. If the prefix of an attribute name denotes an 
+alias and the attribute designator denotes any of the predefined attributes 
+SIMPLE_NAME, 'PATH_NAME, or 'INSTANCE_NAME, then the attribute name denotes the 
+attribute of the alias and not of the aliased name. </P>
+<P>If the attribute designator denotes a user-defined attribute, the prefix 
+cannot denote a subelement or a slice of an object. </P>
+<P><I>Examples:</I> </P><PRE>     REG'LEFT(1)              --  The leftmost index bound of array REG.
+
+
+
+     INPUT_PIN'PATH_NAME      --  The hierarchical path name of the port INPUT_PIN.
+
+
+
+     CLK'DELAYED(5 ns)        --  The signal CLK delayed by 5 ns.
+
+</PRE>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_5.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_7.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

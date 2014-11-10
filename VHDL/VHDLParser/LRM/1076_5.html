@@ -1,0 +1,879 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>VHDL LRM-Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=5>Section 5</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_4.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_6.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Specifications</H1>
+<P>This section describes <I>specifications</I>, which may be used to associate 
+additional information with a VHDL description. A specification associates 
+additional information with a named entity that has been previously declared. 
+There are three kinds of specifications: attribute specifications,configuration 
+specifications, and disconnection specifications. </P>
+<P>A specification always relates to named entities that already exist; thus a 
+given specification must either follow or (in certain cases) be contained within 
+the declaration of the entity to which it relates. Furthermore, a specification 
+must always appear either immediately within the same declarative part as that 
+in which the declaration of the named entity appears, or (in the case of 
+specifications that relate to design units or the interface objects of design 
+units, subprograms, or block statements) immediately within the declarative part 
+associated with the declaration of the design unit, subprogram body, or block 
+statement. </P>
+<H2><A name=5.1></A><A 
+href="1076_5.html#5.1">5.1 
+</A>Attribute specification</H2>
+<P>An attribute specification associates a user-defined attribute with one or 
+more named entities and defines the value of that attribute for those entities. 
+The attribute specification is said to <I>decorate</I> the named entity. </P><PRE>     attribute_specification ::=
+
+          <B>attribute </B>attribute_designator <B>of</B> entity_specification <B>is </B>expression ;
+
+
+
+     entity_specification ::=
+
+          entity_name_list : entity_class
+
+
+
+     entity_class ::=
+
+     <B>entity</B>         | <B>architecture</B>    | <B>configuration</B>
+
+     | <B>procedure</B>    | <B>function</B>        | <B>package</B>
+
+     | <B>type</B>         | <B>subtype</B>         | <B>constant</B>
+
+     | <B>signal</B>       | <B>variable</B>        | <B>component</B>
+
+     | <B>label</B>        | <B>literal</B>         | <B>units</B>
+
+     | <B>group</B>        | <B>file</B>
+
+
+
+     entity_name_list ::=
+
+           entity_designator { , entity_designator }
+
+     | <B>others</B>
+
+     | <B>all</B>
+
+
+
+     entity_designator ::=  entity_tag [ signature ]
+
+
+
+     entity_tag ::=  simple_name | character_literal | operator_symbol
+
+</PRE>
+<P>The attribute designator must denote an attribute. The entity name list 
+identifies those named entities, both implicitly and explicitly defined, that 
+inherit the attribute, as described below: </P>
+<P>-- If a list of entity designators is supplied, then the attribute 
+specification applies to the named entities denoted by those designators. It is 
+an error if the class of those names is not the same as that denoted by the 
+entity class. </P>
+<P>-- If the reserved word <B>others</B> is supplied, then the attribute 
+specification applies to named entities of the specified class that are declared 
+in the immediately enclosing declarative part, provided that each such entity is 
+not explicitly named in the entity name list of a previous attribute 
+specification for the given attribute. </P>
+<P>-- If the reserved word <B>all</B> is supplied, then the attribute 
+specification applies to all named entities of the specified class that are 
+declared in the immediately enclosing declarative part. </P>
+<P>An attribute specification with the entity name list <B>others</B> or<B> 
+all</B> for a given entity class that appears in a declarative part must be the 
+last such specification for the given attribute for the given entity class in 
+that declarative part. No named entity in the specified entity class may be 
+declared in a given declarative part following such an attribute specification. 
+</P>
+<P>If a name in an entity name list denotes a subprogram or package, it denotes 
+the subprogram declaration or package declaration. Subprogram and package bodies 
+cannot be attributed. </P>
+<P>An entity designator that denotes an alias of an object is required to denote 
+the entire object, not a member or subelement (or slice thereof). </P>
+<P>The entity tag of an entity designator containing a signature must denote the 
+name of one or more subprograms or enumeration literals. In this case, the 
+signature must match (see <A 
+href="1076_2.html#2.3.2">2.3.2 
+</A>) the parameter and result type profile of exactly one subprogram or 
+enumeration literal in the current declarative part; the enclosing attribute 
+specification then decorates that subprogram or enumeration literal. </P>
+<P>The expression specifies the value of this attribute for each of the named 
+entities inheriting the attribute as a result of this attribute specification. 
+The type of the expression in the attribute specification must be the same as(or 
+implicitly convertible to) the type mark in the corresponding attribute 
+declaration. If the entity name list denotes an entity interface, architecture 
+body, or configuration declaration, then the expression is required to be 
+locally static (see <A 
+href="1076_7.html#7.4">7.4 
+</A>). </P>
+<P>An attribute specification for an attribute of a design unit (i.e., an entity 
+interface, an architecture, a configuration, or a package) must appear 
+immediately within the declarative part of that design unit. Similarly, an 
+attribute specification for an attribute of an interface object of a design 
+unit, subprogram, or block statement must appear immediately within the 
+declarative part of that design unit, subprogram, or block statement. An 
+attribute specification for an attribute of a procedure, a function, a type, a 
+subtype, an object (i.e., a constant, a file, a signal, or a variable), a 
+component, literal, unit name, group, or a labeled entity must appear within the 
+declarative part in which that procedure, function, type, subtype, 
+object,component, literal, unit name, group, or label, respectively, is 
+explicitly or implicitly declared. </P>
+<P>For a given named entity, the value of a user-defined attribute of that 
+entity is the value specified in an attribute specification for that attribute 
+of that entity. </P>
+<P>It is an error if a given attribute is associated more than once with a given 
+named entity. Similarly, it is an error if two different attributes with the 
+same simple name (whether predefined or user-defined) are both associated with a 
+given named entity. </P>
+<P>An entity designator that is a character literal is used to associate an 
+attribute with one or more character literals. An entity designator that is an 
+operator symbol is used to associate an attribute with one or more overloaded 
+operators. </P>
+<P>The decoration of a named entity that can be overloaded attributes all named 
+entities matching the specification already declared in the current declarative 
+part. </P>
+<P>If an attribute specification appears, it must follow the declaration of the 
+named entity with which the attribute is associated, and it must precede all 
+references to that attribute of that named entity. Attribute specifications are 
+allowed for all user-defined attributes, but are not allowed for predefined 
+attributes. </P>
+<P>An attribute specification may reference a named entity by using an alias for 
+that entity in the entity name list, but such a reference counts as the single 
+attribute specification that is allowed for a given attribute and therefore 
+prohibits a subsequent specification that uses the declared name of the entity 
+(or any other alias) as the entity designator. </P>
+<P>An attribute specification whose entity designator contains no signature and 
+identifies an overloaded subprogram has the effect of associating that attribute 
+with each of the designated overloaded subprograms declared within that 
+declarative part. </P>
+<P><I>Examples:</I> </P><PRE>     <B>attribute </B>PIN_NO <B>of</B> CIN: <B>signal</B> <B>is</B> 10;
+
+     <B>attribute </B>PIN_NO <B>of</B> COUT: <B>signal</B> <B>is </B>5;
+
+     <B>attribute </B>LOCATION <B>of</B> ADDER1: <B>label</B> <B>is </B>(10,15);
+
+     <B>attribute </B>LOCATION <B>of others</B>: <B>label</B> <B>is </B>(25,77);
+
+     <B>attribute </B>CAPACITANCE <B>of</B> <B>all</B>: <B>signal</B> <B>is </B>15 pF;
+
+     <B>attribute</B> IMPLEMENTATION <B>of</B> G1: <B>group</B> <B>is</B> "74LS152";
+
+     <B>attribute</B> RISING_DELAY <B>of</B> C2Q: <B>group</B> <B>is</B> 7.2 ns;
+
+</PRE>
+<P></P>
+<H4>NOTES</H4>
+<P>1--User-defined attributes represent local information only and cannot be 
+used to pass information from one description to another. For instance, assume 
+some signal X in an architecture body has some attribute A. Further, assume that 
+X is associated with some local port L of component C. C in turn is associated 
+with some design entity E(B), and L is associated with E's formal port P. 
+Neither L nor P has attributes with the simple name A, unless such attributes 
+are supplied via other attribute specifications; in this latter case, the values 
+of P'A and X'A are not related in any way. </P>
+<P>2--The local ports and generics of a component declaration cannot be 
+attributed, since component declarations lack a declarative part. </P>
+<P>3--If an attribute specification applies to an overloadable named entity, 
+then declarations of additional named entities with the same simple name are 
+allowed to occur in the current declarative part unless the aforementioned 
+attribute specification has as its entity name list either of the reserved words 
+<B>others</B> or <B>all</B>. </P>
+<P>4--Attribute specifications supplying either of the reserved words 
+<B>others</B> or <B>all</B> never apply to the interface objects of design 
+units, block statements, or subprograms. </P>
+<P>5--An attribute specification supplying either of the reserved words 
+<B>others</B> or <B>all</B> may apply to none of the named entities in the 
+current declarative part, in the event that none of the named entities in the 
+current declarative part meet all of the requirements of the attribute 
+specification. </P>
+<H2><A name=5.2></A><A 
+href="1076_5.html#5.2">5.2 
+</A>Configuration specification</H2>
+<P>A configuration specification associates binding information with component 
+labels representing instances of a given component declaration. </P><PRE>     configuration_specification ::=
+
+        <B>for</B> component_specification binding_indication ;
+
+
+
+     component_specification ::=
+
+        instantiation_list : <I>component</I>_name
+
+
+
+     instantiation_list ::=
+
+           <I>instantiation</I>_label { , <I>instantiation</I>_label }
+
+     | <B>others</B>
+
+     | <B>all</B>
+
+</PRE>
+<P>The instantiation list identifies those component instances with which 
+binding information is to be associated, as defined below: </P>
+<P>-- If a list of instantiation labels is supplied, then the configuration 
+specification applies to the corresponding component instances. Such labels must 
+be (implicitly) declared within the immediately enclosing declarative part. It 
+is an error if these component instances are not instances of the component 
+declaration named in the component specification. It is also an error if any of 
+the labels denote a component instantiation statement whose corresponding 
+instantiated unit does not name a component. </P>
+<P>-- If the reserved word <B>others</B> is supplied, then the configuration 
+specification applies to instances of the specified component declaration whose 
+labels are (implicitly) declared in the immediately enclosing declarative 
+part,provided that each such component instance is not explicitly named in the 
+instantiation list of a previous configuration specification. This rule applies 
+only to those component instantiation statements whose corresponding 
+instantiated units name components. </P>
+<P>-- If the reserved word <B>all</B> is supplied, then the configuration 
+specification applies to all instances of the specified component declaration 
+whose labels are (implicitly) declared in the immediately enclosing declarative 
+part. This rule applies only to those component instantiation statements whose 
+corresponding instantiated units name components. </P>
+<P>A configuration specification with the instantiation list <B>others</B> or 
+<B>all</B> for a given component name that appears in a declarative part must be 
+the last such specification for the given component name in that declarative 
+part. </P>
+<P>The elaboration of a configuration specification results in the association 
+of binding information with the labels identified by the instantiation list. A 
+label that has binding information associated with it is said to be 
+<I>bound</I>. It is an error if the elaboration of a configuration specification 
+results in the association of binding information with a component label that is 
+already bound. </P>
+<P>NOTE--A configuration specification supplying either of the reserved words<B> 
+others</B> or <B>all</B> may apply to none of the component instances in the 
+current declarative part. This is the case when none of the component instances 
+in the current declarative part meet all of the requirements of the given 
+configuration specification. </P>
+<H3><A name=5.2.1></A><A 
+href="1076_5.html#5.2.1">5.2.1 
+</A>Binding indication</H3>
+<P>A binding indication associates instances of a component declaration with a 
+particular design entity. It may also associate actuals with formals declared in 
+the entity interface. </P><PRE>     binding_indication ::=
+
+         [ <B>use</B> entity_aspect ]
+
+         [ generic_map_aspect ]
+
+         [ port_map_aspect ]
+
+</PRE>
+<P>The entity aspect of a binding indication, if present, identifies the design 
+entity with which the instances of a component are associated. If present, the 
+generic map aspect of a binding indication identifies the expressions to be 
+associated with formal generics in the design entity interface. Similarly, the 
+port map aspect of a binding indication identifies the signals or values to be 
+associated with formal ports in the design entity interface. </P>
+<P>When a binding indication is used in a configuration specification, it is an 
+error if the entity aspect is absent. </P>
+<P>A binding indication appearing in a component configuration need not have an 
+entity aspect under the following condition: The block corresponding to the 
+block configuration in which the given component configuration appears is 
+required to have one or more configuration specifications that together 
+configure all component instances denoted in the given component configuration. 
+Under this circumstance, these binding indications are the <I>primary binding 
+indications</I>. It is an error if a binding indication appearing in a component 
+configuration does not have an entity aspect and there are no primary binding 
+indications. It is also an error if, under these circumstances, the binding 
+indication has neither a generic map aspect nor a port map aspect. This form of 
+binding indication is the <I>incremental binding indication</I>, and it is used 
+to <I>rebind</I> <I>incrementally </I>the ports and generics of the denoted 
+instance(s) under the following conditions: </P>
+<P>-- For each formal generic appearing in the generic map aspect of the 
+incremental binding indication and denoting a formal generic that is 
+unassociated or associated with <B>open</B> in any of the primary binding 
+indications, the given formal generic is bound to the actual with which it is 
+associated in the generic map aspect of the incremental binding indication. </P>
+<P>-- For each formal generic appearing in the generic map aspect of the 
+incremental binding indication and denoting a formal generic that is associated 
+with an actual other than <B>open</B> in one of the primary binding indications, 
+the given formal generic is <I>rebound</I> to the actual with which it is 
+associated in the generic map aspect of the incremental binding indication. That 
+is, the association given in the primary binding indication has no effect for 
+the given instance. </P>
+<P>-- For each formal port appearing in the port map aspect of the incremental 
+binding indication and denoting a formal port that is unassociated or associated 
+with <B>open</B> in any of the primary binding indications, the given formal 
+port is bound to the actual with which it is associated in the port map aspect 
+of the incremental binding indication. </P>
+<P>-- It is an error if a formal port appears in the port map aspect of the 
+incremental binding indication and it is a formal port that is associated with 
+an actual other than <B>open</B> in one of the primary binding indications. </P>
+<P>If the generic map aspect or port map aspect of a binding indication is not 
+present, then the default rules as described in <A 
+href="1076_5.html#5.2.2">5.2.2 
+</A>apply. </P>
+<P><I>Examples:</I> </P><PRE>     <B>entity</B> AND_GATE <B>is</B>
+
+         <B>generic</B> (I1toO, I2toO: DELAY_LENGTH := 4 ns);
+
+         <B>port</B>        (I1, I2: <B>in</B> BIT;   O: <B>out</B> BIT);
+
+     <B>end</B> <B>entity</B> AND_GATE;
+
+
+
+     <B>entity</B> XOR_GATE <B>is</B>
+
+         <B>generic</B> (I1toO, I2toO : DELAY_LENGTH := 4 ns);
+
+         <B>port</B>        (I1, I2: <B>in</B> BIT;    O : <B>out</B> BIT);
+
+     <B>end</B> <B>entity</B> XOR_GATE;
+
+
+
+     <B>package</B> MY_GATES <B>is</B>
+
+        <B>component</B> AND_GATE <B>is</B>
+
+           <B>generic</B>  (I1toO, I2toO: DELAY_LENGTH := 4 ns);
+
+           <B>port</B>       (I1, I2: <B>in</B> BIT;   O: <B>out</B> BIT);
+
+        <B>end</B> <B>component</B> AND_GATE;
+
+
+
+        <B>component</B> XOR_GATE <B>is</B>
+
+           <B>generic</B>  (I1toO, I2toO: DELAY_LENGTH := 4 ns);
+
+           <B>port</B>       (I1, I2: <B>in</B> BIT;   O : <B>out</B> BIT);
+
+        <B>end</B> <B>component</B> XOR_GATE;
+
+     <B>end</B> <B>package</B> MY_GATES;
+
+
+
+     <B>entity</B> Half_Adder <B>is</B>
+
+         <B>port</B>    (X, Y: <B>in</B> BIT;
+
+                    Sum, Carry: <B>out</B> BIT);
+
+     <B>end</B> <B>entity</B> Half_Adder;
+
+
+
+     <B>use</B> WORK.MY_GATES.<B>all</B>;
+
+     <B>architecture</B> Structure <B>of</B> Half_Adder <B>is</B>
+
+         <B>for</B> L1: XOR_GATE <B>use</B>
+
+             <B>entity</B> WORK.XOR_GATE(Behavior)              --  The primary binding indication
+
+                  <B>generic</B> <B>map</B> (3 ns, 3 ns)               --  for instance L1.
+
+                  <B>port</B> <B>map</B> (I1 =&gt; I1, I2 =&gt; I2, O =&gt; O);
+
+
+
+         <B>for</B> L2: AND_GATE <B>use</B>
+
+             <B>entity</B> WORK.AND_GATE(Behavior)              --  The primary binding indication
+
+                  <B>generic</B> <B>map</B> (3 ns, 4 ns)               --  for instance L2.
+
+                  <B>port</B> <B>map</B> (I1, <B>open</B>, O);
+
+
+
+     <B>begin</B>
+
+         L1: XOR_GATE    <B>port</B> <B>map</B> (X, Y, Sum);
+
+         L2: AND_GATE    <B>port</B> <B>map</B> (X, Y, Carry);
+
+     <B>end</B> <B>architecture</B> Structure;
+
+
+
+     <B>use</B> WORK.GLOBAL_SIGNALS.<B>all</B>;
+
+     <B>configuration</B> Different <B>of</B> Half_Adder <B>is</B>
+
+         <B>for</B> Structure
+
+              <B>for</B> L1: XOR_GATE
+
+                   <B>generic</B> <B>map</B> (2.9 ns, 3.6 ns);         --  The  incremental binding
+
+              <B>end</B> <B>for</B>;                                   --  indication of L1; rebinds its generics.
+
+
+
+              <B>for</B> L2: AND_GATE
+
+                   <B>generic</B> <B>map</B> (2.8 ns, 3.25 ns)         --  The incremental binding
+
+                   <B>port</B> <B>map</B> (I2 =&gt; Tied_High);           --  indication L2; rebinds its generics
+
+              <B>end</B> <B>for</B>;                                   --  and binds its open port.
+
+        <B>end</B> <B>for</B>;
+
+     <B>end</B> <B>configuration</B> Different;
+
+
+
+</PRE>
+<H4><A name=5.2.1.1></A><A 
+href="1076_5.html#5.2.1.1">5.2.1.1 
+</A>Entity aspect</H4>
+<P>An entity aspect identifies a particular design entity to be associated with 
+instances of a component. An entity aspect may also specify that such a binding 
+is to be deferred. </P><PRE>     entity_aspect ::=
+
+           <B>entity</B> <I>entity</I>_name [ ( <I>architecture</I>_identifier) ]
+
+        | <B>configuration</B> <I>configuration</I>_name
+
+        | <B>open</B>
+
+</PRE>
+<P>The first form of entity aspect identifies a particular entity declaration 
+and (optionally) a corresponding architecture body. If no architecture 
+identifier appears, then the immediately enclosing binding indication is said 
+to<I> imply</I> the design entity whose interface is defined by the entity 
+declaration denoted by the entity name and whose body is defined by the default 
+binding rules for architecture identifiers (see <A 
+href="1076_5.html#5.2.2">5.2.2 
+</A>). If an architecture identifier appears, then the immediately enclosing 
+binding indication is said to <I>imply</I> the design entity consisting of the 
+entity declaration denoted by the entity name together with an architecture body 
+associated with the entity declaration; the architecture identifier defines a 
+simple name that is used during the elaboration of a design hierarchy to select 
+the appropriate architecture body. In either case, the corresponding component 
+instances are said to be <I>fully</I> <I>bound</I>. </P>
+<P>At the time of the analysis of an entity aspect of the first form, the 
+library unit corresponding to the entity declaration denoted by the entity name 
+is required to exist; moreover, the design unit containing the entity aspect 
+depends on the denoted entity declaration. If the architecture identifier is 
+also present, the library unit corresponding to the architecture identifier is 
+required to exist only if the binding indication is part of a component 
+configuration containing explicit block configurations or explicit component 
+configurations; only in this case does the design unit containing the entity 
+aspect also depend on the denoted architecture body. In any case, the library 
+unit corresponding to the architecture identifier is required to exist at the 
+time that the design entity implied by the enclosing binding indication is bound 
+to the component instance denoted by the component configuration or 
+configuration specification containing the binding indication; if the library 
+unit corresponding to the architecture identifier was required to exist during 
+analysis, it is an error if the architecture identifier does not denote the same 
+library unit as that denoted during analysis. The library unit corresponding to 
+the architecture identifier, if it exists, must be an architecture body 
+associated with the entity declaration denoted by the entity name. </P>
+<P>The second form of entity aspect identifies a design entity indirectly by 
+identifying a configuration. In this case, the entity aspect is said to 
+<I>imply</I> the design entity at the apex of the design hierarchy that is 
+defined by the configuration denoted by the configuration name. </P>
+<P>At the time of the analysis of an entity aspect of the second form, the 
+library unit corresponding to the configuration name is required to exist. The 
+design unit containing the entity aspect depends on the configuration denoted by 
+the configuration name. </P>
+<P>The third form of entity aspect is used to specify that the identification of 
+the design entity is to be deferred. In this case, the immediately enclosing 
+binding indication is said to <I>not imply</I> any design entity. 
+Furthermore,the immediately enclosing binding indication must not include a 
+generic map aspect or a port map aspect. </P>
+<H4><A name=5.2.1.2></A><A 
+href="1076_5.html#5.2.1.2">5.2.1.2 
+</A>Generic map and port map aspects</H4>
+<P>A generic map aspect associates values with the formal generics of a block. 
+Similarly, a port map aspect associates signals or values with the formal ports 
+of a block. The following applies to both external blocks defined by design 
+entities and to internal blocks defined by block statements. </P><PRE>     generic_map_aspect ::=
+
+         <B>generic map</B> ( <I>generic</I>_association_list )
+
+
+
+     port_map_aspect ::=
+
+         <B>port map</B> ( <I>port</I>_association_list )
+
+</PRE>
+<P>Both named and positional association are allowed in a port or generic 
+association list. </P>
+<P>The following definitions are used in the remainder of this subclause: </P>
+<P>-- The term <I>actual</I> refers to an actual designator that appears either 
+in an association element of a port association list or in an association 
+element of a generic association list. </P>
+<P>-- The term <I>formal</I> refers to a formal designator that appears either 
+in an association element of a port association list or in an association 
+element of a generic association list. </P>
+<P>The purpose of port and generic map aspects is as follows: </P>
+<P>-- Generic map aspects and port map aspects appearing immediately within a 
+binding indication associate actuals with the formals of the design entity 
+interface implied by the immediately enclosing binding indication. No scalar 
+formal may be associated with more than one actual. No scalar subelement of any 
+composite formal may be associated more than once in the same association list. 
+</P>
+<P>Each scalar subelement of every local port of the component instances to 
+which an enclosing configuration specification or component configuration 
+applies must be associated as an actual with at least one formal or with a 
+scalar subelement thereof. The actuals of these associations for a given local 
+port may be the entire local port or any slice or subelement (or slice thereof). 
+The actuals in these associations must be locally static names. </P>
+<P>-- Generic map aspects and port map aspects appearing immediately within a 
+component instantiation statement associate actuals with the formals of the 
+component instantiated by the statement. No scalar formal may be associated with 
+more than one actual. No scalar subelement of any composite formal may be 
+associated with more than one scalar subelement of an actual. </P>
+<P>-- Generic map aspects and port map aspects appearing immediately within a 
+block header associate actuals with the formals defined by the same block 
+header. No scalar formal may be associated with more than one actual. No scalar 
+subelement of any composite formal may be associated with more than one actual 
+or with a scalar subelement thereof. </P>
+<P>An actual associated with a formal generic in a generic map aspect must be an 
+expression or the reserved word <B>open</B>; an actual associated with a formal 
+port in a port map aspect must be a signal, an expression, or the reserved 
+word<B> open</B>. </P>
+<P>Certain restrictions apply to the actual associated with a formal port in a 
+port map aspect; these restrictions are described in <A 
+href="1076_1.html#1.1.1.2">1.1.1.2 
+</A>. </P>
+<P>A formal that is not associated with an actual is said to be an 
+<I>unassociated</I> formal. </P>
+<P>NOTE--A generic map aspect appearing immediately within a binding indication 
+need not associate every formal generic with an actual. These formals may be 
+left unbound so that, for example, a component configuration within a 
+configuration declaration may subsequently bind them. </P>
+<P><I>Example:</I> </P><PRE>     <B>entity</B> Buf <B>is</B>
+
+         <B>generic</B> (Buf_Delay: TIME := 0 ns);
+
+         <B>port</B> (Input_pin: <B>in</B> Bit; Output_pin: <B>out</B> Bit);
+
+     <B>end</B> Buf;
+
+
+
+     <B>architecture</B> DataFlow <B>of</B> Buf <B>is</B>
+
+     <B>begin</B>
+
+         Output_pin &lt;= Input_pin<B> after</B> Buf_Delay;
+
+     <B>end</B> DataFlow;
+
+
+
+     <B>entity</B> Test_Bench <B>is</B>
+
+     <B>end</B> Test_Bench;
+
+
+
+     <B>architecture</B> Structure <B>of</B> Test_Bench <B>is</B>
+
+         <B>component</B> Buf <B>is</B>
+
+            <B>generic</B> (Comp_Buf_Delay: TIME);
+
+            <B>port</B> (Comp_I: <B>in</B> Bit; Comp_O: <B>out</B> Bit);
+
+         <B>end</B> <B>component</B>;
+
+
+
+         --  A binding indication; generic and port map aspects within a binding indication
+
+         --  associate actuals (Comp_I, etc.) with formals of the design entity interface
+
+         --  (Input_pin, etc.):
+
+         <B>for</B> UUT: Buf
+
+              <B>use</B> <B>entity</B> Work.Buf(DataFlow)
+
+                   <B>generic</B> <B>map</B> (Buf_Delay =&gt; Comp_Buf_Delay)
+
+                   <B>port</B> <B>map</B> (Input_pin =&gt; Comp_I, Output_pin=&gt; Comp_O);
+
+         <B>signal</B> S1,S2: Bit;
+
+     <B>begin</B>
+
+
+
+         --  A component instantiation statement; generic and port map aspects within a
+
+         --  component instantiation statement associate actuals (S1, etc.) with the
+
+         --  formals of a component (Comp_I, etc.):
+
+         UUT: Buf
+
+            <B>generic map</B>(Comp_Buf_Delay =&gt; 50 ns)
+
+            <B>port map</B>(Comp_I =&gt; S1, Comp_O =&gt; S2);
+
+
+
+         --  A block statement; generic and port map aspects within the block header of a block
+
+         --  statement associate actuals (4, etc.) with the formals defined in the block header:
+
+         B: <B>block</B>
+
+            <B>generic</B> (G: INTEGER);
+
+            <B>generic</B> <B>map</B>(G =&gt; 4);
+
+         <B>begin</B>
+
+         <B>end</B> <B>block</B>;
+
+     <B>end</B> Structure;
+
+</PRE>
+<P>NOTE--A local generic (from a component declaration) or formal generic (from 
+a block statement or from the entity declaration of the enclosing design entity) 
+may appear as an actual in a generic map aspect. Similarly, a local port (from a 
+component declaration) or formal port (from a block statement or from the entity 
+declaration of the enclosing design entity) may appear as an actual in a port 
+map aspect. </P>
+<H3><A name=5.2.2></A><A 
+href="1076_5.html#5.2.2">5.2.2 
+</A>Default binding indication</H3>
+<P>In certain circumstances, a default binding indication will apply in the 
+absence of an explicit binding indication. The default binding indication 
+consists of a default entity aspect, together with a default generic map aspect 
+and a default port map aspect, as appropriate. </P>
+<P>If no visible entity declaration has the same simple name as that of the 
+instantiated component, then the default entity aspect is <B>open</B>. A 
+<I>visible entity declaration</I> is either </P>
+<P>a) An entity declaration that has the same simple name as that of the 
+instantiated component and that is directly visible (see <A 
+href="1076_10.html#10.3">10.3 
+</A>), or </P>
+<P>b) An entity declaration that has the same simple name as that of the 
+instantiated component and that would be directly visible in the absence of a 
+directly visible (see <A 
+href="1076_10.html#10.3">10.3 
+</A>) component declaration with the same simple name as that of the entity 
+declaration </P>
+<P>These visibility checks are made at the point of the absent explicit binding 
+indication that causes the default binding indication to apply. </P>
+<P>Otherwise, the default entity aspect is of the form </P><PRE>     <B>entity</B> <I>entity</I>_name ( <I>architecture</I>_identifier )
+
+</PRE>
+<P>where the entity name is the simple name of the instantiated component, and 
+the architecture identifier is the same as the simple name of the most recently 
+analyzed architecture body associated with the entity declaration. If this rule 
+is applied either to a binding indication contained within a configuration 
+specification or to a component configuration that does not contain an explicit 
+inner block configuration, then the architecture identifier is determined during 
+elaboration of the design hierarchy containing the binding indication. Likewise, 
+if a component instantiation statement contains an instantiated unit containing 
+the reserved word <B>entity</B> but does not contain an explicitly specified 
+architecture identifier, this rule is applied during the elaboration of the 
+design hierarchy containing a component instantiation statement. In all other 
+cases, this rule is applied during analysis of the binding indication. </P>
+<P>It is an error if there is no architecture body associated with the entity 
+interface denoted by an entity name that is the simple name of the instantiated 
+component. </P>
+<P>The default binding indication includes a default generic map aspect if the 
+design entity implied by the entity aspect contains formal generics. The default 
+generic map aspect associates each local generic in thecorresponding component 
+instantiation (if any) with a formal of the same simple name. It is an error if 
+such a formal does not exist or if its mode and type are not appropriate for 
+such an association. Any remaining unassociated formals are associated with the 
+actual designator <B>open</B>. </P>
+<P>The default binding indication includes a default port map aspect if the 
+design entity implied by the entity aspect contains formal ports. The default 
+port map aspect associates each local port in the corresponding component 
+instantiation (if any) with a formal of the same simple name. It is an error if 
+such a formal does not exist or if its mode and type are not appropriate for 
+such an association. Any remaining unassociated formals are associated with the 
+actual designator <B>open</B>. </P>
+<P>If an explicit binding indication lacks a generic map aspect, and if the 
+design entity implied by the entity aspect contains formal generics, then the 
+default generic map aspect is assumed within that binding indication. Similarly, 
+if an explicit binding indication lacks a port map aspect, and the design entity 
+implied by the entity aspect contains formal ports, then the default port map 
+aspect is assumed within that binding indication. </P>
+<H2><A name=5.3></A><A 
+href="1076_5.html#5.3">5.3 
+</A>Disconnection specification</H2>
+<P>A disconnection specification defines the time delay to be used in the 
+implicit disconnection of drivers of a guarded signal within a guarded signal 
+assignment. </P><PRE>     disconnection_specification ::=
+
+         <B>disconnect </B>guarded_signal_specification <B>after </B><I>time</I>_expression ;
+
+
+
+     guarded_signal_specification ::=
+
+         <I>guarded</I>_signal_list : type_mark
+
+
+
+     signal_list ::=
+
+            <I>signal</I>_name { , <I>signal</I>_name }
+
+      | <B>others</B>
+
+      | <B>all</B>
+
+</PRE>
+<P>Each signal name in a signal list in a guarded signal specification must be a 
+locally static name that denotes a guarded signal (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>). Each guarded signal must be an explicitly declared signal or member of 
+such a signal. </P>
+<P>If the guarded signal is a declared signal or a slice thereof, the type mark 
+must be the same as the type mark indicated in the guarded signal specification 
+(see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>). If the guarded signal is an array element of an explicitly declared 
+signal, the type mark must be the same as the element subtype indication in the 
+(explicit or implicit) array type declaration that declares the base type of the 
+explicitly declared signal. If the guarded signal is a record element of an 
+explicitly declared signal, then the type mark must be the same as the type mark 
+in the element subtype definition of the record type declaration that declares 
+the type of the explicitly declared signal. Each signal must be declared in the 
+declarative part enclosing the disconnection specification. </P>
+<P>Subject to these rules, a disconnection specification <I>applies to</I> the 
+drivers of a guarded signal S of whose type mark denotes the type T under the 
+following circumstances: </P>
+<P>-- For a scalar signal S, if an explicit or implicit disconnection 
+specification of the form </P><PRE>           <B>disconnect</B> S: T <B>after</B> <I>time</I>_expression;
+
+</PRE>
+<P>exists, then this disconnection specification applies to the drivers of S. 
+</P>
+<P>-- For a composite signal S, an explicit or implicit disconnection 
+specification of the form </P><PRE>           <B>disconnect</B> S: T <B>after</B> <I>time</I>_expression;
+
+</PRE>
+<P>is equivalent to a series of implicit disconnection specifications, one for 
+each scalar subelement of the signal S. Each disconnection specification in the 
+series is created as follows: it has, as its single signal name in its signal 
+list, a unique scalar subelement of S. Its type mark is the same as the type of 
+the same scalar subelement of S. Its time expression is the same as that of the 
+original disconnection specification. </P>
+<P>The characteristics of the disconnection specification must be such that each 
+implicit disconnection specification in the series is a legal disconnection 
+specification. </P>
+<P>-- If the signal list in an explicit or implicit disconnection specification 
+contains more than one signal name, the disconnection specification is 
+equivalent to a series of disconnection specifications, one for each signal name 
+in the signal list. Each disconnection specification in the series is created as 
+follows: It has, as its single signal name in its signal list, a unique member 
+of the signal list from the original disconnection specification. Its type mark 
+and time expression are the same as those in the original disconnection 
+specification. </P>
+<P>The characteristics of the disconnection specification must be such that each 
+implicit disconnection specification in the series is a legal disconnection 
+specification. </P>
+<P>-- An explicit disconnection specification of the form </P><PRE>           <B>disconnect</B> <B>others</B>: T <B>after</B> <I>time</I>_expression;
+
+</PRE>
+<P>is equivalent to an implicit disconnection specification where the reserved 
+word <B>others</B> is replaced with a signal list comprised of the simple names 
+of those guarded signals that are declared signals declared in the enclosing 
+declarative part, whose type mark is the same as T, and that do not otherwise 
+have an explicit disconnection specification applicable to its drivers; the 
+remainder of the disconnection specification is otherwise unchanged. If there 
+are no guarded signals in the enclosing declarative part whose type mark is the 
+same as T and that do not otherwise have an explicit disconnection specification 
+applicable to its drivers, then the above disconnection specification has no 
+effect. </P>
+<P>The characteristics of the explicit disconnection specification must be such 
+that the implicit disconnection specification, if any, is a legal disconnection 
+specification. </P>
+<P>-- An explicit disconnection specification of the form </P><PRE>           <B>disconnect</B> <B>all</B>: T <B>after</B><I> time</I>_expression;
+
+</PRE>
+<P>is equivalent to an implicit disconnection specification where the reserved 
+word <B>all</B> is replaced with a signal list comprised of the simple names of 
+those guarded signals that are declared signals declared in the enclosing 
+declarative part and whose type mark is the same as T; the remainder of the 
+disconnection specification is otherwise unchanged. If there are no guarded 
+signals in the enclosing declarative part whose type mark is the same as T,then 
+the above disconnection specification has no effect. </P>
+<P>The characteristics of the explicit disconnection specification must be such 
+that the implicit disconnection specification, if any, is a legal disconnection 
+specification. </P>
+<P>A disconnection specification with the signal list <B>others</B> or 
+<B>all</B> for a given type that appears in a declarative part must be the last 
+such specification for the given type in that declarative part. No guarded 
+signal of the given type may be declared in a given declarative part following 
+such a disconnection specification. </P>
+<P>The time expression in a disconnection specification must be static and must 
+evaluate to a non-negative value. </P>
+<P>It is an error if more than one disconnection specification applies to 
+drivers of the same signal. </P>
+<P>If, by these rules, no disconnection specification applies to the drivers of 
+a guarded, scalar signal S whose type mark is T (including a scalar subelement 
+of a composite signal), then the following default disconnection specification 
+is implicitly assumed: </P><PRE>    <B>disconnect</B> S : T <B>after</B> 0 ns;
+
+</PRE>
+<P>A disconnection specification that applies to the drivers of a guarded signal 
+S is the <I>applicable disconnection specification</I> for the signal S. </P>
+<P>Thus the implicit disconnection delay for any guarded signal is always 
+defined,either by an explicit disconnection specification or by an implicit one. 
+</P>
+<H4>NOTES</H4>
+<P></P>
+<P>1--A disconnection specification supplying either the reserved words<B> 
+others</B> or <B>all</B> may apply to none of the guarded signals in the current 
+declarative part, in the event that none of the guarded signals in the current 
+declarative part meet all of the requirements of the disconnection 
+specification. </P>
+<P>2--Since disconnection specifications are based on declarative parts, not on 
+declarative regions, ports declared in an entity interface cannot be referenced 
+by a disconnection specification in a corresponding architecture body. </P>
+<P><I>Cross-References:</I> Disconnection statements, <A 
+href="1076_9.html#9.5">9.5 
+</A>; Guarded assignment, <A 
+href="1076_9.html#9.5">9.5 
+</A>; Guarded blocks, <A 
+href="1076_9.html#9.1">9.1 
+</A>; Guarded signals, <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>; Guarded targets, <A 
+href="1076_9.html#9.5">9.5 
+</A>; Signal guard, <A 
+href="1076_9.html#9.1">9.1 
+</A>. </P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_4.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_6.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

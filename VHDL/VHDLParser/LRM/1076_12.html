@@ -1,0 +1,1168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_12.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=12>Section 12</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_11.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_13.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Elaboration and execution</H1>
+<P></P>
+<P>The process by which a declaration achieves its effect is called the 
+<I>elaboration</I> of the declaration. After its elaboration, a declaration is 
+said to be elaborated. Prior to the completion of its elaboration (including 
+before the elaboration), the declaration is not yet elaborated. </P>
+<P>Elaboration is also defined for design hierarchies, declarative parts, 
+statement parts (containing concurrent statements), and concurrent statements. 
+Elaboration of such constructs is necessary in order ultimately to elaborate 
+declarative items that are declared within those constructs. </P>
+<P>In order to execute a model, the design hierarchy defining the model must 
+first be elaborated. Initialization of nets (see <A 
+href="1076_12.html#12.6.2">12.6.2 
+</A>) in the model then occurs. Finally, simulation of the model proceeds. 
+Simulation consists of the repetitive execution of the <I>simulation</I> 
+<I>cycle</I>, during which processes are executed and nets updated. </P>
+<H2><A name=12.1></A><A 
+href="1076_12.html#12.1">12.1 
+</A>Elaboration of a design hierarchy</H2>
+<P>The elaboration of a design hierarchy creates a collection of processes 
+interconnected by nets; this collection of processes and nets can then be 
+executed to simulate the behavior of the design. </P>
+<P>A design hierarchy may be defined by a design entity. Elaboration of a design 
+hierarchy defined in this manner consists of the elaboration of the block 
+statement equivalent to the external block defined by the design entity. The 
+architecture of this design entity is assumed to contain an implicit 
+configuration specification (see <A 
+href="1076_5.html#5.2">5.2 
+</A>) for each component instance that is unbound in this architecture; each 
+configuration specification has an entity aspect denoting an anonymous 
+configuration declaration identifying the visible entity declaration (see <A 
+href="1076_5.html#5.2">5.2 
+</A>) and supplying an implicit block configuration (see <A 
+href="1076_1.html#1.3.1">1.3.1 
+</A>) that binds and configures a design entity identified according to the 
+rules of <A 
+href="1076_5.html#5.2.2">5.2.2 
+</A>. The equivalent block statement is defined in <A 
+href="1076_9.html#9.6.2">9.6.2 
+</A>. Elaboration of a block statement is defined in <A 
+href="1076_12.html#12.4.1">12.4.1 
+</A>. </P>
+<P>A design hierarchy may also be defined by a configuration. Elaboration of a 
+configuration consists of the elaboration of the block statement equivalent to 
+the external block defined by the design entity configured by the configuration. 
+The configuration contains an implicit component configuration(see <A 
+href="1076_1.html#1.3.2">1.3.2 
+</A>) for each unbound component instance contained within the external block 
+and an implicit block configuration (see <A 
+href="1076_1.html#1.3.1">1.3.1 
+</A>) for each internal block contained within the external block. </P>
+<P>An implementation may allow, but is not required to allow, a design entity at 
+the root of a design hierarchy to have generics and ports. If an implementation 
+allows these <I>top-level</I> interface objects, it may restrict their allowed 
+types and modes in an implementation-defined manner. Similarly,the means by 
+which top-level interface objects are associated with the external environment 
+of the hierarchy are also defined by an implementation supporting top-level 
+interface objects. </P>
+<P>Elaboration of a block statement involves first elaborating each 
+not-yet-elaborated package containing declarations referenced by the block. 
+Similarly, elaboration of a given package involves first elaborating each 
+not-yet-elaborated package containing declarations referenced by the given 
+package. Elaboration of a package additionally consists of the </P>
+<OL type=a>
+  <LI>Elaboration of the declarative part of the package declaration,eventually 
+  followed by<BR>
+  <LI>Elaboration of the declarative part of the corresponding package body, if 
+  the package has a corresponding package body. </LI></OL>
+<P>Step b above, the elaboration of a package body, may be deferred until the 
+declarative parts of other packages have been elaborated, if necessary, because 
+of the dependencies created between packages by their interpackage references. 
+</P>
+<P>Elaboration of a declarative part is defined in <A 
+href="1076_12.html#12.3">12.3 
+</A>. </P>
+<P><I>Examples:</I> </P><PRE>     --  In the following example, because of the dependencies between the packages, the
+
+     --  elaboration of either package body must follow the elaboration of both package
+
+     --  declarations.
+
+
+
+     <B>package</B> P1 <B>is</B>
+
+         <B>constant</B> C1: INTEGER := 42;
+
+         <B>constant</B> C2: INTEGER;
+
+     <B>end</B> <B>package</B> P1;
+
+
+
+     <B>package</B> P2 <B>is</B>
+
+         <B>constant</B> C1: INTEGER := 17;
+
+         <B>constant</B> C2: INTEGER;
+
+     <B>end</B> <B>package</B> P2;
+
+
+
+     <B>package body</B> P1 <B>is</B>
+
+         <B>constant</B> C2: INTEGER := Work.P2.C1;
+
+     <B>end</B> <B>package</B> <B>body</B> P1;
+
+
+
+     <B>package body</B> P2 <B>is</B>
+
+         <B>constant</B> C2: INTEGER := Work.P1.C1;
+
+     <B>end</B> <B>package</B> <B>body</B> P2;
+
+
+
+     --  If a design hierarchy is described by the following design entity:
+
+
+
+     <B>entity</B> E <B>is</B> <B>end</B>;
+
+
+
+     <B>architecture</B> A <B>of</B> E <B>is</B>
+
+<B>         component</B> comp
+
+            <B>port</B> (...);
+
+         <B>end</B> <B>component</B>;
+
+     <B>begin</B>
+
+     C:  comp <B>port</B> <B>map</B> (...);
+
+     B:  <B>block</B>
+
+             ...
+
+         <B>begin</B>
+
+             ...
+
+         <B>end</B> <B>block</B> B;
+
+     <B>end</B> <B>architecture</B> A;
+
+
+
+     --  then its architecture contains the following implicit configuration specification at the
+
+     --  end of its declarative part:
+
+
+
+         <B>for</B> C: comp <B>use</B> <B>configuration</B> <I>anonymous</I>;
+
+
+
+     --  and the following configuration declaration is assumed to exist when E(A) is
+
+     --  elaborated:
+
+
+
+     <B>configuration</B> <I>anonymous</I> <B>of</B> L.E <B>is</B>                      --  L is the library in which E(A) is found.
+
+         <B>for</B> A                                              --  The most recently analyzed architecture
+
+                                                            --  of L.E.
+
+
+
+         <B>end</B> <B>for</B>;
+
+     <B>end</B> <B>configuration</B> <I>anonymous</I>;
+
+</PRE>
+<H2><A name=12.2></A><A 
+href="1076_12.html#12.2">12.2 
+</A>Elaboration of a block header</H2>
+<P>Elaboration of a block header consists of the elaboration of the generic 
+clause, the generic map aspect, the port clause, and the port map aspect, in 
+that order. </P>
+<H3><A name=12.2.1></A><A 
+href="1076_12.html#12.2.1">12.2.1 
+</A>The generic clause</H3>
+<P>Elaboration of a generic clause consists of the elaboration of each of the 
+equivalent single generic declarations contained in the clause, in the order 
+given. The elaboration of a generic declaration consists of elaborating the 
+subtype indication and then creating a generic constant of that subtype. </P>
+<P>The value of a generic constant is not defined until a subsequent generic map 
+aspect is evaluated or, in the absence of a generic map aspect, until the 
+default expression associated with the generic constant is evaluated to 
+determine the value of the constant. </P>
+<H3><A name=12.2.2></A><A 
+href="1076_12.html#12.2.2">12.2.2 
+</A>The generic map aspect</H3>
+<P>Elaboration of a generic map aspect consists of elaborating the generic 
+association list. The generic association list contains an implicit association 
+element for each generic constant that is not explicitly associated with an 
+actual or that is associated with the reserved word <B>open</B>; the actual part 
+of such an implicit association element is the default expression appearing in 
+the declaration of that generic constant. </P>
+<P>Elaboration of a generic association list consists of the elaboration of each 
+generic association element in the association list. Elaboration of a generic 
+association element consists of the elaboration of the formal part and the 
+evaluation of the actual part. The generic constant or subelement or slice 
+thereof designated by the formal part is then initialized with the value 
+resulting from the evaluation of the corresponding actual part. It is an error 
+if the value of the actual does not belong to the subtype denoted by the subtype 
+indication of the formal. If the subtype denoted by the subtype indication of 
+the declaration of the formal is a constrained array subtype,then an implicit 
+subtype conversion is performed prior to this check. It is also an error if the 
+type of the formal is an array type and the value of each element of the actual 
+does not belong to the element subtype of the formal. </P>
+<H3><A name=12.2.3></A><A 
+href="1076_12.html#12.2.3">12.2.3 
+</A>The port clause</H3>
+<P>Elaboration of a port clause consists of the elaboration of each of the 
+equivalent single port declarations contained in the clause, in the order given. 
+The elaboration of a port declaration consists of elaborating the subtype 
+indication and then creating a port of that subtype. </P>
+<H3><A name=12.2.4></A><A 
+href="1076_12.html#12.2.4">12.2.4 
+</A>The port map aspect</H3>
+<P>Elaboration of a port map aspect consists of elaborating the port association 
+list. </P>
+<P>Elaboration of a port association list consists of the elaboration of each 
+port association element in the association list whose actual is not the 
+reserved word <B>open</B>. Elaboration of a port association element consists of 
+the elaboration of the formal part; the port or subelement or slice thereof 
+designated by the formal part is then associated with the signal or expression 
+designated by the actual part. This association involves a check that the 
+restrictions on port associations (see <A 
+href="1076_1.html#1.1.1.2">1.1.1.2 
+</A>) are met. It is an error if this check fails. </P>
+<P>If a given port is a port of mode <B>in</B> whose declaration includes a 
+default expression, and if no association element associates a signal or 
+expression with that port, then the default expression is evaluated and the 
+effective and driving value of the port is set to the value of the default 
+expression. Similarly, if a given port of mode <B>in</B> is associated with an 
+expression, that expression is evaluated and the effective and driving value of 
+the port is set to the value of the expression. In the event that the value of a 
+port is derived from an expression in either fashion, references to the 
+predefined attributes 'DELAYED, 'STABLE, 'QUIET, 'EVENT, 'ACTIVE, 
+'LAST_EVENT,'LAST_ACTIVE, 'LAST_VALUE, 'DRIVING, and 'DRIVING_VALUE of the port 
+return values indicating that the port has the given driving value with no 
+activity at any time (see <A 
+href="1076_12.html#12.6.3">12.6.3 
+</A>). </P>
+<P>If an actual signal is associated with a port of any mode, and if the type of 
+the formal is a scalar type, then it is an error if (after applying any 
+conversion function or type conversion expression present in the actual part) 
+the bounds and direction of the subtype denoted by the subtype indication of the 
+formal are not identical to the bounds and direction of the subtype denoted by 
+the subtype indication of the actual. If an actual expression is associated with 
+a formal port (of mode <B>in</B>), and if the type of the formal is a scalar 
+type, then it is an error if the value of the expression does not belong to the 
+subtype denoted by the subtype indication of the declaration of the formal. </P>
+<P>If an actual signal or expression is associated with a formal port, and if 
+the formal is of a constrained array subtype, then it is an error if the actual 
+does not contain a matching element for each element of the formal. In the case 
+of an actual signal, this check is made after applying any conversion function 
+or type conversion that is present in the actual part. If an actual signal or 
+expression is associated with a formal port, and if the subtype denoted by the 
+subtype indication of the declaration of the formal is an unconstrained array 
+type, then the subtype of the formal is taken from the actual associated with 
+that formal. It is also an error if the mode of the formal is <B>in</B> or 
+<B>inout</B> and the value of each element of the actual array (after applying 
+any conversion function or type conversion present in the actual part) does not 
+belong to the element subtype of the formal. If the formal port is of mode 
+<B>out</B>, <B>inout</B>, or <B>buffer</B>, it is also an error if the value of 
+each element of the formal(after applying any conversion function or type 
+conversion present in the formal part) does not belong to the element subtype of 
+the actual. </P>
+<P>If an actual signal or expression is associated with a formal port, and if 
+the formal is of a record subtype, then it is an error if the rules of the 
+preceding three paragraphs do not apply to each element of the record subtype. 
+In the case of an actual signal, these checks are made after applying any 
+conversion function or type conversion that is present in the actual part. </P>
+<H2><A name=12.3></A><A 
+href="1076_12.html#12.3">12.3 
+</A>Elaboration of a declarative part</H2>
+<P>The elaboration of a declarative part consists of the elaboration of the 
+declarative items, if any, in the order in which they are given in the 
+declarative part. This rule holds for all declarative parts, with three 
+exceptions: </P>
+<OL type=a>
+  <LI>The entity declarative part of a design entity whose corresponding 
+  architecture is decorated with the 'FOREIGN attribute defined in package 
+  STANDARD (see <A 
+  href="1076_5.html#5.1">5.1 
+  </A>and <A 
+  href="1076_14.html#14.2">14.2 
+  </A>)<BR>
+  <LI>The architecture declarative part of a design entity whose architecture is 
+  decorated with the 'FOREIGN attribute defined in package STANDARD<BR>
+  <LI>A subprogram declarative part whose subprogram is decorated with the 
+  'FOREIGN attribute defined in package STANDARD<BR></LI></OL>
+<P>For these cases, the declarative items are not elaborated; instead, the 
+design entity or subprogram is subject to implementation-dependent elaboration. 
+</P>
+<P>In certain cases, the elaboration of a declarative item involves the 
+evaluation of expressions that appear within the declarative item. The value of 
+any object denoted by a primary in such an expression must be defined at the 
+time the primary is read (see <A 
+href="1076_4.html#4.3.2">4.3.2 
+</A>). In addition, if a primary in such an expression is a function call, then 
+the value of any object denoted by or appearing as a part of an actual 
+designator in the function call must be defined at the time the expression is 
+evaluated. </P>
+<P>NOTE--It is a consequence of this rule that the name of a signal declared 
+within a block cannot be referenced in expressions appearing in declarative 
+items within that block, an inner block, or process statement; nor can it be 
+passed as a parameter to a function called during the elaboration of the block. 
+These restrictions exist because the value of a signal is not defined until 
+after the design hierarchy is elaborated. However, a signal parameter name maybe 
+used within expressions in declarative items within a subprogram declarative 
+part, provided that the subprogram is only called after simulation 
+begins,because the value of every signal will be defined by that time. </P>
+<H3><A name=12.3.1></A><A 
+href="1076_12.html#12.3.1">12.3.1 
+</A>Elaboration of a declaration</H3>
+<P>Elaboration of a declaration has the effect of creating the declared item. 
+</P>
+<P>For each declaration, the language rules (in particular scope and visibility 
+rules) are such that it is either impossible or illegal to use a given item 
+before the elaboration of its corresponding declaration. For example, it is not 
+possible to use the name of a type for an object declaration before the 
+corresponding type declaration is elaborated. Similarly, it is illegal to calla 
+subprogram before its corresponding body is elaborated. </P>
+<H3><A name=12.3.1.1></A><A 
+href="1076_12.html#12.3.1.1">12.3.1.1 
+</A>Subprogram declarations and bodies</H3>
+<P>Elaboration of a subprogram declaration involves the elaboration of the 
+parameter interface list of the subprogram declaration; this in turn involves 
+the elaboration of the subtype indication of each interface element to determine 
+the subtype of each formal parameter of the subprogram. </P>
+<P>Elaboration of a subprogram body has no effect other than to establish that 
+the body can, from then on, be used for the execution of calls of the 
+subprogram. </P>
+<H3><A name=12.3.1.2></A><A 
+href="1076_12.html#12.3.1.2">12.3.1.2 
+</A>Type declarations</H3>
+<P>Elaboration of a type declaration generally consists of the elaboration of 
+the definition of the type and the creation of that type. For a constrained 
+array type declaration, however, elaboration consists of the elaboration of the 
+equivalent anonymous unconstrained array type followed by the elaboration of the 
+named subtype of that unconstrained type. </P>
+<P>Elaboration of an enumeration type definition has no effect other than the 
+creation of the corresponding type. </P>
+<P>Elaboration of an integer, floating point, or physical type definition 
+consists of the elaboration of the corresponding range constraint. For a 
+physical type definition, each unit declaration in the definition is also 
+elaborated. Elaboration of a physical unit declaration has no effect other than 
+to create the unit defined by the unit declaration. </P>
+<P>Elaboration of an unconstrained array type definition consists of the 
+elaboration of the element subtype indication of the array type. </P>
+<P>Elaboration of a record type definition consists of the elaboration of the 
+equivalent single element declarations in the given order. Elaboration of an 
+element declaration consists of elaboration of the element subtype indication. 
+</P>
+<P>Elaboration of an access type definition consists of the elaboration of the 
+corresponding subtype indication. </P>
+<H3><A name=12.3.1.3></A><A 
+href="1076_12.html#12.3.1.3">12.3.1.3 
+</A>Subtype declarations</H3>
+<P>Elaboration of a subtype declaration consists of the elaboration of the 
+subtype indication. The elaboration of a subtype indication creates a subtype. 
+If the subtype does not include a constraint, then the subtype is the same as 
+that denoted by the type mark. The elaboration of a subtype indication that 
+includes a constraint proceeds as follows: </P>
+<OL type=a>
+  <LI>The constraint is first elaborated.<BR>
+  <LI>A check is then made that the constraint is compatible with the type or 
+  subtype denoted by the type mark (see <A 
+  href="1076_3.html#3.1">3.1 
+  </A>and <A 
+  href="1076_3.html#3.2.1.1">3.2.1.1 
+  </A>). </LI></OL>
+<P>Elaboration of a range constraint consists of the evaluation of the range. 
+The evaluation of a range defines the bounds and direction of the range. 
+Elaboration of an index constraint consists of the elaboration of each of the 
+discrete ranges in the index constraint in some order that is not defined by the 
+language. </P>
+<H3><A name=12.3.1.4></A><A 
+href="1076_12.html#12.3.1.4">12.3.1.4 
+</A>Object declarations</H3>
+<P>Elaboration of an object declaration that declares an object other than a 
+file object proceeds as follows: </P>
+<OL type=a>
+  <LI>The subtype indication is first elaborated. This establishes the subtype 
+  of the object.<BR>
+  <LI>If the object declaration includes an explicit initialization 
+  expression,then the initial value of the object is obtained by evaluating the 
+  expression. It is an error if the value of the expression does not belong to 
+  the subtype of the object; if the object is an array object, then an implicit 
+  subtype conversion is first performed on the value unless the object is a 
+  constant whose subtype indication denotes an unconstrained array type. 
+  Otherwise, any implicit initial value for the object is determined.<BR>
+  <LI>The object is created.<BR>
+  <LI>Any initial value is assigned to the object. </LI></OL>
+<P>The initialization of such an object (either the declared object or one of 
+its subelements) involves a check that the initial value belongs to the subtype 
+of the object. For an array object declared by an object declaration, an 
+implicit subtype conversion is first applied as for an assignment statement, 
+unless the object is a constant whose subtype is an unconstrained array type. 
+</P>
+<P>The elaboration of a file object declaration consists of the elaboration of 
+the subtype indication followed by the creation of the object. If the file 
+object declaration contains file open information, then the implicit call to 
+FILE_OPEN is then executed (see <A 
+href="1076_4.html#4.3.1.4">4.3.1.4 
+</A>). </P>
+<P>NOTES </P>
+<P>1--These rules apply to all object declarations other than port and generic 
+declarations, which are elaborated as outlined in <A 
+href="1076_12.html#12.2.1">12.2.1 
+</A>through <A 
+href="1076_12.html#12.2.4">12.2.4 
+</A>. </P>
+<P>2--The expression initializing a constant object need not be a static 
+expression. </P>
+<H3><A name=12.3.1.5></A><A 
+href="1076_12.html#12.3.1.5">12.3.1.5 
+</A>Alias declarations</H3>
+<P>Elaboration of an alias declaration consists of the elaboration of the 
+subtype indication to establish the subtype associated with the alias, followed 
+by the creation of the alias as an alternative name for the named entity. The 
+creation of an alias for an array object involves a check that the subtype 
+associated with the alias includes a matching element for each element of the 
+named object. It is an error if this check fails. </P>
+<H3><A name=12.3.1.6></A><A 
+href="1076_12.html#12.3.1.6">12.3.1.6 
+</A>Attribute declarations</H3>
+<P>Elaboration of an attribute declaration has no effect other than to create a 
+template for defining attributes of items. </P>
+<H3><A name=12.3.1.7></A><A 
+href="1076_12.html#12.3.1.7">12.3.1.7 
+</A>Component declarations</H3>
+<P>Elaboration of a component declaration has no effect other than to create a 
+template for instantiating component instances. </P>
+<H3><A name=12.3.2></A><A 
+href="1076_12.html#12.3.2">12.3.2 
+</A>Elaboration of a specification</H3>
+<P>Elaboration of a specification has the effect of associating additional 
+information with a previously declared item. </P>
+<H3><A name=12.3.2.1></A><A 
+href="1076_12.html#12.3.2.1">12.3.2.1 
+</A>Attribute specifications</H3>
+<P>Elaboration of an attribute specification proceeds as follows: </P>
+<OL type=a>
+  <LI>The entity specification is elaborated in order to determine which items 
+  are affected by the attribute specification.<BR>
+  <LI>The expression is evaluated to determine the value of the attribute. It is 
+  an error if the value of the expression does not belong to the subtype of the 
+  attribute; if the attribute is of an array type, then an implicit subtype 
+  conversion is first performed on the value, unless the subtype indication of 
+  the attribute denotes an unconstrained array type.<BR>
+  <LI>A new instance of the designated attribute is created and associated with 
+  each of the affected items.<BR>
+  <LI>Each new attribute instance is assigned the value of the expression. 
+</LI></OL>
+<P>The assignment of a value to an instance of a given attribute involves a 
+check that the value belongs to the subtype of the designated attribute. For an 
+attribute of a constrained array type, an implicit subtype conversion is first 
+applied as for an assignment statement. No such conversion is necessary for an 
+attribute of an unconstrained array type; the constraints on the value determine 
+the constraints on the attribute. </P>
+<P>NOTE--The expression in an attribute specification need not be a static 
+expression. </P>
+<H3><A name=12.3.2.2></A><A 
+href="1076_12.html#12.3.2.2">12.3.2.2 
+</A>Configuration specifications</H3>
+<P>Elaboration of a configuration specification proceeds as follows: </P>
+<OL type=a>
+  <LI>The component specification is elaborated in order to determine which 
+  component instances are affected by the configuration specification.<BR>
+  <LI>The binding indication is elaborated to identify the design entity to 
+  which the affected component instances will be bound.<BR>
+  <LI>The binding information is associated with each affected component 
+  instance label for later use in instantiating those component instances. 
+</LI></OL>
+<P>As part of this elaboration process, a check is made that both the entity 
+declaration and the corresponding architecture body implied by the binding 
+indication exist within the specified library. It is an error if this check 
+fails. </P>
+<H3><A name=12.3.2.3></A><A 
+href="1076_12.html#12.3.2.3">12.3.2.3 
+</A>Disconnection specifications</H3>
+<P>Elaboration of a disconnection specification proceeds as follows: </P>
+<OL type=a>
+  <LI>The guarded signal specification is elaborated in order to identify the 
+  signals affected by the disconnection specification.<BR>
+  <LI>The time expression is evaluated to determine the disconnection time for 
+  drivers of the affected signals.<BR>
+  <LI>The disconnection time is associated with each affected signal for later 
+  use in constructing disconnection statements in the equivalent processes for 
+  guarded assignments to the affected signals. </LI></OL>
+<H2><A name=12.4></A><A 
+href="1076_12.html#12.4">12.4 
+</A>Elaboration of a statement part</H2>
+<P>Concurrent statements appearing in the statement part of a block must be 
+elaborated before execution begins. Elaboration of the statement part of a block 
+consists of the elaboration of each concurrent statement in the order given. 
+This rule holds for all block statement parts except for those blocks equivalent 
+to a design entity whose corresponding architecture is decorated with the 
+'FOREIGN attribute defined in package STANDARD (see <A 
+href="1076_14.html#14.2">14.2 
+</A>). </P>
+<P>For this case, the statements are not elaborated; instead, the design entity 
+is subject to implementation-dependent elaboration. </P>
+<H3><A name=12.4.1></A><A 
+href="1076_12.html#12.4.1">12.4.1 
+</A>Block statements</H3>
+<P>Elaboration of a block statement consists of the elaboration of the block 
+header, if present, followed by the elaboration of the block declarative part, 
+followed by the elaboration of the block statement part. </P>
+<P>Elaboration of a block statement may occur under the control of a 
+configuration declaration. In particular, a block configuration, whether 
+implicit or explicit, within a configuration declaration may supply a sequence 
+of additional implicit configuration specifications to be applied during the 
+elaboration of the corresponding block statement. If a block statement is being 
+elaborated under the control of a configuration declaration, then the sequence 
+of implicit configuration specifications supplied by the block configuration is 
+elaborated as part of the block declarative part, following all other 
+declarative items in that part. </P>
+<P>The sequence of implicit configuration specifications supplied by a block 
+configuration, whether implicit or explicit, consists of each of the 
+configuration specifications implied by component configurations (see <A 
+href="1076_1.html#1.3.2">1.3.2 
+</A>) occurring immediately within the block configuration, in the order in 
+which the component configurations themselves appear. </P>
+<H3><A name=12.4.2></A><A 
+href="1076_12.html#12.4.2">12.4.2 
+</A>Generate statements</H3>
+<P>Elaboration of a generate statement consists of the replacement of the 
+generate statement with zero or more copies of a block statement whose 
+declarative part consists of the declarative items contained within the generate 
+statement and whose statement part consists of the concurrent statements 
+contained within the generate statement. These block statements are said to be 
+<I>represented</I> by the generate statement. Each block statement is then 
+elaborated. </P>
+<P>For a generate statement with a for generation scheme, elaboration consists 
+of the elaboration of the discrete range, followed by the generation of one 
+block statement for each value in the range. The block statements all have the 
+following form: </P>
+<OL type=a>
+  <LI>The label of the block statement is the same as the label of the generate 
+  statement.<BR>
+  <LI>The block declarative part has, as its first item, a single constant 
+  declaration that declares a constant with the same simple name as that of the 
+  applicable generate parameter; the value of the constant is the value of the 
+  generate parameter for the generation of this particular block statement. The 
+  type of this declaration is determined by the base type of the discrete range 
+  of the generate parameter. The remainder of the block declarative part 
+  consists of a copy of the declarative items contained within the generate 
+  statement.<BR>
+  <LI>The block statement part consists of a copy of the concurrent statements 
+  contained within the generate statement.<BR></LI></OL>
+<P>For a generate statement with an if generation scheme, elaboration consists 
+of the evaluation of the Boolean expression, followed by the generation of 
+exactly one block statement if the expression evaluates to TRUE, and no block 
+statement otherwise. If generated, the block statement has the following form: 
+</P>
+<P>-- The block label is the same as the label of the generate statement. </P>
+<P>-- The block declarative part consists of a copy of the declarative items 
+contained within the generate statement. </P>
+<P>-- The block statement part consists of a copy of the concurrent statements 
+contained within the generate statement. </P>
+<P><I>Examples:</I> </P><PRE>     --  The following generate statement:
+
+
+
+     LABL : <B>for</B> I <B>in</B> 1 <B>to</B> 2 <B>generate</B>
+
+         <B>signal</B> s1 : INTEGER;
+
+     <B>begin</B>
+
+         s1 &lt;= p1;
+
+         Inst1 : and_gate <B>port</B> <B>map</B> (s1, p2(I), p3);
+
+     <B>end</B> <B>generate</B> LABL;
+
+
+
+     --  is equivalent to the following two block statements:
+
+
+
+     LABL : <B>block</B>
+
+         <B>constant</B> I : INTEGER := 1;
+
+         <B>signal</B> s1 : INTEGER;
+
+     <B>begin</B>
+
+         s1 &lt;= p1;
+
+         Inst1 : and_gate <B>port</B> <B>map</B> (s1, p2(I), p3);
+
+     <B>end</B> <B>block</B> LABL;
+
+
+
+     LABL : <B>block</B>
+
+
+
+         <B>constant</B> I : INTEGER := 2;
+
+         <B>signal</B> s1 : INTEGER;
+
+     <B>begin</B>
+
+         s1 &lt;= p1;
+
+         Inst1 : and_gate <B>port</B> <B>map</B> (s1, p2(I), p3);
+
+     <B>end</B> <B>block</B> LABL;
+
+
+
+     --  The following generate statement:
+
+
+
+     LABL : <B>if</B> (g1 = g2) <B>generate</B>
+
+         <B>signal</B> s1 : INTEGER;
+
+     <B>begin</B>
+
+         s1 &lt;= p1;
+
+         Inst1 : and_gate <B>port</B> <B>map</B> (s1, p4, p3);
+
+     <B>end</B> <B>generate</B> LABL;
+
+
+
+     --  is equivalent to the following statement if g1 = g2;
+
+     --  otherwise, it is equivalent to no statement at all:
+
+
+
+     LABL : <B>block</B>
+
+         <B>signal</B> s1 : INTEGER;
+
+     <B>begin</B>
+
+         s1 &lt;= p1;
+
+         Inst1 : and_gate <B>port</B> <B>map</B> (s1, p4, p3);
+
+     <B>end</B> <B>block</B> LABL;
+
+</PRE>
+<P>NOTE--The repetition of the block labels in the case of a for generation 
+scheme does not produce multiple declarations of the label on the generate 
+statement. The multiple block statements represented by the generate statement 
+constitute multiple references to the same implicitly declared label. </P>
+<H3><A name=12.4.3></A><A 
+href="1076_12.html#12.4.3">12.4.3 
+</A>Component instantiation statements</H3>
+<P>Elaboration of a component instantiation statement that instantiates a 
+component declaration has no effect unless the component instance is either 
+fully bound to a design entity defined by an entity declaration and architecture 
+body or bound to a configuration of such a design entity. If a component 
+instance is so bound, then elaboration of the corresponding component 
+instantiation statement consists of the elaboration of the implied block 
+statement representing the component instance and (within that block) the 
+implied block statement representing the design entity to which the component 
+instance is bound. The implied block statements are defined in <A 
+href="1076_9.html#9.6.1">9.6.1 
+</A>. </P>
+<P>Elaboration of a component instantiation statement whose instantiated unit 
+denotes either a design entity or a configuration declaration consists of the 
+elaboration of the implied block statement representing the component 
+instantiation statement and (within that block) the implied block statement 
+representing the design entity to which the component instance is bound. The 
+implied block statements are defined in <A 
+href="1076_9.html#9.6.2">9.6.2 
+</A>. </P>
+<H3><A name=12.4.4></A><A 
+href="1076_12.html#12.4.4">12.4.4 
+</A>Other concurrent statements</H3>
+<P>All other concurrent statements are either process statements or are 
+statements for which there is an equivalent process statement. </P>
+<P>Elaboration of a process statement proceeds as follows: </P>
+<OL type=a>
+  <LI>The process declarative part is elaborated.<BR>
+  <LI>The drivers required by the process statement are created.<BR>
+  <LI>The initial transaction defined by the default value associated with each 
+  scalar signal driven by the process statement is inserted into the 
+  corresponding driver. </LI></OL>
+<P>Elaboration of all concurrent signal assignment statements and concurrent 
+assertion statements consists of the construction of the equivalent process 
+statement followed by the elaboration of the equivalent process statement. </P>
+<H2><A name=12.5></A><A 
+href="1076_12.html#12.5">12.5 
+</A>Dynamic elaboration</H2>
+<P>The execution of certain constructs that involve sequential statements rather 
+than concurrent statements also involves elaboration. Such elaboration occurs 
+during the execution of the model. </P>
+<P>There are three particular instances in which elaboration occurs dynamically 
+during simulation. These are as follows: </P>
+<OL type=a>
+  <LI>Execution of a loop statement with a for iteration scheme involves the 
+  elaboration of the loop parameter specification prior to the execution of the 
+  statements enclosed by the loop (see <A 
+  href="1076_8.html#8.9">8.9 
+  </A>). This elaboration creates the loop parameter and evaluates the discrete 
+  range. 
+  <LI>Execution of a subprogram call involves the elaboration of the parameter 
+  interface list of the corresponding subprogram declaration; this involves the 
+  elaboration of each interface declaration to create the corresponding formal 
+  parameters. Actual parameters are then associated with formal parameters. 
+  Finally, if the designator of the subprogram is not decorated with the 
+  'FOREIGN attribute defined in package STANDARD, the declarative part of the 
+  corresponding subprogram body is elaborated and the sequence of statements in 
+  the subprogram body is executed. If the designator of the subprogram is 
+  decorated with the 'FOREIGN attribute defined in package STANDARD, then the 
+  subprogram body is subject to implementation-dependent elaboration and 
+  execution. 
+  <LI>Evaluation of an allocator that contains a subtype indication involves the 
+  elaboration of the subtype indication prior to the allocation of the created 
+  object. </LI></OL>
+<P>NOTE--It is a consequence of these rules that declarative items appearing 
+within the declarative part of a subprogram body are elaborated each time the 
+corresponding subprogram is called; thus, successive elaborations of a given 
+declarative item appearing in such a place may create items with different 
+characteristics. For example, successive elaborations of the same subtype 
+declaration appearing in a subprogram body may create subtypes with different 
+constraints. </P>
+<H2><A name=12.6></A><A 
+href="1076_12.html#12.6">12.6 
+</A>Execution of a model</H2>
+<P>The elaboration of a design hierarchy produces a <I>model</I> that can be 
+executed in order to simulate the design represented by the model. Simulation 
+involves the execution of user-defined processes that interact with each other 
+and with the environment. </P>
+<P>The <I>kernel process</I> is a conceptual representation of the agent that 
+coordinates the activity of user-defined processes during a simulation. This 
+agent causes the propagation of signal values to occur and causes the values of 
+implicit signals [such as S'Stable(T)] to be updated. Furthermore, this process 
+is responsible for detecting events that occur and for causing the appropriate 
+processes to execute in response to those events. </P>
+<P>For any given signal that is explicitly declared within a model, the kernel 
+process contains a variable representing the current value of that signal. Any 
+evaluation of a name denoting a given signal retrieves the current value of the 
+corresponding variable in the kernel process. During simulation, the kernel 
+process updates that variable from time to time, based upon the current values 
+of sources of the corresponding signal. </P>
+<P>In addition, the kernel process contains a variable representing the current 
+value of any implicitly declared GUARD signal resulting from the appearance of a 
+guard expression on a given block statement. Furthermore, the kernel process 
+contains both a driver for, and a variable representing the current value of,any 
+signal S'Stable(T), for any prefix S and any time T, that is referenced within 
+the model; likewise, for any signal S'Quiet(T) or S'Transaction. </P>
+<H3><A name=12.6.1></A><A 
+href="1076_12.html#12.6.1">12.6.1 
+</A>Drivers</H3>
+<P>Every signal assignment statement in a process statement defines a set of 
+<I>drivers</I> for certain scalar signals. There is a single driver for a given 
+scalar signal S in a process statement, provided that there is at least one 
+signal assignment statement in that process statement and that the longest 
+static prefix of the target signal of that signal assignment statement denotes S 
+or denotes a composite signal of which S is a subelement. Each such signal 
+assignment statement is said to be <I>associated</I> with that driver. Execution 
+of a signal assignment statement affects only the associated driver(s). </P>
+<P>A driver for a scalar signal is represented by a <I>projected output 
+waveform</I>. A projected output waveform consists of a sequence of one or more 
+<I>transactions</I>, where each transaction is a pair consisting of a value 
+component and a time component. For a given transaction, the value component 
+represents a value that the driver of the signal is to assume at some point in 
+time, and the time component specifies which point in time. These transactions 
+are ordered with respect to their time components. </P>
+<P>A driver always contains at least one transaction. The initial contents of a 
+driver associated with a given signal are defined by the default value 
+associated with the signal (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>). </P>
+<P>For any driver, there is exactly one transaction whose time component is not 
+greater than the current simulation time. The <I>current</I> <I>value</I> of the 
+driver is the value component of this transaction. If, as the result of the 
+advance of time, the current time becomes equal to the time component of the 
+next transaction, then the first transaction is deleted from the projected 
+output waveform and the next becomes the current value of the driver. </P>
+<H3><A name=12.6.2></A><A 
+href="1076_12.html#12.6.2">12.6.2 
+</A>Propagation of signal values</H3>
+<P>As simulation time advances, the transactions in the projected output 
+waveform of a given driver (see <A 
+href="1076_12.html#12.6.1">12.6.1 
+</A>) will each, in succession, become the value of the driver. When a driver 
+acquires a new value in this way, regardless of whether the new value is 
+different from the previous value, that driver is said to be <I>active</I> 
+during that simulation cycle. For the purposes of defining driver activity, a 
+driver acquiring a value from a null transaction is assumed to have acquired a 
+new value. A signal is said to be <I>active</I> during a given simulation cycle 
+</P>
+<P>-- If one of its sources is active </P>
+<P>-- If one of its subelements is active </P>
+<P>-- If the signal is named in the formal part of an association element in a 
+port association list and the corresponding actual is active </P>
+<P>-- If the signal is a subelement of a resolved signal and the resolved signal 
+is active </P>
+<P>If a signal of a given composite type has a source that is of a different 
+type (and therefore a conversion function or type conversion appears in the 
+corresponding association element), then each scalar subelement of that signal 
+is considered to be active if the source itself is active. Similarly, if a port 
+of a given composite type is associated with a signal that is of a different 
+type (and therefore a conversion function or type conversion appears in the 
+corresponding association element), then each scalar subelement of that port is 
+considered to be active if the actual signal itself is active. </P>
+<P>In addition to the preceding information, an implicit signal is said to be 
+active during a given simulation cycle if the kernel process updates that 
+implicit signal within the given cycle. </P>
+<P>If a signal is not active during a given simulation cycle, then the signal is 
+said to be <I>quiet</I> during that simulation cycle. </P>
+<P>The kernel process determines two values for certain signals during any given 
+simulation cycle. The <I>driving value</I> of a given signal is the value that 
+signal provides as a source of other signals. The <I>effective value</I> of a 
+given signal is the value obtainable by evaluating a reference to the signal 
+within an expression. The driving value and the effective value of a signal are 
+not always the same, especially when resolution functions and conversion 
+functions or type conversions are involved in the propagation of signal values. 
+</P>
+<P>A <I>basic signal</I> is a signal that has all of the following properties: 
+</P>
+<P>-- It is either a scalar signal or a resolved signal (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>); </P>
+<P>-- It is not a subelement of a resolved signal; </P>
+<P>-- Is not an implicit signal of the form S'Stable(T), S'Quiet(T), 
+orS'Transaction (see <A 
+href="1076_14.html#14.1">14.1 
+</A>); and </P>
+<P>-- It is not an implicit signal GUARD (see <A 
+href="1076_9.html#9.1">9.1 
+</A>). </P>
+<P>Basic signals are those that determine the driving values for all other 
+signals. </P>
+<P>The driving value of any basic signal S is determined as follows: </P>
+<P>-- If S has no source, then the driving value of S is given by the default 
+value associated with S (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>). </P>
+<P>-- If S has one source that is a driver and S is not a resolved signal (see 
+<A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>), then the driving value of S is the value of that driver. </P>
+<P>-- If S has one source that is a port and S is not a resolved signal, then 
+the driving value of S is the driving value of the formal part of the 
+association element that associates S with that port (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>). The driving value of a formal part is obtained by evaluating the formal 
+part as follows: If no conversion function or type conversion is present in the 
+formal part, then the driving value of the formal part is the driving value of 
+the signal denoted by the formal designator. Otherwise, the driving value of the 
+formal part is the value obtained by applying either the conversion function or 
+type conversion (whichever is contained in the formal part) to the driving value 
+of the signal denoted by the formal designator. </P>
+<P>-- If S is a resolved signal and has one or more sources, then the driving 
+values of the sources of S are examined. It is an error if any of these driving 
+values is a composite where one or more subelement values are determined by the 
+null transaction (see <A 
+href="1076_8.html#8.4.1">8.4.1 
+</A>) and one or more subelement values are not determined by the null 
+transaction. If S is of signal kind <B>register</B> and all the sources of S 
+have values determined by the null transaction, then the driving value of S is 
+unchanged from its previous value. Otherwise, the driving value of S is obtained 
+by executing the resolution function associated with S, where that function is 
+called with an input parameter consisting of the concatenation of the driving 
+values of the sources of S, with the exception of the value of any source of S 
+whose current value is determined by the null transaction. </P>
+<P>The driving value of any signal S that is not a basic signal is determined as 
+follows: </P>
+<P>-- If S is a subelement of a resolved signal R, the driving value of S is the 
+corresponding subelement value of the driving value of R. </P>
+<P>-- Otherwise (S is a nonresolved, composite signal), the driving value of Sis 
+equal to the aggregate of the driving values of each of the basic signals that 
+are the subelements of S. </P>
+<P>For a scalar signal S, the <I>effective value</I> of S is determined in the 
+following manner: </P>
+<P>-- If S is a signal declared by a signal declaration, a port of mode 
+<B>buffer</B>, or an unconnected port of mode <B>inout</B>, then the effective 
+value of S is the same as the driving value of S. </P>
+<P>-- If S is a connected port of mode <B>in</B> or <B>inout</B>, then the 
+effective value of S is the same as the effective value of the actual part of 
+the association element that associates an actual with S (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>). The effective value of an actual part is obtained by evaluating the 
+actual part, using the effective value of the signal denoted by the actual 
+designator in place of the actual designator. </P>
+<P>-- If S is an unconnected port of mode <B>in</B>, the effective value of S is 
+given by the default value associated with S (see <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>). </P>
+<P>For a composite signal R, the effective value of R is the aggregate of the 
+effective values of each of the subelements of R. </P>
+<P>For a scalar signal S, both the driving and effective values must belong to 
+the subtype of the signal. For a composite signal R, an implicit subtype 
+conversion is performed to the subtype of R; for each element of R, there must 
+be a matching element in both the driving and the resolved value, and vice 
+versa. </P>
+<P>In order to update a signal during a given simulation cycle, the kernel 
+process first determines the driving and effective values of that signal. The 
+kernel process then updates the variable containing the current value of the 
+signal with the newly determined effective value, as follows: </P>
+<P>a) If S is a signal of some type that is not an array type, the effective 
+value of S is used to update the current value of S. A check is made that the 
+effective value of S belongs to the subtype of S. An error occurs if this 
+subtype check fails. Finally, the effective value of S is assigned to the 
+variable representing the current value of the signal.<BR></P>
+<P>b) If S is an array signal (including a slice of an array), the effective 
+value of S is implicitly converted to the subtype of S. The subtype conversion 
+checks that for each element of S there is a matching element in the effective 
+value and vice versa. An error occurs if this check fails. The result of this 
+subtype conversion is then assigned to the variable representing the current 
+value of S. </P>
+<P>If updating a signal causes the current value of that signal to change, then 
+an <I>event</I> is said to have occurred on the signal. This definition applies 
+to any updating of a signal, whether such updating occurs according to the above 
+rules or according to the rules for updating implicit signals given in <A 
+href="1076_12.html#12.6.3">12.6.3 
+</A>. The occurrence of an event may cause the resumption and subsequent 
+execution of certain processes during the simulation cycle in which the event 
+occurs. </P>
+<P>For any signal other than one declared with the signal kind 
+<B>register</B>,the driving and effective values of the signal are determined 
+and the current value of that signal is updated as described above in every 
+simulation cycle. A signal declared with the signal kind <B>register</B> is 
+updated in the same fashion during every simulation cycle except those in which 
+all of its sources have current values that are determined by null transactions. 
+</P>
+<P>A <I>net</I> is a collection of drivers, signals (including ports and 
+implicit signals), conversion functions, and resolution functions that, taken 
+together,determine the effective and driving values of every signal on the net. 
+</P>
+<P>Implicit signals GUARD S'Stable(T), S'Quiet(T), and S'Transaction, for any 
+prefix S and any time T, are not updated according to the above rules; such 
+signals are updated according to the rules described in <A 
+href="1076_12.html#12.6.3">12.6.3 
+</A>. </P>
+<P><A>NOTES</A> </P>
+<P>1--In a simulation cycle, a subelement of a composite signal may be quiet,but 
+the signal itself may be active. </P>
+<P>2--The rules concerning association of actuals with formals (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>) imply that, if a composite signal is associated with a composite port of 
+mode <B>out</B>, <B>inout</B>, or <B>buffer</B>, and if no conversion function 
+or type conversion appears in either the actual or formal part of the 
+association element, then each scalar subelement of the formal is a source of 
+the matching subelement of the actual. In such a case, a given subelement of the 
+actual will be active if and only if the matching subelement of the formal is 
+active. </P>
+<P>3--The algorithm for computing the driving value of a scalar signal S is 
+recursive. For example, if S is a local signal appearing as an actual in a port 
+association list whose formal is of mode <B>out</B> or <B>inout</B>, the driving 
+value of S can only be obtained after the driving value of the corresponding 
+formal part is computed. This computation may involve multiple executions of the 
+above algorithm. </P>
+<P>4--Similarly, the algorithm for computing the effective value of a signal S 
+is recursive. For example, if a formal port S of mode <B>in</B> corresponds to 
+an actual A, the effective value of A must be computed before the effective 
+value of S can be computed. The actual A may itself appear as a formal port in 
+aport association list. </P>
+<P>5--No effective value is specified for <B>out</B> and <B>linkage</B> ports, 
+since these ports may not be read. </P>
+<P>6--Overloading the operator "=" has no effect on the propagation of signal 
+values. </P>
+<P>7--A signal of kind <B>register</B> may be active even if its associated 
+resolution function does not execute in the current simulation cycle if the 
+values of all of its drivers are determined by the null transaction and at least 
+one of its drivers is also active. </P>
+<P>8--The definition of the driving value of a basic signal exhausts all cases, 
+with the exception of a non-resolved signal with more than one source. This 
+condition is defined as an error in <A 
+href="1076_4.html#4.3.1.2">4.3.1.2 
+</A>. </P>
+<H3><A name=12.6.3></A><A 
+href="1076_12.html#12.6.3">12.6.3 
+</A>Updating implicit signals</H3>
+<P>The kernel process updates the value of each implicit signal GUARD associated 
+with a block statement that has a guard expression. Similarly, the kernel 
+process updates the values of each implicit signal S'Stable(T), S'Quiet(T), or 
+S'Transaction for any prefix S and any time T; this also involves updating the 
+drivers of S'Stable(T) and S'Quiet(T). </P>
+<P>For any implicit signal GUARD, the current value of the signal is modified if 
+and only if the corresponding guard expression contains a reference to a signal 
+S and if S is active during the current simulation cycle. In such a case, the 
+implicit signal GUARD is updated by evaluating the corresponding guard 
+expression and assigning the result of that evaluation to the variable 
+representing the current value of the signal. </P>
+<P>For any implicit signal S'Stable(T), the current value of the signal (and 
+likewise the current state of the corresponding driver) is modified if and only 
+if one of the following statements is true: </P>
+<P>-- An event has occurred on S in this simulation cycle. </P>
+<P>-- The driver of S'Stable(T) is active. </P>
+<P>If an event has occurred on signal S, then S'Stable(T) is updated by 
+assigning the value FALSE to the variable representing the current value of 
+S'Stable(T), and the driver of S'Stable(T) is assigned the waveform TRUE 
+<B>after</B> T. Otherwise, if the driver of S'Stable(T) is active, then 
+S'Stable(T) is updated by assigning the current value of the driver to the 
+variable representing the current value of S'Stable(T). Otherwise, neither the 
+variable nor the driver is modified. </P>
+<P>Similarly, for any implicit signal S'Quiet(T), the current value of the 
+signal (and likewise the current state of the corresponding driver) is modified 
+if and only if one of the following statements is true: </P>
+<P>-- S is active. </P>
+<P>-- The driver of S'Quiet(T) is active. </P>
+<P>If signal S is active, then S'Quiet(T) is updated by assigning the value 
+FALSE to the variable representing the current value of S'Quiet(T), and the 
+driver of S'Quiet(T) is assigned the waveform TRUE <B>after</B> T. Otherwise, if 
+the driver of S'Quiet(T) is active, then S'Quiet(T) is updated by assigning the 
+current value of the driver to the variable representing the current value of 
+S'Quiet(T). Otherwise, neither the variable nor the driver is modified. </P>
+<P>Finally, for any implicit signal S'Transaction, the current value of the 
+signal is modified if and only if S is active. If signal S is active, then 
+S'Transaction is updated by assigning the value of the expression (<B>not</B> 
+S'Transaction) to the variable representing the current value of S'Transaction. 
+At most one such assignment will occur during any given simulation cycle. </P>
+<P>For any implicit signal S'Delayed(T), the signal is not updated by the kernel 
+process. Instead, it is updated by constructing an equivalent process (see <A 
+href="1076_14.html#14.1">14.1 
+</A>) and executing that process. </P>
+<P>The current value of a given implicit signal denoted by R is said to 
+<I>depend</I> upon the current value of another signal S if one of the following 
+statements is true: </P>
+<P>-- R denotes an implicit GUARD signal and S is any other implicit signal 
+named within the guard expression that defines the current value of R. </P>
+<P>-- R denotes an implicit signal S'Stable(T). </P>
+<P>-- R denotes an implicit signal S'Quiet(T). </P>
+<P>-- R denotes an implicit signal S'Transaction. </P>
+<P>-- R denotes an implicit signal S'Delayed(T). </P>
+<P>These rules define a partial ordering on all signals within a model. The 
+updating of implicit signals by the kernel process is guaranteed to proceed in 
+such a manner that, if a given implicit signal R depends upon the current value 
+of another signal S, then the current value of S will be updated during a 
+particular simulation cycle prior to the updating of the current value of R. 
+</P>
+<P>NOTE<I>--</I>These rules imply that, if the driver of S'Stable(T) is active, 
+then the new current value of that driver is the value TRUE. Furthermore, these 
+rules imply that, if an event occurs on S during a given simulation cycle, and 
+if the driver of S'Stable(T) becomes active during the same cycle, the variable 
+representing the current value of S'Stable(T) will be assigned the value FALSE, 
+and the current value of the driver of S'Stable(T) during the given cycle will 
+never be assigned to that signal. </P>
+<H3><A name=12.6.4></A><A 
+href="1076_12.html#12.6.4">12.6.4 
+</A>The simulation cycle</H3>
+<P>The execution of a model consists of an initialization phase followed by the 
+repetitive execution of process statements in the description of that model. 
+Each such repetition is said to be a <I>simulation cycle.</I> In each cycle, the 
+values of all signals in the description are computed. If as a result of this 
+computation an event occurs on a given signal, process statements that are 
+sensitive to that signal will resume and will be executed as part of the 
+simulation cycle. </P>
+<P>At the beginning of initialization, the current time, T<SUB>c</SUB>, is 
+assumed to be 0 ns. </P>
+<P>The initialization phase consists of the following steps: </P>
+<P>-- The driving value and the effective value of each explicitly declared 
+signal are computed, and the current value of the signal is set to the effective 
+value. This value is assumed to have been the value of the signal for an 
+infinite length of time prior to the start of simulation. </P>
+<P>-- The value of each implicit signal of the form S'Stable(T) or S'Quiet(T)is 
+set to True. The value of each implicit signal of the form S'Delayed(T) is set 
+to the initial value of its prefix, S. </P>
+<P>-- The value of each implicit GUARD signal is set to the result of evaluating 
+the corresponding guard expression. </P>
+<P>-- Each nonpostponed process in the model is executed until it suspends. </P>
+<P>-- Each postponed process in the model is executed until it suspends. </P>
+<P>-- The time of the next simulation cycle (which in this case is the first 
+simulation cycle), T<SUB>n</SUB>, is calculated according to the rules of step f 
+of the simulation cycle, below. </P>
+<P>A simulation cycle consists of the following steps: </P>
+<OL type=a>
+  <LI>The current time, T<SUB>c</SUB> is set equal to T<SUB>n</SUB>. Simulation 
+  is complete when T<SUB>n</SUB>= TIME'HIGH and there are no active drivers or 
+  process resumptions at T<SUB>n</SUB>.<BR>
+  <LI>Each active explicit signal in the model is updated. (Events may occur on 
+  signals as a result.)<BR>
+  <LI>Each implicit signal in the model is updated. (Events may occur on signals 
+  as a result.)<BR>
+  <LI>For each process P, if P is currently sensitive to a signal S and if an 
+  event has occurred on S in this simulation cycle, then P resumes.<BR>
+  <LI>Each nonpostponed process that has resumed in the current simulation cycle 
+  is executed until it suspends.<BR>
+  <LI>The time of the next simulation cycle, T<SUB>n</SUB>, is determined by 
+  setting it to the earliest of<BR>
+  <OL>
+    <LI>TIME'HIGH,<BR>
+    <LI>The next time at which a driver becomes active, or<BR>
+    <LI>The next time at which a process resumes.<BR>
+    <LI>If T<SUB>n</SUB> = T<SUB>c</SUB>, then the next simulation cycle (if 
+    any) will be a <I>delta cycle</I>. </LI></OL>
+  <LI>If the next simulation cycle will be a delta cycle, the remainder of this 
+  step is skipped. Otherwise, each postponed process that has resumed but has 
+  not been executed since its last resumption is executed until it suspends. 
+  Then T<SUB>n</SUB> is recalculated according to the rules of step f. It is an 
+  error if the execution of any postponed process causes a delta cycle to occur 
+  immediately after the current simulation cycle. </LI></OL>
+<P>NOTES </P>
+<P>1--The initial value of any implicit signal of the form S'Transaction is not 
+defined. </P>
+<P>2--Updating of explicit signals is described in <A 
+href="1076_12.html#12.6.2">12.6.2 
+</A>; updating of implicit signals is described in <A 
+href="1076_12.html#12.6.3">12.6.3 
+</A>. </P>
+<P>3--When a process resumes, it is added to one of two sets of processes to be 
+executed (the set of postponed processes and the set of nonpostponed processes). 
+However, no process actually begins to execute until all signals have been 
+updated and all executable processes for this simulation cycle have been 
+identified. Nonpostponed processes are always executed during step e of every 
+simulation cycle, while postponed processes are executed during step g of every 
+simulation cycle that does not immediately precede a delta cycle. </P>
+<P>4--The second and third steps of the initialization phase and steps b and c 
+of the simulation cycle may occur in interleaved fashion. This interleaving may 
+occur because the implicit signal GUARD may be used as the prefix of another 
+implicit signal; moreover, implicit signals may be associated as actuals with 
+explicit signals, making the value of an explicit signal a function of an 
+implicit signal. </P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_11.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_13.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

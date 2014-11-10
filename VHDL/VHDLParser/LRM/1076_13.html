@@ -1,0 +1,1067 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_13.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=13>Section 13</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_12.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_14.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Lexical elements</H1>
+<P>The text of a description consists of one or more design files. The text of a 
+design file is a sequence of lexical elements, each composed of characters; the 
+rules of composition are given in this section. </P>
+<H2><A 
+href="1076_13.html#13.1">13.1 
+</A>Character set</H2>
+<P>The only characters allowed in the text of a VHDL description are the graphic 
+characters and format effectors. Each graphic character corresponds to a unique 
+code of the ISO eight-bit coded character set [(ISO 8859-1 : 1987 (E)], and is 
+represented (visually) by a graphical symbol. </P><PRE>     basic_graphic_character ::=
+
+          upper_case_letter | digit | special_character |space_character
+
+
+
+     graphic_character ::=
+
+          basic_graphic_character | lower_case_letter | other_special_character
+
+
+
+     basic_character ::=
+
+          basic_graphic_character | format_effector
+
+</PRE>
+<P>The basic character set is sufficient for writing any description. The 
+characters included in each of the categories of basic graphic characters are 
+defined as follows: </P>
+<OL type=a>
+  <LI><CODE>Uppercase letters<BR>A B C D E F G H I J K L M N O P Q R S T U V W X 
+  Y Z &#192; &#193; &#194; &#195; &#196; &#197; &#198; &#199; &#200; &#201; &#202; &#203; &#204; &#205; &#206; &#207; &#209; &#210; &#211; &#212; </CODE>&#213;<CODE> &#214; </CODE>&#216;<CODE> &#217; 
+  &#218; &#219; &#220; </CODE>&#221;<CODE> </CODE>&#222;<CODE><BR></CODE>
+  <LI><CODE>Digits<BR>0 1 2 3 4 5 6 7 8 9<BR></CODE>
+  <LI><CODE>Special characters<BR>" # &amp; ' () * + , - . / : ; &lt; = &gt; [ ] 
+  _ |<BR></CODE>
+  <LI><CODE>The space characters<BR>SPACE<SUP>1</SUP>, NBSP<SUP>2</SUP> 
+  </CODE></LI></OL>
+<P>Format effectors are the ISO (and ASCII) characters called horizontal 
+tabulation,vertical tabulation, carriage return, line feed, and form feed. </P>
+<P><SUP>1</SUP>The visual representation of the space is the absence of a 
+graphic symbol. It may be interpreted as a graphic character, a control 
+character, or both. </P>
+<P><SUP>2</SUP>The visual representation of the nonbreaking space is the absence 
+of a graphic symbol. It is used when a line break is to be prevented in the text 
+as presented. </P>
+<P>The characters included in each of the remaining categories of graphic 
+characters are defined as follows: </P>
+<OL type=a>
+  <LI><CODE>Lowercase letters<BR>a b c d e f g h i j k l m n o p q r s t u v w x 
+  y z &#223; &#224; &#225; &#226; &#227; &#228; &#229; &#230; &#231; &#232; &#233; &#234; &#235; &#236; &#237; &#238; &#239; &#240; &#241; &#242; &#243; &#244; &#245; &#246; </CODE>&#248;<CODE> &#249; &#250; &#251; &#252; &#253; &#254; 
+  <CODE>&#255;<BR></CODE></CODE>
+  <LI><CODE>Other special characters<BR>! $ % @ ? \ ^ ` { } ~ </CODE>&#161;<CODE> 
+  </CODE>&#162;<CODE> </CODE>&#163;<CODE> </CODE>¤<CODE> </CODE>&#165;<CODE> </CODE>¦<CODE> 
+  </CODE>§<CODE> </CODE><CODE></CODE>©<CODE> </CODE>&#170;<CODE> </CODE>«<CODE> ~ 
+  </CODE>®<CODE> </CODE><CODE></CODE>°<CODE> </CODE>±<CODE> </CODE>&#178;<CODE> 
+  </CODE>&#179;<CODE> ' </CODE>µ<CODE> </CODE>¶<CODE> </CODE>·<CODE> 
+  </CODE><CODE></CODE>&#185;<CODE> </CODE>&#186;<CODE> </CODE>»<CODE> 1/4 1/2 3/4 
+  </CODE>&#191;<CODE> </CODE>&#215;<CODE> </CODE>&#247;<CODE> -</CODE> </LI></OL>
+<P>NOTES </P>
+<P>Allowable replacements for the special characters vertical line(|), number 
+sign (#), and quotation mark (") are defined in the last clause of this section. 
+</P>
+<P>1--The font design of graphical symbols (for example, whether they are in 
+italic or bold typeface) is not part of ISO 8859-1:1987. </P>
+<P>2--The meanings of the acronyms used in this section are as follows: ASCII 
+stands for American Standard Code for Information Interchange, ISO stands for 
+International Organization for Standardization. </P>
+<P>3--There are no uppercase equivalents for the characters &#223; and &#255;. </P>
+<P>4--The following names are used when referring to special characters: </P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD><CODE><B>Character</B></CODE></TD>
+    <TD><CODE><B>Name</B></CODE></TD>
+    <TD width=50></TD>
+    <TD><CODE><B>Character</B></CODE></TD>
+    <TD><CODE><B>Name</B></CODE></TD></TR>
+  <TR>
+    <TD><CODE>"</CODE></TD>
+    <TD><CODE>quotation mark</CODE></TD>
+    <TD></TD>
+    <TD>&#162;</TD>
+    <TD><CODE>cent sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>#</CODE></TD>
+    <TD><CODE>number sign</CODE></TD>
+    <TD></TD>
+    <TD>&#163;</TD>
+    <TD><CODE>pound sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>&amp;</CODE></TD>
+    <TD><CODE>ampersand</CODE></TD>
+    <TD></TD>
+    <TD>¤</TD>
+    <TD><CODE>currency sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>'</CODE></TD>
+    <TD><CODE>apostrophe, tick</CODE></TD>
+    <TD></TD>
+    <TD>&#165;</TD>
+    <TD><CODE>yen sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>(</CODE></TD>
+    <TD><CODE>left parenthesis</CODE></TD>
+    <TD></TD>
+    <TD>¦</TD>
+    <TD><CODE>broken bar</CODE></TD></TR>
+  <TR>
+    <TD><CODE>) </CODE></TD>
+    <TD><CODE>right parenthesis</CODE></TD>
+    <TD></TD>
+    <TD>§<CODE> </CODE></TD>
+    <TD><CODE>paragraph sign, section sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>*</CODE></TD>
+    <TD><CODE>asterisk, multiply</CODE></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><CODE>diaeresis</CODE></TD></TR>
+  <TR>
+    <TD><CODE>+ </CODE></TD>
+    <TD><CODE>plus sign</CODE></TD>
+    <TD></TD>
+    <TD>©</TD>
+    <TD><CODE>copyright sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>,</CODE></TD>
+    <TD><CODE>comma</CODE></TD>
+    <TD></TD>
+    <TD>&#170;</TD>
+    <TD><CODE>feminine ordinal indicator</CODE></TD></TR>
+  <TR>
+    <TD><CODE>-</CODE></TD>
+    <TD><CODE>hyphen, minus sign</CODE></TD>
+    <TD></TD>
+    <TD>«<CODE> </CODE></TD>
+    <TD><CODE>left angle quotation mark</CODE></TD></TR>
+  <TR>
+    <TD><CODE>.</CODE></TD>
+    <TD><CODE>dot, point, period, full stop</CODE></TD>
+    <TD></TD>
+    <TD><CODE>&amp;horbar;</CODE></TD>
+    <TD><CODE>not sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>/</CODE></TD>
+    <TD><CODE>slash, divide, solidus</CODE></TD>
+    <TD></TD>
+    <TD><CODE>-</CODE></TD>
+    <TD><CODE>soft hyphen*</CODE></TD></TR>
+  <TR>
+    <TD><CODE>:</CODE></TD>
+    <TD><CODE>colon</CODE></TD>
+    <TD></TD>
+    <TD>®</TD>
+    <TD><CODE>registered trade mark sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>;</CODE></TD>
+    <TD><CODE>semicolon</CODE></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><CODE>macron</CODE></TD></TR>
+  <TR>
+    <TD><CODE>&lt;</CODE></TD>
+    <TD><CODE>less-than sign</CODE></TD>
+    <TD></TD>
+    <TD>°</TD>
+    <TD><CODE>ring above, degree sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>= </CODE></TD>
+    <TD><CODE>equals sign</CODE></TD>
+    <TD></TD>
+    <TD>±</TD>
+    <TD><CODE>plus-minus sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>&gt;</CODE></TD>
+    <TD><CODE>greater-than sign</CODE></TD>
+    <TD></TD>
+    <TD>&#178;</TD>
+    <TD><CODE>superscript two</CODE></TD></TR>
+  <TR>
+    <TD><CODE>_</CODE></TD>
+    <TD><CODE>underline, low line</CODE></TD>
+    <TD></TD>
+    <TD>&#179;</TD>
+    <TD><CODE>superscript three</CODE></TD></TR>
+  <TR>
+    <TD><CODE>|</CODE></TD>
+    <TD><CODE>vertical line, vertical bar</CODE></TD>
+    <TD></TD>
+    <TD><CODE>'</CODE></TD>
+    <TD><CODE>acute accent</CODE></TD></TR>
+  <TR>
+    <TD><CODE>!</CODE></TD>
+    <TD><CODE>exclamation mark</CODE></TD>
+    <TD></TD>
+    <TD>µ</TD>
+    <TD><CODE>micro sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>$</CODE></TD>
+    <TD><CODE>dollar sign</CODE></TD>
+    <TD></TD>
+    <TD>¶</TD>
+    <TD><CODE>pilcrow sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>%</CODE></TD>
+    <TD><CODE>percent sign</CODE></TD>
+    <TD></TD>
+    <TD>·</TD>
+    <TD><CODE>middle dot</CODE></TD></TR>
+  <TR>
+    <TD><CODE>?</CODE></TD>
+    <TD><CODE>question mark</CODE></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><CODE>cedilla</CODE></TD></TR>
+  <TR>
+    <TD><CODE>@</CODE></TD>
+    <TD><CODE>commercial at</CODE></TD>
+    <TD></TD>
+    <TD>&#185;</TD>
+    <TD><CODE>superscript one</CODE></TD></TR>
+  <TR>
+    <TD><CODE>[</CODE></TD>
+    <TD><CODE>left square bracket</CODE></TD>
+    <TD></TD>
+    <TD>&#186;</TD>
+    <TD><CODE>masculine ordinal indicator</CODE></TD></TR>
+  <TR>
+    <TD><CODE>\</CODE></TD>
+    <TD><CODE>backslash, reverse solidus</CODE></TD>
+    <TD></TD>
+    <TD>»<CODE> </CODE></TD>
+    <TD><CODE>right angle quotation mark</CODE></TD></TR>
+  <TR>
+    <TD><CODE>]</CODE></TD>
+    <TD><CODE>right square bracket</CODE></TD>
+    <TD></TD>
+    <TD>&#188;</TD>
+    <TD><CODE>vulgar fraction one quarter</CODE></TD></TR>
+  <TR>
+    <TD><CODE>^</CODE></TD>
+    <TD><CODE>circumflex accent</CODE></TD>
+    <TD></TD>
+    <TD>&#189;</TD>
+    <TD><CODE>vulgar fraction one half</CODE></TD></TR>
+  <TR>
+    <TD><CODE>`</CODE></TD>
+    <TD><CODE>grave accent</CODE></TD>
+    <TD></TD>
+    <TD>&#190;</TD>
+    <TD><CODE>vulgar fraction three quarters</CODE></TD></TR>
+  <TR>
+    <TD><CODE>{</CODE></TD>
+    <TD><CODE>left curly bracket</CODE></TD>
+    <TD></TD>
+    <TD>&#191;<CODE> </CODE></TD>
+    <TD><CODE>inverted question mark</CODE></TD></TR>
+  <TR>
+    <TD><CODE>}</CODE></TD>
+    <TD><CODE>right curly bracket</CODE></TD>
+    <TD></TD>
+    <TD>&#215;</TD>
+    <TD><CODE>multiplication sign</CODE></TD></TR>
+  <TR>
+    <TD><CODE>~</CODE></TD>
+    <TD><CODE>tilde</CODE></TD>
+    <TD></TD>
+    <TD>&#247;</TD>
+    <TD><CODE>division sign</CODE></TD></TR>
+  <TR>
+    <TD>&#161;</TD>
+    <TD><CODE>inverted exclamation mark</CODE></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD></TR></TBODY></TABLE>
+<P>*The soft hyphen is a graphic character that is imaged by a graphic symbol 
+identical with, or similar to, that representing HYPHEN, for use when a line 
+break has been established within a work. </P>
+<H2><A 
+href="1076_13.html#13.2">13.2 
+</A>Lexical elements, separators, and delimiters</H2>
+<P>The text of each design unit is a sequence of separate lexical elements. Each 
+lexical element is either a delimiter, an identifier (which may be a reserved 
+word), an abstract literal, a character literal, a string literal, a bit string 
+literal, or a comment. </P>
+<P>In some cases an explicit separator is required to separate adjacent lexical 
+elements (namely when, without separation, interpretation as a single lexical 
+element is possible). A separator is either a space character (SPACE or NBSP),a 
+format effector, or the end of a line. A space character (SPACE or NBSP) is a 
+separator except within a comment, a string literal, or a space character 
+literal. </P>
+<P>The end of a line is always a separator. The language does not define what 
+causes the end of a line. However if, for a given implementation, the end of 
+aline is signified by one or more characters, then these characters must be 
+format effectors other than horizontal tabulation. In any case, a sequence of 
+one or more format effectors other than horizontal tabulation must cause atleast 
+one end-of-line. </P>
+<P>One or more separators are allowed between any two adjacent lexical 
+elements,before the first of each design unit or after the last. At least one 
+separator is required between an identifier or an abstract literal and an 
+adjacent identifier or abstract literal. </P>
+<P>A delimiter is either one of the following special characters (in the basic 
+character set): </P>
+<P><CODE>&amp; ' ( ) * + , - . / : ; &lt; = &gt; | [ ]</CODE> </P>
+<P>or one of the following compound delimiters, each composed of two adjacent 
+special characters: </P>
+<P><CODE>=&gt; ** := /= &gt;= &lt;= &lt;&gt;</CODE> </P>
+<P>Each of the special characters listed for single character delimiters is a 
+single delimiter except if this character is used as a character of a compound 
+delimiter or as a character of a comment, string literal, character literal, or 
+abstract literal. </P>
+<P>The remaining forms of lexical elements are described in other clauses of 
+this section. </P>
+<P>NOTES </P>
+<P>1--Each lexical element must fit on one line, since the end of a line is a 
+separator. The quotation mark, number sign, and underline characters, likewise 
+two adjacent hyphens, are not delimiters, but may form part of other lexical 
+elements. </P>
+<P>2--The following names are used when referring to compound delimiters: </P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD><CODE><B>Delimiter</B></CODE></TD>
+    <TD width=50></TD>
+    <TD><CODE><B>Name</B></CODE></TD></TR>
+  <TR>
+    <TD><CODE>=&gt;</CODE></TD>
+    <TD></TD>
+    <TD><CODE>arrow</CODE></TD></TR>
+  <TR>
+    <TD><CODE>**</CODE></TD>
+    <TD></TD>
+    <TD><CODE>double star, exponentiate</CODE></TD></TR>
+  <TR>
+    <TD><CODE>:=</CODE></TD>
+    <TD></TD>
+    <TD><CODE>variable assignment</CODE></TD></TR>
+  <TR>
+    <TD><CODE>/= </CODE></TD>
+    <TD></TD>
+    <TD><CODE>inequality (pronounced "not equal")</CODE></TD></TR>
+  <TR>
+    <TD><CODE>&gt;= </CODE></TD>
+    <TD></TD>
+    <TD><CODE>greater than or equal</CODE></TD></TR>
+  <TR>
+    <TD><CODE>&lt;= </CODE></TD>
+    <TD></TD>
+    <TD><CODE>less than or equal; signal assignment</CODE></TD></TR>
+  <TR>
+    <TD><CODE>&lt;&gt;</CODE></TD>
+    <TD></TD>
+    <TD><CODE>box</CODE></TD></TR></TBODY></TABLE>
+<H2><A 
+href="1076_13.html#13.3">13.3 
+</A>Identifiers</H2>
+<P>Identifiers are used as names and also as reserved words. </P><PRE>     identifier ::=  basic_identifier | extended_identifier
+
+</PRE>
+<H3><A 
+href="1076_13.html#13.3.1">13.3.1 
+</A>Basic identifiers</H3>
+<P>A basic identifier consists only of letters, digits, and underlines. </P><PRE>     basic_identifier ::=
+
+         letter  { [ underline ] letter_or_digit }
+
+
+
+     letter_or_digit ::=  letter | digit
+
+
+
+     letter ::=  upper_case_letter | lower_case_letter
+
+</PRE>
+<P>All characters of a basic identifier are significant, including any underline 
+character inserted between a letter or digit and an adjacent letter or digit. 
+Basic identifiers differing only in the use of corresponding upper and lowercase 
+letters are considered the same. </P>
+<P><I>Examples:</I> </P><PRE>     COUNT    X     c_out      FFT     Decoder
+
+
+
+     VHSIC    X1    PageCount  STORE_NEXT_ITEM
+
+</PRE>
+<P>NOTE--No space (SPACE or NBSP) is allowed within a basic identifier since a 
+space is a separator. </P>
+<H3><A 
+href="1076_13.html#13.3.2">13.3.2 
+</A>Extended identifiers</H3>
+<P>Extended identifiers may contain any graphic character. </P><PRE>     extended_identifier ::=
+
+        \ graphic_character { graphic_character } \
+
+</PRE>
+<P>If a backslash is to be used as one of the graphic characters of an extended 
+literal, it must be doubled. All characters of an extended identifier are 
+significant (a doubled backslash counting as one character). Extended 
+identifiers differing only in the use of corresponding upper and lowercase 
+letters are distinct. Moreover, every extended identifier is distinct from any 
+basic identifier. </P>
+<P><I>Examples:</I> </P><PRE>     \BUS\     \bus\                         --  Two different identifiers, neither of which is
+
+                                             --  the reserved word <B>bus.</B>
+
+
+
+     \a\\b\                                  --  An identifier containing three characters.
+
+
+
+     VHDL     \VHDL\     \vhdl\              --  Three distinct identifiers.
+
+</PRE>
+<H2><A 
+href="1076_13.html#13.4">13.4 
+</A>Abstract literals</H2>
+<P>There are two classes of abstract literals: real literals and integer 
+literals. A real literal is an abstract literal that includes a point; an 
+integer literal is an abstract literal without a point. Real literals are the 
+literals of the type <I>universal_real</I>. Integer literals are the literals of 
+the type <I>universal_integer</I>. </P><PRE>     abstract_literal ::=  decimal_literal | based_literal
+
+</PRE>
+<H3><A 
+href="1076_13.html#13.4.1">13.4.1 
+</A>Decimal literals</H3>
+<P>A decimal literal is an abstract literal expressed in the conventional 
+decimal notation (that is, the base is implicitly ten). </P><PRE>     decimal_literal ::=  integer [ . integer ] [ exponent ]
+
+
+
+     integer ::=  digit  { [ underline ] digit }
+
+
+
+     exponent ::=  E [ + ] integer | E - integer
+
+</PRE>
+<P>An underline character inserted between adjacent digits of a decimal literal 
+does not affect the value of this abstract literal. The letter E of the 
+exponent,if any, can be written either in lowercase or in uppercase, with the 
+same meaning. </P>
+<P>An exponent indicates the power of ten by which the value of the decimal 
+literal without the exponent is to be multiplied to obtain the value of the 
+decimal literal with the exponent. An exponent for an integer literal must not 
+have a minus sign. </P>
+<P><I>Examples:</I> </P><PRE>
+     12         0         1E6         123_456              --  Integer literals
+
+
+
+     12.0       0.0       0.456       3.14159_26           --  Real literals
+
+
+
+     1.34E-12   1.0E+6    6.023E+24                        --  Real literals with exponents
+
+</PRE>
+<H3><A 
+href="1076_13.html#13.4.2">13.4.2 
+</A>Based literals</H3>
+<P>A based literal is an abstract literal expressed in a form that specifies the 
+base explicitly. The base must be at least two and at most sixteen. </P><PRE>     based_literal ::=
+
+         base # based_integer [ . based_integer ] # [ exponent ]
+
+
+
+     base ::=  integer
+
+
+
+     based_integer ::=
+
+         extended_digit { [ underline ] extended_digit }
+
+
+
+     extended_digit ::=  digit | letter
+
+
+
+</PRE>
+<P>An underline character inserted between adjacent digits of a based literal 
+does not affect the value of this abstract literal. The base and the exponent, 
+if any, are in decimal notation. The only letters allowed as extended digits are 
+the letters A through F for the digits ten through fifteen. A letter in a based 
+literal (either an extended digit or the letter E of an exponent) can be written 
+either in lowercase or in uppercase, with the same meaning. </P>
+<P>The conventional meaning of based notation is assumed; in particular the 
+value of each extended digit of a based literal must be less than the base. An 
+exponent indicates the power of the base by which the value of the based literal 
+without the exponent is to be multiplied to obtain the value of the based 
+literal with the exponent. An exponent for a based integer literal must not have 
+a minus sign. </P>
+<P><I>Examples:</I> </P><PRE>     --  Integer literals of value 255:
+
+          2#1111_1111#               16#FF#             016#0FF#
+
+     --  Integer literals of value 224:
+
+          16#E#E1                    2#1110_0000#
+
+     --  Real literals of value   4095.0 :
+
+          16#F.FF#E+2                2#1.1111_1111_111#E11
+
+</PRE>
+<H2><A 
+href="1076_13.html#13.5">13.5 
+</A>Character literals</H2>
+<P>A character literal is formed by enclosing one of the 191 graphic 
+characters(including the space and nonbreaking space characters) between two 
+apostrophe characters. A character literal has a value that belongs to a 
+character type. </P><PRE>     character_literal ::= ' graphic_character '
+
+</PRE>
+<P><I>Examples:</I> </P><PRE>     'A'   '*'   '''   ' '
+
+</PRE>
+<H2><A 
+href="1076_13.html#13.6">13.6 
+</A>String literals</H2>
+<P>A string literal is formed by a sequence of graphic characters (possibly 
+none)enclosed between two quotation marks used as string brackets. </P><PRE>     string_literal ::=  " { graphic_character } "
+
+</PRE>
+<P>A string literal has a value that is a sequence of character values 
+corresponding to the graphic characters of the string literal apart from the 
+quotation mark itself. If a quotation-mark value is to be represented in the 
+sequence of character values, then a pair of adjacent quotation marks must be 
+written at the corresponding place within the string literal. (This means that a 
+string literal that includes two adjacent quotation marks is never interpreted 
+as two adjacent string literals.) </P>
+<P>The length of a string literal is the number of character values in the 
+sequence represented. (Each doubled quotation mark is counted as a single 
+character.) </P>
+<P><I>Examples:</I> </P><PRE>     "Setup time is too short"                --  An error message.
+
+
+
+     ""                                       --  An empty string literal.
+
+
+
+     " "       "A"      """"                  --  Three string literals of length 1.
+
+
+
+     "Characters such as $, %, and } are allowed in string literals."
+
+</PRE>
+<P>NOTE<I>--</I>A string literal must fit on one line, since it is a lexical 
+element (see <A 
+href="1076_13.html#13.2">13.2 
+</A>).Longer sequences of graphic character values can be obtained by 
+concatenation of string literals. The concatenation operation may also be used 
+to obtain string literals containing nongraphic character values. The predefined 
+type CHARACTER in package STANDARD specifies the enumeration literals denoting 
+both graphic and nongraphic characters. Examples of such uses of concatenation 
+are </P><PRE>     "FIRST PART OF A SEQUENCE OF CHARACTERS " &amp;
+
+     "THAT CONTINUES ON THE NEXT LINE"
+
+
+
+     "Sequence that includes the" &amp; ACK &amp; "control character"
+
+</PRE>
+<H2><A 
+href="1076_13.html#13.7">13.7 
+</A>Bit string literals</H2>
+<P>A bit string literal is formed by a sequence of extended digits (possibly 
+none)enclosed between two quotations used as bit string brackets, preceded by a 
+base specifier. </P><PRE>     bit_string_literal ::=  base_specifier " [ bit_value ] "
+
+
+
+     bit_value ::=  extended_digit { [ underline ] extended_digit }
+
+
+
+     base_specifier ::=  B | O | X
+
+</PRE>
+<P>An underline character inserted between adjacent digits of a bit string 
+literal does not affect the value of this literal. The only letters allowed as 
+extended digits are the letters A through F for the digits ten through fifteen. 
+A letter in a bit string literal (either an extended digit or the base 
+specifier) can be written either in lowercase or in uppercase, with the same 
+meaning. </P>
+<P>If the base specifier is 'B', the extended digits in the bit value are 
+restricted to 0 and 1. If the base specifier is 'O', the extended digits in the 
+bit value are restricted to legal digits in the octal number system, i.e.,the 
+digits 0 through 7. If the base specifier is 'X', the extended digits are all 
+digits together with the letters A through F. </P>
+<P>A bit string literal has a value that is a string literal consisting of the 
+character literals '0' and '1'. If the base specifier is 'B', the value of the 
+bit string literal is the sequence given explicitly by the bit value itself 
+after any underlines have been removed. </P>
+<P>If the base specifier is 'O' (respectively 'X'), the value of the bit string 
+literal is the sequence obtained by replacing each extended digit in the 
+bit_value by a sequence consisting of the three (respectively four) values 
+representing that extended digit taken from the character literals '0' and 
+'1';as in the case of the base specifier 'B', underlines are first removed. Each 
+extended digit is replaced according to the table on the following page: </P>
+<TABLE border=0>
+  <TBODY>
+  <TR align=middle>
+    <TD align=middle><CODE>Extended digit</CODE></TD>
+    <TD><CODE>Replacement when the base specifier is</CODE></TD>
+    <TD><CODE>Replacement when the base specifier is</CODE></TD></TR>
+  <TR align=middle>
+    <TD></TD>
+    <TD><CODE>'O'</CODE></TD>
+    <TD><CODE>'X'</CODE></TD></TR>
+  <TR align=middle>
+    <TD align=middle><CODE>0 </CODE></TD>
+    <TD><CODE>000</CODE></TD>
+    <TD><CODE>0000</CODE></TD></TR>
+  <TR align=middle>
+    <TD>1</TD>
+    <TD><CODE>001</CODE></TD>
+    <TD><CODE>0001</CODE></TD></TR>
+  <TR align=middle>
+    <TD>2</TD>
+    <TD><CODE>010</CODE></TD>
+    <TD><CODE>0010</CODE></TD></TR>
+  <TR align=middle>
+    <TD>3</TD>
+    <TD><CODE>011</CODE></TD>
+    <TD><CODE>0011</CODE></TD></TR>
+  <TR align=middle>
+    <TD>4</TD>
+    <TD><CODE>100</CODE></TD>
+    <TD><CODE>0100</CODE></TD></TR>
+  <TR align=middle>
+    <TD>5</TD>
+    <TD><CODE>101</CODE></TD>
+    <TD><CODE>0101</CODE></TD></TR>
+  <TR align=middle>
+    <TD>6</TD>
+    <TD><CODE>110</CODE></TD>
+    <TD><CODE>0110</CODE></TD></TR>
+  <TR align=middle>
+    <TD>7</TD>
+    <TD><CODE>111</CODE></TD>
+    <TD><CODE>0111</CODE></TD></TR>
+  <TR align=middle>
+    <TD>8</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1000</CODE></TD></TR>
+  <TR align=middle>
+    <TD>9</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1001</CODE></TD></TR>
+  <TR align=middle>
+    <TD>A</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1010</CODE></TD></TR>
+  <TR align=middle>
+    <TD>B</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1011</CODE></TD></TR>
+  <TR align=middle>
+    <TD>C</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1100</CODE></TD></TR>
+  <TR align=middle>
+    <TD>D</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1101</CODE></TD></TR>
+  <TR align=middle>
+    <TD>E</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1110</CODE></TD></TR>
+  <TR align=middle>
+    <TD>F</TD>
+    <TD><CODE>(illegal)</CODE></TD>
+    <TD><CODE>1111</CODE></TD></TR></TBODY></TABLE>
+<P>The <I>length</I> of a bit string literal is the length of its string literal 
+value. </P>
+<P><I>Example:</I> </P><PRE>     B"1111_1111_1111"         --  Equivalent to the string literal "111111111111"
+
+     X"FFF"                    --  Equivalent to B"1111_1111_1111"
+
+     O"777"                    --  Equivalent to B"111_111_111"
+
+     X"777"                    --  Equivalent to B"0111_0111_0111"
+
+
+
+     <B>constant</B> c1: STRING := B"1111_1111_1111";
+
+
+
+     <B>constant</B> c2: BIT_VECTOR := X"FFF";
+
+
+
+     <B>type</B> MVL <B>is</B> ('X', '0', '1', 'Z');
+
+     <B>type</B> MVL_VECTOR <B>is</B> <B>array</B> (NATURAL <B>range</B> &lt;&gt;) <B>of</B> MVL;
+
+     <B>constant</B> c3: MVL_VECTOR := O"777";
+
+
+
+     <B>assert</B>    c1'LENGTH = 12 <B>and</B>
+
+               c2'LENGTH = 12 <B>and</B>
+
+               c3 = "111111111";
+
+</PRE>
+<H2><A 
+href="1076_13.html#13.8">13.8 
+</A>Comments</H2>
+<P>A comment starts with two adjacent hyphens and extends up to the end of the 
+line. A comment can appear on any line of a VHDL description. The presence or 
+absence of comments has no influence on whether a description is legal or 
+illegal. Furthermore, comments do not influence the execution of a simulation 
+module; their sole purpose is to enlighten the human reader. </P>
+<P><I>Examples:</I> </P><PRE>     --  The last sentence above echoes the Algol 68 report.
+
+
+
+<B>     end</B>;                                     -- Processing of LINE is complete
+
+
+
+     --  A long comment may be split onto
+
+     --  two or more consecutive lines.
+
+
+
+     -----------  The first two hyphens start the comment.
+
+</PRE>
+<P>NOTE--Horizontal tabulation can be used in comments, after the double hyphen, 
+and is equivalent to one or more spaces (SPACE characters) (see <A 
+href="1076_13.html#13.2">13.2 
+</A>). </P>
+<H2><A 
+href="1076_13.html#13.9">13.9 
+</A>Reserved words</H2>
+<P>The identifiers listed below are called <I>reserved words</I> and are 
+reserved for significance in the language. For readability of this manual, the 
+reserved words appear in lowercase boldface. </P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD><B>abs</B></TD>
+    <TD width=50></TD>
+    <TD><B>file</B></TD>
+    <TD width=50></TD>
+    <TD><B>nand</B></TD>
+    <TD width=50></TD>
+    <TD><B>select</B></TD></TR>
+  <TR>
+    <TD><B>access</B></TD>
+    <TD></TD>
+    <TD><B>for</B></TD>
+    <TD></TD>
+    <TD><B>new</B></TD>
+    <TD></TD>
+    <TD><B>severity</B></TD></TR>
+  <TR>
+    <TD><B>after</B></TD>
+    <TD></TD>
+    <TD><B>function</B></TD>
+    <TD></TD>
+    <TD><B>next</B></TD>
+    <TD></TD>
+    <TD><B>signal</B></TD></TR>
+  <TR>
+    <TD><B>alias</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>nor</B></TD>
+    <TD></TD>
+    <TD><B>shared</B></TD></TR>
+  <TR>
+    <TD><B>all</B></TD>
+    <TD></TD>
+    <TD><B>generate</B></TD>
+    <TD></TD>
+    <TD><B>not</B></TD>
+    <TD></TD>
+    <TD><B>sla</B></TD></TR>
+  <TR>
+    <TD><B>and</B></TD>
+    <TD></TD>
+    <TD><B>generic</B></TD>
+    <TD></TD>
+    <TD><B>null</B></TD>
+    <TD></TD>
+    <TD><B>sll</B></TD></TR>
+  <TR>
+    <TD><B>architecture</B></TD>
+    <TD></TD>
+    <TD><B>group</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>sra</B></TD></TR>
+  <TR>
+    <TD><B>array</B></TD>
+    <TD></TD>
+    <TD><B>guarded</B></TD>
+    <TD></TD>
+    <TD><B>of</B></TD>
+    <TD></TD>
+    <TD><B>srl</B></TD></TR>
+  <TR>
+    <TD><B>assert</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>on</B></TD>
+    <TD></TD>
+    <TD><B>subtype</B></TD></TR>
+  <TR>
+    <TD><B>attribute</B></TD>
+    <TD></TD>
+    <TD><B>if</B></TD>
+    <TD></TD>
+    <TD><B>open</B></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>impure</B></TD>
+    <TD></TD>
+    <TD><B>or</B></TD>
+    <TD></TD>
+    <TD><B>then</B></TD></TR>
+  <TR>
+    <TD><B>begin</B></TD>
+    <TD></TD>
+    <TD><B>in</B></TD>
+    <TD></TD>
+    <TD><B>others</B></TD>
+    <TD></TD>
+    <TD><B>to</B></TD></TR>
+  <TR>
+    <TD><B>block</B></TD>
+    <TD></TD>
+    <TD><B>inertial</B></TD>
+    <TD></TD>
+    <TD><B>out</B></TD>
+    <TD></TD>
+    <TD><B>transport</B></TD></TR>
+  <TR>
+    <TD><B>body</B></TD>
+    <TD></TD>
+    <TD><B>inout</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>type</B></TD></TR>
+  <TR>
+    <TD><B>buffer</B></TD>
+    <TD></TD>
+    <TD><B>is</B></TD>
+    <TD></TD>
+    <TD><B>package</B></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD><B>bus</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>port</B></TD>
+    <TD></TD>
+    <TD><B>unaffected</B></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>label</B></TD>
+    <TD></TD>
+    <TD><B>postponed</B></TD>
+    <TD></TD>
+    <TD><B>units</B></TD></TR>
+  <TR>
+    <TD><B>case</B></TD>
+    <TD></TD>
+    <TD><B>library</B></TD>
+    <TD></TD>
+    <TD><B>procedure</B></TD>
+    <TD></TD>
+    <TD><B>until</B></TD></TR>
+  <TR>
+    <TD><B>component</B></TD>
+    <TD></TD>
+    <TD><B>linkage</B></TD>
+    <TD></TD>
+    <TD><B>process</B></TD>
+    <TD></TD>
+    <TD><B>use</B></TD></TR>
+  <TR>
+    <TD><B>configuration</B></TD>
+    <TD></TD>
+    <TD><B>literal</B></TD>
+    <TD></TD>
+    <TD><B>pure</B></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD><B>constant</B></TD>
+    <TD></TD>
+    <TD><B>loop</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>variable</B></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>range</B></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD><B>disconnect</B></TD>
+    <TD></TD>
+    <TD><B>map</B></TD>
+    <TD></TD>
+    <TD><B>record</B></TD>
+    <TD></TD>
+    <TD><B>wait</B></TD></TR>
+  <TR>
+    <TD><B>downto</B></TD>
+    <TD></TD>
+    <TD><B>mod</B></TD>
+    <TD></TD>
+    <TD><B>register</B></TD>
+    <TD></TD>
+    <TD><B>when</B></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>reject</B></TD>
+    <TD></TD>
+    <TD><B>while</B></TD></TR>
+  <TR>
+    <TD><B>else</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>rem</B></TD>
+    <TD></TD>
+    <TD><B>with</B></TD></TR>
+  <TR>
+    <TD><B>elsif</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>report</B></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD><B>end</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>return</B></TD>
+    <TD></TD>
+    <TD><B>xnor</B></TD></TR>
+  <TR>
+    <TD><B>entity</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>rol</B></TD>
+    <TD></TD>
+    <TD><B>xor</B></TD></TR>
+  <TR>
+    <TD><B>exit</B></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD><B>ror</B></TD>
+    <TD></TD>
+    <TD></TD></TR></TBODY></TABLE>
+<P>A reserved word must not be used as an explicitly declared identifier. </P>
+<P>NOTES </P>
+<P>1--Reserved words differing only in the use of corresponding upper and 
+lowercase letters are considered as the same (see <A 
+href="1076_13.html#13.3.1">13.3.1 
+</A>). The reserved word <B>range</B> is also used as the name of a predefined 
+attribute. </P>
+<P>2--An extended identifier whose sequence of characters inside the leading and 
+trailing backslashes is identical to a reserved word is not a reserved word. For 
+example, \next\ is a legal (extended) identifier and is not the reserved word 
+<B>next</B>. </P>
+<H2><A 
+href="1076_13.html#13.10">13.10 
+</A>Allowable replacements of characters</H2>
+<P>The following replacements are allowed for the vertical line, number sign, 
+and quotation mark basic characters: </P>
+<P>-- A vertical line (|) can be replaced by an exclamation mark (!) where used 
+as a delimiter. </P>
+<P>-- The number sign (#) of a based literal can be replaced by colons 
+(:),provided that the replacement is done for both occurrences. </P>
+<P>-- The quotation marks (") used as string brackets at both ends of a string 
+literal can be replaced by percent signs (%), provided that the enclosed 
+sequence of characters contains no quotation marks, and provided that both 
+string brackets are replaced. Any percent sign within the sequence of characters 
+must then be doubled, and each such doubled percent sign is interpreted as a 
+single percent sign value. The same replacement is allowed for a bit string 
+literal, provided that both bit string brackets are replaced. </P>
+<P>These replacements do not change the meaning of the description. </P>
+<P>NOTES </P>
+<P>1--It is recommended that use of the replacements for the vertical 
+line,number sign, and quotation marks be restricted to cases where the 
+corresponding graphical symbols are not available. Note that the vertical line 
+appears as a broken line on some equipment; replacement is not recommended in 
+this case. </P>
+<P>2--The rules given for identifiers and abstract literals are such that 
+lowercase and uppercase letters can be used indifferently; these lexical 
+elements can thus be written using only characters of the basic character set. 
+</P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> 
+<A 
+href="1076_12.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 
+border=0></A> <A 
+href="1076_14.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>

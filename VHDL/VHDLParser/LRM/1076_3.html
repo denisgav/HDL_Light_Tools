@@ -1,0 +1,1240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://www.fysel.ntnu.no/Courses/SIE4020/VHDL-standarden/1076_3.html -->
+<HTML><HEAD><TITLE>VHDL LRM- Introduction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=3>Section 3</A></H1>
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_2.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_4.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P>
+<HR>
+
+<H1>Types</H1>
+<P></P>
+<P>This section describes the various categories of types that are provided by 
+the language as well as those specific types that are predefined. The 
+declarations of all predefined types are contained in package STANDARD, the 
+declaration of which appears in Section 14. </P>
+<P>A type is characterized by a set of values and a set of operations. The set 
+of operations of a type includes the explicitly declared subprograms that have a 
+parameter or result of the type. The remaining operations of a type are the 
+basic operations and the predefined operators (see <A 
+href="1076_7.html#7.2">7.2 
+</A>). These operations are each implicitly declared for a given type 
+declaration immediately after the type declaration and before the next explicit 
+declaration, if any. </P>
+<P>A <I>basic operation</I> is an operation that is inherent in one of the 
+following: </P>
+<P>-- An assignment (in assignment statements and initializations) </P>
+<P>-- An allocator </P>
+<P>-- A selected name, an indexed name, or a slice name </P>
+<P>-- A qualification (in a qualified expression), an explicit type conversion, 
+a formal or actual part in the form of a type conversion, or an implicit type 
+conversion of a value of type <I>universal_integer</I> or <I>universal_real</I> 
+to the corresponding value of another numeric type </P>
+<P>-- A numeric literal (for a universal type), the literal <B>null</B> (for an 
+access type), a string literal, a bit string literal, an aggregate, or a 
+predefined attribute </P>
+<P>There are four classes of types. <I>Scalar</I> types are integer types, 
+floating point types, physical types, and types defined by an enumeration of 
+their values; values of these types have no elements. <I>Composite</I> types are 
+array and record types; values of these types consist of element values. 
+<I>Access</I> types provide access to objects of a given type. <I>File</I> types 
+provide access to objects that contain a sequence of values of a given type. 
+</P>
+<P>The set of possible values for an object of a given type can be subjected to 
+a condition that is called a <I>constraint</I> (the case where the constraint 
+imposes no restriction is also included); a value is said to <I>satisfy</I> a 
+constraint if it satisfies the corresponding condition. A <I>subtype</I> is a 
+type together with a constraint. A value is said to <I>belong to a subtype</I> 
+of a given type if it belongs to the type and satisfies the constraint; the 
+given type is called the <I>base type</I> of the subtype. A type is a subtype of 
+itself; such a subtype is said to be <I>unconstrained</I> (it corresponds to a 
+condition that imposes no restriction). The base type of a type is the type 
+itself. </P>
+<P>The set of operations defined for a subtype of a given type includes the 
+operations defined for the type; however, the assignment operation to an object 
+having a given subtype only assigns values that belong to the subtype. 
+Additional operations, such as qualification (in a qualified expression) are 
+implicitly defined by a subtype declaration. </P>
+<P>The term <I>subelement</I> is used in this manual in place of the term 
+element to indicate either an element, or an element of another element or 
+subelement. Where other subelements are excluded, the term <I>element</I> is 
+used instead. </P>
+<P>A given type must not have a subelement whose type is the given type itself. 
+</P>
+<P>A<I> member</I> of an object is either </P>
+<P>- A slice of the object, </P>
+<P>- A sub element of the object, or </P>
+<P>- A slice of a sub eleent of the object </P>
+<P>The name of a class of types is used in this manual as a qualifier for 
+objects and values that have a type of the class considered. For example, the 
+term <I>array object</I> is used for an object whose type is an array type; 
+similarly, the term <I>access value</I> is used for a value of an access type. 
+</P>
+<P>NOTE<I>--</I>The set of values of a subtype is a subset of the values of the 
+base type. This subset need not be a proper subset. </P>
+<H2><A name=3.1></A><A 
+href="1076_3.html#3.1">3.1 
+</A>Scalar Types </H2>
+<P>Scalar types consist of <I>enumeration types, integer types, physical 
+types</I>, and <I>floating point types</I>. Enumeration types and integer types 
+are called <I>discrete</I> types. Integer types, floating point types,and 
+physical types are called <I>numeric</I> types. All scalar types are ordered; 
+that is, all relational operators are predefined for their values. Each value of 
+a discrete or physical type has a position number that is an integer value. </P><PRE>     scalar_type_definition ::=
+
+           enumeration_type_definition | integer_type_definition
+
+         | floating_type_definition    |physical_type_definition
+
+
+
+     range_constraint ::=  <B>range</B> range
+
+
+
+     range ::=
+
+           <I>range</I>_attribute_name
+
+         | simple_expression direction simple_expression
+
+
+
+     direction ::=  <B>to</B> | <B>downto</B>
+
+</PRE>
+<P>A range specifies a subset of values of a scalar type. A range is said to be 
+a <I>null</I> range if the specified subset is empty. </P>
+<P>The range L <B>to</B> R is called an <I>ascending</I> range; if L &gt; R, 
+then the range is a null range. The range L <B>downto</B> R is called a 
+<I>descending</I> range; if L &lt; R, then the range is a null range. The 
+smaller of L and R is called the <I>lower bound</I>, and the larger, the 
+<I>upper bound</I>, of the range. The value V is said to <I>belong to the 
+range</I> if the relations (<I>lower bound</I> &lt;= V) and (V &lt;= <I>upper 
+bound</I>) are both true and the range is not a null range. The operators&gt;, 
+&lt;, and &lt;= in the preceding definitions are the predefined operators of the 
+applicable scalar type. </P>
+<P>For values of discrete or physical types, a value V1 is said to be <I>to the 
+left of</I> a value V2 within a given range if both V1 and V2 belong to the 
+range and either the range is an ascending range and V2 is the successor of V1 
+or the range is a descending range and V2 is the predecessor of V1. A list of 
+values of a given range is in <I>left</I> <I>to right order</I> if each value in 
+the list is to the left of the next value in the list within that range, except 
+for the last value in the list. </P>
+<P>If a range constraint is used in a subtype indication, the type of the 
+expressions (likewise, of the bounds of a range attribute) must be the same as 
+the base type of the type mark of the subtype indication. A range constraint is 
+<I>compatible</I> with a subtype if each bound of the range belongs to the 
+subtype or if the range constraint defines a null range. Otherwise, the range 
+constraint is not compatible with the subtype. </P>
+<P>The direction of a range constraint is the same as the direction of its 
+range. </P>
+<P>NOTE--Indexing and iteration rules use values of discrete types. </P>
+<H3><A name=3.1.1></A><A 
+href="1076_3.html#3.1.1">3.1.1 
+</A>Enumeration types</H3>
+<P>An enumeration type definition defines an enumeration type. </P><PRE>     enumeration_type_definition ::=
+
+        ( enumeration_literal { , enumeration_literal } )
+
+
+
+     enumeration_literal ::=  identifier | character_literal
+
+</PRE>
+<P>The identifiers and character literals listed by an enumeration type 
+definition must be distinct within the enumeration type definition. Each 
+enumeration literal is the declaration of the corresponding enumeration literal; 
+for the purpose of determining the parameter and result type profile of an 
+enumeration literal, this declaration is equivalent to the declaration of a 
+parameterless function whose designator is the same as the enumeration literal 
+and whose result type is the same as the enumeration type. </P>
+<P>An enumeration type is said to be a <I>character type</I> if at least one of 
+its enumeration literals is a character literal. </P>
+<P>Each enumeration literal yields a different enumeration value. The predefined 
+order relations between enumeration values follow the order of corresponding 
+position numbers. The position number of the value of the first listed 
+enumeration literal is zero; the position number for each additional enumeration 
+literal is one more than that of its predecessor in the list. </P>
+<P>If the same identifier or character literal is specified in more than one 
+enumeration type definition, the corresponding literals are said to be 
+<I>overloaded</I>. At any place where an overloaded enumeration literal occurs 
+in the text of a program, the type of the enumeration literal is determined 
+according to the rules for overloaded subprograms (see <A 
+href="1076_2.html#2.3">2.3 
+</A>). </P>
+<P>Each enumeration type definition defines an ascending range. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> MULTI_LEVEL_LOGIC <B>is</B> (LOW, HIGH, RISING, FALLING, AMBIGUOUS) ;
+
+
+
+     <B>type</B> BIT <B>is</B> ('0','1') ;
+
+
+
+     <B>type</B> SWITCH_LEVEL <B>is</B> ('0','1','X') ;       --  Overloads '0' and '1'
+
+</PRE>
+<H4><A name=3.1.1.1></A><A 
+href="1076_3.html#3.1.1.1">3.1.1.1 
+</A>Predefined enumeration types</H4>
+<P>The predefined enumeration types are CHARACTER, BIT, BOOLEAN, SEVERITY_LEVEL, 
+FILE_OPEN_KIND, and FILE_OPEN_STATUS. </P>
+<P>The predefined type CHARACTER is a character type whose values are the 256 
+characters of the ISO 8859-1 character set. Each of the 191 graphic characters 
+of this character set is denoted by the corresponding character literal. </P>
+<P>The declarations of the predefined types CHARACTER, BIT, BOOLEAN, 
+SEVERITY_LEVEL, FILE_OPEN_KIND, and FILE_OPEN_STATUS appear in package STANDARD 
+in Section 14. </P>
+<H4>NOTES</H4>
+<P>1--The first 17 nongraphic elements of the predefined type CHARACTER (from 
+NUL through DEL) are the ASCII abbreviations for the nonprinting characters in 
+the ASCII set (except for those noted in Section 14). The ASCII names are chosen 
+as ISO 8859-1 does not assign them abbreviations. The next 16 (C128through C159) 
+are also not assigned abbreviations, so names unique to VHDL are assigned. </P>
+<P>2--Type BOOLEAN can be used to model either active high or active low logic 
+depending on the particular conversion functions chosen to and from type BIT. 
+</P>
+<H3><A name=3.1.2></A><A 
+href="1076_3.html#3.1.2">3.1.2 
+</A>Integer types</H3>
+<P>An integer type definition defines an integer type whose set of values 
+includes those of the specified range. </P><PRE>     integer_type_definition ::=  range_constraint
+
+</PRE>
+<P>An integer type definition defines both a type and a subtype of that type. 
+The type is an anonymous type, the range of which is selected by the 
+implementation; this range must be such that it wholly contains the range given 
+in the integer type definition. The subtype is a named subtype of this anonymous 
+base type, where the name of the subtype is that given by the corresponding type 
+declaration and the range of the subtype is the given range. </P>
+<P>Each bound of a range constraint that is used in an integer type definition 
+must be a locally static expression of some integer type, but the two bounds 
+need not have the same integer type. (Negative bounds are allowed.) </P>
+<P>Integer literals are the literals of an anonymous predefined type that is 
+called <I>universal_integer </I>in this standard. Other integer types have no 
+literals. However, for each integer type there exists an implicit conversion 
+that converts a value of type <I>universal_integer</I> into the corresponding 
+value (if any) of the integer type (see <A 
+href="1076_7.html#7.3.5">7.3.5 
+</A>). </P>
+<P>The position number of an integer value is the corresponding value of the 
+type <I>universal_integer</I>. </P>
+<P>The same arithmetic operators are predefined for all integer types (see <A 
+href="1076_7.html#7.2">7.2 
+</A>). It is an error if the execution of such an operation (in particular, an 
+implicit conversion) cannot deliver the correct result (that is, if the value 
+corresponding to the mathematical result is not a value of the integer type). 
+</P>
+<P>An implementation may restrict the bounds of the range constraint of integer 
+types other than type <I>universal_integer</I>. However, an implementation must 
+allow the declaration of any integer type whose range is wholly contained within 
+the bounds -2147483647 and +2147483647 inclusive. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> TWOS_COMPLEMENT_INTEGER <B>is</B> <B>range</B> -32768 <B>to</B> 32767;
+
+
+
+     <B>type</B> BYTE_LENGTH_INTEGER <B>is</B> <B>range</B> 0 <B>to</B> 255;
+
+
+
+     <B>type</B> WORD_INDEX <B>is</B> <B>range</B> 31 <B>down to</B> 0;
+
+
+
+     <B>subtype</B> HIGH_BIT_LOW <B>is</B> BYTE_LENGTH_INTEGER <B>range</B> 0 <B>to</B> 127;
+
+</PRE>
+<H4><A name=3.1.2.1></A><A 
+href="1076_3.html#3.1.2.1">3.1.2.1 
+</A>Predefined integer types</H4>
+<P>The only predefined integer type is the type INTEGER. The range of INTEGER is 
+implementation dependent, but it is guaranteed to include the range 
+-2147483647to +2147483647. It is defined with an ascending range. </P>
+<P>NOTE--The range of INTEGER in a particular implementation may be determined 
+from the 'LOW and 'HIGH attributes. </P>
+<H3><A name=3.1.3></A><A 
+href="1076_3.html#3.1.3">3.1.3 
+</A>Physical types</H3>
+<P>Values of a physical type represent measurements of some quantity. Any value 
+of a physical type is an integral multiple of the primary unit of measurement 
+for that type. </P><PRE>     physical_type_definition ::=
+
+        range_constraint
+
+            <B>units</B>
+
+                primary_unit_declaration
+
+                { secondary_unit_declaration }
+
+            <B>end</B> <B>units</B> [ <I>physical_type</I>_simple_name ]
+
+     primary_unit_declaration ::=  identifier
+
+
+
+     secondary_unit_declaration ::=  identifier = physical_literal ;
+
+
+
+     physical_literal ::=  [ abstract_literal ] <I>unit</I>_name
+
+</PRE>
+<P>A physical type definition defines both a type and a subtype of that type. 
+The type is an anonymous type, the range of which is selected by the 
+implementation; this range must be such that it wholly contains the range given 
+in the physical type definition. The subtype is a named subtype of this 
+anonymous base type, where the name of the subtype is that given by the 
+corresponding type declaration and the range of the subtype is the given range. 
+</P>
+<P>Each bound of a range constraint that is used in a physical type definition 
+must be a locally static expression of some integer type, but the two bounds 
+need not have the same integer type. (Negative bounds are allowed.) </P>
+<P>Each unit declaration (either the primary unit declaration or a secondary 
+unit declaration) defines a <I>unit name</I>. Unit names declared in secondary 
+unit declarations must be directly or indirectly defined in terms of integral 
+multiples of the primary unit of the type declaration in which they appear. The 
+position numbers of unit names need not lie within the range specified by the 
+range constraint. </P>
+<P>If a simple name appears at the end of a physical type declaration, it must 
+repeat the identifier of the type declaration in which the physical type 
+definition is included. </P>
+<P>The abstract literal portion (if present) of a physical literal appearing in 
+a secondary unit declaration must be an integer literal. </P>
+<P>A physical literal consisting solely of a unit name is equivalent to the 
+integer 1 followed by the unit name. </P>
+<P>There is a position number corresponding to each value of a physical type. 
+The position number of the value corresponding to a unit name is the number of 
+primary units represented by that unit name. The position number of the value 
+corresponding to a physical literal with an abstract literal part is the largest 
+integer that is not greater than the product of the value of the abstract 
+literal and the position number of the accompanying unit name. </P>
+<P>The same arithmetic operators are predefined for all physical types (see <A 
+href="1076_7.html#7.2">7.2 
+</A>). It is an error if the execution of such an operation cannot deliver the 
+correct result (that is, if the value corresponding to the mathematical result 
+is not a value of the physical type). </P>
+<P>An implementation may restrict the bounds of the range constraint of a 
+physical type. However, an implementation must allow the declaration of any 
+physical type whose range is wholly contained within the bounds -2147483647 and 
++2147483647 inclusive. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> DURATION <B>is</B> <B>range</B> -1E18 <B>to</B> 1E18
+
+         <B>units</B>
+
+             fs;                       -- femtosecond
+
+             ps   =  1000 fs;          -- picosecond
+
+             ns   =  1000 ps;          -- nanosecond
+
+             us   =  1000 ns;          -- microsecond
+
+             ms   =  1000 us;          -- millisecond
+
+             sec  =  1000 ms;          -- second
+
+             min  =  60 sec;           -- minute
+
+         <B>end</B> <B>units</B>;
+
+
+
+     <B>type</B> DISTANCE <B>is</B> <B>range</B> 0 <B>to</B> 1E16
+
+          <B>units</B>
+
+          -- primary unit:
+
+               A;                      -- angstrom
+
+
+
+          -- metric lengths:
+
+             nm   =  10 A;            -- nanometer
+
+             um   =  1000 nm;         -- micrometer (or micron)
+
+             mm   =  1000 um;         -- millimeter
+
+             cm   =  10 mm;           -- centimeter
+
+             m    =  1000 mm;         -- meter
+
+             km   =  1000 m;          -- kilometer
+
+
+
+          -- English lengths:
+
+             mil  =  254000 A;        -- mil
+
+             inch =  1000 mil;        -- inch
+
+             ft   =  12 inch;         -- foot
+
+             yd   =  3 ft;            -- yard
+
+             fm   =  6 ft;            -- fathom
+
+             mi   =  5280 ft;         -- mile
+
+             lg   =  3 mi;            -- league
+
+         <B>end</B> <B>units</B> DISTANCE;
+
+
+
+     variable x: distance;  variable y: duration;  variable z: integer;
+
+
+
+     x := 5 A + 13 ft - 27 inch;
+
+     y := 3 ns + 5 min;
+
+     z := ns / ps;
+
+     x := z * mi;
+
+     y := y/10;
+
+     z := 39.34 inch / m;
+
+</PRE>
+<P></P>
+<H4>NOTES</H4>
+<P>1-- The 'POS and 'VAL attributes may be used to convert between abstract 
+values and physical values. </P>
+<P>2-- The value of a physical literal whose abstract literal is either the 
+integer value zero or the floating point value zero is the same value 
+(specifically zero primary units) no matter what unit name follows the abstract 
+literal. </P>
+<H4><A name=3.1.3.1></A><A 
+href="1076_3.html#3.1.3.1">3.1.3.1 
+</A>Predefined physical types</H4>
+<P>The only predefined physical type is type TIME. The range of TIME is 
+implementation dependent, but it is guaranteed to include the range -2147483647 
+to +2147483647. It is defined with an ascending range. All specifications of 
+delays and pulse rejection limits must be of type TIME. The declaration of type 
+TIME appears in package STANDARD in Section 14. </P>
+<P>By default, the primary unit of type TIME (1 femtosecond) is the 
+<I>resolution limit</I> for type TIME. Any TIME value whose absolute value is 
+smaller than this limit is truncated to zero (0) time units. An implementation 
+may allow a given execution of a model (see <A 
+href="1076_12.html#12.6">12.6 
+</A>) to select a secondary unit of type TIME as the resolution limit. 
+Furthermore, an implementation may restrict the precision of the representation 
+of values of type TIME and the results of expressions of type TIME, provided 
+that values as small as the resolution limit are representable within those 
+restrictions. It is an error if a given unit of type TIME appears anywhere 
+within the design hierarchy defining a model to be executed, and if the position 
+number of that unit is less than that of the secondary unit selected as the 
+resolution limit for type TIME during the execution of the model. </P>
+<P>NOTE--By selecting a secondary unit of type TIME as the resolution limit for 
+type TIME, it may be possible to simulate for a longer period of simulated time, 
+with reduced accuracy, or to simulate with greater accuracy for a shorter period 
+of simulated time. </P>
+<P><I>Cross-References:</I> Delay and rejection limit in a signal assignment, <A 
+href="1076_8.html#8.4">8.4 
+</A>; Disconnection, delay of a guarded signal, <A 
+href="1076_5.html#5.3">5.3 
+</A>; Function NOW, <A 
+href="1076_14.html#14.2">14.2 
+</A>;Predefined attributes, functions of TIME, <A 
+href="1076_14.html#14.1">14.1 
+</A>; Simulation time, <A 
+href="1076_12.html#12.6.2">12.6.2 
+</A>and <A 
+href="1076_12.html#12.6.3">12.6.3 
+</A>; Type TIME, <A 
+href="1076_14.html#14.2">14.2 
+</A>; Updating a projected waveform, <A 
+href="1076_8.html#8.4.1">8.4.1 
+</A>; Wait statements, timeout clause in, <A 
+href="1076_8.html#8.1">8.1 
+</A>. </P>
+<H3><A name=3.1.4></A><A 
+href="1076_3.html#3.1.4">3.1.4 
+</A>Floating point types</H3>
+<P>Floating point types provide approximations to the real numbers. Floating 
+point types are useful for models in which the precise characterization of a 
+floating point calculation is not important or not determined. </P><PRE>     floating_type_definition ::=  range_constraint
+
+</PRE>
+<P>A floating type definition defines both a type and a subtype of that type. 
+The type is an anonymous type, the range of which is selected by the 
+implementation; this range must be such that it wholly contains the range given 
+in the floating type definition. The subtype is a named subtype of this 
+anonymous base type, where the name of the subtype is that given by the 
+corresponding type declaration and the range of the subtype is the given range. 
+</P>
+<P>Each bound of a range constraint that is used in a floating type definition 
+must be a locally static expression of some floating point type, but the two 
+bounds need not have the same floating point type. (Negative bounds are 
+allowed.) </P>
+<P>Floating point literals are the literals of an anonymous predefined type that 
+is called <I>universal_real</I> in this standard. Other floating point types 
+have no literals. However, for each floating point type there exists an implicit 
+conversion that converts a value of type <I>universal_real</I> into the 
+corresponding value (if any) of the floating point type (see <A 
+href="1076_7.html#7.3.5">7.3.5 
+</A>). </P>
+<P>The same arithmetic operations are predefined for all floating point types 
+(see <A 
+href="1076_7.html#7.2">7.2 
+</A>). A design is erroneous if the execution of such an operation cannot 
+deliver the correct result (that is, if the value corresponding to the 
+mathematical result is not a value of the floating point type). </P>
+<P>An implementation may restrict the bounds of the range constraint of floating 
+point types other than type <I>universal_real</I>. However, an implementation 
+must allow the declaration of any floating point type whose range is wholly 
+contained within the bounds - <A 
+href="1076_1.html#1.0">1.0 
+</A>E38 and + <A 
+href="1076_1.html#1.0">1.0 
+</A>E38 inclusive. The representation of floating point types must include a 
+minimum of six decimal digits of precision. </P>
+<P>NOTE--An implementation is not required to detect errors in the execution of 
+a predefined floating point arithmetic operation, since the detection of 
+overflow conditions resulting from such operations may not be easily 
+accomplished on many host systems. </P>
+<H4><A name=3.1.4.1></A><A 
+href="1076_3.html#3.1.4.1">3.1.4.1 
+</A>Predefined floating point types</H4>
+<P>The only predefined floating point type is the type REAL. The range of REAL 
+is host-dependent, but it is guaranteed to include the range - <A 
+href="1076_1.html#1.0">1.0 
+</A>E38 to + <A 
+href="1076_1.html#1.0">1.0 
+</A>E38 inclusive. It is defined with an ascending range. </P>
+<P>NOTE--The range of REAL in a particular implementation may be determined from 
+the 'LOW and 'HIGH attributes. </P>
+<H2><A name=3.2></A><A 
+href="1076_3.html#3.2">3.2 
+</A>Composite types</H2>
+<P>Composite types are used to define collections of values. These include both 
+arrays of values (collections of values of a homogeneous type) and records of 
+values (collections of values of potentially heterogeneous types). </P><PRE>     composite_type_definition ::=
+
+          array_type_definition
+
+        | record_type_definition
+
+</PRE>
+<P>An object of a composite type represents a collection of objects, one for 
+each element of the composite object. A composite type may only contain elements 
+that are of scalar, composite, or access types; elements of file types are not 
+allowed in a composite type. Thus an object of a composite type ultimately 
+represents a collection of objects of scalar or access types, one for each 
+noncomposite subelement of the composite object. </P>
+<H3><A name=3.2.1></A><A 
+href="1076_3.html#3.2.1">3.2.1 
+</A>Array types</H3>
+<P>An array object is a composite object consisting of elements that have the 
+same subtype. The name for an element of an array uses one or more index values 
+belonging to specified discrete types. The value of an array object is a 
+composite value consisting of the values of its elements. </P><PRE>     array_type_definition ::=
+
+         unconstrained_array_definition | constrained_array_definition
+
+
+
+     unconstrained_array_definition ::=
+
+         <B>array</B> ( index_subtype_definition { , index_subtype_definition } )
+
+             <B>of</B> <I>element</I>_subtype_indication
+
+
+
+     constrained_array_definition ::=
+
+         <B>array</B> index_constraint <B>of</B> <I>element</I>_subtype_indication
+
+
+
+     index_subtype_definition ::=  type_mark <B>range</B> &lt;&gt;
+
+
+
+     index_constraint ::=  ( discrete_range { , discrete_range } )
+
+
+
+     discrete_range ::=  <I>discrete</I>_subtype_indication | range
+
+</PRE>
+<P>An array object is characterized by the number of indices (the dimensionality 
+of the array); the type, position, and range of each index; and the type and 
+possible constraints of the elements. The order of the indices is significant. 
+</P>
+<P>A one-dimensional array has a distinct element for each possible index value. 
+A multidimensional array has a distinct element for each possible sequence of 
+index values that can be formed by selecting one value for each index (in the 
+given order). The possible values for a given index are all the values that 
+belong to the corresponding range; this range of values is called the <I>index 
+range</I>. </P>
+<P>An unconstrained array definition defines an array type and a name denoting 
+that type. For each object that has the array type, the number of indices, the 
+type and position of each index, and the subtype of the elements are as in the 
+type definition. The <I>index subtype</I> for a given index position is, by 
+definition, the subtype denoted by the type mark of the corresponding index 
+subtype definition. The values of the left and right bounds of each index range 
+are not defined but must belong to the corresponding index subtype; similarly, 
+the direction of each index range is not defined. The symbol &lt;&gt; (called a 
+<I>box</I>) in an index subtype definition stands for an undefined range 
+(different objects of the type need not have the same bounds and direction). 
+</P>
+<P>A constrained array definition defines both an array type and a subtype of 
+this type: </P>
+<P>-- The array type is an implicitly declared anonymous type; this type is 
+defined by an (implicit) unconstrained array definition, in which the element 
+subtype indication is that of the constrained array definition and in which the 
+type mark of each index subtype definition denotes the subtype defined by the 
+corresponding discrete range. </P>
+<P>-- The array subtype is the subtype obtained by imposition of the index 
+constraint on the array type. </P>
+<P>If a constrained array definition is given for a type declaration, the simple 
+name declared by this declaration denotes the array subtype. </P>
+<P>The direction of a discrete range is the same as the direction of the range 
+or the discrete subtype indication that defines the discrete range. If a subtype 
+indication appears as a discrete range, the subtype indication must not contain 
+a resolution function. </P>
+<P><I>Examples:</I> </P><PRE>--Examples of constrained array declarations:
+
+
+
+     <B>type</B> MY_WORD <B>is</B> <B>array</B> (0 <B>to</B> 31) <B>of</B> BIT ;
+
+         --  A memory word type with an ascending range.
+
+
+
+     <B>type</B> DATA_IN <B>is</B> <B>array</B> (7 <B>downto</B> 0) <B>of</B> FIVE_LEVEL_LOGIC ;
+
+         --  An input port type with a descending range.
+
+
+
+--Example of unconstrained array declarations:
+
+
+
+     <B>type</B> MEMORY <B>is</B> <B>array</B> (INTEGER <B>range</B> &lt;&gt;) <B>of</B> MY_WORD ;
+
+         --  A memory array type.
+
+
+
+--Examples of array object declarations:
+
+
+
+     <B>signal</B> DATA_LINE : DATA_IN ;
+
+         --  Defines a data input line.
+
+
+
+     <B>variable</B> MY_MEMORY : MEMORY (0 <B>to</B> 2</PRE>
+<P><SUP>n-1</SUP>) ; -- Defines a memory of 2<SUP>n</SUP> 32-bit words. </P>
+<P>NOTE--The rules concerning constrained type declarations mean that a type 
+declaration with a constrained array definition such as </P><PRE>     <B>type</B> T <B>is</B> <B>array</B> (POSITIVE <B>range</B> MINIMUM <B>to</B> MAX) <B>of</B> ELEMENT;
+
+</PRE>
+<P>is equivalent to the sequence of declarations </P><PRE>     <B>subtype</B> <I>index_subtype</I> <B>is</B> POSITIVE <B>range</B> MINIMUM <B>to</B> MAX;
+
+     <B>type</B> <I>array_type</I> <B>is array</B> (<I>index_subtype</I> <B>range</B> &lt;&gt;) <B>of</B> ELEMENT;
+
+     <B>subtype</B> T <B>is</B> <I>array</I>_<I>type</I> (<I>index_subtype)</I>;
+
+</PRE>
+<P>where <I>index_subtype</I> and <I>array_type</I> are both anonymous. 
+Consequently, T is the name of a subtype and all objects declared with this type 
+mark are arrays that have the same index range. </P>
+<H4><A name=3.2.1.1></A><A 
+href="1076_3.html#3.2.1.1">3.2.1.1 
+</A>Index constraints and discrete ranges</H4>
+<P>An index constraint determines the index range for every index of an array 
+type and, thereby, the corresponding array bounds. </P>
+<P>For a discrete range used in a constrained array definition and defined by a 
+range, an implicit conversion to the predefined type INTEGER is assumed if each 
+bound is either a numeric literal or an attribute, and if the type of both 
+bounds (prior to the implicit conversion) is the type <I>universal_integer</I>. 
+Otherwise, both bounds must be of the same discrete type, other than 
+<I>universal_integer</I>; this type must be determined independently of the 
+context, but using the fact that the type must be discrete and that both bounds 
+must have the same type. These rules apply also to a discrete range used in an 
+iteration scheme (see <A 
+href="1076_8.html#8.9">8.9 
+</A>) or a generation scheme (see <A 
+href="1076_9.html#9.7">9.7 
+</A>). </P>
+<P>If an index constraint appears after a type mark in a subtype indication, 
+then the type or subtype denoted by the type mark must not already impose an 
+index constraint. The type mark must denote either an unconstrained array type 
+or an access type whose designated type is such an array type. In either case, 
+the index constraint must provide a discrete range for each index of the array 
+type, and the type of each discrete range must be the same as that of the 
+corresponding index. </P>
+<P>An index constraint is <I>compatible</I> with the type denoted by the type 
+mark if and only if the constraint defined by each discrete range is compatible 
+with the corresponding index subtype. If any of the discrete ranges defines a 
+null range, any array thus constrained is a <I>null array</I>, having no 
+components. An array value <I>satisfies</I> an index constraint if at each index 
+position the array value and the index constraint have the same index range. 
+(Note, however, that assignment and certain other operations on arrays involve 
+an implicit subtype conversion.) </P>
+<P>The index range for each index of an array object is determined as follows: 
+</P>
+<P>-- For a variable or signal declared by an object declaration, the subtype 
+indication of the corresponding object declaration must define a constrained 
+array subtype (and thereby, the index range for each index of the object). The 
+same requirement exists for the subtype indication of an element declaration, if 
+the type of the record element is an array type, and for the element subtype 
+indication of an array type definition, if the type of the array element is 
+itself an array type. </P>
+<P>-- For a constant declared by an object declaration, the index ranges are 
+defined by the initial value, if the subtype of the constant is unconstrained; 
+otherwise, they are defined by this subtype (in which case the initial value is 
+the result of an implicit subtype conversion). </P>
+<P>-- For an attribute whose value is specified by an attribute specification, 
+the index ranges are defined by the expression given in the specification, if 
+the subtype of the attribute is unconstrained; otherwise, they are defined by 
+this subtype (in which case the value of the attribute is the result of an 
+implicit subtype conversion). </P>
+<P>-- For an array object designated by an access value, the index ranges are 
+defined by the allocator that creates the array object (see <A 
+href="1076_7.html#7.3.6">7.3.6 
+</A>). </P>
+<P>-- For an interface object declared with a subtype indication that defines a 
+constrained array subtype, the index ranges are defined by that subtype. </P>
+<P>-- For a formal parameter of a subprogram that is of an unconstrained array 
+type and that is associated in whole (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>), the index ranges are obtained from the corresponding association element 
+in the applicable subprogram call. </P>
+<P>-- For a formal parameter of a subprogram that is of an unconstrained array 
+type and whose subelements are associated individually (see <A 
+href="1076_4.html#4.3.2.2">4.3.2.2 
+</A>), the index ranges are obtained as follows: </P>
+<P>The directions of the index ranges of the formal parameter are that of the 
+type of the formal; the high and low bounds of the index ranges are respectively 
+determined from the maximum and minimum values of the indices given in the 
+association elements corresponding to the formal. </P>
+<P>-- For a formal generic or a formal port of a design entity or of a block 
+statement that is of an unconstrained array type and that is associated in 
+whole, the index ranges are obtained from the corresponding association element 
+in the generic map aspect (in the case of a formal generic) or port map aspect 
+(in the case of a formal port) of the applicable (implicit or explicit) binding 
+indication. </P>
+<P>-- For a formal generic or a formal port of a design entity or of a block 
+statement that is of an unconstrained array type and whose subelements are 
+associated individually, the index ranges are obtained as follows: </P>
+<P>The directions of the index ranges of the formal generic or formal port are 
+that of the type of the formal; the high and low bounds of the index ranges are 
+respectively determined from the maximum and minimum values of the indices given 
+in the association elements corresponding to the formal. </P>
+<P>-- For a local generic or a local port of a component that is of an 
+unconstrained array type and that is associated in whole, the index ranges are 
+obtained from the corresponding association element in the generic map aspect 
+(in the case of a local generic) or port map aspect (in the case of a local 
+port) of the applicable component instantiation statement. </P>
+<P>-- For a local generic or a local port of a component that is of an 
+unconstrained array type and whose subelements are associated individually, the 
+index ranges are obtained as follows: </P>
+<P>The directions of the index ranges of the local generic or local port are 
+that of the type of the local; the high and low bounds of the index ranges are 
+respectively determined from the maximum and minimum values of the indices given 
+in the association elements corresponding to the local. </P>
+<P>If the index ranges for an interface object, or member of an interface 
+object, are obtained from the corresponding association element (when 
+associating in whole) or elements (when associating individually), then they are 
+determined either by the actual part(s) or by the formal part(s) of the 
+association element(s), depending upon the mode of the interface object, as 
+follows: </P>
+<P>-- For an interface object or member of an interface object whose mode is 
+<B>in</B>, <B>inout</B>, or <B>linkage</B>, if the actual part includes a 
+conversion function or a type conversion, then the result type of that function 
+or the type mark of the type conversion must be a constrained array subtype, and 
+the index ranges are obtained from this constrained subtype;otherwise, the index 
+ranges are obtained from the object or value denoted by the actual 
+designator(s). </P>
+<P>-- For an interface object or member of an intercace object whose mode is 
+<B>out</B>, <B>buffer</B>, <B>inout</B>,or <B>linkage</B>, if the formal part 
+includes a conversion function or a type conversion, then the parameter subtype 
+of that function or the type mark of the type conversion must be a constrained 
+array subtype, and the index ranges are obtained from this constrained subtype; 
+otherwise, the index ranges are obtained from the object denoted by the actual 
+designator(s). </P>
+<P>For an interface object of mode <B>inout</B> or <B>linkage</B>, the index 
+ranges determined by the first rule must be identical to the index ranges 
+determined by the second rule. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> Word <B>is</B> <B>array</B> (NATURAL <B>range</B> &lt;&gt;) <B>of</B> BIT;
+
+     <B>type</B> Memory <B>is</B> <B>array</B> (NATURAL <B>range</B> &lt;&gt;) <B>of</B> Word (31 <B>downto</B> 0);
+
+
+
+     <B>constant</B> A_Word: Word := "10011";
+
+         --  The index range of A_Word is 0 <B>to</B> 4
+
+
+
+     <B>entity</B> E <B>is</B>
+
+          <B>generic</B> (ROM: Memory);
+
+          <B>port</B> (Op1, Op2: <B>in</B> Word;  Result: <B>out</B> Word);
+
+     <B>end</B> <B>entity</B> E;
+
+         --  The index ranges of the generic and the ports are defined by the actuals associated
+
+         --  with an instance bound to E; these index ranges are accessible via the predefined
+
+         --  array attributes (see <A href="1076_14.html#14.1">14.1 </A> ).
+
+
+
+     <B>signal</B> A, B: Word (1 <B>to</B> 4);
+
+     <B>signal</B> C: Word (5 <B>downto</B> 0);
+
+
+
+     Instance: <B>entity</B> E
+
+          <B>generic</B> <B>map</B> ((1 <B>to</B> 2) =&gt; (<B>others</B> =&gt; '0'))
+
+          <B>port</B> <B>map</B> (A, Op2(3 <B>to</B> 4) =&gt; B (1 <B>to</B> 2), Op2(2) =&gt; B (3), Result =&gt; C (3 <B>downto</B> 1));
+
+               --  In this instance, the index range of ROM is 1 <B>to</B> 2 (matching that of the actual),
+
+               --  The index range of Op1  is 1 <B>to</B> 4 (matching the index range of A), the index range
+
+               --  of Op2 is 2 <B>to</B> 4, and the index range of Result is (3 <B>downto</B> 1)
+
+               --  (again matching the index range of the actual).
+
+</PRE>
+<H4><A name=3.2.1.2></A><A 
+href="1076_3.html#3.2.1.2">3.2.1.2 
+</A>Predefined array types</H4>
+<P>The predefined array types are STRING and BIT_VECTOR, defined in package 
+STANDARD in Section 14. </P>
+<P>The values of the predefined type STRING are one-dimensional arrays of the 
+predefined type CHARACTER, indexed by values of the predefined subtype POSITIVE: 
+</P><PRE>     <B>subtype</B> POSITIVE <B>is</B> INTEGER <B>range</B> 1 <B>to</B> INTEGER'HIGH ;
+
+     <B>type</B> STRING <B>is</B> <B>array </B>(POSITIVE <B>range</B> &lt;&gt;) <B>of</B> CHARACTER ;
+
+</PRE>
+<P>The values of the predefined type BIT_VECTOR are one-dimensional arrays of 
+the predefined type BIT, indexed by values of the predefined subtype NATURAL: 
+</P><PRE>     <B>subtype</B> NATURAL <B>is</B> INTEGER <B>range</B> 0 <B>to</B> INTEGER'HIGH ;
+
+     <B>type</B> BIT_VECTOR <B>is</B> <B>array</B> (NATURAL <B>range</B> &lt;&gt;) <B>of</B> BIT ;
+
+</PRE>
+<P><I>Examples:</I> </P><PRE>     <B>variable</B> MESSAGE : STRING(1 <B>to</B> 17) := "THIS IS A MESSAGE" ;
+
+
+
+     <B>signal</B> LOW_BYTE : BIT_VECTOR (0 <B>to</B> 7) ;
+
+</PRE>
+<H3><A name=3.2.2></A><A 
+href="1076_3.html#3.2.2">3.2.2 
+</A>Record types</H3>
+<P>A record type is a composite type, objects of which consist of named 
+elements. The value of a record object is a composite value consisting of the 
+values of its elements. </P><PRE>     record_type_definition ::=
+
+         <B>record</B>
+
+              element_declaration
+
+             { element_declaration }
+
+         <B>end</B> <B>record</B> [ <I>record_type</I>_simple_name ]
+
+
+
+     element_declaration ::=
+
+         identifier_list : element_subtype_definition ;
+
+
+
+         identifier_list ::=  identifier { , identifier }
+
+
+
+         element_subtype_definition ::=  subtype_indication
+
+</PRE>
+<P>Each element declaration declares an element of the record type. The 
+identifiers of all elements of a record type must be distinct. The use of a name 
+that denotes a record element is not allowed within the record type definition 
+that declares the element. </P>
+<P>An element declaration with several identifiers is equivalent to a sequence 
+of single element declarations. Each single element declaration declares a 
+record element whose subtype is specified by the element subtype definition. 
+</P>
+<P>If a simple name appears at the end of a record type declaration, it must 
+repeat the identifier of the type declaration in which the record type 
+definition is included. </P>
+<P>A record type definition creates a record type; it consists of the element 
+declarations in the order in which they appear in the type definition. </P>
+<P><I>Example:</I> </P><PRE>     <B>type</B> DATE <B>is</B>
+
+         <B>record</B>
+
+             DAY    :INTEGER <B>range</B> 1 <B>to</B> 31;
+
+             MONTH  :MONTH_NAME;
+
+             YEAR   :INTEGER <B>range</B> 0 <B>to</B> 4000;
+
+         <B>end</B> <B>record</B>;
+
+</PRE>
+<H2><A name=3.3></A><A 
+href="1076_3.html#3.3">3.3 
+</A>Access types</H2>
+<P>An object declared by an object declaration is created by the elaboration of 
+the object declaration and is denoted by a simple name or by some other form of 
+name. In contrast, objects that are created by the evaluation of allocators (see 
+<A 
+href="1076_7.html#7.3.6">7.3.6 
+</A>) have no simple name. Access to such an object is achieved by an <I>access 
+value</I> returned by an allocator; the access value is said to <I>designate</I> 
+the object. </P><PRE>     access_type_definition ::=  <B>access</B> subtype_indication
+
+</PRE>
+<P>For each access type, there is a literal <B>null</B> that has a null access 
+value designating no object at all. The null value of an access type is the 
+default initial value of the type. Other values of an access type are obtained 
+by evaluation of a special operation of the type, called an <I>allocator</I>. 
+Each such access value designates an object of the subtype defined by the 
+subtype indication of the access type definition. This subtype is called the 
+<I>designated subtype</I> and the base type of this subtype is called the 
+<I>designated type</I>. The designated type must not be a file type. </P>
+<P>An object declared to be of an access type must be an object of class 
+variable. An object designated by an access value is always an object of class 
+variable. </P>
+<P>The only form of constraint that is allowed after the name of an access type 
+in a subtype indication is an index constraint. An access value belongs to a 
+corresponding subtype of an access type either if the access value is the null 
+value or if the value of the designated object satisfies the constraint. </P>
+<P><I>Examples:</I> </P><PRE>     <B>type</B> ADDRESS <B>is access</B> MEMORY;
+
+     <B>type</B> BUFFER_PTR <B>is access</B> TEMP_BUFFER;
+
+</PRE>
+<H4>NOTES</H4>
+<P>1--An access value delivered by an allocator can be assigned to several 
+variables of the corresponding access type. Hence, it is possible for an object 
+created by an allocator to be designated by more than one variable of the access 
+type. An access value can only designate an object created by an allocator; in 
+particular, it cannot designate an object declared by an object declaration. 
+</P>
+<P>2--If the type of the object designated by the access value is an array type, 
+this object is constrained with the array bounds supplied implicitly or 
+explicitly for the corresponding allocator. </P>
+<H3><A name=3.3.1></A><A 
+href="1076_3.html#3.3.1">3.3.1 
+</A>Incomplete type declarations</H3>
+<P>The designated type of an access type can be of any type except a file type 
+(see <A 
+href="1076_3.html#3.3">3.3 
+</A>). In particular, the type of an element of the designated type can be 
+another access type or even the same access type. This permits mutually 
+dependent and recursive access types. Declarations of such types require a prior 
+incomplete type declaration for one or more types. </P><PRE>     incomplete_type_declaration ::=  <B>type</B> identifier ;
+
+</PRE>
+<P>For each incomplete type declaration there must be a corresponding full type 
+declaration with the same identifier. This full type declaration must occur 
+later and immediately within the same declarative part as the incomplete type 
+declaration to which it corresponds. </P>
+<P>Prior to the end of the corresponding full type declaration, the only allowed 
+use of a name that denotes a type declared by an incomplete type declaration is 
+as the type mark in the subtype indication of an access type definition; no 
+constraints are allowed in this subtype indication. </P>
+<P><I>Example of a recursive type:</I> </P><PRE>     <B>type</B> CELL;                                      --  An incomplete type declaration.
+
+
+
+     <B>type</B> LINK <B>is</B> <B>access</B> CELL;
+
+
+
+     <B>type</B> CELL <B>is</B>
+
+          <B>record</B>
+
+              VALUE    : INTEGER;
+
+              SUCC     : LINK;
+
+              PRED     : LINK;
+
+          <B>end</B> <B>record</B> CELL;
+
+     <B>variable</B> HEAD : LINK := <B>new</B> CELL'(0, <B>null</B>, <B>null</B>);
+
+     <B>variable</B> \NEXT\ : LINK := HEAD.SUCC;
+
+</PRE>
+<P><I>Examples of mutually dependent access types:</I> </P><PRE>     <B>type</B> PART;                                      --  Incomplete type declarations.
+
+     <B>type</B> WIRE;
+
+
+
+     <B>type</B> PART_PTR <B>is access</B> PART;
+
+     <B>type</B> WIRE_PTR <B>is access</B> WIRE;
+
+
+
+     <B>type</B> PART_LIST <B>is array</B> (POSITIVE <B>range</B> &lt;&gt;) <B>of</B> PART_PTR;
+
+     <B>type</B> WIRE_LIST <B>is array</B> (POSITIVE <B>range</B> &lt;&gt;) <B>of</B> WIRE_PTR;
+
+
+
+     <B>type</B> PART_LIST_PTR <B>is access</B> PART_LIST;
+
+     <B>type</B> WIRE_LIST_PTR <B>is access</B> WIRE_LIST;
+
+
+
+     <B>type</B> PART <B>is</B>
+
+         <B>record</B>
+
+             PART_NAME     : STRING (1 <B>to</B> MAX_STRING_LEN);
+
+             CONNECTIONS   : WIRE_LIST_PTR;
+
+         <B>end record</B>;
+
+
+
+     <B>type</B> WIRE <B>is</B>
+
+         <B>record</B>
+
+             WIRE_NAME     : STRING (1 <B>to</B> MAX_STRING_LEN);
+
+             CONNECTS      : PART_LIST_PTR;
+
+         <B>end record</B>;
+
+</PRE>
+<H3><A name=3.3.2></A><A 
+href="1076_3.html#3.3.2">3.3.2 
+</A>Allocation and deallocation of objects</H3>
+<P>An object designated by an access value is allocated by an allocator for that 
+type. An allocator is a primary of an expression; allocators are described in <A 
+href="1076_7.html#7.3.6">7.3.6 
+</A>. For each access type, a deallocation operation is implicitly declared 
+immediately following the full type declaration for the type. This deallocation 
+operation makes it possible to deallocate explicitly the storage occupied by a 
+designated object. </P>
+<P>Given the following access type declaration: </P><PRE>     <B>type</B> AT <B>is access</B> T;
+
+</PRE>
+<P>the following operation is implicitly declared immediately following the 
+access type declaration: </P><PRE>     <B>procedure</B> DEALLOCATE (P: <B>inout</B> AT) ;
+
+</PRE>
+<P>Procedure DEALLOCATE takes as its single parameter a variable of the 
+specified access type. If the value of that variable is the null value for the 
+specified access type, then the operation has no effect. If the value of that 
+variable is an access value that designates an object, the storage occupied by 
+that object is returned to the system and may then be reused for subsequent 
+object creation through the invocation of an allocator. The access parameter P 
+is set to the null value for the specified type. </P>
+<P>NOTE--If a pointer is copied to a second variable and is then deallocated,the 
+second variable is <I>not</I> set to null and thus references invalid storage. 
+</P>
+<H2><A name=3.4></A><A 
+href="1076_3.html#3.4">3.4 
+</A>File types</H2>
+<P>A file type definition defines a file type. File types are used to define 
+objects representing files in the host system environment. The value of a file 
+object is the sequence of values contained in the host system file. </P><PRE>     file_type_definition ::=  <B>file</B> <B>of</B> type_mark
+
+</PRE>
+<P>The type mark in a file type definition defines the subtype of the values 
+contained in the file. The type mark may denote either a constrained or an 
+unconstrained subtype. The base type of this subtype must not be a file type or 
+an access type. If the base type is a composite type, it must not contain a 
+subelement of an access type. If the base type is an array type, it must be a 
+one-dimensional array type. </P>
+<P><I>Examples:</I> </P><PRE>     <B>file of</B> STRING           --  Defines a file type that can contain
+
+                              --  an indefinite number of strings of arbitrary length.
+
+     <B>file</B> <B>of</B> NATURAL          --  Defines a file type that can contain
+
+                              --  only nonnegative integer values.
+
+</PRE>
+<H3><A name=3.4.1></A><A 
+href="1076_3.html#3.4.1">3.4.1 
+</A>File operations</H3>
+<P>The language implicitly defines the operations for objects of a file type. 
+Given the following file type declaration: </P><PRE>     <B>type</B> FT <B>is file of</B> TM;
+
+</PRE>
+<P>where type mark TM denotes a scalar type, a record type, or a constrained 
+array subtype, the following operations are implicitly declared immediately 
+following the file type declaration: </P><PRE>     <B>procedure</B> FILE_OPEN (<B>file</B> F: FT;
+
+	            External_Name: <B>in</B> STRING;
+
+	            Open_Kind: <B>in</B> FILE_OPEN_KIND := READ_MODE);
+
+
+
+     <B>procedure</B> FILE_OPEN (Status: <B>out</B> FILE_OPEN_STATUS;
+
+		 <B>   file</B> F: FT;
+
+	            External_Name: <B>in</B> STRING;
+
+	            Open_Kind: <B>in</B> FILE_OPEN_KIND := READ_MODE);
+
+
+
+     <B>procedure</B> FILE_CLOSE (<B>file</B> F: FT);
+
+
+
+     <B>procedure</B> READ (<B>file</B> F: FT; VALUE: <B>out</B> TM);
+
+
+
+     <B>procedure</B> WRITE (<B>file</B> F: FT; VALUE: <B>in</B> TM);
+
+
+
+     <B>function</B> ENDFILE (<B>file</B> F:<B> </B>FT) <B>return</B> BOOLEAN;
+
+</PRE>
+<P>The FILE_OPEN procedures open an external file specified by the External_Name 
+parameter and associate it with the file object F. If the call to FILE_OPEN is 
+successful (see below), the file object is said to be <I>open</I> and the file 
+object has an <I>access mode</I> dependent on the value supplied to the 
+Open_Kind parameter (see <A 
+href="1076_14.html#14.2">14.2 
+</A>). </P>
+<P>-- If the value supplied to the Open_Kind parameter is READ_MODE, the access 
+mode of the file object is <I>read-only</I>. In addition, the file object is 
+initialized so that a subsequent READ will return the first value in the 
+external file. Values are read from the file object in the order that they 
+appear in the external file. </P>
+<P>-- If the value supplied to the Open_Kind parameter is WRITE_MODE, the access 
+mode of the file object is <I>write-only</I>. In addition, the external file is 
+made initially empty. Values written to the file object are placed in the 
+external file in the order in which they are written. </P>
+<P>-- If the value supplied to the Open_Kind parameter is APPEND_MODE, the 
+access mode of the file object is <I>write-only</I>. In addition, the file 
+object is initialized so that values written to it will be added to the end of 
+the external file in the order in which they are written. </P>
+<P>In the second form of FILE_OPEN, the value returned through the Status 
+parameter indicates the results of the procedure call: </P>
+<P>-- A value of OPEN_OK indicates that the call to FILE_OPEN was successful. If 
+the call to FILE_OPEN specifies an external file that does not exist at the 
+beginning of the call, and if the access mode of the file object passed to the 
+call is write-only, then the external file is created. </P>
+<P>-- A value of STATUS_ERROR indicates that the file object already has an 
+external file associated with it. </P>
+<P>-- A value of NAME_ERROR indicates that the external file does not exist (in 
+the case of an attempt to read from the external file) or the external file 
+cannot be created (in the case of an attempt to write or append to an external 
+file that does not exist). This value is also returned if the external file 
+cannot be associated with the file object for any reason. </P>
+<P>-- A value of MODE_ERROR indicates that the external file cannot be opened 
+with the requested Open_Kind. </P>
+<P>The first form of FILE_OPEN causes an error to occur if the second form of 
+FILE_OPEN, when called under identical conditions, would return a Status value 
+other than OPEN_OK. </P>
+<P>A call to FILE_OPEN of the first form is <I>successful</I> if and only if the 
+call does not cause an error to occur. Similarly, a call to FILE_OPEN of the 
+second form is successful if and only if it returns a Status value of OPEN_OK. 
+</P>
+<P>If a file object F is associated with an external file, procedure FILE_CLOSE 
+terminates access to the external file associated with F and closes the external 
+file. If F is not associated with an external file, then FILE_CLOSE has no 
+effect. In either case, the file object is no longer open after a call to 
+FILE_CLOSE that associates the file object with the formal parameter F. </P>
+<P>An implicit call to FILE_CLOSE exists in a subprogram body for every file 
+object declared in the corresponding subprogram declarative part. Each such call 
+associates a unique file object with the formal parameter F and is called 
+whenever the corresponding subprogram completes its execution. </P>
+<P>Procedure READ retrieves the next value from a file; it is an error if the 
+access mode of the file object is write-only or if the file object is not open. 
+Procedure WRITE appends a value to a file; it is similarly an error if the 
+access mode of the file object is read-only or if the file is not open. Function 
+ENDFILE returns FALSE if a subsequent READ operation on an open file object 
+whose access mode is read-only can retrieve another value from the 
+file;otherwise, it returns TRUE. Function ENDFILE always returns TRUE for an 
+open file object whose access mode is write-only. It is an error if ENDFILE is 
+called on a file object that is not open. </P>
+<P>For a file type declaration in which the type mark denotes an unconstrained 
+array type, the same operations are implicitly declared, except that the READ 
+operation is declared as follows: </P><PRE>     <B>procedure</B> READ (<B>file</B> F: FT; VALUE: <B>out</B> TM; LENGTH: <B>out</B> Natural);
+
+</PRE>
+<P>The READ operation for such a type performs the same function as the READ 
+operation for other types, but in addition it returns a value in parameter 
+LENGTH that specifies the actual length of the array value read by the 
+operation. If the object associated with formal parameter VALUE is shorter than 
+this length, then only that portion of the array value read by the operation 
+that can be contained in the object is returned by the READ operation, and the 
+rest of the value is lost. If the object associated with formal parameter VALUE 
+is longer than this length, then the entire value is returned and remaining 
+elements of the object are unaffected by the READ operation. </P>
+<P>An error will occur when a READ operation is performed on file F if 
+ENDFILE(F) would return TRUE at that point. </P>
+<P>NOTE--Predefined package TEXTIO is provided to support formatted 
+human-readable I/O. It defines type TEXT (a file type representing files of 
+variable-length text strings) and type LINE (an access type that designates such 
+strings). READ and WRITE operations are provided in package TEXTIO that append 
+or extract data from a single line. Additional operations are provided to read 
+or write entire lines and to determine the status of the current line or of the 
+file itself. Package TEXTIO is defined in <A 
+href="1076_14.html">Section 
+14</A>. </P>
+<HR>
+
+<P><A href="index.html"><IMG height=30 
+src="./pics/hjem.gif" width=30 border=0></A> <A 
+href="1076_toc.html"><IMG 
+height=30 src="./pics/topp.gif" width=30 border=0></A> <A 
+href="1076_2.html"><IMG 
+height=30 src="./pics/venstre.gif" width=30 border=0></A> 
+<A 
+href="1076_4.html"><IMG 
+height=30 src="./pics/hoyre.gif" width=30 border=0></A> 
+</P></BODY></HTML>
