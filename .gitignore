@@ -228,3 +228,8 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# Exceptions
+# =========================
+
+!Antlr3.Runtime/Debug
