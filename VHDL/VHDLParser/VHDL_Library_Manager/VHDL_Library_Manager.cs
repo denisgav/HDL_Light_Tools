@@ -45,10 +45,10 @@ namespace VHDL.parser
             set { logger = value; }
         }
 
-        public VHDL_Library_Manager(string folderPath, string libraryConfigurationPath)
+        public VHDL_Library_Manager(string folderPath, string libraryConfigurationPath, Logger logger)
         {
             this.libraryConfigurationPath = libraryConfigurationPath;
-            logger = Logger.CreateLogger(folderPath);
+            this.logger = logger;
         }
 
 

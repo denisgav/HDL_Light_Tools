@@ -25,8 +25,12 @@ using Antlr.Runtime;
 using VHDL.libraryunit;
 using System.Diagnostics;
 using VHDLParser;
+using VHDLCompiler;
+using VHDLRuntime;
+using VHDLRuntime.Values;
+using VHDLRuntime.Range;
 using System.Collections;
-
+using VHDLRuntime.Types;
 
 namespace ModelingSystemTest
 {
@@ -40,6 +44,7 @@ namespace ModelingSystemTest
                 string appBase = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
                 VHDLParser.Logger loggercompile = VHDLParser.Logger.CreateLogger(appBase, "compiler");
+                VHDLRuntime.Logger loggerrun = VHDLRuntime.Logger.CreateLogger(appBase, "run");
 
                 VHDL_Library_Manager libraryManager = new VHDL_Library_Manager("", @"Libraries\LibraryRepository.xml", loggercompile);
                 libraryManager.Logger.OnWriteEvent += new VHDLParser.Logger.OnWriteDeleagte(Logger_OnWriteEvent);
@@ -51,8 +56,34 @@ namespace ModelingSystemTest
                 //rootScope.getLibraries().Add(VHDL_Library_Manager.GetLibrary("STD"));
 
                 Console.WriteLine("Parsing code");
-                VhdlFile file = VhdlParser.parseFile("samples/func_test.vhd", settings, rootScope, currentLibrary, libraryManager);
-                Console.WriteLine("Parsing complete");                
+                VhdlFile file = VhdlParser.parseFile("vhdl_tests\\simple_simulation.vhd", settings, rootScope, currentLibrary, libraryManager);
+                Console.WriteLine("Parsing complete");
+
+                foreach (LibraryUnit unit in file.Elements)
+                {
+                    if (unit is Architecture)
+                    {
+                        Architecture arch = unit as Architecture;
+                        if (arch.Identifier.Equals("some_test_bench"))
+                        {
+                            
+                            string fileName = string.Format("{0}\\{1}.dll", appBase, arch.Identifier);
+                            string vcdFile = string.Format("{0}\\dump.vcd", appBase, arch.Identifier);
+
+                            
+                            VHDLCompilerInterface compiler = new VHDLCompilerInterface(arch, loggercompile);
+                            compiler.Compile(appBase);
+
+                            TestRunner.LoadMyAssemblyAndRun(fileName, arch.Identifier, arch.Identifier, loggerrun, vcdFile);
+
+                            Process proc = new Process();
+                            proc.StartInfo.Arguments = "run.log";
+                            proc.StartInfo.FileName = "notepad.exe";
+                            proc.StartInfo.WorkingDirectory = Process.GetCurrentProcess().StartInfo.WorkingDirectory;
+                            proc.Start();
+                        }
+                    }
+                }
             }
             catch (SyntaxExceptionScope ex)
             {
@@ -70,14 +101,14 @@ namespace ModelingSystemTest
                     Console.WriteLine(VhdlParser.errorToMessage(err));
                 }
             }
-            /*
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            Console.WriteLine(ex.Source);
-            Console.WriteLine(ex.StackTrace);
-        }
-            */
+                /*
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Source);
+                Console.WriteLine(ex.StackTrace);
+            }
+                */
             Console.ReadKey();
         }
 
