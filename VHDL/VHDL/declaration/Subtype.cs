@@ -69,5 +69,10 @@ namespace VHDL.declaration
         {
             visitor.visit(this);
         }
+
+        public SubtypeIndication BaseType
+        {
+            get { return subtypeIndication; }
+        }
     }
 }

@@ -198,6 +198,18 @@ namespace VHDL.parser.antlr
                     return parent.remainingParts() > 0;
                 }
 
+                public Part getNext()
+                {
+                    if (hasNext())
+                    {
+                        return parent.parts[parent.currentIndex+1];
+                    }
+                    else
+                    {
+                        throw new Exception("No Such Elements");
+                    }
+                }
+
                 public Part next()
                 {
                     if (hasNext())

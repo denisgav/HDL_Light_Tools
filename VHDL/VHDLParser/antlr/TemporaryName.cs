@@ -496,7 +496,9 @@ namespace VHDL.parser.antlr
             {
                 var args = getAssociationList();
 
-                Function declaration = (Function)TypeInference.ResolveOverload(overloads, args, currentAssignTarget.Type);
+                
+                SubtypeIndication target_type = (currentAssignTarget != null) ? currentAssignTarget.Type : null;
+                Function declaration = (Function)TypeInference.ResolveOverload(scope, overloads, args, target_type);
                 FunctionCall call = new FunctionCall(declaration);
                 currentAssignTarget = null; // don't need any more
 

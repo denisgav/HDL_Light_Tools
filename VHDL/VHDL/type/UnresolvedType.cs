@@ -55,6 +55,11 @@ namespace VHDL.type
         {
             visitor.visit(this);
         }
+
+        public ISubtypeIndication BaseType
+        {
+            get { return null; }
+        }
     }
 
 }

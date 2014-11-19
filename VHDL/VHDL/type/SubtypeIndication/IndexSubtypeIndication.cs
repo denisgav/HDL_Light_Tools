@@ -74,6 +74,7 @@ namespace VHDL.type
         {
             visitor.visit(this);
         }
-	}
+
+    }
 
 }

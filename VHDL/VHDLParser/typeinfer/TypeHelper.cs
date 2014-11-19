@@ -16,9 +16,15 @@ namespace VHDLParser.typeinfer
 
         public static string GetTypeName(ISubtypeIndication indication)
         {
+            var unresolved_type = indication as UnresolvedType;
+            if (unresolved_type != null)
+                return unresolved_type.Identifier;
             var type = indication as Type;
             if (type != null)
                 return type.Identifier;
+            ISubtypeIndication base_type = indication.BaseType;
+            if (base_type != null)
+                return GetTypeName(base_type);
             return "";
         }
 
@@ -37,20 +43,30 @@ namespace VHDLParser.typeinfer
             baseType = item;
         }
 
+        public void visit(ISubtypeIndication item)
+        {
+            if (item == null)
+                return;
+            visit(item.BaseType);        
+        }
 
         public void visit(IndexSubtypeIndication item)
         {
-            throw new System.NotImplementedException();
+            if (item == null)
+                return;
+            baseType = item.BaseType;
         }
 
         public void visit(RangeSubtypeIndication item)
         {
-            throw new System.NotImplementedException();
+            if (item == null)
+                return;
+            baseType = item.BaseType;
         }
 
         public void visit(UnresolvedType item)
         {
-            throw new System.NotImplementedException();
+            return;            
         }
     }
 }

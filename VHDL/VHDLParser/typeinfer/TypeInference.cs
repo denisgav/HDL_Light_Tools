@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Exception = System.Exception;
 using VHDL.util;
 using VHDL.Object;
+using VHDL;
 
 namespace VHDLParser.typeinfer
 {
@@ -19,9 +20,10 @@ namespace VHDLParser.typeinfer
             this.ExpectedType = type;
         }
 
-        public static ISubprogram ResolveOverload(List<ISubprogram> overloads,
+        public static ISubprogram ResolveOverload(IDeclarativeRegion scope, List<ISubprogram> overloads_in,
             List<AssociationElement> arguments, ISubtypeIndication returnType = null)
         {
+            List<ISubprogram> overloads = new List<ISubprogram>(overloads_in);
             switch (overloads.Count)
             {
                 case 0:
@@ -53,7 +55,7 @@ namespace VHDLParser.typeinfer
                                 continue;
                             }
                         }
-                        if (!CheckAssociationList(decl.Parameters, arguments))
+                        if (!CheckAssociationList(scope, decl.Parameters, arguments))
                         {
                             overloads.RemoveAt(i);
                             continue;
@@ -67,16 +69,16 @@ namespace VHDLParser.typeinfer
                         case 1:
                             return overloads[0];
                         default:
-                            throw new Exception("Ambiguous call");
+                            return overloads[0];//throw new Exception("Ambiguous call");
                     }
             }
         }
 
-        public static ISubtypeIndication Infer(Expression expr, ISubtypeIndication expectedType = null)
+        public static ISubtypeIndication Infer(IDeclarativeRegion scope, Expression expr, ISubtypeIndication expectedType = null)
         {
             ISubtypeIndication baseType = TypeHelper.GetBaseType(expectedType);
             TypeInference baseInfer = new TypeInference(baseType);
-            ExpressionInference infer = new ExpressionInference(baseInfer);
+            ExpressionInference infer = new ExpressionInference(scope, baseInfer);
             expr.accept(infer);
             return baseInfer.ResultType;
         }
@@ -85,10 +87,11 @@ namespace VHDLParser.typeinfer
         {
             // TODO: some types can be converted to other
             string leftTypeName = TypeHelper.GetTypeName(TypeHelper.GetBaseType(left));
-            return leftTypeName != "" && leftTypeName == TypeHelper.GetTypeName(TypeHelper.GetBaseType(right));
+            string rightTypeName = TypeHelper.GetTypeName(TypeHelper.GetBaseType(right));
+            return leftTypeName != "" && leftTypeName == rightTypeName;
         }
 
-        private static bool CheckAssociationList(IList<IVhdlObjectProvider> formals,
+        private static bool CheckAssociationList(IDeclarativeRegion scope, IList<IVhdlObjectProvider> formals,
             List<AssociationElement> actuals)
         {
             // check by type of each argument
@@ -96,7 +99,7 @@ namespace VHDLParser.typeinfer
             {
                 var param = formals[j];
                 var actual = actuals[j].Actual;
-                var actualType = Infer(actual, param.VhdlObjects[0].Type);
+                var actualType = Infer(scope, actual, param.VhdlObjects[0].Type);
                 if (actualType == null)
                     return false;
             }

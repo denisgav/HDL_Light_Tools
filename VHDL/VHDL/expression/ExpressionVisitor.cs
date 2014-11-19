@@ -80,6 +80,7 @@ namespace VHDL.expression
         /// <param name="expression">the parentheses expression</param>
         protected internal virtual void visitParentheses(Parentheses expression)
         {
+            visit(expression.Expression);
         }
 
         /// <summary>

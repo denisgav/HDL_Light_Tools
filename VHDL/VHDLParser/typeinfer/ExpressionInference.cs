@@ -1,17 +1,25 @@
 ﻿using VHDL.expression;
 using VHDL.Object;
 using VHDL.type;
+using VHDL;
+using VHDL.declaration;
 
 namespace VHDLParser.typeinfer
 {
     class ExpressionInference : ExpressionVisitor
     {
         private TypeInference baseInfer;
+        private IDeclarativeRegion scope;
+        public IFunction  convertFunction;
 
-        public ExpressionInference(TypeInference baseInfer)
+        public ExpressionInference(IDeclarativeRegion scope, TypeInference baseInfer)
         {
             this.baseInfer = baseInfer;
+            this.scope = scope;
         }
+
+        public IFunction  ConvertFunction
+        {get{return convertFunction;}}
 
         protected override void visitLiteral(Literal expression)
         {
@@ -29,10 +37,36 @@ namespace VHDLParser.typeinfer
             var recElem = name as RecordElement;
             if (recElem != null)
             {
-                string expectedName = TypeHelper.GetTypeName(baseInfer.ExpectedType);
-                if (expectedName != "" && expectedName == TypeHelper.GetTypeName(recElem.Type))
-                    baseInfer.ResultType = recElem.Type as Type;
+                if (CheckTypeRelation(baseInfer.ExpectedType, recElem.Type))
+                    baseInfer.ResultType = recElem.Type;
             }
+
+            var attribute = name as AttributeExpression;
+            if (attribute != null)
+            {
+                if (CheckTypeRelation(baseInfer.ExpectedType, attribute.Type))
+                    baseInfer.ResultType = attribute.Type;
+            }
+        }
+
+        public bool CheckTypeRelation(ISubtypeIndication expected, ISubtypeIndication actual)
+        {
+            string expectedName = TypeHelper.GetTypeName(expected);
+            string actual_name = TypeHelper.GetTypeName(actual);
+            if (expectedName != "" && expectedName == actual_name)
+                return true;
+
+            convertFunction = GetConvertFunction(scope, expected, expectedName, actual, actual_name);
+            return convertFunction != null;
+        }
+
+        public static IFunction GetConvertFunction(IDeclarativeRegion scope, ISubtypeIndication expected, string expectedName, ISubtypeIndication actual, string actual_name)
+        {
+            string convertFuncName = string.Format("TO_{0}", expectedName);
+            object res = scope.Scope.resolve(convertFuncName);
+            if (res == null)
+                return null;
+            return res as IFunction;
         }
     }
 }
