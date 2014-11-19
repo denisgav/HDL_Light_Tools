@@ -69,7 +69,7 @@ namespace VHDLParser.typeinfer
                         case 1:
                             return overloads[0];
                         default:
-                            return overloads[0];//throw new Exception("Ambiguous call");
+                            throw new Exception("Ambiguous call");
                     }
             }
         }
