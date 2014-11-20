@@ -124,6 +124,8 @@ namespace VHDL.expression
             return new AttributeExpression(this, attribute, parameter);
         }
 
+        public abstract void accept(NameVisitor visitor);
+
         public override void accept(ExpressionVisitor visitor)
         {
             visitor.visitName(this);

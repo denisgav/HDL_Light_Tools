@@ -80,6 +80,11 @@ namespace VHDL.expression
 
 			return call;
 		}
+
+        public override void accept(NameVisitor visitor)
+        {
+            visitor.visit(this);
+        }
 	}
 
 }

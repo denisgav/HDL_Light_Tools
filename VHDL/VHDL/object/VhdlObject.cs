@@ -24,6 +24,7 @@ namespace VHDL.Object
     using NamedEntity = VHDL.INamedEntity;
     using SubtypeIndication = VHDL.type.ISubtypeIndication;
 
+    // TODO: revise inheritance from Name
     /// <summary>
     /// VHDL object.
     /// </summary>
@@ -74,6 +75,11 @@ namespace VHDL.Object
             BUFFER,
             /// Linkage. 
             LINKAGE
+        }
+
+        public override void accept(NameVisitor visitor)
+        {
+            visitor.visit(this);
         }
 
         #region VhdlObjectProvider Members
