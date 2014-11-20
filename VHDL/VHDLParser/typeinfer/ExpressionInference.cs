@@ -56,17 +56,7 @@ namespace VHDLParser.typeinfer
             if (expectedName != "" && expectedName == actual_name)
                 return true;
 
-            convertFunction = GetConvertFunction(scope, expected, expectedName, actual, actual_name);
-            return convertFunction != null;
-        }
-
-        public static IFunction GetConvertFunction(IDeclarativeRegion scope, ISubtypeIndication expected, string expectedName, ISubtypeIndication actual, string actual_name)
-        {
-            string convertFuncName = string.Format("TO_{0}", expectedName);
-            object res = scope.Scope.resolve(convertFuncName);
-            if (res == null)
-                return null;
-            return res as IFunction;
+            return false;
         }
     }
 }
