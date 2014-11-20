@@ -309,6 +309,7 @@
     <Compile Include="util\ParentSetList.cs" />
     <Compile Include="util\IResolvableList.cs" />
     <Compile Include="util\ResolveUtilities.cs" />
+    <Compile Include="util\Extensions.cs" />
     <Compile Include="util\Tags.cs" />
     <Compile Include="util\VhdlCollections.cs" />
     <Compile Include="VhdlElement.cs" />

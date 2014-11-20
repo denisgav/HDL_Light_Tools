@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using VHDL.util;
 
 namespace VHDL.type
 {
@@ -126,7 +127,7 @@ namespace VHDL.type
         {
             foreach (Unit u in units)
             {
-                if (u.Identifier.Equals(identifier, StringComparison.InvariantCultureIgnoreCase))
+                if (u.Identifier.EqualsIgnoreCase(identifier))
                     return u.getInBaseUnits();
             }
             throw new Exception(string.Format("Could not find unit {0} in type {1}", identifier, GetType().FullName));

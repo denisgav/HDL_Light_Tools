@@ -35,6 +35,7 @@
     using VHDL.type;
     using System;
     using VHDL.parser.antlr;
+    using VHDL.util;
 
 
 using System.Collections.Generic;
@@ -2974,7 +2975,7 @@ public partial class MetaClassCreator : AbstractMetaClassCreator
 
 				DebugLocation(274, 13);
 
-				            	if(((end_identifier41!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier41.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier41.Start))):null) != null) && (!(end_identifier41!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier41.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier41.Start))):null).Equals(label, StringComparison.InvariantCultureIgnoreCase)))
+				            	if(((end_identifier41!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier41.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier41.Start))):null) != null) && (!(end_identifier41!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier41.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier41.Start))):null).EqualsIgnoreCase(label)))
 				            		resolveError((end_identifier41!=null?((CommonTree)end_identifier41.Start):default(CommonTree)), ParseError.ParseErrorTypeEnum.UNKNOWN_OTHER, string.Format("Mismatched identifier {0}, suggested {1} ", (end_identifier41!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier41.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier41.Start))):null), label));
 				            
 
@@ -3178,7 +3179,7 @@ public partial class MetaClassCreator : AbstractMetaClassCreator
 
 			DebugLocation(292, 13);
 
-			            	if(((end_identifier45!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier45.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier45.Start))):null) != null) && (!(end_identifier45!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier45.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier45.Start))):null).Equals(label, StringComparison.InvariantCultureIgnoreCase)))
+			            	if(((end_identifier45!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier45.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier45.Start))):null) != null) && (!(end_identifier45!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier45.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier45.Start))):null).EqualsIgnoreCase(label)))
 			            		resolveError((end_identifier45!=null?((CommonTree)end_identifier45.Start):default(CommonTree)), ParseError.ParseErrorTypeEnum.UNKNOWN_CASE, string.Format("Mismatched identifier {0}, suggested {1} ", (end_identifier45!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier45.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier45.Start))):null), label));
 			            
 
@@ -9629,7 +9630,7 @@ public partial class MetaClassCreator : AbstractMetaClassCreator
 
 			DebugLocation(862, 13);
 
-			            	if(((end_identifier105!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier105.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier105.Start))):null) != null) && (!(end_identifier105!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier105.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier105.Start))):null).Equals(label, StringComparison.InvariantCultureIgnoreCase)))
+			            	if(((end_identifier105!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier105.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier105.Start))):null) != null) && (!(end_identifier105!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier105.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier105.Start))):null).EqualsIgnoreCase(label)))
 			            		resolveError((end_identifier105!=null?((CommonTree)end_identifier105.Start):default(CommonTree)), ParseError.ParseErrorTypeEnum.UNKNOWN_GENERATE_STATEMENT, string.Format("Mismatched identifier {0}, suggested {1} ", (end_identifier105!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier105.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier105.Start))):null), label));
 			            
 
@@ -10793,7 +10794,7 @@ public partial class MetaClassCreator : AbstractMetaClassCreator
 
 			DebugLocation(955, 13);
 
-			            	if(((end_identifier113!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier113.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier113.Start))):null) != null) && (!(end_identifier113!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier113.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier113.Start))):null).Equals(label, StringComparison.InvariantCultureIgnoreCase)))
+			            	if(((end_identifier113!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier113.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier113.Start))):null) != null) && (!(end_identifier113!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier113.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier113.Start))):null).EqualsIgnoreCase(label)))
 			            		resolveError((end_identifier113!=null?((CommonTree)end_identifier113.Start):default(CommonTree)), ParseError.ParseErrorTypeEnum.UNKNOWN_IF, string.Format("Mismatched identifier {0}, suggested {1} ", (end_identifier113!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier113.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier113.Start))):null), label));
 			            
 
@@ -12807,7 +12808,7 @@ public partial class MetaClassCreator : AbstractMetaClassCreator
 
 			DebugLocation(1178, 13);
 
-			            	if(((end_identifier134!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier134.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier134.Start))):null) != null) && (!(end_identifier134!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier134.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier134.Start))):null).Equals(label, StringComparison.InvariantCultureIgnoreCase)))
+			            	if(((end_identifier134!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier134.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier134.Start))):null) != null) && (!(end_identifier134!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier134.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier134.Start))):null).EqualsIgnoreCase(label)))
 			            		resolveError((end_identifier134!=null?((CommonTree)end_identifier134.Start):default(CommonTree)), ParseError.ParseErrorTypeEnum.UNKNOWN_LOOP, string.Format("Mismatched identifier {0}, suggested {1} ", (end_identifier134!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier134.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier134.Start))):null), label));
 			            
 
@@ -16297,7 +16298,7 @@ public partial class MetaClassCreator : AbstractMetaClassCreator
 
 					DebugLocation(1505, 14);
 
-						            	if(((end_identifier209!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier209.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier209.Start))):null) != null) && (!(end_identifier209!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier209.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier209.Start))):null).Equals(label, StringComparison.InvariantCultureIgnoreCase)))
+						            	if(((end_identifier209!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier209.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier209.Start))):null) != null) && (!(end_identifier209!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier209.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier209.Start))):null).EqualsIgnoreCase(label)))
 						            		resolveError((end_identifier209!=null?((CommonTree)end_identifier209.Start):default(CommonTree)), ParseError.ParseErrorTypeEnum.UNKNOWN_PROCESS, string.Format("Mismatched identifier {0}, suggested {1} ", (end_identifier209!=null?(input.TokenStream.ToString(input.TreeAdaptor.GetTokenStartIndex(end_identifier209.Start),input.TreeAdaptor.GetTokenStopIndex(end_identifier209.Start))):null), label));
 						            
 

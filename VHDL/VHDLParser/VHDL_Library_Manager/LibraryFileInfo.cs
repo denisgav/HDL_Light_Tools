@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
+using VHDL.util;
 
 namespace VHDLParser
 {
@@ -171,7 +172,7 @@ namespace VHDLParser
                         return true;
             foreach (ArchitectureInfo arch in architectures)
                 foreach (string entity in otherLibraryFile.entities)
-                    if (arch.EntityName.Equals(entity, StringComparison.InvariantCultureIgnoreCase))
+                    if (arch.EntityName.EqualsIgnoreCase(entity))
                         return true;
             return false;
         }

@@ -27,6 +27,7 @@ namespace VHDL.parser.antlr
     using VHDL.statement;
     using VHDL.libraryunit;
     using VHDL.expression;
+    using VHDL.util;
 
     using Annotations = VHDL.Annotations;
     using DeclarativeRegion = VHDL.IDeclarativeRegion;
@@ -248,7 +249,7 @@ namespace VHDL.parser.antlr
             //if (library.Equals("IEEE", StringComparison.CurrentCultureIgnoreCase))
             //    return builtin.Libraries.IEEE;
             //return null;
-            if (libraryScope.Identifier.Equals(library, StringComparison.InvariantCultureIgnoreCase))
+            if (libraryScope.Identifier.EqualsIgnoreCase(library))
                 return libraryScope;
             return libraryManager.GetLibrary(library);
         }
@@ -302,7 +303,7 @@ namespace VHDL.parser.antlr
                     IList<LibraryDeclarativeRegion> libraries = rootScope.Libraries;
                     foreach (LibraryDeclarativeRegion library in libraries)
                     {
-                        if ((library != null) && (library.Identifier.Equals(libraryName, StringComparison.InvariantCultureIgnoreCase)))
+                        if ((library != null) && (library.Identifier.EqualsIgnoreCase(libraryName)))
                         {
                             //Нашли необходимую библиотеку
                             //Ищем пакет
@@ -314,7 +315,7 @@ namespace VHDL.parser.antlr
                                     if (unit is PackageDeclaration)
                                     {
                                         PackageDeclaration packege = unit as PackageDeclaration;
-                                        if (packege.Identifier.Equals(packageName, StringComparison.InvariantCultureIgnoreCase))
+                                        if (packege.Identifier.EqualsIgnoreCase(packageName))
                                         {
                                             //Нашли необходимый пакет
                                             //Ищем нужный элемент

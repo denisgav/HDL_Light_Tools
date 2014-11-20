@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using VHDL.util;
 
 namespace VHDL.concurrent
 {
@@ -92,7 +93,7 @@ namespace VHDL.concurrent
             }
             public virtual object Resolve(string identifier)
             {
-                if (identifier.Equals(parent.loopParameter.Identifier, System.StringComparison.InvariantCultureIgnoreCase))
+                if (identifier.EqualsIgnoreCase(parent.loopParameter.Identifier))
                 {
                     return parent.loopParameter;
                 }

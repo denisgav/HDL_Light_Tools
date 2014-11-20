@@ -14,6 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+using VHDL.util;
+
 namespace VHDL.expression
 {
 
@@ -221,7 +224,7 @@ namespace VHDL.expression
             if (expression is AttributeExpression)
             {
                 AttributeExpression ae = (AttributeExpression)expression;
-                if (!ae.Attribute.Identifier.Equals("event", System.StringComparison.InvariantCultureIgnoreCase))
+                if (!ae.Attribute.Identifier.EqualsIgnoreCase("event"))
                 {
                     return false;
                 }
@@ -234,7 +237,7 @@ namespace VHDL.expression
                 if (not.Expression is AttributeExpression)
                 {
                     AttributeExpression ae = (AttributeExpression)not.Expression;
-                    if (!ae.Attribute.Identifier.Equals("stable", System.StringComparison.InvariantCultureIgnoreCase))
+                    if (!ae.Attribute.Identifier.EqualsIgnoreCase("stable"))
                     {
                         return false;
                     }
