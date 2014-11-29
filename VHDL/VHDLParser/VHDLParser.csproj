@@ -74,11 +74,8 @@
     <Compile Include="antlr\AbstractMetaClassCreator.cs" />
     <Compile Include="antlr\AbstractVhdlAntlrParser.cs" />
     <Compile Include="antlr\ExpressionType.cs" />
-    <Compile Include="antlr\MetaClassCreator.cs" />
     <Compile Include="antlr\Part.cs" />
     <Compile Include="antlr\TemporaryName.cs" />
-    <Compile Include="antlr\VhdlAntlrLexer.cs" />
-    <Compile Include="antlr\VhdlAntlrParser.cs" />
     <Compile Include="Exceptions\SemanticExceptionScope.cs" />
     <Compile Include="Exceptions\SyntaxExceptionScope.cs" />
     <Compile Include="ParseError.cs" />
