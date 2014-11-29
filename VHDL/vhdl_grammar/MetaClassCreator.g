@@ -40,6 +40,7 @@ options {
     using VHDL.type;
     using System;
     using VHDL.parser.antlr;
+    using VHDL.util;
 }
 
 @members {
@@ -148,7 +149,7 @@ architecture_body [List<LibraryUnit> contextItems] returns [Architecture value]
             { AddListEndComments($s.value, $s.start); }
 	    end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($value.Identifier, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($value.Identifier)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_ARCHITECTURE, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $value.Identifier));
             }
         )
@@ -272,7 +273,7 @@ block_statement[String label] returns [BlockStatement value]
             { AddListEndComments($cs.value, $cs.start); }
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($label, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($label)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_OTHER, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $label));
             }
         )
@@ -290,7 +291,7 @@ case_statement[String label] returns [CaseStatement value]
             )+
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($label, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($label)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_CASE, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $label));
             }
         )
@@ -342,7 +343,7 @@ component_declaration returns [Component value]
             ( pc=port_clause { AddRange($value.Port, $pc.value); } )?
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($value.Identifier, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($value.Identifier)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_COMPONENT, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $value.Identifier));
             }
         )
@@ -500,7 +501,7 @@ configuration_declaration[List<LibraryUnit> contextItems] returns [Configuration
             }
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($value.Identifier, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($value.Identifier)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_CONFIGURATION, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $value.Identifier));
             }
         )
@@ -713,7 +714,7 @@ entity_declaration[List<LibraryUnit> contextItems] returns [Entity value]
             { AddListEndComments($es.value, $es.start); }
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($value.Identifier, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($value.Identifier)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_ENTITY, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $value.Identifier));
             }
         )
@@ -860,7 +861,7 @@ generate_statement[string label] returns [AbstractGenerateStatement value]
             { AddListEndComments($cs.value, $cs.start); }
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($label, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($label)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_GENERATE_STATEMENT, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $label));
             }
         )
@@ -953,7 +954,7 @@ if_statement[string label] returns [IfStatement value]
             )?
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($label, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($label)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_IF, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $label));
             }
         )
@@ -1176,7 +1177,7 @@ loop_statement[string label] returns [LoopStatement value]
             { AddListEndComments($ss.value, $ss.start); }
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($label, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($label)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_LOOP, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $label));
             }
         )
@@ -1299,7 +1300,7 @@ package_body [List<LibraryUnit> contextItems] returns [PackageBody value]
             { AddListEndComments($pbdi.value, $pbdi.start); }
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($value.Package.Identifier, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($value.Package.Identifier)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_PACKAGE, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $value.Package.Identifier));
             }
         )
@@ -1338,7 +1339,7 @@ package_declaration[List<LibraryUnit> contextItems] returns [PackageDeclaration 
             { AddListEndComments($pdi.value, $pdi.start); }
 	    end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($identifier.text, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($identifier.text)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_PACKAGE, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $identifier.text));
             }
         )
@@ -1379,7 +1380,7 @@ physical_type_definition[string ident] returns [PhysicalType value]
             )*
             end_identifier?
             {
-            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($value.Identifier, StringComparison.InvariantCultureIgnoreCase)))
+            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($value.Identifier)))
             		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_TYPE, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $value.Identifier));
             }
         )
@@ -1503,7 +1504,7 @@ process_statement[string label, bool isPostponed] returns [ProcessStatement valu
             (
 	            end_identifier
 	            {
-	            	if(($end_identifier.text != null) && (!$end_identifier.text.Equals($label, StringComparison.InvariantCultureIgnoreCase)))
+	            	if(($end_identifier.text != null) && (!$end_identifier.text.EqualsIgnoreCase($label)))
 	            		resolveError($end_identifier.start, ParseError.ParseErrorTypeEnum.UNKNOWN_PROCESS, string.Format("Mismatched identifier {0}, suggested {1} ", $end_identifier.text, $label));
 	            }
             )?

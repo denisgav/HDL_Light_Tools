@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using VHDL.util;
+
 namespace VHDL
 {
     /// <summary>
@@ -204,7 +206,7 @@ namespace VHDL
                     {
                         var named = obj as INamedEntity;
                         if (named != null)
-                            if (named.Identifier == name)
+                            if (named.Identifier.EqualsIgnoreCase(name))
                                 result.Add(named);
                     }
                 }

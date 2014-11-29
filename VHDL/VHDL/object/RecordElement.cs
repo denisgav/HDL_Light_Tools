@@ -1,5 +1,5 @@
-using Name = VHDL.expression.Name;
 using SubtypeIndication = VHDL.type.ISubtypeIndication;
+using VHDL.expression;
 using System;
 
 namespace VHDL.Object
@@ -52,6 +52,11 @@ namespace VHDL.Object
                 return prefix.Type;
             }
 		}
+
+        public override void accept(NameVisitor visitor)
+        {
+            visitor.visit(this);
+        }
 	}
 
 }

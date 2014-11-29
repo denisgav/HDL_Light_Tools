@@ -148,6 +148,7 @@
     <Compile Include="declaration\VariableDeclaration.cs" />
     <Compile Include="DeclarativeRegion.cs" />
     <Compile Include="DelayMechanism.cs" />
+    <Compile Include="expression\NameVisitor.cs" />
     <Compile Include="literal\ILiteralVisitor.cs" />
     <Compile Include="range\DiscreteRange.cs" />
     <Compile Include="EntityAspect.cs" />
@@ -309,6 +310,7 @@
     <Compile Include="util\ParentSetList.cs" />
     <Compile Include="util\IResolvableList.cs" />
     <Compile Include="util\ResolveUtilities.cs" />
+    <Compile Include="util\Extensions.cs" />
     <Compile Include="util\Tags.cs" />
     <Compile Include="util\VhdlCollections.cs" />
     <Compile Include="VhdlElement.cs" />

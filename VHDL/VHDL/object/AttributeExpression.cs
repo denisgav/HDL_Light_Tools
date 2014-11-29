@@ -16,12 +16,11 @@
 //
 
 using System;
+using VHDL.expression;
 
 namespace VHDL.Object
 {
 	using Attribute = VHDL.declaration.Attribute;
-	using Expression = VHDL.expression.Expression;
-	using Name = VHDL.expression.Name;
 	using SubtypeIndication = VHDL.type.ISubtypeIndication;
    
     /// <summary>
@@ -91,6 +90,11 @@ namespace VHDL.Object
                 return prefix.Type;
             }
 		}
+
+        public override void accept(NameVisitor visitor)
+        {
+            visitor.visit(this);
+        }
 	}
 
 }

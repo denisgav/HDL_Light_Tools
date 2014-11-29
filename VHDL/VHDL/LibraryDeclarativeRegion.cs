@@ -104,7 +104,7 @@ namespace VHDL
                                 if (o is EnumerationType)
                                 {
                                     EnumerationType type = o as EnumerationType;
-                                    if (identifier.Equals(type.Identifier, StringComparison.InvariantCultureIgnoreCase))
+                                    if (identifier.EqualsIgnoreCase(type.Identifier))
                                     {
                                         return type;
                                     }
@@ -112,7 +112,7 @@ namespace VHDL
                                     //TODO: support overloading
                                     foreach (EnumerationLiteral literal in type.Literals)
                                     {
-                                        if (identifier.Equals(literal.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                                        if (identifier.EqualsIgnoreCase(literal.ToString()))
                                         {
                                             return literal;
                                         }
@@ -121,20 +121,20 @@ namespace VHDL
                                 else if (o is PhysicalType)
                                 {
                                     PhysicalType type = o as PhysicalType;
-                                    if (identifier.Equals(type.Identifier, StringComparison.InvariantCultureIgnoreCase))
+                                    if (identifier.EqualsIgnoreCase(type.Identifier))
                                     {
                                         return type;
                                     }
 
                                     //TODO: don't use strings for the physical literals
-                                    if (identifier.Equals(type.PrimaryUnit, StringComparison.InvariantCultureIgnoreCase))
+                                    if (identifier.EqualsIgnoreCase(type.PrimaryUnit))
                                     {
                                         return new PhysicalLiteral(type.PrimaryUnit);
                                     }
 
                                     foreach (PhysicalType.Unit unit in type.Units)
                                     {
-                                        if (identifier.Equals(unit.Identifier, StringComparison.InvariantCultureIgnoreCase))
+                                        if (identifier.EqualsIgnoreCase(unit.Identifier))
                                         {
                                             return new PhysicalLiteral(unit.Identifier);
                                         }
@@ -145,7 +145,7 @@ namespace VHDL
                         if (libraryUnit is INamedEntity)
                         {
                             INamedEntity ie = (INamedEntity)libraryUnit;
-                            if (ie.Identifier.Equals(identifier, System.StringComparison.InvariantCultureIgnoreCase))
+                            if (ie.Identifier.EqualsIgnoreCase(identifier))
                             {
                                 return ie;
                             }

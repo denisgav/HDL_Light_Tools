@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using VHDL.util;
 
 namespace VHDL.statement
 {
@@ -98,12 +99,12 @@ namespace VHDL.statement
 
             public virtual object Resolve(string identifier)
             {
-                if (identifier.Equals(parent.Label, System.StringComparison.InvariantCultureIgnoreCase))
+                if (identifier.EqualsIgnoreCase(parent.Label))
                 {
                     return parent;
                 }
 
-                if (identifier.Equals(parent.Parameter.Identifier, System.StringComparison.InvariantCultureIgnoreCase))
+                if (identifier.EqualsIgnoreCase(parent.Parameter.Identifier))
                 {
                     return parent.Parameter;
                 }
