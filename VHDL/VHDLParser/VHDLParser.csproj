@@ -165,6 +165,29 @@
     <None Include="Libraries\std\textio.vhd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Antlr3 Include="..\vhdl_grammar\VhdlAntlr.g">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>VHDLParser</CustomToolNamespace>
+    </Antlr3>
+    <Antlr3 Include="..\vhdl_grammar\MetaClassCreator.g">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>VHDLParser</CustomToolNamespace>
+    </Antlr3>
+    <Compile Include="$(IntermediateOutputPath)\VhdlAntlrLexer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>..\vhdl_grammar\VhdlAntlr.g</DependentUpon>
+    </Compile>
+    <Compile Include="$(IntermediateOutputPath)\VhdlAntlrParser.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>..\vhdl_grammar\VhdlAntlr.g</DependentUpon>
+    </Compile>
+    <Compile Include="$(IntermediateOutputPath)\MetaClassCreator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>..\vhdl_grammar\MetaClassCreator.g</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="LRM\1076 -- Table of Contents.html">
@@ -237,11 +260,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <Target Name="GenerateAntlrCode" Inputs="@(Antlr3)" Outputs="%(Antlr3.OutputFiles)">
+    <Exec Command="Antlr3.exe -message-format vs2010 @(Antlr3)" Outputs="%(Antlr3.OutputFiles)"/>
+  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
+    <AntlrBuildTaskPath>$(ANTLR3_PATH)</AntlrBuildTaskPath>
+    <AntlrToolPath>$(ANTLR3_PATH)\Antlr3.exe</AntlrToolPath>
+    <BuildDependsOn>GenerateAntlrCode;$(BuildDependsOn)</BuildDependsOn>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(ANTLR3_PATH)\Antlr3.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
