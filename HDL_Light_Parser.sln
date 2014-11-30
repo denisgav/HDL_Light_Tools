@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
+# SharpDevelop 5.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antlr3.Runtime", "Antlr3.Runtime\Antlr3.Runtime.csproj", "{8FDC0A87-9005-4D5A-AB75-E55CEB575559}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VHDL", "VHDL\VHDL\VHDL.csproj", "{BC4213CF-B989-47AA-A3F9-39269FB2CE01}"

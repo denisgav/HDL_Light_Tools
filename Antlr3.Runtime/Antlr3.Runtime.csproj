@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Antlr3.3.5.0.3-alpha002\build\Antlr3.props" Condition="Exists('..\packages\Antlr3.3.5.0.3-alpha002\build\Antlr3.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -64,6 +65,15 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime.Debug">
+      <HintPath>..\packages\Antlr3.Runtime.Debug.3.5.0.3-alpha002\lib\net20\Antlr3.Runtime.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.StringTemplate">
+      <HintPath>..\packages\StringTemplate3.3.5.0.3-alpha002\lib\net35-client\Antlr3.StringTemplate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -174,12 +184,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\Exceptions.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\Antlr3.3.5.0.3-alpha002\build\Antlr3.targets" Condition="Exists('..\packages\Antlr3.3.5.0.3-alpha002\build\Antlr3.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
