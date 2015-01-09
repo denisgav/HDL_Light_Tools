@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Antlr3.Runtime.3.5.0.3-alpha002\lib\net20\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Antlr3.Runtime.Debug">
       <HintPath>..\packages\Antlr3.Runtime.Debug.3.5.0.3-alpha002\lib\net20\Antlr3.Runtime.Debug.dll</HintPath>
@@ -184,7 +184,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Exceptions\Exceptions.cd" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
